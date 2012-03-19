@@ -40,6 +40,9 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 == Changelog ==
 
+= 3.2 (xx.03.2012) =
+* Added ability to change groups pages slug on Edit page
+
 = 3.1 (19.03.2012) =
 * Fixed a major bug in displaying group pages with the same title but in different groups
 * Some other minor fixes
