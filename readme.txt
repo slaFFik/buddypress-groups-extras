@@ -3,7 +3,7 @@ Contributors: slaFFik, valant
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
 Requires at least: 3.3 and 1.5
 Tested up to: 3.3.1 and BP 1.5.4
-Stable tag: 3.1
+Stable tag: 3.2
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
 
@@ -17,6 +17,8 @@ After activating your groups will have ability to create any custom fields they 
 * Edit fields data on Edit Group Details page in Group Admin area.
 * Display / hide page, where fields (chosen by you) will be displayed.
 * Reorder fields.
+* Create group pages (for group FAQ or wiki).
+* Edit pages data on Edit Group Details page in Group Admin area using WP RichEditor (with embedding videos!).
 * and more to come in future releases!
 
 == Installation ==
@@ -42,6 +44,7 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 = 3.2 (xx.03.2012) =
 * Added ability to change groups pages slug on Edit page
+* Fixed a bug with group menu display after deactivating BPGE functionality for it (hackish)
 
 = 3.1 (19.03.2012) =
 * Fixed a major bug in displaying group pages with the same title but in different groups

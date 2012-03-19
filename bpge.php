@@ -2,18 +2,20 @@
 /*
 Plugin Name: BuddyPress Groups Extras
 Plugin URI: http://ovirium.com/
-Description: Adding extra group fields and some other missing functionality to groups
-Version: 3.1
+Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
+Version: 3.2
 Author: slaFFik
 Author URI: http://cosydale.com/
 */
-define ('BPGE_VERSION', '3.1');
+define ('BPGE_VERSION', '3.2');
 
 register_activation_hook( __FILE__, 'bpge_activation');
 //register_deactivation_hook( __FILE__, 'bpge_deactivation');
 function bpge_activation() {
+    // some activation defaults
     $bpge['groups'] = 'all';
-    $bpge['re'] = '1';
+    $bpge['re']     = '1';
+    
     add_option('bpge', $bpge, '', 'yes');
 }
 function bpge_deactivation() { delete_option('bpge'); }
@@ -31,7 +33,7 @@ function bpge_load_textdomain() {
 /*
  * The main loader - BPGE Engine
  */
-// dirty hack to work around BP bug: http://buddypress.trac.wordpress.org/ticket/4072
+// dirty hack #1 to work around BP bug: http://buddypress.trac.wordpress.org/ticket/4072
 add_action('init','bpge_pre_load');
 function bpge_pre_load(){
     global $bpge;
@@ -46,6 +48,7 @@ add_action( 'bp_init', 'bpge_load' );
 function bpge_load(){
     global $bp, $bpge;
 
+    // dirty hack #2
     if (!$bpge)
         return;
     
@@ -96,6 +99,7 @@ add_filter('bp_default_component_subnav','bpge_landing_page', 10, 2);
 function bpge_landing_page($default_subnav_slug, $r){
     global $bp, $bpge;
 
+    // dirty hack #3 - the most important
     if (!$bpge)
         return $default_subnav_slug;
     
@@ -114,32 +118,32 @@ function bpge_landing_page($default_subnav_slug, $r){
 // Register groups pages post type, where all their content will be stored
 function bpge_register_groups_pages(){
     $labels = array(
-        'name' => __('Groups Pages', 'bpge'),
-        'singular_name' => __('Groups Page', 'bpge'),
-        'add_new' => __('Add New', 'bpge'),
-        'add_new_item' => __('Add New Page', 'bpge'),
-        'edit_item' => __('Edit Page', 'bpge'),
-        'new_item' => __('New Page', 'bpge'),
-        'view_item' => __('View Page', 'bpge'),
-        'search_items' => __('Search Groups Pages', 'bpge'),
-        'not_found' =>  __('No groups pages found', 'bpge'),
-        'not_found_in_trash' => __('No groups pages found in Trash', 'bpge'), 
-        'parent_item_colon' => '',
-        'menu_name' => __('Groups Pages', 'bpge')
+        'name'                  => __('Groups Pages', 'bpge'),
+        'singular_name'         => __('Groups Page', 'bpge'),
+        'add_new'               => __('Add New', 'bpge'),
+        'add_new_item'          => __('Add New Page', 'bpge'),
+        'edit_item'             => __('Edit Page', 'bpge'),
+        'new_item'              => __('New Page', 'bpge'),
+        'view_item'             => __('View Page', 'bpge'),
+        'search_items'          => __('Search Groups Pages', 'bpge'),
+        'not_found'             =>  __('No groups pages found', 'bpge'),
+        'not_found_in_trash'    => __('No groups pages found in Trash', 'bpge'), 
+        'parent_item_colon'     => '',
+        'menu_name'             => __('Groups Pages', 'bpge')
     );
     $args = array(
-        'labels' => $labels,
-        'description' => __('Displaying pages that were created in all community groups', 'bpge'),
-        'public' => true,
-        'show_in_menu' => true, 
-        'exclude_from_search' => true, 
-        'show_in_nav_menus' => false, 
-        'menu_position' => 100,
-        'hierarchical' => true,
-        'query_var' => true,
-        'rewrite' => false,
-        'capability_type' => 'page',
-        'supports' => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+        'labels'                => $labels,
+        'description'           => __('Displaying pages that were created in all community groups', 'bpge'),
+        'public'                => true,
+        'show_in_menu'          => true, 
+        'exclude_from_search'   => true, 
+        'show_in_nav_menus'     => false, 
+        'menu_position'         => 100,
+        'hierarchical'          => true,
+        'query_var'             => true,
+        'rewrite'               => false,
+        'capability_type'       => 'page',
+        'supports'              => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
     ); 
     register_post_type('gpages',$args);
 }
