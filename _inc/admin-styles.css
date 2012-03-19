@@ -1,0 +1,129 @@
+body.edit-php #wpbody-content h2 a.add-new-h2{display:none}
+
+table#bp-gtm-admin-table td.checkbox{
+    width:15px
+}
+
+form#bpge-form ul.sets{
+    overflow:hidden;
+    margin:20px 0 10px 10px;
+}
+form#bpge-form ul.sets li{
+    overflow:hidden;
+    margin-bottom:10px;
+    padding: 5px 0;
+}
+form#bpge-form ul.sets li a.show_fields,form#bpge-form ul.sets li a.add_fields{
+    margin-left:10px
+}
+
+form#bpge-form ul.sets li span.active{
+    float:left;
+    width:20px;
+}
+form#bpge-form ul.sets li span.name{
+    float:left;
+    width:15%;
+}
+form#bpge-form ul.sets li span.desc{
+    float:left;
+    width:50%;
+}
+
+form#bpge-form ul.sets li ul.fields{
+    display:none;
+    float:left;
+    width:89%;
+    clear: both;
+    margin: 5px 0 5px 20px;
+    list-style-type:circle;
+}
+
+form#bpge-form ul.sets li ul.fields li{
+    margin:0;
+    list-style:circle inside;
+}
+
+form#bpge-form ul.sets li ul.fields .add_field{
+    float:left;
+}
+
+form#bpge-form ul.sets li ul.fields.show{
+    display:block;
+}
+
+form#bpge-form ul.sets li span.no_fields{
+    float:left;
+}
+
+form#bpge-form ul.sets li span.actions, 
+form#bpge-form ul.sets li a.create_fields_set{
+    float:right
+}
+
+#bpge-admin-fields .inside{
+    overflow:hidden;
+}
+
+#bpge-admin-fields .add_set_fields{
+    float:right;
+    margin-top:14px;
+}
+
+#bpge-admin-fields #box_add_set_fields, #bpge-admin-fields #box_edit_set_fields, #bpge-admin-fields #box_add_field{
+    display:none;
+    padding:10px 12px 0px;
+}
+
+#bpge-admin-fields #box_add_set_fields h4, #bpge-admin-fields #box_edit_set_fields h4, #bpge-admin-fields #box_add_field h4{
+    font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif;
+    color: #464646;
+    font-weight:bold;
+    line-height:30px;
+    border-bottom:1px solid #aaa;
+}
+
+#bpge-admin-fields #box_add_set_fields div, #bpge-admin-fields #box_edit_set_fields div, #bpge-admin-fields #box_add_field div{
+    overflow:hidden;
+    margin-bottom:10px;
+}
+
+#bpge-admin-fields #box_add_set_fields label, #bpge-admin-fields #box_edit_set_fields label, #bpge-admin-fields #box_add_field label{
+    float:left;
+    width:205px;
+    line-height:28px;
+}
+
+#bpge-admin-fields #box_add_set_fields input, #bpge-admin-fields #box_edit_set_fields input, #bpge-admin-fields #box_add_field input{
+    width:149px;
+    padding: 4px;
+    border:1px solid #DFDFDF;
+    border-radius:4px;
+}
+
+#bpge-admin-fields #box_add_set_fields textarea, #bpge-admin-fields #box_edit_set_fields textarea, #bpge-admin-fields #box_add_field textarea{
+    width:400px !important;
+    height:100px;
+    padding: 4px;
+    border:1px solid #DFDFDF;
+    border-radius:4px;
+}
+
+#extra-field-vars .content label{
+    display:block;
+    width:100% !important;
+    font-weight:bold;
+}
+
+#extra-field-vars .links{
+    line-height:26px;
+}
+
+#bpge-admin-fields #box_add_set_fields #savenewsf,
+#bpge-admin-fields #box_edit_set_fields #editsf,
+#bpge-admin-fields #box_add_field #addnewfield{
+    width:150px;
+    border-radius:11px;
+    padding:4px 0;
+    margin-left:455px;
+}
