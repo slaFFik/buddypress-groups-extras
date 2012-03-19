@@ -4,7 +4,7 @@ add_action('wp_ajax_set_fields_delete','set_fields_delete');
 function set_fields_delete(){
     $sets_fields = get_option('bpge_def_fields');
     unset($sets_fields[$_POST['slug_set_fields']]);
-    print_var($sets_fields);
+    //print_var($sets_fields);
     if(!empty($sets_fields)){
         update_option('bpge_def_fields',$sets_fields);
     }else{
@@ -63,8 +63,8 @@ class BPGE_ADMIN{
         //add_meta_box('bpge-admin-debug', __('Debug', 'bpge'), array(&$this, 'on_bpge_admin_debug'), $this->pagehook, $position, $priority );
         if(function_exists('wp_editor')){
             add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, $position, $priority );
-            add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, $position, $priority );
         }
+        add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, $position, $priority );
         // main content - normal
         add_meta_box('bpge-admin-groups', __('Groups Management', 'bpge'), array( &$this, 'on_bpge_admin_groups'), $this->pagehook, 'normal', 'core');
         add_meta_box('bpge-admin-fields', __('Default Fields', 'bpge'), array( &$this, 'on_bpge_admin_fields'), $this->pagehook, 'normal', 'core');
@@ -200,7 +200,7 @@ class BPGE_ADMIN{
                  echo '<option value="checkbox">' . __('Checkboxes', 'bpge') . '</option>';
                  echo '<option value="radio">' . __('Radio Buttons', 'bpge') . '</option>';
                  //echo '<option value="datebox">' . __('Date Selector', 'bpge') . '</option>';
-                 echo '<option value="select">' . __('Drop Down Select Box', 'bpge') . '</option>';
+                 echo '<option value="select">' . __('Dropdown Select Box', 'bpge') . '</option>';
             echo '</select></div>';
                 
             echo '<div id="extra-field-vars" style="display:none;">';
@@ -264,7 +264,7 @@ class BPGE_ADMIN{
     function on_show_page() {
         global $bp, $wpdb, $screen_layout_columns;
         
-        //define some data can be given to each metabox during rendering
+        //define some data that can be given to each metabox during rendering
         $bpge = bp_get_option('bpge');
         ?>
         

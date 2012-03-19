@@ -31,9 +31,23 @@ function bpge_load_textdomain() {
 /*
  * The main loader - BPGE Engine
  */
+// dirty hack to work around BP bug: http://buddypress.trac.wordpress.org/ticket/4072
+add_action('init','bpge_pre_load');
+function bpge_pre_load(){
+    global $bpge;
+    
+    if (defined('BP_VERSION'))
+        $bpge = bp_get_option('bpge');
+    
+    return;
+}
+
 add_action( 'bp_init', 'bpge_load' );
 function bpge_load(){
-    global $bp;
+    global $bp, $bpge;
+
+    if (!$bpge)
+        return;
     
     // scripts and styles
     require ( dirname(__File__) . '/bpge-cssjs.php');
@@ -41,14 +55,16 @@ function bpge_load(){
     // admin interface
     if ( is_admin()){
         require ( dirname(__File__) . '/bpge-admin.php');
+    }else{    
+        // the core
+        if ( ( is_string($bpge['groups']) && $bpge['groups'] == 'all' ) || 
+             ( is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
+           ){
+            require ( dirname(__File__) . '/bpge-loader.php');
+        }else{
+            $bp->no_extras = true;
+        }
     }
-    
-    // the core
-    $bpge = bp_get_option('bpge');
-    if ( !is_admin() && (is_string($bpge['groups']) && $bpge['groups'] == 'all' ) || (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups'])) ){
-        require ( dirname(__File__) . '/bpge-loader.php');
-    }
-    
     // gpages - custom post type
     bpge_register_groups_pages();
     
@@ -58,8 +74,11 @@ function bpge_load(){
 // reorder group nav links
 add_action('bp_init', 'bpge_nav_order');
 function bpge_nav_order(){
-    global $bp;
+    global $bp, $bpge;
 
+    if (!$bpge)
+        return;
+    
     if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item){
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
       
@@ -75,9 +94,12 @@ function bpge_nav_order(){
 
 add_filter('bp_default_component_subnav','bpge_landing_page', 10, 2);
 function bpge_landing_page($default_subnav_slug, $r){
-    global $bp;
+    global $bp, $bpge;
+
+    if (!$bpge)
+        return $default_subnav_slug;
     
-    if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item){
+    if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item && in_array($bp->groups->current_group->id, $bpge['groups'])){
         // get all pages - take the first
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
         if(!empty($order)){
@@ -85,7 +107,7 @@ function bpge_landing_page($default_subnav_slug, $r){
         }
         $bp->current_action = $default_subnav_slug;
     }
-    
+
     return apply_filters('bpge_landing_page', $default_subnav_slug);
 }
 

@@ -35,6 +35,7 @@ class BPGE extends BP_Group_Extension {
         
         $this->bpge_glob = bp_get_option('bpge');
         
+        // we are on a single group page
         if (!empty($bp->groups->current_group)){
             // populate extras data in global var
             $bpge = groups_get_groupmeta($bp->groups->current_group->id, 'bpge');
@@ -43,6 +44,7 @@ class BPGE extends BP_Group_Extension {
                 add_action('bp_groups_adminbar_admin_menu', array($this, 'buddybar_admin_links'));
             }
         }
+        
         if(!empty($bp->groups->current_group) && !empty($bp->groups->current_group->extras['gpage_id'])){
             $this->gpage_id = $bp->groups->current_group->extras['gpage_id'];
         }elseif(!empty($bp->groups->current_group)){
@@ -91,7 +93,7 @@ class BPGE extends BP_Group_Extension {
                         'user_has_access' => $this->enable_gpages_item
                 ) );
                 if( bp_is_current_action( $this->page_slug ) ){
-                    //$this->gpages();
+                    $this->gpages();
                 }
             }
         }
@@ -188,7 +190,7 @@ class BPGE extends BP_Group_Extension {
             apply_filters('bpge_gpages_content', the_content());
         
             if (bp_group_is_admin()){
-                echo '<div class="edit_link"><a target="_blank" href="'.bp_get_group_permalink( $bp->groups->current_group ).'admin/extras/pages-manage/?edit='.$page->ID.'">[Edit this page]</a></div>';
+                echo '<div class="edit_link"><a target="_blank" title="'.__('Edit link for group admins only', 'bpge').'" href="'.bp_get_group_permalink( $bp->groups->current_group ).'admin/extras/pages-manage/?edit='.$page->ID.'">[Edit this page]</a></div>';
             }
         echo '</div>';
         
@@ -283,7 +285,6 @@ class BPGE extends BP_Group_Extension {
     
     function widget_display() {
         do_action('bpge_widget_display',$this);
-        //echo 'BP_Group_Extension::widget_display()';
     }
 
     /************************************************************************/
@@ -291,6 +292,7 @@ class BPGE extends BP_Group_Extension {
     // Admin area - Main
     function edit_screen() {
         global $bp;
+        
         if ( 'admin' == $bp->current_action && $bp->action_variables[1] == 'fields' ) {
             $this->edit_screen_fields($bp);
         }elseif ( 'admin' == $bp->current_action && $bp->action_variables[1] == 'pages' ) {
@@ -431,12 +433,12 @@ class BPGE extends BP_Group_Extension {
     function get_all_gpages($post_status = 'any'){
         global $bp;
         $args = array( 
-                            'post_parent' => $bp->groups->current_group->extras['gpage_id'], 
-                            'post_type' => $this->page_slug,
-                            'orderby' => 'menu_order',
-                            'order' => 'ASC',
-                            'post_status' => $post_status
-                        );
+                    'post_parent'   => $bp->groups->current_group->extras['gpage_id'], 
+                    'post_type'     => $this->page_slug,
+                    'orderby'       => 'menu_order',
+                    'order'         => 'ASC',
+                    'post_status'   => $post_status
+                );
         return get_posts( $args );
     }
     
@@ -581,7 +583,7 @@ class BPGE extends BP_Group_Extension {
         
         do_action('bpge_page_manage', $this, $page);
         
-        if (empty($page)){
+        if ($edit){
             echo '<p><input type="submit" name="save_pages_add" id="save" value="'.__('Create New &rarr;','bpge').'"></p>';
         }else{
             echo '<input type="hidden" name="extra-page-id" value="' . $page->ID . '">';
