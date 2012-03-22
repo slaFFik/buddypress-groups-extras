@@ -42,7 +42,7 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 == Changelog ==
 
-= 3.2 (xx.03.2012) =
+= 3.2 (22.03.2012) =
 * Added ability to change groups pages slug on Edit page
 * Fixed a bug with group menu display after deactivating BPGE functionality for it (hackish)
 
