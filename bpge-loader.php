@@ -444,6 +444,7 @@ class BPGE extends BP_Group_Extension {
                     'post_type'     => $this->page_slug,
                     'orderby'       => 'menu_order',
                     'order'         => 'ASC',
+                    'numberposts'   => 999,
                     'post_status'   => $post_status
                 );
         return get_posts( $args );
@@ -590,11 +591,11 @@ class BPGE extends BP_Group_Extension {
         
         do_action('bpge_page_manage', $this, $page);
         
-        if ($edit){
-            echo '<p><input type="submit" name="save_pages_add" id="save" value="'.__('Create New &rarr;','bpge').'"></p>';
+        if (!$edit){
+            echo '<p><input type="submit" name="save_pages_add" id="save" value="'.__('Create New &rarr;','bpge').'" /></p>';
         }else{
             echo '<input type="hidden" name="extra-page-id" value="' . $page->ID . '">';
-            echo '<p><input type="submit" name="save_pages_edit" id="save" value="'.__('Save Changes &rarr;','bpge').'"></p>';
+            echo '<p><input type="submit" name="save_pages_edit" id="save" value="'.__('Save Changes &rarr;','bpge').'" /></p>';
         }
         echo '</div>';
         wp_nonce_field('groups_edit_group_extras');
@@ -608,7 +609,7 @@ class BPGE extends BP_Group_Extension {
             if ( !$bp->is_item_admin )
                 return false;
             $group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug;
-            
+
             //Import set fields
             if($_POST['approve_import'] == true && !empty($_POST['import_def_set_fields'])){
                 $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
@@ -750,7 +751,7 @@ class BPGE extends BP_Group_Extension {
                     'ping_status'    => 'open',
                     'post_author'    => $admin->ID,
                     'post_title'     => apply_filters('bpge_new_page_title', $_POST['extra-page-title']),
-                    'post_title'     => apply_filters('bpge_new_page_title', $_POST['extra-page-title']),
+                    'post_name'      => apply_filters('bpge_new_page_slug', $_POST['extra-page-slug']),
                     'post_content'   => apply_filters('bpge_new_page_content', $_POST['extra-page-content']),
                     'post_parent'    => apply_filters('bpge_new_page_parent', $bp->groups->current_group->extras['gpage_id']),
                     'post_status'    => apply_filters('bpge_new_page_status', $_POST['extra-page-status']),
@@ -802,7 +803,7 @@ class BPGE extends BP_Group_Extension {
                 /* Check the nonce first. */
                 if ( !check_admin_referer( 'groups_edit_group_extras' ) )
                     return false;
-                    
+
                 $page['ID']           = $_POST['extra-page-id'];
                 $page['post_title']   = apply_filters('bpge_updated_page_title', $_POST['extra-page-title']);
                 $page['post_name']    = apply_filters('bpge_updated_page_slug', $_POST['extra-page-slug']);
@@ -816,7 +817,6 @@ class BPGE extends BP_Group_Extension {
                 $this->notices('edited_page');
                 
                 bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug .'/pages/' );
-                
             }
         }
     }
@@ -1029,7 +1029,6 @@ class BPGE extends BP_Group_Extension {
         switch($method){
             case 'reorder_fields':
                 parse_str($_POST['field_order'], $field_order );
-                print_var($_POST['field_order']);
                 $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
 
                 // reorder all fields accordig to new positions
