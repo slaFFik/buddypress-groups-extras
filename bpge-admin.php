@@ -51,20 +51,10 @@ class BPGE_ADMIN{
         wp_enqueue_script('wp-lists');
         wp_enqueue_script('postbox');
 
-        if (is_multisite()){
-            $position = 'normal';
-            $priority = 'low';
-        }else{
-            $position = 'side';
-            $priority = 'core';
-        }
-
         // sidebar
         //add_meta_box('bpge-admin-debug', __('Debug', 'bpge'), array(&$this, 'on_bpge_admin_debug'), $this->pagehook, $position, $priority );
-        if(function_exists('wp_editor')){
-            add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, $position, $priority );
-        }
-        add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, $position, $priority );
+        add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, 'side', 'low' );
+        add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, 'side', 'low' );
         // main content - normal
         add_meta_box('bpge-admin-groups', __('Groups Management', 'bpge'), array( &$this, 'on_bpge_admin_groups'), $this->pagehook, 'normal', 'core');
         add_meta_box('bpge-admin-fields', __('Default Fields', 'bpge'), array( &$this, 'on_bpge_admin_fields'), $this->pagehook, 'normal', 'core');
@@ -289,18 +279,25 @@ class BPGE_ADMIN{
                 wp_nonce_field('bpge-admin-general');
                 wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
                 wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
-            
+                
                 <div id="poststuff" class="metabox-holder<?php echo (2 == $screen_layout_columns) ? ' has-right-sidebar' : ''; ?>">
-                    <div id="side-info-column" class="inner-sidebar">
-                        <p style="text-align:center">
-                            <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>   
-                            <a class="button" href="" title="<?php _e('Refresh current page', 'bpge') ?>"><?php _e('Refresh', 'bpge') ?></a>
-                        </p>
-                        <?php do_meta_boxes($this->pagehook, 'side', $bpge); ?>
-                    </div>
-                    <div id="post-body" class="has-sidebar">
-                        <div id="post-body-content" class="has-sidebar-content">
-                            <?php do_meta_boxes($this->pagehook, 'normal', $bpge); ?>
+                    <?php if( !is_multisite() ) { ?>
+                        <div id="side-info-column" class="inner-sidebar">
+                            <p style="text-align:center">
+                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>   
+                                <a class="button" href="" title="<?php _e('Refresh current page', 'bpge') ?>"><?php _e('Refresh', 'bpge') ?></a>
+                            </p>
+                            <?php do_meta_boxes($this->pagehook, 'side', $bpge); ?>
+                        </div>
+                    <?php } ?>
+                    <div id="post-body" class="<?php !is_multisite()?' has-sidebar':''; ?>">
+                        <div id="post-body-content" class="<?php !is_multisite()?' has-sidebar-content':''; ?>">
+                            <?php
+                            do_meta_boxes($this->pagehook, 'normal', $bpge);
+                            if( is_multisite() ) {
+                                do_meta_boxes($this->pagehook, 'side', $bpge);
+                            }                            
+                            ?>
                             <p>
                                 <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>   
                             </p>

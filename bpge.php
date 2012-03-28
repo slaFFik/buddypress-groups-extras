@@ -3,11 +3,11 @@
 Plugin Name: BuddyPress Groups Extras
 Plugin URI: http://ovirium.com/
 Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
-Version: 3.2.1
+Version: 3.2.2
 Author: slaFFik
 Author URI: http://cosydale.com/
 */
-define ('BPGE_VERSION', '3.2.1');
+define ('BPGE_VERSION', '3.2.2');
 
 register_activation_hook( __FILE__, 'bpge_activation');
 //register_deactivation_hook( __FILE__, 'bpge_deactivation');
@@ -56,7 +56,7 @@ function bpge_load(){
     require ( dirname(__File__) . '/bpge-cssjs.php');
     
     // admin interface
-    if ( is_admin()){
+    if ( is_admin() ){
         require ( dirname(__File__) . '/bpge-admin.php');
     }else{    
         // the core
