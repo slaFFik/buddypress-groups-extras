@@ -56,7 +56,7 @@ form#bpge-form ul.sets li span.no_fields{
     float:left;
 }
 
-form#bpge-form ul.sets li span.actions, 
+form#bpge-form ul.sets li span.actions,
 form#bpge-form ul.sets li a.create_fields_set{
     float:right
 }
@@ -126,4 +126,5 @@ form#bpge-form ul.sets li a.create_fields_set{
     border-radius:11px;
     padding:4px 0;
     margin-left:455px;
+    height: auto;
 }

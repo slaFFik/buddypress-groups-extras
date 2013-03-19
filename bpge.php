@@ -15,7 +15,7 @@ function bpge_activation() {
     // some activation defaults
     $bpge['groups'] = 'all';
     $bpge['re']     = '1';
-    
+
     add_option('bpge', $bpge, '', 'yes');
 }
 function bpge_deactivation() { delete_option('bpge'); }
@@ -37,10 +37,10 @@ function bpge_load_textdomain() {
 add_action('init','bpge_pre_load');
 function bpge_pre_load(){
     global $bpge;
-    
+
     if (defined('BP_VERSION'))
         $bpge = bp_get_option('bpge');
-    
+
     return;
 }
 
@@ -51,16 +51,16 @@ function bpge_load(){
     // dirty hack #2
     if (!$bpge)
         return;
-    
+
     // scripts and styles
     require ( dirname(__File__) . '/bpge-cssjs.php');
-    
+
     // admin interface
     if ( is_admin() ){
         require ( dirname(__File__) . '/bpge-admin.php');
-    }else{    
+    }else{
         // the core
-        if ( ( is_string($bpge['groups']) && $bpge['groups'] == 'all' ) || 
+        if ( ( is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
              ( is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
            ){
             require ( dirname(__File__) . '/bpge-loader.php');
@@ -70,7 +70,7 @@ function bpge_load(){
     }
     // gpages - custom post type
     bpge_register_groups_pages();
-    
+
     do_action('bpge_load');
 }
 
@@ -81,10 +81,10 @@ function bpge_nav_order(){
 
     if (!$bpge)
         return;
-    
+
     if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item){
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
-      
+
         if (!empty($order) && is_array($order)){
             foreach($order as $slug => $position){
                 $bp->bp_options_nav[$bp->groups->current_group->slug][$slug]['position'] = $position;
@@ -102,7 +102,7 @@ function bpge_landing_page($default_subnav_slug, $r){
     // dirty hack #3 - the most important
     if (!$bpge)
         return $default_subnav_slug;
-    
+
     if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item && in_array($bp->groups->current_group->id, (array)$bpge['groups'])){
         // get all pages - take the first
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
@@ -118,33 +118,33 @@ function bpge_landing_page($default_subnav_slug, $r){
 // Register groups pages post type, where all their content will be stored
 function bpge_register_groups_pages(){
     $labels = array(
-        'name'                  => __('Groups Pages', 'bpge'),
-        'singular_name'         => __('Groups Page', 'bpge'),
-        'add_new'               => __('Add New', 'bpge'),
-        'add_new_item'          => __('Add New Page', 'bpge'),
-        'edit_item'             => __('Edit Page', 'bpge'),
-        'new_item'              => __('New Page', 'bpge'),
-        'view_item'             => __('View Page', 'bpge'),
-        'search_items'          => __('Search Groups Pages', 'bpge'),
-        'not_found'             =>  __('No groups pages found', 'bpge'),
-        'not_found_in_trash'    => __('No groups pages found in Trash', 'bpge'), 
-        'parent_item_colon'     => '',
-        'menu_name'             => __('Groups Pages', 'bpge')
+        'name'               => __('Groups Pages', 'bpge'),
+        'singular_name'      => __('Groups Page', 'bpge'),
+        'add_new'            => __('Add New', 'bpge'),
+        'add_new_item'       => __('Add New Page', 'bpge'),
+        'edit_item'          => __('Edit Page', 'bpge'),
+        'new_item'           => __('New Page', 'bpge'),
+        'view_item'          => __('View Page', 'bpge'),
+        'search_items'       => __('Search Groups Pages', 'bpge'),
+        'not_found'          => __('No groups pages found', 'bpge'),
+        'not_found_in_trash' => __('No groups pages found in Trash', 'bpge'),
+        'parent_item_colon'  => '',
+        'menu_name'          => __('Groups Pages', 'bpge')
     );
     $args = array(
-        'labels'                => $labels,
-        'description'           => __('Displaying pages that were created in all community groups', 'bpge'),
-        'public'                => true,
-        'show_in_menu'          => true, 
-        'exclude_from_search'   => true, 
-        'show_in_nav_menus'     => false, 
-        'menu_position'         => 100,
-        'hierarchical'          => true,
-        'query_var'             => true,
-        'rewrite'               => false,
-        'capability_type'       => 'page',
-        'supports'              => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
-    ); 
+        'labels'              => $labels,
+        'description'         => __('Displaying pages that were created in all community groups', 'bpge'),
+        'public'              => true,
+        'show_in_menu'        => true,
+        'exclude_from_search' => true,
+        'show_in_nav_menus'   => false,
+        'menu_position'       => 100,
+        'hierarchical'        => true,
+        'query_var'           => true,
+        'rewrite'             => false,
+        'capability_type'     => 'page',
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+    );
     register_post_type('gpages',$args);
 }
 // hide add new menu and redirect from it to the whole list - do not allow admin to add manually
@@ -190,6 +190,9 @@ function bpge_names($name = 'name'){
             break;
         case 'nav':
             return __('Extras', 'bpge');
+            break;
+        case 'gpages':
+            return __('Pages', 'bpge');
             break;
     }
 }
