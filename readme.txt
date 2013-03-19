@@ -42,7 +42,7 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 == Changelog ==
 
-= 3.3 (19.03.2012) =
+= 3.3 (19.03.2013) =
 * Fixed lots of notices
 
 = 3.2.2 (28.03.2012) =
