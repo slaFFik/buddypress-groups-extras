@@ -3,11 +3,11 @@
 Plugin Name: BuddyPress Groups Extras
 Plugin URI: http://ovirium.com/
 Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
-Version: 3.2.2
+Version: 3.3
 Author: slaFFik
 Author URI: http://cosydale.com/
 */
-define ('BPGE_VERSION', '3.2.2');
+define ('BPGE_VERSION', '3.3');
 
 register_activation_hook( __FILE__, 'bpge_activation');
 //register_deactivation_hook( __FILE__, 'bpge_deactivation');
@@ -60,12 +60,14 @@ function bpge_load(){
         require ( dirname(__File__) . '/bpge-admin.php');
     }else{
         // the core
-        if ( ( is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
-             ( is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
-           ){
-            require ( dirname(__File__) . '/bpge-loader.php');
-        }else{
-            $bp->no_extras = true;
+        if ( !empty($bp->groups->current_group)) {
+            if ( (is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
+                 ( is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
+            ){
+                require ( dirname(__File__) . '/bpge-loader.php');
+            }else{
+                $bp->no_extras = true;
+            }
         }
     }
     // gpages - custom post type
@@ -194,27 +196,5 @@ function bpge_names($name = 'name'){
         case 'gpages':
             return __('Pages', 'bpge');
             break;
-    }
-}
-
-/*
- * Personal debug functions
- */
-//add_action('bp_adminbar_menus', 'bpge_queries',99);
-function bpge_queries(){
-    echo '<li class="no-arrow"><a>'.get_num_queries() . ' queries | ';
-    echo round(memory_get_usage() / 1024 / 1024, 2) . 'Mb</a></li>';
-}
-
-if(!function_exists('print_var')){
-    function print_var($var, $die = false){
-        echo '<pre>';
-        if (empty($var))
-            var_dump($var);
-        else
-            print_r($var);
-        echo '</pre>';
-        if ($die)
-            die;
     }
 }

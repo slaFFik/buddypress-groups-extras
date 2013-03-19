@@ -39,12 +39,18 @@ class BPGE_ADMIN{
         }
         return $columns;
     }
-    
+
     function on_admin_menu() {
-        $this->pagehook = add_submenu_page('bp-general-settings', __('Groups Extras', 'bpge'), __('Groups Extras', 'bpge'), 'manage_options', 'bpge-admin', array( &$this, 'on_show_page') );
+        $this->pagehook = add_submenu_page(
+                            is_multisite()?'settings.php':'options-general.php',
+                            __('BP Groups Extras', 'bpge'),
+                            __('BP Groups Extras', 'bpge'),
+                            'manage_options',
+                            'bpge-admin',
+                            array( &$this, 'on_show_page') );
         add_action('load-'.$this->pagehook, array( &$this, 'on_load_page') );
     }
-    
+
     //will be executed if wordpress core detects this page has to be rendered
     function on_load_page() {
         wp_enqueue_script('common');
@@ -70,7 +76,7 @@ class BPGE_ADMIN{
             echo '<input type="radio" name="bpge_re" '.($bpge['re'] != 1?'checked="checked"':'').' value="0">&nbsp'.__('Disable','bpge');
         echo '</p>';
     }
-    
+
     function on_bpge_admin_promo($bpge){
         echo '<p>If you:</p>
                 <ul style="list-style:disc;margin-left:15px;">
@@ -79,9 +85,9 @@ class BPGE_ADMIN{
                 </ul>
                 <p>feel free to contact slaFFik via <a href="skype:slaffik_ua?chat">skype:slaFFik_ua</a></p>';
     }
-    
+
     function on_bpge_admin_fields($bpge){
-        
+
         if(!empty($_POST) && (!empty($_POST['add_set_fields_name']) || !empty($_POST['edit_set_fields_name']) || !empty($_POST['extra-field-title']))){
             if(!empty($_POST['add_set_fields_name'])){
                 $field_set_data['name'] = $_POST['add_set_fields_name'];
@@ -125,11 +131,11 @@ class BPGE_ADMIN{
                 }
             }
         }
-        
+
         echo '<p>';
             _e('Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.','bpge');
         echo '</p>';
-        
+
         $def_fields = array();
         $def_fields = bp_get_option('bpge_def_fields');
         echo '<ul class="sets">';
@@ -161,16 +167,16 @@ class BPGE_ADMIN{
             echo '</li>';
         }
         echo '</ul>';
-        
+
         echo '<div class="clear"></div>';
-        
+
         echo '<div id="box_add_set_fields">
                     <h4>'.__('Add new Set of Fields','bpge').'</h4>
                     <div><label>'.__('Name','bpge').'</label><input type="text" name="add_set_fields_name" /></div>
                     <div><label>'.__('Description','bpge').'</label><textarea name="add_set_field_description" ></textarea></div>
                     <input id="savenewsf" type="submit" class="button-primary" name="savenewsetfields" value="'.__('Save New Set of Fields','bpge').'" />
               </div>';
-        
+
         echo '<div id="box_edit_set_fields">
                     <h4>'.__('Edit Set of Fields','bpge').' &rarr; <span></span></h4>
                     <div><label>'.__('Name','bpge').'</label><input type="text" name="edit_set_fields_name" /></div>
@@ -178,7 +184,7 @@ class BPGE_ADMIN{
                     <input type="hidden" name="slug_set_fields" value="" />
                     <input id="editsf" type="submit" class="button-primary" name="editsetfields" value="'.__('Edit Set of Fields','bpge').'" />
               </div>';
-        
+
         echo '<div id="box_add_field">';
             echo '<h4>'.__('Add field into','bpge').' &rarr; <span></span></h4>';
             echo '<div><label>' . __('Field Title', 'bpge') . '</label>';
@@ -192,7 +198,7 @@ class BPGE_ADMIN{
                  //echo '<option value="datebox">' . __('Date Selector', 'bpge') . '</option>';
                  echo '<option value="select">' . __('Dropdown Select Box', 'bpge') . '</option>';
             echo '</select></div>';
-                
+
             echo '<div id="extra-field-vars" style="display:none;">';
                  echo '<div class="content"></div>';
                  echo '<div class="links">
@@ -204,14 +210,14 @@ class BPGE_ADMIN{
             echo '<input type="hidden" name="slug_sf_for_field" value="" />';
             echo '<input id="addnewfield" type="submit" class="button-primary" name="addnewfield" value="'.__('Add New Field','bpge').'" />';
         echo '</div>';
-        
+
         echo '<a class="button add_set_fields" href="#">'.__('Create the Set of Fields','bpge').'</a>';
     }
 
     function on_bpge_admin_debug($bpge){
         print_var($bpge);
     }
-    
+
     function on_bpge_admin_groups($bpge){
         global $bp;
         ?>
@@ -249,21 +255,21 @@ class BPGE_ADMIN{
         </table>
     <?php
     }
-    
+
     //executed to show the plugins complete admin page
     function on_show_page() {
         global $bp, $wpdb, $screen_layout_columns;
-        
+
         //define some data that can be given to each metabox during rendering
         $bpge = bp_get_option('bpge');
         ?>
-        
+
         <div id="bpge-admin-general" class="wrap">
             <?php screen_icon('options-general'); ?>
             <style>table.link-group li{margin:0 0 0 25px}</style>
             <h2><?php _e('BuddyPress Groups Extras','bpge') ?> <sup><?php echo 'v' . BPGE_VERSION; ?></sup> &rarr; <?php _e('Extend Your Groups', 'bpge') ?></h2>
-        
-            <?php 
+
+            <?php
             if ( isset($_POST['saveData']) ) {
                 $bpge['groups'] = $_POST['bpge_groups'] ? $_POST['bpge_groups'] : array();
                 $bpge['re'] = $_POST['bpge_re'];
@@ -275,16 +281,16 @@ class BPGE_ADMIN{
             ?>
 
             <form action="" id="bpge-form" method="post">
-                <?php 
+                <?php
                 wp_nonce_field('bpge-admin-general');
                 wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
                 wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
-                
+
                 <div id="poststuff" class="metabox-holder<?php echo (2 == $screen_layout_columns) ? ' has-right-sidebar' : ''; ?>">
                     <?php if( !is_multisite() ) { ?>
                         <div id="side-info-column" class="inner-sidebar">
                             <p style="text-align:center">
-                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>   
+                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>
                                 <a class="button" href="" title="<?php _e('Refresh current page', 'bpge') ?>"><?php _e('Refresh', 'bpge') ?></a>
                             </p>
                             <?php do_meta_boxes($this->pagehook, 'side', $bpge); ?>
@@ -296,14 +302,14 @@ class BPGE_ADMIN{
                             do_meta_boxes($this->pagehook, 'normal', $bpge);
                             if( is_multisite() ) {
                                 do_meta_boxes($this->pagehook, 'side', $bpge);
-                            }                            
+                            }
                             ?>
                             <p>
-                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>   
+                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>
                             </p>
                         </div>
                     </div>
-                </div>  
+                </div>
             </form>
         </div>
         <script type="text/javascript">
@@ -312,7 +318,7 @@ class BPGE_ADMIN{
                 postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
             });
         </script>
-        
+
     <?php
     }
 }

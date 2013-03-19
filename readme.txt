@@ -2,8 +2,8 @@
 Contributors: slaFFik, valant
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
 Requires at least: 3.3 and 1.5
-Tested up to: 3.3.1 and BP 1.5.5
-Stable tag: 3.2.2
+Tested up to: 3.5.1 and BP 1.6.4
+Stable tag: 3.3
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
 
@@ -41,6 +41,9 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 5. Adding new group page
 
 == Changelog ==
+
+= 3.3 (19.03.2012) =
+* Fixed lots of notices
 
 = 3.2.2 (28.03.2012) =
 * Admin area fixes (for WP Multisite mainly)

@@ -1026,7 +1026,7 @@ class BPGE extends BP_Group_Extension {
     function ajax(){
         global $bp;
         $method = isset($_POST['method']) ? $_POST['method'] : '';
-
+die(123);
         do_action('bpge_ajax', $this, $method);
 
         switch($method){
