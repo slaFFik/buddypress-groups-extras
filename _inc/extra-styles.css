@@ -37,9 +37,9 @@ form#group-settings-form #pages-sortable li{
 }
 form#group-settings-form #box_import_set_fields{
     overflow:hidden;
-    margin: 0 5px 5px;
+    margin: 0 5px 10px;
     padding: 5px;
-    border:1px solid #ccc;
+    border:1px solid #aaa;
 }
 form#group-settings-form #box_import_set_fields select{
     float:left;

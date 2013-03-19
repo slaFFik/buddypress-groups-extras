@@ -198,3 +198,10 @@ function bpge_names($name = 'name'){
             break;
     }
 }
+
+add_action('wp_ajax_bpge', 'bpge_ajax');
+function bpge_ajax(){
+    require ( dirname(__File__) . '/bpge-loader.php');
+    $load = BPGE::getInstance();
+    $load->ajax();
+}

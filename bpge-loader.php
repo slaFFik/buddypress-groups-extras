@@ -989,7 +989,7 @@ class BPGE extends BP_Group_Extension {
         do_action('bpge_notices', $type);
     }
 
-    // create a storage fro groups pages
+    // create a storage for groups pages
     function get_gpage_by($what, $input = false){
         global $bp;
 
@@ -1026,7 +1026,7 @@ class BPGE extends BP_Group_Extension {
     function ajax(){
         global $bp;
         $method = isset($_POST['method']) ? $_POST['method'] : '';
-die(123);
+
         do_action('bpge_ajax', $this, $method);
 
         switch($method){
@@ -1131,9 +1131,3 @@ die(123);
 }
 
 bp_register_group_extension('BPGE');
-
-add_action('wp_ajax_bpge', 'bpge_ajax');
-function bpge_ajax(){
-    $load = BPGE::getInstance();
-    $load->ajax();
-}
