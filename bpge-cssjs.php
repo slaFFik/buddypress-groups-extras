@@ -6,10 +6,10 @@ function bpge_js_all() {
     $bp->action_variable[0] = extras
     $bp->action_variable[1] = fields | pages | fields-manage | pages-manage
     */
-    if (isset($_GET['page']) && $_GET['page'] == 'bpge-admin')
+    if (is_admin() && isset($_GET['page']) && $_GET['page'] == 'bpge-admin')
         wp_enqueue_script('BPGE_ADMIN_JS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/admin-scripts.js', array('jquery') );
 
-    if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item && 'admin' == $bp->current_action && $bp->action_variables[0] == 'extras' ){
+    if ( bp_is_group() && 'admin' == $bp->current_action && $bp->action_variables[0] == 'extras' ){
         wp_enqueue_script('BPGE_EXTRA_JS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/extra-scripts.js', array('jquery') );
         // localize js string
         add_action('wp_head', 'bpge_js_localize', 5);
@@ -30,9 +30,7 @@ function bpge_js_localize(){
 
 add_action('wp_print_styles', 'bpge_css_all');
 function bpge_css_all() {
-    global $bp;
-
-    if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item ){
+    if ( bp_is_group() ){
         if (file_exists(WP_PLUGIN_DIR.'/buddypress-groups-extras/_inc/extra-styles.css')){
             wp_enqueue_style('BPGE_EXTRA_CSS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/extra-styles.css');
         }else{

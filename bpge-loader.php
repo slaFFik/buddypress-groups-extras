@@ -55,7 +55,7 @@ class BPGE extends BP_Group_Extension {
         $this->visibility      = isset($bp->groups->current_group->extras['display_page']) ? $bp->groups->current_group->extras['display_page'] : 'public';
         $this->enable_nav_item = (isset($bp->groups->current_group->extras['display_page']) && $bp->groups->current_group->extras['display_page'] == 'public') ? true : false;
 
-        if ($bp->is_single_item && !empty($bp->groups->current_group) && empty($bp->groups->current_group->extras['display_page_layout'])){
+        if (bp_is_single_item() && !empty($bp->groups->current_group) && empty($bp->groups->current_group->extras['display_page_layout'])){
             $bp->groups->current_group->extras['display_page_layout'] = 'profile';
         }
 
@@ -77,7 +77,7 @@ class BPGE extends BP_Group_Extension {
         add_action('groups_group_details_edited', array($this, 'edit_group_fields_save'));
 
         if ( $this->enable_gpages_item ) {
-            if ( bp_is_groups_component() && $bp->is_single_item ) {
+            if ( bp_is_group() && bp_is_single_item() ) {
                 $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
                 if(empty($order[$this->page_slug])){
                     $order[$this->page_slug] = 99;
@@ -615,12 +615,12 @@ class BPGE extends BP_Group_Extension {
     function edit_screen_save() {
         global $bp;
 
-        if ( $bp->current_component == bp_get_groups_root_slug() && 'extras' == $bp->action_variables[0] ) {
+        if ( bp_is_group() && 'extras' == $bp->action_variables[0] ) {
             if ( !$bp->is_item_admin )
                 return false;
             $group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug;
 
-            //Import set fields
+            // Import set of fields
             if(isset($_POST['approve_import']) && $_POST['approve_import'] == true && !empty($_POST['import_def_set_fields'])){
                 $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
                 $def_set_field = bp_get_option($_POST['import_def_set_fields']);

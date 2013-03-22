@@ -84,7 +84,7 @@ function bpge_nav_order(){
     if (!$bpge)
         return;
 
-    if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item){
+    if ( bp_is_group() && bp_is_single_item()){
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
 
         if (!empty($order) && is_array($order)){
@@ -102,8 +102,7 @@ function bpge_landing_page($old_slug){
     global $bp, $bpge;
         $new_slug = $old_slug;
 
-    if ( $bp->current_component == bp_get_groups_root_slug() &&
-         $bp->is_single_item &&
+    if ( bp_is_group() && bp_is_single_item() &&
          in_array($bp->groups->current_group->id, (array)$bpge['groups'])
     ){
         // get all pages - take the first
