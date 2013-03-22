@@ -97,25 +97,24 @@ function bpge_nav_order(){
     }
 }
 
-add_filter('bp_default_component_subnav','bpge_landing_page', 10, 2);
-function bpge_landing_page($default_subnav_slug, $r){
+add_filter('bp_groups_default_extension','bpge_landing_page');
+function bpge_landing_page($old_slug){
     global $bp, $bpge;
+        $new_slug = $old_slug;
 
-    // dirty hack #3 - the most important
-    if (!$bpge)
-        return $default_subnav_slug;
-
-    if ( $bp->current_component == bp_get_groups_root_slug() && $bp->is_single_item && in_array($bp->groups->current_group->id, (array)$bpge['groups'])){
+    if ( $bp->current_component == bp_get_groups_root_slug() &&
+         $bp->is_single_item &&
+         in_array($bp->groups->current_group->id, (array)$bpge['groups'])
+    ){
         // get all pages - take the first
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
-        if(!empty($order)){
-            $default_subnav_slug = reset(array_flip($order));
-        }
-        $bp->current_action = $default_subnav_slug;
+        if(is_array($order) && !empty($order))
+            $new_slug = reset(array_flip($order));
     }
 
-    return apply_filters('bpge_landing_page', $default_subnav_slug);
+    return apply_filters('bpge_landing_page', $new_slug);
 }
+
 
 // Register groups pages post type, where all their content will be stored
 function bpge_register_groups_pages(){

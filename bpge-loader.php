@@ -3,32 +3,32 @@
 class BPGE extends BP_Group_Extension {
     var $bpge = false;
 
-    var $slug = 'extras';
-    var $page_slug = 'gpages';
-    var $name = false;
-    var $nav_item_name = false;
-    var $gpages_item_name = false;
+    var $slug                 = 'extras';
+    var $page_slug            = 'gpages';
+    var $name                 = false;
+    var $nav_item_name        = false;
+    var $gpages_item_name     = false;
 
-    var $home_name = false;
+    var $home_name            = false;
 
-    var $gpage_id = false;
+    var $gpage_id             = false;
 
     /* By default - Is it visible to non-members of a group? Options: public/private */
-    var $visibility = false;
+    var $visibility           = false;
 
     var $create_step_position = 5;
-    var $nav_gpages_position = 12;
-    var $nav_item_position = 14;
+    var $nav_gpages_position  = 12;
+    var $nav_item_position    = 14;
 
-    var $enable_create_step = false; // will set to true in future version
-    var $enable_nav_item = false;
-    var $enable_gpages_item = false;
-    var $enable_edit_item = true;
+    var $enable_create_step   = false; // will set to true in future version
+    var $enable_nav_item      = false;
+    var $enable_gpages_item   = false;
+    var $enable_edit_item     = true;
 
-    var $display_hook = 'groups_extras_group_boxes';
-    var $template_file = 'groups/single/plugins';
+    var $display_hook         = 'groups_extras_group_boxes';
+    var $template_file        = 'groups/single/plugins';
 
-    var $bpge_glob = false;
+    var $bpge_glob            = false;
 
     function BPGE(){
         global $bp;
@@ -59,6 +59,10 @@ class BPGE extends BP_Group_Extension {
             $bp->groups->current_group->extras['display_page_layout'] = 'profile';
         }
 
+        // gPages Page
+        $this->gpages_item_name   = isset($bp->groups->current_group->extras['gpage_name']) ? $bp->groups->current_group->extras['gpage_name'] : bpge_names('gpages');
+        $this->enable_gpages_item = (isset($bp->groups->current_group->extras['display_gpages']) && $bp->groups->current_group->extras['display_gpages'] == 'public') ? true : false;
+
         // In Admin
         $this->name = bpge_names('nav');
         // Public page
@@ -69,9 +73,8 @@ class BPGE extends BP_Group_Extension {
             $bp->bp_options_nav[$bp->groups->current_group->slug]['home']['name'] = $this->home_name;
         }
 
-        // gPages Page
-        $this->gpages_item_name   = isset($bp->groups->current_group->extras['gpage_name']) ? $bp->groups->current_group->extras['gpage_name'] : bpge_names('gpages');
-        $this->enable_gpages_item = (isset($bp->groups->current_group->extras['display_gpages']) && $bp->groups->current_group->extras['display_gpages'] == 'public') ? true : false;
+        add_action('groups_custom_group_fields_editable', array($this, 'edit_group_fields'));
+        add_action('groups_group_details_edited', array($this, 'edit_group_fields_save'));
 
         if ( $this->enable_gpages_item ) {
             if ( bp_is_groups_component() && $bp->is_single_item ) {
@@ -83,49 +86,45 @@ class BPGE extends BP_Group_Extension {
                     $this->nav_item_position = $order['extras'];
                 }
                 bp_core_new_subnav_item( array(
-                        'name'              => $this->gpages_item_name,
-                        'slug'              => $this->page_slug,
-                        'parent_slug'       => $bp->groups->current_group->slug,
-                        'parent_url'        => bp_get_group_permalink( $bp->groups->current_group ),
-                        'position'          => $order[$this->page_slug],
-                        'item_css_id'       => $this->page_slug,
-                        'screen_function'   => array(&$this, 'gpages'),
-                        'user_has_access'   => $this->enable_gpages_item
+                        'name'            => $this->gpages_item_name,
+                        'slug'            => $this->page_slug,
+                        'parent_slug'     => $bp->groups->current_group->slug,
+                        'parent_url'      => bp_get_group_permalink( $bp->groups->current_group ),
+                        'position'        => $order[$this->page_slug],
+                        'item_css_id'     => $this->page_slug,
+                        'screen_function' => array(&$this, 'gpages')
                 ) );
-
-                if( bp_is_current_action( $this->page_slug ) ){
-                    $this->gpages();
-                }
+                // if( bp_is_current_action( $this->page_slug ) ){
+                //     $this->gpages();
+                // }
             }
         }
 
-        add_action('groups_custom_group_fields_editable', array($this, 'edit_group_fields'));
-        add_action('groups_group_details_edited', array($this, 'edit_group_fields_save'));
 
     }
 
     // Public page with already saved content
     function display() {
-
         global $bp;
         $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
         if (empty($fields))
             return false;
 
-        if ( $bp->groups->current_group->extras['display_page_layout'] == 'plain' ){
+        if ( isset($bp->groups->current_group->extras['display_page_layout']) &&
+                   $bp->groups->current_group->extras['display_page_layout'] == 'plain' ){
             echo '<div class="extra-data">';
-                foreach($fields as $field){
-                    if ( $field->display != 1)
-                        continue;
+            foreach($fields as $field){
+                if ( $field->display != 1)
+                    continue;
 
-                    echo '<h4 title="' . ( ! empty($field->desc)  ? esc_attr($field->desc) : '')  .'">' . $field->title .'</h4>';
-                    $data = groups_get_groupmeta($bp->groups->current_group->id, $field->slug);
-                    if ( is_array($data))
-                        $data = implode(', ', $data);
-                    echo '<p>' . $data . '</p>';
-                }
+                echo '<h4 title="' . ( ! empty($field->desc)  ? esc_attr($field->desc) : '')  .'">' . $field->title .'</h4>';
+                $data = groups_get_groupmeta($bp->groups->current_group->id, $field->slug);
+                if ( is_array($data))
+                    $data = implode(', ', $data);
+                echo '<p>' . $data . '</p>';
+            }
             echo '</div>';
-        }elseif ( !$bp->groups->current_group->extras['display_page_layout'] || $bp->groups->current_group->extras['display_page_layout'] == 'profile'  ){
+        }else{
             echo '<table class="profile-fields zebra">';
                 foreach($fields as $field){
                     if ( $field->display != 1)
@@ -159,10 +158,11 @@ class BPGE extends BP_Group_Extension {
         if (empty($bp->action_variables)){
             global $wpdb;
             $sql = "SELECT `post_name` FROM {$wpdb->prefix}posts
-                        WHERE `post_parent` = {$bp->groups->current_group->extras['gpage_id']} AND `post_type` = '{$this->page_slug}'
+                        WHERE `post_parent` = {$bp->groups->current_group->extras['gpage_id']}
+                            AND `post_type` = '{$this->page_slug}'
                         ORDER BY `menu_order` ASC
                         LIMIT 1";
-            $bp->action_variables[0] = $wpdb->get_var($wpdb->prepare($sql));
+            $bp->action_variables[0] = $wpdb->get_var($sql);
         }
 
         // display list of pages if there are more than of 1 of them
@@ -185,18 +185,24 @@ class BPGE extends BP_Group_Extension {
         global $bp, $wpdb;
         $gpage_id = $bp->groups->current_group->extras['gpage_id'];
 
-        $sql  = "SELECT * FROM {$wpdb->prefix}posts WHERE `post_name` = '{$bp->action_variables[0]}' and `post_type` = '{$this->page_slug}' and `post_parent` = $gpage_id";
-        $page = $wpdb->get_row($wpdb->prepare($sql));
-        do_action('bpge_gpages_content_display_before', $this, $page);
+        $sql  = "SELECT * FROM {$wpdb->prefix}posts
+                    WHERE `post_name` = %s
+                        AND `post_type` = %s
+                        AND `post_parent` = %d";
+        $page = $wpdb->get_row($wpdb->prepare($sql, $bp->action_variables[0], $this->page_slug, $gpage_id));
 
-        setup_postdata($page);
-        echo '<div class="gpage">';
-            apply_filters('bpge_gpages_content', the_content());
+        if(!empty($page)){
+            do_action('bpge_gpages_content_display_before', $this, $page);
 
-            if (bp_group_is_admin()){
-                echo '<div class="edit_link"><a target="_blank" title="'.__('Edit link for group admins only', 'bpge').'" href="'.bp_get_group_permalink( $bp->groups->current_group ).'admin/extras/pages-manage/?edit='.$page->ID.'">[Edit this page]</a></div>';
-            }
-        echo '</div>';
+            setup_postdata($page);
+            echo '<div class="gpage">';
+                apply_filters('bpge_gpages_content', the_content());
+
+                if (bp_group_is_admin()){
+                    echo '<div class="edit_link"><a target="_blank" title="'.__('Edit link for group admins only', 'bpge').'" href="'.bp_get_group_permalink( $bp->groups->current_group ).'admin/extras/pages-manage/?edit='.$page->ID.'">[Edit this page]</a></div>';
+                }
+            echo '</div>';
+        }
 
         do_action('bpge_gpages_content_display_after', $this, $page);
     }
@@ -361,15 +367,17 @@ class BPGE extends BP_Group_Extension {
         $group_nav = $bp->bp_options_nav[$bp->groups->current_group->slug];
         echo '<ul id="nav-sortable">';
             foreach($group_nav as $nav){
-                if($nav['slug'] == 'home'){
+                if(isset($nav['slug']) && $nav['slug'] == 'home'){
                     $home_name = $nav['name'];
                 }
                 if(empty($nav['position'])){
                     $nav['position'] = 99;
                 }
-                echo '<li id="position_'.$nav['position'].'" class="default">
-                        <strong>' . $nav['name'] .'</strong>
-                    </li>';
+                if(isset($nav['name'])){
+                    echo '<li id="position_'.$nav['position'].'" class="default">
+                            <strong>' . $nav['name'] .'</strong>
+                        </li>';
+                }
             }
             echo '<input type="hidden" name="bpge_group_nav_position" value="" />';
         echo '</ul>';
@@ -753,7 +761,7 @@ class BPGE extends BP_Group_Extension {
                     'ping_status'    => 'open',
                     'post_author'    => $admin->ID,
                     'post_title'     => apply_filters('bpge_new_page_title', $_POST['extra-page-title']),
-                    'post_name'      => apply_filters('bpge_new_page_slug', $_POST['extra-page-slug']),
+                    'post_name'      => apply_filters('bpge_new_page_slug', isset($_POST['extra-page-slug'])?$_POST['extra-page-slug']:''),
                     'post_content'   => apply_filters('bpge_new_page_content', $_POST['extra-page-content']),
                     'post_parent'    => apply_filters('bpge_new_page_parent', $bp->groups->current_group->extras['gpage_id']),
                     'post_status'    => apply_filters('bpge_new_page_status', $_POST['extra-page-status']),
@@ -808,7 +816,7 @@ class BPGE extends BP_Group_Extension {
 
                 $page['ID']           = $_POST['extra-page-id'];
                 $page['post_title']   = apply_filters('bpge_updated_page_title', $_POST['extra-page-title']);
-                $page['post_name']    = apply_filters('bpge_updated_page_slug', $_POST['extra-page-slug']);
+                $page['post_name']    = apply_filters('bpge_updated_page_slug', isset($_POST['extra-page-slug'])?$_POST['extra-page-slug']:'');
                 $page['post_content'] = apply_filters('bpge_updated_page_content', $_POST['extra-page-content']);
                 $page['post_status']  = apply_filters('bpge_updated_page_status', $_POST['extra-page-status']);
 
