@@ -170,18 +170,18 @@ class BPGE_ADMIN{
         echo '<div class="clear"></div>';
 
         echo '<div id="box_add_set_fields">
-                    <h4>'.__('Add new Set of Fields','bpge').'</h4>
-                    <div><label>'.__('Name','bpge').'</label><input type="text" name="add_set_fields_name" /></div>
-                    <div><label>'.__('Description','bpge').'</label><textarea name="add_set_field_description" ></textarea></div>
-                    <input id="savenewsf" type="submit" class="button-primary" name="savenewsetfields" value="'.__('Save New Set of Fields','bpge').'" />
+                <h4>'.__('Add new Set of Fields','bpge').'</h4>
+                <div><label>'.__('Name','bpge').'</label><input type="text" name="add_set_fields_name" /></div>
+                <div><label>'.__('Description','bpge').'</label><textarea name="add_set_field_description" ></textarea></div>
+                <input id="savenewsf" type="submit" class="button-primary" name="savenewsetfields" value="'.__('Save New Set of Fields','bpge').'" />
               </div>';
 
         echo '<div id="box_edit_set_fields">
-                    <h4>'.__('Edit Set of Fields','bpge').' &rarr; <span></span></h4>
-                    <div><label>'.__('Name','bpge').'</label><input type="text" name="edit_set_fields_name" /></div>
-                    <div><label>'.__('Description','bpge').'</label><textarea name="edit_set_field_description" ></textarea></div>
-                    <input type="hidden" name="slug_set_fields" value="" />
-                    <input id="editsf" type="submit" class="button-primary" name="editsetfields" value="'.__('Edit Set of Fields','bpge').'" />
+                <h4>'.__('Edit Set of Fields','bpge').' &rarr; <span></span></h4>
+                <div><label>'.__('Name','bpge').'</label><input type="text" name="edit_set_fields_name" /></div>
+                <div><label>'.__('Description','bpge').'</label><textarea name="edit_set_field_description" ></textarea></div>
+                <input type="hidden" name="slug_set_fields" value="" />
+                <input id="editsf" type="submit" class="button-primary" name="editsetfields" value="'.__('Edit Set of Fields','bpge').'" />
               </div>';
 
         echo '<div id="box_add_field">';
@@ -190,18 +190,18 @@ class BPGE_ADMIN{
             echo '<input type="text" value="" name="extra-field-title"></div>';
             echo '<div><label>' . __('Field Type', 'bpge') . '</label>';
             echo '<select name="extra-field-type" id="extra-field-type">';
-                 echo '<option value="text">' . __('Text Box', 'bpge') . '</option>';
-                 echo '<option value="textarea">' . __('Multi-line Text Box', 'bpge') . '</option>';
-                 echo '<option value="checkbox">' . __('Checkboxes', 'bpge') . '</option>';
-                 echo '<option value="radio">' . __('Radio Buttons', 'bpge') . '</option>';
-                 //echo '<option value="datebox">' . __('Date Selector', 'bpge') . '</option>';
-                 echo '<option value="select">' . __('Dropdown Select Box', 'bpge') . '</option>';
+                echo '<option value="text">' . __('Text Box', 'bpge') . '</option>';
+                echo '<option value="textarea">' . __('Multi-line Text Box', 'bpge') . '</option>';
+                echo '<option value="checkbox">' . __('Checkboxes', 'bpge') . '</option>';
+                echo '<option value="radio">' . __('Radio Buttons', 'bpge') . '</option>';
+                //echo '<option value="datebox">' . __('Date Selector', 'bpge') . '</option>';
+                echo '<option value="select">' . __('Dropdown Select Box', 'bpge') . '</option>';
             echo '</select></div>';
 
             echo '<div id="extra-field-vars" style="display:none;">';
-                 echo '<div class="content"></div>';
-                 echo '<div class="links">
-                               <a class="button" href="#" id="add_new">' . __('Add New', 'bpge') . '</a>
+                echo '<div class="content"></div>';
+                echo '<div class="links">
+                        <a class="button" href="#" id="add_new">' . __('Add New', 'bpge') . '</a>
                        </div>';
             echo '</div>';
             echo '<div><label>' . __('Field Description', 'bpge') . '</label>';
@@ -214,41 +214,9 @@ class BPGE_ADMIN{
     }
 
     function on_bpge_admin_groups($bpge){
-        global $bp;
-        ?>
-        <table id="bp-gtm-admin-table" class="widefat link-group">
-            <thead>
-                <tr class="header">
-                    <td colspan="2"><p><?php _e('Which groups do you allow to create custom fields and pages?', 'bpge') ?></p></td>
-                </tr>
-            </thead>
-            <tbody id="the-list">
-                <tr>
-                    <td class="checkbox"><p><input type="checkbox" class="bpge_allgroups" name="bpge_groups" <?php echo ('all' == $bpge['groups']) ? 'checked="checked" ' : ''; ?> value="all" /></p></td>
-                    <td><p><strong><?php _e('All groups', 'bpge') ?></strong></p></td>
-                </tr>
-                <?php
-                $arg['type']     = 'alphabetical';
-                $arg['per_page'] = '1000';
-                if ( bp_has_groups($arg) ){
-                    while ( bp_groups() ) : bp_the_group();
-                        $description = preg_replace( array('<<p>>', '<</p>>', '<<br />>', '<<br>>'), '', bp_get_group_description_excerpt() );
-                        echo '<tr>
-                                <td class="checkbox"><p><input name="bpge_groups['.bp_get_group_id().']" class="bpge_groups" type="checkbox" '.( ('all' == $bpge['groups'] || in_array(bp_get_group_id(), $bpge['groups']) ) ? 'checked="checked" ' : '').'value="'.bp_get_group_id().'" /></p></td>
-                                <td><p><a href="'.bp_get_group_permalink().'admin/extras/" target="_blank">'. bp_get_group_name() .'</a> &rarr; '.$description.'</p></td>
-                            </tr>';
-                    endwhile;
-                }
-                ?>
-            </tbody>
-            <tfoot>
-                <tr class="header">
-                    <td><p><input type="checkbox" class="bpge_allgroups" name="bpge_groups" <?php echo ('all' == $bpge['groups']) ? 'checked="checked" ' : ''; ?> value="all" /></p></td>
-                    <td><p><strong><?php _e('All groups', 'bpge') ?></strong></p></td>
-                </tr>
-            </tfoot>
-        </table>
-    <?php
+        $arg['type']     = 'alphabetical';
+        $arg['per_page'] = '1000';
+        include(BPGE_PATH . 'views/admin_groups_list.php');
     }
 
     //executed to show the plugins complete admin page

@@ -90,11 +90,12 @@ function bpge_load(){
         require ( BPGE_PATH . '/core/admin.php');
     }else{
         // the core
-        if ( !empty($bp->groups->current_group)) {
-            if ( (is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
-                 ( is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
+        if ( bp_is_group() ) {
+            if(
+                (is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
+                (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
             ){
-                require ( BPGE_PATH . '/bpge-loader.php');
+                require ( BPGE_PATH . '/core/loader.php');
             }else{
                 $bp->no_extras = true;
             }
