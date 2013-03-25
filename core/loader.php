@@ -41,7 +41,6 @@ class BPGE extends BP_Group_Extension {
             $bpge = groups_get_groupmeta($bp->groups->current_group->id, 'bpge');
             if(!empty($bpge)){
                 $bp->groups->current_group->extras = $bpge;
-                add_action('bp_groups_adminbar_admin_menu', array($this, 'buddybar_admin_links'));
             }
         }
 
@@ -1110,22 +1109,6 @@ class BPGE extends BP_Group_Extension {
     // Creation step - save the data
     function create_screen_save() {
         do_action('bpge_create_save', $this);
-    }
-
-    // Display a link for group/site admins in BuddyBar when on group page
-    function buddybar_admin_links(){
-        global $bp;
-        echo '<li><a href="'. bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/">'. __( 'Manage Extras', 'bpge' ) .'</a>
-                <ul>
-                    <li><a href="'. bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/">'.__('Settings', 'bpge' ) .'</a></li>
-                    <li><a href="'. bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/fields/">'.__('All Fields', 'bpge' ) .'</a></li>
-                    <li><a href="'. bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/pages/">'.__('All Pages', 'bpge' ) .'</a></li>
-                    <li><a href="'. bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/fields-manage/">'.__('Add Field', 'bpge' ) .'</a></li>
-                    <li><a href="'. bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/pages-manage/">'.__('Add Page', 'bpge' ) .'</a></li>';
-                    do_action('bpge_buddybar_admin_links', $this);
-                    echo '
-                </ul>
-            </li>';
     }
 
     // Load if was not already loaded
