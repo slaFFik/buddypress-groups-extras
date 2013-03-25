@@ -622,10 +622,10 @@ class BPGE extends BP_Group_Extension {
 
             // Import set of fields
             if(isset($_POST['approve_import']) && $_POST['approve_import'] == true && !empty($_POST['import_def_set_fields'])){
-                $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
+                $fields        = $this->get_all_items('fields', $bp->groups->current_group->id);
                 $def_set_field = bp_get_option($_POST['import_def_set_fields']);
-                $count = count($fields);
-                $group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug;
+                $count         = count($fields);
+                $group_link    = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug;
                 if(!empty($def_set_field['fields'])){
                     foreach($def_set_field['fields'] as $def_field){
                         $k = 0;

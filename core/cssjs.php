@@ -1,16 +1,14 @@
 <?php
+
 add_action('wp_print_scripts', 'bpge_js_all');
 function bpge_js_all() {
     global $bp;
-    /*
-    $bp->action_variable[0] = extras
-    $bp->action_variable[1] = fields | pages | fields-manage | pages-manage
-    */
+
     if (is_admin() && isset($_GET['page']) && $_GET['page'] == 'bpge-admin')
-        wp_enqueue_script('BPGE_ADMIN_JS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/admin-scripts.js', array('jquery') );
+        wp_enqueue_script('BPGE_ADMIN_JS', BPGE_URL . '/admin-scripts.js', array('jquery') );
 
     if ( bp_is_group() && 'admin' == $bp->current_action && $bp->action_variables[0] == 'extras' ){
-        wp_enqueue_script('BPGE_EXTRA_JS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/extra-scripts.js', array('jquery') );
+        wp_enqueue_script('BPGE_EXTRA_JS', BPGE_URL . '/extra-scripts.js', array('jquery') );
         // localize js string
         add_action('wp_head', 'bpge_js_localize', 5);
         wp_enqueue_script('jquery-ui-sortable');
@@ -32,9 +30,9 @@ add_action('wp_print_styles', 'bpge_css_all');
 function bpge_css_all() {
     if ( bp_is_group() ){
         if (file_exists(WP_PLUGIN_DIR.'/buddypress-groups-extras/_inc/extra-styles.css')){
-            wp_enqueue_style('BPGE_EXTRA_CSS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/extra-styles.css');
+            wp_enqueue_style('BPGE_EXTRA_CSS', BPGE_URL . '/extra-styles.css');
         }else{
-            wp_enqueue_style('BPGE_EXTRA_CSS', WP_PLUGIN_URL.'/buddypress-groups-extras/_inc/extra-styles-dev.css');
+            wp_enqueue_style('BPGE_EXTRA_CSS', BPGE_URL . '/extra-styles-dev.css');
         }
     }
 }

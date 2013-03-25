@@ -3,24 +3,53 @@
 Plugin Name: BuddyPress Groups Extras
 Plugin URI: http://ovirium.com/
 Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
-Version: 3.3.2
+Version: 3.4
 Author: slaFFik
 Author URI: http://cosydale.com/
 */
-define ('BPGE_VERSION', '3.3.2');
+define('BPGE_VERSION', '3.4');
+define('BPGE_FIELDS',  'bpge_fields');
+define('BPGE_GPAGES',  'gpages');
+define('BPGE_URL',     plugins_url('_inc', __FILE__ )); // link to all assets, with /
+define('BPGE_PATH',    plugin_dir_path(__FILE__)); // with /
 
+/**
+ * What to do on activation
+ */
 register_activation_hook( __FILE__, 'bpge_activation');
-//register_deactivation_hook( __FILE__, 'bpge_deactivation');
 function bpge_activation() {
     // some activation defaults
-    $bpge['groups'] = 'all';
-    $bpge['re']     = '1';
+    $bpge['groups']    = 'all';
+    $bpge['uninstall'] = 'no';
+    $bpge['re']        = '1';
 
     add_option('bpge', $bpge, '', 'yes');
 }
-function bpge_deactivation() { delete_option('bpge'); }
 
-/* LOAD LANGUAGES */
+/**
+ * What to do on deactivation
+ */
+register_deactivation_hook( __FILE__, 'bpge_deactivation');
+function bpge_deactivation() {
+    $bpge = bp_get_option('bpge');
+
+    if($bpge['uninstall'] == 'yes'){
+        delete_option('bpge');
+        global $wpdb, $bp;
+        $wpdb->query("DELETE FROM {$wpdb->options}
+                        WHERE `option_name` LIKE 'bpge%%'");
+        $post_types = "'" . implode("','", array(BPGE_FIELDS, BPGE_GPAGES)) . "'";
+        $wpdb->query("DELETE FROM {$wpdb->posts}
+                        WHERE `post_type` IN ({$post_types})");
+        $group_meta = $bp->table_prefix . 'bp_groups_groupmeta';
+        $wpdb->query("DELETE FROM {$group_meta}
+                        WHERE `meta_key` IN ('bpge_fields', 'bpge_pages', 'bpge_nav_order')");
+    }
+}
+
+/**
+ * i18n: Load languages
+ */
 add_action ('plugins_loaded', 'bpge_load_textdomain', 7 );
 function bpge_load_textdomain() {
     $locale = apply_filters('buddypress_locale', get_locale() );
@@ -30,7 +59,7 @@ function bpge_load_textdomain() {
         load_textdomain('bpge', $mofile);
 }
 
-/*
+/**
  * The main loader - BPGE Engine
  */
 // dirty hack #1 to work around BP bug: http://buddypress.trac.wordpress.org/ticket/4072
@@ -53,18 +82,19 @@ function bpge_load(){
         return;
 
     // scripts and styles
-    require ( dirname(__File__) . '/bpge-cssjs.php');
+    require ( BPGE_PATH . '/core/cssjs.php');
+    require ( BPGE_PATH . '/core/ajax.php');
 
     // admin interface
     if ( is_admin() ){
-        require ( dirname(__File__) . '/bpge-admin.php');
+        require ( BPGE_PATH . '/core/admin.php');
     }else{
         // the core
         if ( !empty($bp->groups->current_group)) {
             if ( (is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
                  ( is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
             ){
-                require ( dirname(__File__) . '/bpge-loader.php');
+                require ( BPGE_PATH . '/bpge-loader.php');
             }else{
                 $bp->no_extras = true;
             }
@@ -72,6 +102,8 @@ function bpge_load(){
     }
     // gpages - custom post type
     bpge_register_groups_pages();
+
+    bpge_register_groups_fields();
 
     do_action('bpge_load');
 }
@@ -82,7 +114,7 @@ function bpge_nav_order(){
     global $bp, $bpge;
 
     if (!$bpge)
-        return;
+        $bpge = bp_get_option('bpge');
 
     if ( bp_is_group() && bp_is_single_item()){
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
@@ -115,6 +147,42 @@ function bpge_landing_page($old_slug){
 }
 
 
+/**
+ * Several hooks to fix some places
+ */
+// Register groups fields post type, where all their content will be stored
+function bpge_register_groups_fields(){
+    $labels = array(
+        'name'               => __('Groups Fields', 'bpge'),
+        'singular_name'      => __('Groups Field', 'bpge'),
+        'add_new'            => __('Add New', 'bpge'),
+        'add_new_item'       => __('Add New Field', 'bpge'),
+        'edit_item'          => __('Edit Field', 'bpge'),
+        'new_item'           => __('New Field', 'bpge'),
+        'view_item'          => __('View Field', 'bpge'),
+        'search_items'       => __('Search Groups Fields', 'bpge'),
+        'not_found'          => __('No groups Field found', 'bpge'),
+        'not_found_in_trash' => __('No groups fields found in Trash', 'bpge'),
+        'parent_item_colon'  => '',
+        'menu_name'          => __('Groups Fields', 'bpge')
+    );
+    $args = array(
+        'labels'              => $labels,
+        'description'         => __('Displaying fields that were created in all community groups', 'bpge'),
+        'public'              => true,
+        'show_in_menu'        => true,
+        'exclude_from_search' => true,
+        'show_in_nav_menus'   => false,
+        'menu_position'       => 100,
+        'hierarchical'        => true,
+        'query_var'           => true,
+        'rewrite'             => false,
+        'capability_type'     => 'page',
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+    );
+    register_post_type(BPGE_FIELDS, $args);
+}
+
 // Register groups pages post type, where all their content will be stored
 function bpge_register_groups_pages(){
     $labels = array(
@@ -145,7 +213,7 @@ function bpge_register_groups_pages(){
         'capability_type'     => 'page',
         'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
     );
-    register_post_type('gpages',$args);
+    register_post_type(BPGE_GPAGES, $args);
 }
 // hide add new menu and redirect from it to the whole list - do not allow admin to add manually
 add_action('admin_menu', 'bpge_gpages_hide_add_new');
@@ -199,7 +267,7 @@ function bpge_names($name = 'name'){
 
 add_action('wp_ajax_bpge', 'bpge_ajax');
 function bpge_ajax(){
-    require ( dirname(__File__) . '/bpge-loader.php');
+    require ( BPGE_PATH . '/bpge-loader.php');
     $load = BPGE::getInstance();
     $load->ajax();
 }

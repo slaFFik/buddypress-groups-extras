@@ -1,19 +1,5 @@
 <?php
 
-add_action('wp_ajax_set_fields_delete','set_fields_delete');
-function set_fields_delete(){
-    $sets_fields = get_option('bpge_def_fields');
-    unset($sets_fields[$_POST['slug_set_fields']]);
-    //print_var($sets_fields);
-    if(!empty($sets_fields)){
-        update_option('bpge_def_fields',$sets_fields);
-    }else{
-        delete_option('bpge_def_fields');
-    }
-    delete_option($_POST['slug_set_fields']);
-    exit;
-}
-
 $bpge_admin = new BPGE_ADMIN();
 
 class BPGE_ADMIN{
@@ -58,8 +44,8 @@ class BPGE_ADMIN{
         wp_enqueue_script('postbox');
 
         // sidebar
-        //add_meta_box('bpge-admin-debug', __('Debug', 'bpge'), array(&$this, 'on_bpge_admin_debug'), $this->pagehook, $position, $priority );
         add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, 'side', 'low' );
+        add_meta_box('bpge-admin-uninstall', __('Plugin Uninstall Options', 'bpge'), array(&$this, 'on_bpge_admin_uninstall'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, 'side', 'low' );
         // main content - normal
         add_meta_box('bpge-admin-groups', __('Groups Management', 'bpge'), array( &$this, 'on_bpge_admin_groups'), $this->pagehook, 'normal', 'core');
@@ -72,8 +58,22 @@ class BPGE_ADMIN{
         echo '</p>';
 
         echo '<p>';
-            echo '<input type="radio" name="bpge_re" '.($bpge['re'] == 1?'checked="checked"':'').' value="1">&nbsp'.__('Enable','bpge').'<br />';
-            echo '<input type="radio" name="bpge_re" '.($bpge['re'] != 1?'checked="checked"':'').' value="0">&nbsp'.__('Disable','bpge');
+            echo '<label><input type="radio" name="bpge_re" '.($bpge['re'] == 1?'checked="checked"':'').' value="1">&nbsp'.__('Enable','bpge').'</label><br />';
+            echo '<label><input type="radio" name="bpge_re" '.($bpge['re'] != 1?'checked="checked"':'').' value="0">&nbsp'.__('Disable','bpge').'</label>';
+        echo '</p>';
+    }
+
+    function on_bpge_admin_uninstall($bpge){
+        echo '<p>';
+            _e('On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?','bpge');
+        echo '</p>';
+
+        if(!isset($bpge['uninstall']))
+            $bpge['uninstall'] = 'no';
+
+        echo '<p>';
+            echo '<label><input type="radio" name="bpge_uninstall" '.($bpge['uninstall'] == 'no'?'checked="checked"':'').' value="no">&nbsp'.__('Preserve all data','bpge').'</label><br />';
+            echo '<label><input type="radio" name="bpge_uninstall" '.($bpge['uninstall'] == 'yes'?'checked="checked"':'').' value="yes">&nbsp'.__('Delete everything','bpge') . '</label>';
         echo '</p>';
     }
 
@@ -87,7 +87,6 @@ class BPGE_ADMIN{
     }
 
     function on_bpge_admin_fields($bpge){
-
         if(!empty($_POST) && (!empty($_POST['add_set_fields_name']) || !empty($_POST['edit_set_fields_name']) || !empty($_POST['extra-field-title']))){
             if(!empty($_POST['add_set_fields_name'])){
                 $field_set_data['name'] = $_POST['add_set_fields_name'];
@@ -214,10 +213,6 @@ class BPGE_ADMIN{
         echo '<a class="button add_set_fields" href="#">'.__('Create the Set of Fields','bpge').'</a>';
     }
 
-    function on_bpge_admin_debug($bpge){
-        print_var($bpge);
-    }
-
     function on_bpge_admin_groups($bpge){
         global $bp;
         ?>
@@ -233,7 +228,7 @@ class BPGE_ADMIN{
                     <td><p><strong><?php _e('All groups', 'bpge') ?></strong></p></td>
                 </tr>
                 <?php
-                $arg['type'] = 'alphabetical';
+                $arg['type']     = 'alphabetical';
                 $arg['per_page'] = '1000';
                 if ( bp_has_groups($arg) ){
                     while ( bp_groups() ) : bp_the_group();
@@ -271,8 +266,9 @@ class BPGE_ADMIN{
 
             <?php
             if ( isset($_POST['saveData']) ) {
-                $bpge['groups'] = $_POST['bpge_groups'] ? $_POST['bpge_groups'] : array();
-                $bpge['re'] = $_POST['bpge_re'];
+                $bpge['groups']    = $_POST['bpge_groups'] ? $_POST['bpge_groups'] : array();
+                $bpge['re']        = $_POST['bpge_re'];
+                $bpge['uninstall'] = $_POST['bpge_uninstall'];
 
                 bp_update_option('bpge', $bpge);
 
