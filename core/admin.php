@@ -213,6 +213,11 @@ class BPGE_ADMIN{
         echo '<a class="button add_set_fields" href="#">'.__('Create the Set of Fields','bpge').'</a>';
     }
 
+    /**
+     * Display list of groups to enable BPGE for them
+     * @param  array    $bpge   all options
+     * @return string           html
+     */
     function on_bpge_admin_groups($bpge){
         $arg['type']     = 'alphabetical';
         $arg['per_page'] = '1000';
