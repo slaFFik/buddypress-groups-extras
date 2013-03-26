@@ -4,7 +4,7 @@ $bpge_admin = new BPGE_ADMIN();
 
 class BPGE_ADMIN{
 
-    function BPGE_ADMIN() {
+    function __construct() {
         add_filter('screen_layout_columns', array( &$this, 'on_screen_layout_columns'), 10, 2 );
         add_action('admin_head', 'bpge_js_localize', 5);
         if (is_multisite()){
@@ -14,6 +14,9 @@ class BPGE_ADMIN{
         }
     }
 
+    /**
+     * Columns managements for admin area
+     */
     function on_screen_layout_columns( $columns, $screen ) {
         if ( $screen == $this->pagehook ) {
             if (is_multisite()){
@@ -26,6 +29,9 @@ class BPGE_ADMIN{
         return $columns;
     }
 
+    /**
+     * Add admin area page with options
+     */
     function on_admin_menu() {
         $this->pagehook = add_submenu_page(
                             is_multisite()?'settings.php':'options-general.php',
@@ -37,7 +43,9 @@ class BPGE_ADMIN{
         add_action('load-'.$this->pagehook, array( &$this, 'on_load_page') );
     }
 
-    //will be executed if wordpress core detects this page has to be rendered
+    /**
+     * Register all metaboxes
+     */
     function on_load_page() {
         wp_enqueue_script('common');
         wp_enqueue_script('wp-lists');
@@ -52,6 +60,9 @@ class BPGE_ADMIN{
         add_meta_box('bpge-admin-fields', __('Default Fields', 'bpge'), array( &$this, 'on_bpge_admin_fields'), $this->pagehook, 'normal', 'core');
     }
 
+    /**
+     * Rich Editor
+     */
     function on_bpge_admin_re($bpge){
         echo '<p>';
             _e('Would you like to enable Rich Editor for easy use of html tags for groups pages?','bpge');
@@ -63,6 +74,9 @@ class BPGE_ADMIN{
         echo '</p>';
     }
 
+    /**
+     * Plugin Deactivation options
+     */
     function on_bpge_admin_uninstall($bpge){
         echo '<p>';
             _e('On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?','bpge');
@@ -77,6 +91,9 @@ class BPGE_ADMIN{
         echo '</p>';
     }
 
+    /**
+     * Promo (contact slaFFik)
+     */
     function on_bpge_admin_promo($bpge){
         echo '<p>If you:</p>
                 <ul style="list-style:disc;margin-left:15px;">
@@ -86,6 +103,9 @@ class BPGE_ADMIN{
                 <p>feel free to contact slaFFik via <a href="skype:slaffik_ua?chat">skype:slaFFik_ua</a></p>';
     }
 
+    /**
+     * Set of Fields Management
+     */
     function on_bpge_admin_fields($bpge){
         if(!empty($_POST) && (!empty($_POST['add_set_fields_name']) || !empty($_POST['edit_set_fields_name']) || !empty($_POST['extra-field-title']))){
             if(!empty($_POST['add_set_fields_name'])){
@@ -215,8 +235,6 @@ class BPGE_ADMIN{
 
     /**
      * Display list of groups to enable BPGE for them
-     * @param  array    $bpge   all options
-     * @return string           html
      */
     function on_bpge_admin_groups($bpge){
         $arg['type']     = 'alphabetical';
@@ -224,7 +242,9 @@ class BPGE_ADMIN{
         include(BPGE_PATH . 'views/admin_groups_list.php');
     }
 
-    //executed to show the plugins complete admin page
+    /**
+     * Actual html of a page (its core)
+     */
     function on_show_page() {
         global $bp, $wpdb, $screen_layout_columns;
 
@@ -287,7 +307,6 @@ class BPGE_ADMIN{
                 postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
             });
         </script>
-
     <?php
     }
 }
