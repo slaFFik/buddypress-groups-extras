@@ -1,0 +1,568 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Groups Extras\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-22 23:16+0200\n"
+"PO-Revision-Date: 2013-03-24 00:54+0100\n"
+"Last-Translator: Thorsten <thorsten.wollenhoefer@googlemail.com>\n"
+"Language-Team: Thorsten Wollenhoefer <thorsten.wollenhoefer@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_e\n"
+"X-Poedit-Basepath: W:\\_server\\home\\ovi\\ab\\wp-content\\plugins"
+"\\buddypress-groups-extras\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Language: de_DE\n"
+"X-Poedit-SearchPath-0: W:\\_server\\home\\ovi\\ab\\wp-content\\plugins"
+"\\buddypress-groups-extras\n"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:46
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:47
+msgid "BP Groups Extras"
+msgstr "BP Groups Extras"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:62
+msgid "Rich Editor for Groups Pages"
+msgstr "Rich Editor f&uuml;r Gruppenseiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:63
+msgid "Need Help / Custom Work?"
+msgstr "Brauchen Sie Hilfe / Individuelle Unterst&uuml;tzung?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:65
+msgid "Groups Management"
+msgstr "Gruppenmanagement"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:66
+msgid "Default Fields"
+msgstr "Standardfelder"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:71
+msgid ""
+"Would you like to enable Rich Editor for easy use of html tags for groups "
+"pages?"
+msgstr ""
+"M&ouml;chten den Rich Editor zur einfachen Handhabung von HTML Tags für "
+"Gruppenseiten aktivieren?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:75
+msgid "Enable"
+msgstr "Aktivieren"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:76
+msgid "Disable"
+msgstr "Abschalten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:136
+msgid ""
+"Please create/edit here fields you want to be available as standard blocks "
+"of data.<br />This will be helpful for group admins - no need for them to "
+"create lots of fields from scratch."
+msgstr ""
+"Bitte erstellen/bearbeiten Sie hier die Felder, die Sie als Standard-"
+"Datenblocks verf&uuml;gbar haben wollen.<br />Das ist f&uuml;r "
+"Gruppenadministratoren sehr hilfreich, damit sie nicht jedesmal aufs Neue "
+"welche erstellen m&uuml;ssen."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:149
+msgid "Show Fields"
+msgstr "Zeige Felder"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:150
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:478
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:151
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:441
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:479
+msgid "Delete"
+msgstr "L&ouml;schen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:159
+msgid "Fields not yet created"
+msgstr "Bisher keine Felder erstellt"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:161
+msgid "Add field"
+msgstr "Feld hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:166
+msgid ""
+"Currently there are no predefined fields. Groups admins should create all "
+"fields by themselves."
+msgstr ""
+"Gegenw&auml;rtig gibt es keine vordefinierten Felder. Gruppenadmins sollten "
+"stets ihre eigenen Felder erstellen."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:174
+msgid "Add new Set of Fields"
+msgstr "Neue Feldeinheit hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:175
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:182
+msgid "Name"
+msgstr "Name"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:176
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:183
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:190
+msgid "Description"
+msgstr "Beschreibung"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:177
+msgid "Save New Set of Fields"
+msgstr "Neue Feldeinheit speichern"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:181
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:185
+msgid "Edit Set of Fields"
+msgstr "Feldeinheit bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:189
+msgid "Add field into"
+msgstr "Add field into"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:190
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:497
+msgid "Field Title"
+msgstr "Field Title"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:192
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:501
+msgid "Field Type"
+msgstr "Field Type"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:194
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:503
+msgid "Text Box"
+msgstr "Text Box"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:195
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:504
+msgid "Multi-line Text Box"
+msgstr "Multi-line Text Box"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:196
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:505
+msgid "Checkboxes"
+msgstr "Checkboxen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:197
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:506
+msgid "Radio Buttons"
+msgstr "Radio Buttons"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:199
+msgid "Dropdown Select Box"
+msgstr "Dropdown Select Box"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:205
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:514
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:124
+msgid "Add New"
+msgstr "Add New"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:208
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:518
+msgid "Field Description"
+msgstr "Feldbeschreibung"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:211
+msgid "Add New Field"
+msgstr "Neues Feld einf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:214
+msgid "Create the Set of Fields"
+msgstr "Erstelle die Feldeinheit"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:227
+msgid "Which groups do you allow to create custom fields and pages?"
+msgstr ""
+"Welche Gruppen d&uuml;rfen individuelle Felder und Gruppenseiten erstellen?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:233
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:252
+msgid "All groups"
+msgstr "Alle Gruppen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:270
+msgid "BuddyPress Groups Extras"
+msgstr "BuddyPress Groups Extras"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:270
+msgid "Extend Your Groups"
+msgstr "Erweitern Sie Ihre Gruppen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:279
+msgid "All changes were saved. Go and check results!"
+msgstr ""
+"Alle &Auml;nderungen wurden gespeichert. Schauen Sie nach und pr&uuml;fen "
+"die Ergebnisse!"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:293
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:308
+msgid "Save Changes"
+msgstr "&Auml;nderungen speichern"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:294
+msgid "Refresh current page"
+msgstr "Refresh current page"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-admin.php:294
+msgid "Refresh"
+msgstr "Refresh"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-cssjs.php:24
+msgid "Please enter options for this Field"
+msgstr "Please enter options for this Field"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-cssjs.php:25
+msgid "Option"
+msgstr "Option"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-cssjs.php:26
+msgid "Remove It"
+msgstr "Remove It"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:202
+msgid "Edit link for group admins only"
+msgstr "Nur Gruppenadmins k&ouml;nnen den Link bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:253
+msgid "Clear"
+msgstr "Leeren"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:335
+msgid "Please specify the page name, where all fields will be displayed"
+msgstr ""
+"Bitte benennen Sie den Seitennamen, wo alle Felder zu finden sein werden."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:340
+#, php-format
+msgid ""
+"Do you want to make <strong>\"%s\"</strong> page public? Everyone will see "
+"this page."
+msgstr ""
+"M&ouml;chten Sie die <strong>\"%s\"</strong> Seite &ouml;ffentlich sichtbar "
+"machen? Jeder kann sie dann sehen."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:341
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:360
+msgid "Show it"
+msgstr "Ja - anzeigen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:342
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:361
+msgid "Hide it"
+msgstr "Nein - verstecken"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:346
+#, php-format
+msgid "Please choose the layout for <strong>\"%s\"</strong> page"
+msgstr ""
+"Bitte w&auml;hlen Sie das Layout f&uuml;r die <strong>\"%s\"</strong> Seite"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:347
+msgid "Plain (field title and its data below)"
+msgstr "Plan/Eben (Feldtitel und seine Daten unterhalb)"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:348
+msgid "Profile style (in a table)"
+msgstr "Profil-Stil (in einer Tabelle)"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:354
+msgid "Please specify the page name, where all custom pages will be displayed"
+msgstr ""
+"Bitte geben Sie den Seitennamen an, wo alle benutzerdefinierten Seiten "
+"angezeigt werden."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:359
+#, php-format
+msgid ""
+"Do you want to make <strong>\"%s\"</strong> page public (extra group pages "
+"will be displayed there)?"
+msgstr ""
+"M&ouml;chten Sie die <strong>\"%s\"</strong> Seite &ouml;ffentlich "
+"darstellen (Extra-Gruppenseiten werden dort angezeigt)?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:366
+msgid ""
+"You can reorder here all navigation links in this group. The first item will "
+"become a landing page for this group. Save changes after reordering.<br /"
+">Please do NOT make Admin pages on first place - that will cause display "
+"problems."
+msgstr ""
+"Sie k&ouml;nnen hier alle Navigations-Links in dieser Gruppe neu anordnen. "
+"Der erste Bereich wird eine Zielseite f&uuml;r diese Gruppe sein. Speichern "
+"Sie die &Auml;nderungen nach der Neuordnung.<br />Bitte KEINE "
+"Administrationsseiten an erster Stelle platzieren - das f&uuml;hrt zu "
+"Problemen."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:386
+msgid "Rename the Home group page - Activity (for example) is far better."
+msgstr ""
+"Benenne die Home-Gruppenseite um - Aktivität (zum Beispiel) ist viel besser."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:392
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:548
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:608
+msgid "Save Changes &rarr;"
+msgstr "&Auml;nderungen speichern &rarr;"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:438
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:475
+msgid "displayed"
+msgstr "displayed"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:438
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:475
+msgid "<u>not</u> displayed"
+msgstr "<u>nicht</u> angezeigt"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:440
+msgid "Change its title, description etc"
+msgstr "&Auml;ndert den Titel, die Beschreibung usw."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:440
+msgid "Edit field"
+msgstr "Feld bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:441
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:479
+msgid "Delete this item and all its content"
+msgstr "L&ouml;sche diesen Bereich und all seinen Inhalt"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:477
+msgid "View this page live"
+msgstr "Zeige diese Seite live"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:477
+msgid "View"
+msgstr "Zeige"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:478
+msgid "Change its title, content etc"
+msgstr "&Auml;ndert den Titel, die Beschreibung usw."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:508
+msgid "Drop Down Select Box"
+msgstr "Drop Down Select Box"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:521
+msgid ""
+"Is this field required (will be marked as required on group Edit Details "
+"page)?"
+msgstr ""
+"Ist dieses Feld erforderlich (wird auf der Gruppenbearbeitungs-Detailseite "
+"als ERFORDERLICH markiert)?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:528
+msgid "Required"
+msgstr "Erforderlich"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:529
+msgid "Not Required"
+msgstr "Nicht erforderlich"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:531
+#, php-format
+msgid "Should this field be displayed for public on \"<u>%s</u>\" page?"
+msgstr ""
+"Soll dieses Feld &ouml;ffentlich auf der \"<u>%s</u>\" Seite angezeigt "
+"werden?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:538
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:598
+msgid "Display it"
+msgstr "Ja"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:539
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:599
+msgid "Do NOT display it"
+msgstr "NEIN"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:545
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:605
+msgid "Create New &rarr;"
+msgstr "Neu erstellen &rarr;"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:568
+msgid "Page Title"
+msgstr "Seitentitel"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:574
+msgid "Page Slug"
+msgstr "Seiten-Slug"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:580
+msgid "Page Content"
+msgstr "Seiteninhalt"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:596
+msgid "Should this page be displayed for public in group navigation?"
+msgstr ""
+"Soll diese Seite &ouml;ffentlich in der Gruppennavigation sichtbar sein?"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:843
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:855
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:873
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:885
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:903
+msgid "General"
+msgstr "Allgemein"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:844
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:856
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:874
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:886
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:904
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:1121
+msgid "All Fields"
+msgstr "Alle Felder"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:845
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:857
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:875
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:887
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:905
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:1122
+msgid "All Pages"
+msgstr "Alle Seiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:846
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:858
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:876
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:888
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:906
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:1123
+msgid "Add Field"
+msgstr "Feld hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:847
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:859
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:877
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:889
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:907
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:1124
+msgid "Add Page"
+msgstr "Seite hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:976
+msgid "Group Extras settings were succefully updated."
+msgstr "Gruppen-Extra-Einstellungen wurden erfolgreich aktualisiert."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:979
+msgid "New field was successfully added."
+msgstr "Neues Feld wurde erfolgreichhinzugef&uuml;gt."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:982
+msgid "The field was successfully updated."
+msgstr "Das Feld wurde erfolgreich aktualisiert."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:985
+msgid "New page was successfully added."
+msgstr "Neue Seite wurde erfolgreich hinzugef&uuml;gt."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:988
+msgid "The page was successfully updated."
+msgstr "Die Seite wurde erfolgreich aktualisiert."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:991
+msgid "Please create at least 1 extra field to show it in a list."
+msgstr ""
+"Bitte erstellen Sie mindestens 1 Feld zus&auml;tzlich, um es in einer Liste "
+"anzeigen."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:994
+msgid "Please create at least 1 extra page to show it in a list."
+msgstr ""
+"Bitte erstellen Sie mindestens 1 Seite zus&auml;tzlich, um es in einer Liste "
+"anzeigen."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:1118
+msgid "Manage Extras"
+msgstr "Manage Extras"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge-loader.php:1120
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:122
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:133
+msgid "Groups Pages"
+msgstr "Gruppenseiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:123
+msgid "Groups Page"
+msgstr "Gruppenseite"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:125
+msgid "Add New Page"
+msgstr "Neue Seite hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:126
+msgid "Edit Page"
+msgstr "Seite bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:127
+msgid "New Page"
+msgstr "Neue Seite"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:128
+msgid "View Page"
+msgstr "Zeige Seite"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:129
+msgid "Search Groups Pages"
+msgstr "Suche Gruppenseite"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:130
+msgid "No groups pages found"
+msgstr "Keine Gruppenseite gefunden"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:131
+msgid "No groups pages found in Trash"
+msgstr "Keine Gruppenseite im Papierkorb gefunden"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:137
+msgid "Displaying pages that were created in all community groups"
+msgstr "Zeigt Seiten, die in allen Gruppengemeinschaften erstellt wurden."
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:169
+msgid "Group Extras &rarr; General Settings"
+msgstr "Gruppen-Extras &rarr; Allgemeine Einstellungen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:172
+msgid "Group Extras &rarr; Fields Management"
+msgstr "Gruppen-Extras &rarr; Feld-Management"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:175
+msgid "Group Extras &rarr; Pages Management"
+msgstr "Gruppen-Extras &rarr; Seiten-Management"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:178
+msgid "Group Extras &rarr; Add Field"
+msgstr "Gruppen-Extras &rarr; Feld hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:181
+msgid "Group Extras &rarr; Edit Field"
+msgstr "Gruppen-Extras &rarr; Feld bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:184
+msgid "Group Extras &rarr; Add Page"
+msgstr "Gruppen-Extras &rarr; Seite hinzuf&uuml;gen"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:187
+msgid "Group Extras &rarr; Edit Page"
+msgstr "Gruppen-Extras &rarr; Seite bearbeiten"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:193
+msgid "Extras"
+msgstr "Extras"
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:196
+msgid "Pages"
+msgstr "Seiten"
