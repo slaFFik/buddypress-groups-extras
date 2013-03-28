@@ -257,10 +257,15 @@ function bpge_gpages_redirect_to_all() {
  * Several Helpers
  */
 // Display view
-function bpge_view($view){
+function bpge_view($view, $param = false){
+    global $bp, $bpge;
+
+    if(!empty($param))
+        extract($param);
+
     $path = BPGE_PATH . 'views/'. $view . '.php';
     if(file_exists($path))
-    include $path;
+        include $path;
 }
 
 // Helper for generating some titles

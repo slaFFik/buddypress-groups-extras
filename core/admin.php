@@ -126,22 +126,24 @@ class BPGE_ADMIN{
                         'post_content' => $_POST['edit_set_field_description']
                     );
                 wp_update_post( $set );
-            }else if(!empty($_POST['extra-field-title'])){
-                if(!empty($_POST['slug_sf_for_field'])){
-                    $set_fields = bp_get_option($_POST['slug_sf_for_field']);
-                    $count = count($set_fields['fields']);
-                    $set_fields['fields'][$count]['name'] = $_POST['extra-field-title'];
-                    $set_fields['fields'][$count]['desc'] = $_POST['extra-field-desc'];
-                    $set_fields['fields'][$count]['type'] = $_POST['extra-field-type'];
-                    if(!empty($_POST['options'])){
-                        $n = 0;
-                        foreach($_POST['options'] as $option){
-                            $set_fields['fields'][$count]['options'][$n]['name'] = $option;
-                            $set_fields['fields'][$count]['options'][$n]['slug'] = sanitize_title_with_dashes($option);
-                            $n++;
-                        }
+            // Save fields for a set
+            }else if(!empty($_POST['extra-field-title']) && !empty($_POST['sf_id_for_field'])){
+                // save field
+                $field_id = wp_insert_post(array(
+                                'post_type'    => BPGE_FIELDS,
+                                'post_parent'  => $_POST['sf_id_for_field'], // assign to a set of fields
+                                'post_title'   => $_POST['extra-field-title'],
+                                'post_content' => $_POST['extra-field-desc'],
+                                'post_excerpt' => $_POST['extra-field-type'],
+                                'post_status'  => 'publish'
+                            ));
+                if(!empty($_POST['options'])){
+                    $option = array();
+                    foreach($_POST['options'] as $option){
+                        $option = htmlspecialchars(strip_tags($option));
+                        $options[] = $option;
                     }
-                    update_option($_POST['slug_sf_for_field'], $set_fields);
+                    update_post_meta( $field_id, 'bpge_field_options', $options );
                 }
             }
         }
@@ -173,7 +175,7 @@ class BPGE_ADMIN{
                 $fields_args['post_parent'] = $set->ID;
                 $fields = get_posts($fields_args);
                 // display the html
-                include(BPGE_PATH . 'views/admin_set_list.php');
+                bpge_view('admin_set_list', array('fields' => $fields, 'set' => $set));
             }
         }else{
             echo '<li>';
@@ -190,33 +192,8 @@ class BPGE_ADMIN{
         // Editing for set of fields
         bpge_view('admin_set_edit');
 
-        echo '<div id="box_add_field">';
-            echo '<h4>'.__('Add field into','bpge').' &rarr; <span></span></h4>';
-            echo '<div><label>' . __('Field Title', 'bpge') . '</label>';
-            echo '<input type="text" value="" name="extra-field-title"></div>';
-            echo '<div><label>' . __('Field Type', 'bpge') . '</label>';
-            echo '<select name="extra-field-type" id="extra-field-type">';
-                echo '<option value="text">' . __('Text Box', 'bpge') . '</option>';
-                echo '<option value="textarea">' . __('Multi-line Text Box', 'bpge') . '</option>';
-                echo '<option value="checkbox">' . __('Checkboxes', 'bpge') . '</option>';
-                echo '<option value="radio">' . __('Radio Buttons', 'bpge') . '</option>';
-                //echo '<option value="datebox">' . __('Date Selector', 'bpge') . '</option>';
-                echo '<option value="select">' . __('Dropdown Select Box', 'bpge') . '</option>';
-            echo '</select></div>';
-
-            echo '<div id="extra-field-vars" style="display:none;">';
-                echo '<div class="content"></div>';
-                echo '<div class="links">
-                        <a class="button" href="#" id="add_new">' . __('Add New', 'bpge') . '</a>
-                       </div>';
-            echo '</div>';
-            echo '<div><label>' . __('Field Description', 'bpge') . '</label>';
-                echo '<textarea name="extra-field-desc"></textarea></div>';
-            echo '<input type="hidden" name="slug_sf_for_field" value="" />';
-            echo '<input id="addnewfield" type="submit" class="button-primary" name="addnewfield" value="'.__('Add New Field','bpge').'" />';
-        echo '</div>';
-
-        echo '<a class="button add_set_fields" href="#">'.__('Create the Set of Fields','bpge').'</a>';
+        // Form to add fields to a set
+        bpge_view('admin_set_field_add');
     }
 
     /**
@@ -225,7 +202,7 @@ class BPGE_ADMIN{
     function on_bpge_admin_groups($bpge){
         $arg['type']     = 'alphabetical';
         $arg['per_page'] = '1000';
-        include(BPGE_PATH . 'views/admin_groups_list.php');
+        bpge_view('admin_groups_list', array('arg' => $arg));
     }
 
     /**

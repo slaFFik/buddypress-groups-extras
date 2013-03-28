@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
      **/
     // show fields under the set
     $('#bpge-admin-fields .display_fields').click(function(){
-        var set_fields_id = $(this).attr('set_fields');
+        var set_fields_id = $(this).data('set_id');
         $('#bpge-admin-fields #fields_'+set_fields_id).slideToggle('fast');
         $('#bpge-admin-fields #fields_'+set_fields_id+' li:last').css('list-style','none');
         return false;
@@ -34,9 +34,8 @@ jQuery(document).ready(function($){
     // delete set of fields with all its fields
     $('ul.sets a.field_delete').click(function(e){
         e.preventDefault();
-        var field_id = jQuery(this).data('fields_set');
+        var field_id = jQuery(this).data('set_id');
 
-        // @TODO : HERE WILL BE AJAX REQUEST TO DELETE THAT FIELD
         $.ajax({
             url: ajaxurl,
             type: 'POST',
@@ -54,7 +53,7 @@ jQuery(document).ready(function($){
         });
     });
 
-    // Edit
+    // Edit set of fields
     $('#bpge-admin-fields .field_edit').click(function(){
         var display_add = $('#box_add_set_fields').css('display');
         var display_addf = $('#box_add_field').css('display');
@@ -81,6 +80,7 @@ jQuery(document).ready(function($){
         return false;
     });
 
+    // Add set of fields
     $('#bpge-admin-fields .add_set_fields').click(function(){
         var display_edit = $('#box_edit_set_fields').css('display');
         var display_addf = $('#box_add_field').css('display');
@@ -101,12 +101,9 @@ jQuery(document).ready(function($){
         return false;
     });
 
-    /*
-     * Add field
-     **/
-
+    // Add field for a set of fields
     $('#bpge-admin-fields .add_field').click(function(){
-        var display_add = $('#box_add_set_fields').css('display');
+        var display_add  = $('#box_add_set_fields').css('display');
         var display_edit = $('#box_edit_set_fields').css('display');
         if(display_add == 'block'){
             $('#box_add_set_fields').css('display','none');
@@ -119,54 +116,53 @@ jQuery(document).ready(function($){
             $('#box_edit_set_fields textarea').html('');
             $('#box_edit_set_fields input[name="slug_set_fields"]').val('');
         }
-        var set_fields_id = $(this).attr('set_fields');
-        var name_set_fields = $('#' + set_fields_id + ' .name').html();
+        var set_fields_id = $(this).data('set_id');
+        var name_set_fields = $('#set-' + set_fields_id + ' .name').html();
         $('#box_add_field h4 span').html(name_set_fields);
-        $('#box_add_field input[name="slug_sf_for_field"]').val(set_fields_id);
+        $('#box_add_field input[name="sf_id_for_field"]').val(set_fields_id);
         $('#extra-field-vars').css('display', 'none');
         $('#bpge-admin-fields #box_add_field').css('display','block');
         return false;
     });
 
     /*
-	 * SECTION: ADD / EDIT FIELDS
-	 */
-	var options_count = 2;
-	function new_option(type, id){
-		return '<span class="'+type+'_'+id+'">' + bpge.option_text + ': &rarr; <input type="text" tabindex="'+id+'" name="options['+id+']" value="" /> <a href="#" rel="remove_'+type+'_'+id+'" class="remove_it">'+bpge.remove_it+'</a><br /></span>';
-	}
+     * SECTION: ADD / EDIT FIELDS
+     */
+    var options_count = 2;
+    function new_option(type, id){
+        return '<span class="'+type+'_'+id+'">' + bpge.option_text + ': &rarr; <input type="text" tabindex="'+id+'" name="options['+id+']" value="" /> <a href="#" rel="remove_'+type+'_'+id+'" class="remove_it">'+bpge.remove_it+'</a><br /></span>';
+    }
 
-	jQuery('select#extra-field-type').change(function(){
-		var type = jQuery(this).val();
-		var html = '';
-		if ( type == 'checkbox' ||  type == 'radio' || type == 'select' ){
-			html += '<label>' + bpge.enter_options + '</label>';
-			html += new_option(type, 1);
-			html += new_option(type, 2);
-			jQuery('#extra-field-vars .content').html(html);
-			jQuery('#extra-field-vars').css('display', 'block');
-		}else{
-			jQuery('#extra-field-vars .content').html('');
+    jQuery('select#extra-field-type').change(function(){
+        var type = jQuery(this).val();
+        var html = '';
+        if ( type == 'checkbox' ||  type == 'radio' || type == 'select' ){
+            html += '<label>' + bpge.enter_options + '</label>';
+            html += new_option(type, 1);
+            html += new_option(type, 2);
+            jQuery('#extra-field-vars .content').html(html);
+            jQuery('#extra-field-vars').css('display', 'block');
+        }else{
+            jQuery('#extra-field-vars .content').html('');
             jQuery('#extra-field-vars').css('display', 'none');
-		}
-	});
+        }
+    });
 
     jQuery('#extra-field-vars a.remove_it').live('click', function(e){
-		e.preventDefault();
-		var extra = jQuery(this).attr('rel').split('_');
-		var action = extra[0];
-		var type = extra[1];
-		var id = extra[2];
-		jQuery('#extra-field-vars span.'+type+'_'+id).remove();
-		console.log(action + id);
-	});
+        e.preventDefault();
+        var extra  = jQuery(this).attr('rel').split('_');
+        var action = extra[0];
+        var type   = extra[1];
+        var id     = extra[2];
+        jQuery('#extra-field-vars span.'+type+'_'+id).remove();
+    });
 
-	jQuery('#extra-field-vars a#add_new').live('click', function(e){
-		e.preventDefault();
-		options_count += 1;
-		var type = jQuery('select#extra-field-type').val();
-		var option = new_option(type, options_count);
-		jQuery('#extra-field-vars .content').append(option);
-	});
+    jQuery('#extra-field-vars a#add_new').live('click', function(e){
+        e.preventDefault();
+        options_count += 1;
+        var type   = jQuery('select#extra-field-type').val();
+        var option = new_option(type, options_count);
+        jQuery('#extra-field-vars .content').append(option);
+    });
 
 });
