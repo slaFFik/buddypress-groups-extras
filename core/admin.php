@@ -184,21 +184,11 @@ class BPGE_ADMIN{
 
         echo '<div class="clear"></div>';
 
-        echo '<div id="box_add_set_fields">
-                <h4>'.__('Add new Set of Fields','bpge').'</h4>
-                <div><label>'.__('Name','bpge').'</label><input type="text" name="add_set_fields_name" /></div>
-                <div><label>'.__('Description','bpge').'</label><textarea name="add_set_field_description" ></textarea></div>
-                <input id="savenewsf" type="submit" class="button-primary" name="savenewsetfields" value="'.__('Save New Set of Fields','bpge').'" />
-              </div>';
+        // Adding set of fields
+        bpge_view('admin_set_add');
 
         // Editing for set of fields
-        echo '<div id="box_edit_set_fields">
-                <h4>'.__('Edit Set of Fields','bpge').' &rarr; <span></span></h4>
-                <div><label>'.__('Name','bpge').'</label><input type="text" name="edit_set_fields_name" /></div>
-                <div><label>'.__('Description','bpge').'</label><textarea name="edit_set_field_description" ></textarea></div>
-                <input type="hidden" name="edit_set_fields_id" value="" />
-                <input id="editsf" type="submit" class="button-primary" name="editsetfields" value="'.__('Edit Set of Fields','bpge').'" />
-              </div>';
+        bpge_view('admin_set_edit');
 
         echo '<div id="box_add_field">';
             echo '<h4>'.__('Add field into','bpge').' &rarr; <span></span></h4>';

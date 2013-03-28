@@ -236,6 +236,7 @@ function bpge_register_groups_pages(){
     );
     register_post_type(BPGE_GPAGES, $args);
 }
+
 // hide add new menu and redirect from it to the whole list - do not allow admin to add manually
 add_action('admin_menu', 'bpge_gpages_hide_add_new');
 function bpge_gpages_hide_add_new() {
@@ -250,6 +251,16 @@ function bpge_gpages_redirect_to_all() {
     if ($result !== false) {
         wp_redirect(get_option('siteurl') . '/wp-admin/edit.php?post_type=gpages');
     }
+}
+
+/**
+ * Several Helpers
+ */
+// Display view
+function bpge_view($view){
+    $path = BPGE_PATH . 'views/'. $view . '.php';
+    if(file_exists($path))
+    include $path;
 }
 
 // Helper for generating some titles
