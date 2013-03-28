@@ -107,30 +107,20 @@ class BPGE_ADMIN{
      * Set of Fields Management
      */
     function on_bpge_admin_fields($bpge){
+        global $wpdb;
         if(!empty($_POST) && (!empty($_POST['add_set_fields_name']) || !empty($_POST['edit_set_fields_name']) || !empty($_POST['extra-field-title']))){
+            // Save new Set of fields
             if(!empty($_POST['add_set_fields_name'])){
-                $field_set_data['name'] = $_POST['add_set_fields_name'];
-                if(!empty($_POST['add_set_field_description'])){
-                    $field_set_data['desc'] = $_POST['add_set_field_description'];
-                }
-                $sets_fields = bp_get_option('bpge_def_fields');
-                $set_slug = 'bpge-set-' . sanitize_title_with_dashes($_POST['add_set_fields_name']);
-                $field_set_data['slug'] = $set_slug;
-                $sets_fields[$set_slug]['name'] = $_POST['add_set_fields_name'];
-                $sets_fields[$set_slug]['desc'] = $_POST['add_set_field_description'];
-                update_option('bpge_def_fields', $sets_fields);
-                update_option($set_slug, $field_set_data);
-            }else if(!empty($_POST['edit_set_fields_name'])){
-                if(!empty($_POST['slug_set_fields'])){
-                    $sets_fields = bp_get_option('bpge_def_fields');
-                    $set_fields = bp_get_option($_POST['slug_set_fields']);
-                    $sets_fields[$_POST['slug_set_fields']]['name'] = $_POST['edit_set_fields_name'];
-                    $sets_fields[$_POST['slug_set_fields']]['desc'] = $_POST['edit_set_field_description'];
-                    $set_fields['name'] = $_POST['edit_set_fields_name'];
-                    $set_fields['desc'] = $_POST['edit_set_field_description'];
-                    update_option('bpge_def_fields', $sets_fields);
-                    update_option($_POST['slug_set_fields'], $set_fields);
-                }
+                $set['post_type']    = BPGE_FIELDS_SET;
+                $set['post_title']   = $_POST['edit_set_fields_name'];
+                $set['post_content'] = $_POST['edit_set_field_description'];
+                wp_insert_post( $set );
+            // Edit Set of fields
+            }else if(!empty($_POST['edit_set_fields_name']) && !empty($_POST['edit_set_fields_id'])){
+                $set['ID']           = $_POST['edit_set_fields_id'];
+                $set['post_title']   = $_POST['edit_set_fields_name'];
+                $set['post_content'] = $_POST['edit_set_field_description'];
+                wp_update_post( $set );
             }else if(!empty($_POST['extra-field-title'])){
                 if(!empty($_POST['slug_sf_for_field'])){
                     $set_fields = bp_get_option($_POST['slug_sf_for_field']);
@@ -155,30 +145,30 @@ class BPGE_ADMIN{
             _e('Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.','bpge');
         echo '</p>';
 
-        $def_fields = array();
-        $def_fields = bp_get_option('bpge_def_fields');
+        $set_args = array(
+            'posts_per_page' => 50,
+            'numberposts'    => 50,
+            'orderby'        => 'ID',
+            'order'          => 'ASC',
+            'post_type'      => BPGE_FIELDS_SET
+        );
+        $set_of_fields = get_posts($set_args);
+
         echo '<ul class="sets">';
-        if(!empty($def_fields)){
-            foreach($def_fields as $key => $value){
-                $data_set = bp_get_option($key);
-                echo '<li id="' . $data_set['slug'] . '">';
-                echo    '<span class="name">' . $data_set['name'] . '</span>';
-                echo    '<span class="desc">' . $data_set['desc'] . '</span>';
-                echo    '<span class="actions">
-                             <a class="button display_fields" set_fields="' . $data_set['slug'] . '" href="#">'.__('Show Fields', 'bpge').' (' . count($data_set['fields']) . ')</a>
-                             <a class="button field_edit" set_fields="' . $data_set['slug'] . '" href="#">'.__('Edit','bpde').'</a>
-                             <a class="button field_delete" set_fields="' . $data_set['slug'] . '" href="#">'.__('Delete','bpde').'</a>
-                         </span>';
-                    echo '<ul class="fields" id="fields_' . $data_set['slug'] . '" class="fields">';
-                    if(!empty($data_set['fields'])){
-                        foreach($data_set['fields'] as $field){
-                            echo '<li>'.$field['name'].' &rarr; '.$field['type'].' &rarr; '.$field['desc'].'</li>';
-                        }
-                    }else{
-                        echo '<li><b>'.__('Fields not yet created','bpde').'</b></li>';
-                    }
-                    echo '<li><a class="button add_field" set_fields="' . $data_set['slug'] . '" href="#">'.__('Add field','bpge').'</a></li></ul>';
-                echo '</li>';
+        if(!empty($set_of_fields)){
+            $fields_args = array(
+                'posts_per_page' => 50,
+                'numberposts'    => 50,
+                'orderby'        => 'ID',
+                'order'          => 'ASC',
+                'post_type'      => BPGE_FIELDS
+            );
+            foreach($set_of_fields as $set){
+                // get all fields in that set
+                $fields_args['post_parent'] = $set->ID;
+                $fields = get_posts($fields_args);
+                // display the html
+                include(BPGE_PATH . 'views/admin_set_list.php');
             }
         }else{
             echo '<li>';
@@ -196,11 +186,12 @@ class BPGE_ADMIN{
                 <input id="savenewsf" type="submit" class="button-primary" name="savenewsetfields" value="'.__('Save New Set of Fields','bpge').'" />
               </div>';
 
+        // Editing for set of fields
         echo '<div id="box_edit_set_fields">
                 <h4>'.__('Edit Set of Fields','bpge').' &rarr; <span></span></h4>
                 <div><label>'.__('Name','bpge').'</label><input type="text" name="edit_set_fields_name" /></div>
                 <div><label>'.__('Description','bpge').'</label><textarea name="edit_set_field_description" ></textarea></div>
-                <input type="hidden" name="slug_set_fields" value="" />
+                <input type="hidden" name="edit_set_fields_id" value="" />
                 <input id="editsf" type="submit" class="button-primary" name="editsetfields" value="'.__('Edit Set of Fields','bpge').'" />
               </div>';
 

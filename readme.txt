@@ -44,8 +44,10 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 = 3.4 (.03.2013) =
 * New admin area option: delete or preserve all plugin's data on its deactivation
-* Added German translation (props <a href="http://www.per4mance.com/">Thorsten Wollenhöfe</a>)
 * Lots of code improvements
+
+= 3.3.3 (26.03.2013) =
+* Added German translation (props <a href="http://www.per4mance.com/">Thorsten Wollenhöfe</a>)
 
 = 3.3.2 (23.03.2013) =
 * Fixed issue with renaming "Groups" Component into anything else (like Movies)

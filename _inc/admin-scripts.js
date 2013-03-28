@@ -1,33 +1,9 @@
 jQuery(document).ready(function($){
 
     /*
-     * Predefined fields navigation
-     */
-    // show fields in a set
-    
-    $('#bpge-admin-fields .display_fields').click(function(){
-        var set_fields_id = $(this).attr('set_fields');
-        $('#bpge-admin-fields #fields_'+set_fields_id).slideToggle('fast');
-        $('#bpge-admin-fields #fields_'+set_fields_id+' li:last').css('list-style','none');
-        return false;
-    });
-    
-    // delete set of fields with all fields
-    jQuery('ul.sets a.field_delete').click(function(e){
-        e.preventDefault();
-        var field_id = jQuery(this).parent().parent().attr('id').split('_');field_id = field_id[1];
-
-        // @TODO : HERE WILL BE AJAX REQUEST TO DELETE THAT FIELD
-        jQuery('ul.sets li#set_'+field_id).fadeOut('fast',function(){
-            jQuery(this).remove();
-        });
-        
-    });
-    
-    /*
      * Groups checkboxes
     */
-    
+
     jQuery('#bp-gtm-admin-table .bpge_allgroups').change(function(){
         var status = jQuery(this).attr('checked');
         if(status == 'checked'){
@@ -38,16 +14,73 @@ jQuery(document).ready(function($){
             jQuery('#bp-gtm-admin-table .bpge_allgroups').removeAttr('checked');
         }
     });
-    
+
     jQuery('#bp-gtm-admin-table .bpge_groups').change(function(){
         jQuery('#bp-gtm-admin-table .bpge_allgroups').removeAttr('checked');
     });
-    
-    
+
+
     /*
      * Fields set
      **/
-    
+    // show fields under the set
+    $('#bpge-admin-fields .display_fields').click(function(){
+        var set_fields_id = $(this).attr('set_fields');
+        $('#bpge-admin-fields #fields_'+set_fields_id).slideToggle('fast');
+        $('#bpge-admin-fields #fields_'+set_fields_id+' li:last').css('list-style','none');
+        return false;
+    });
+
+    // delete set of fields with all its fields
+    $('ul.sets a.field_delete').click(function(e){
+        e.preventDefault();
+        var field_id = jQuery(this).data('fields_set');
+
+        // @TODO : HERE WILL BE AJAX REQUEST TO DELETE THAT FIELD
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'fields_set_delete',
+                id: field_id
+            },
+            success: function(response){
+                if(response == 'deleted'){
+                    $('ul.sets li#set-'+field_id).fadeOut('fast',function(){
+                        $(this).remove();
+                    });
+                }
+            }
+        });
+    });
+
+    // Edit
+    $('#bpge-admin-fields .field_edit').click(function(){
+        var display_add = $('#box_add_set_fields').css('display');
+        var display_addf = $('#box_add_field').css('display');
+        if(display_add == 'block'){
+            $('#box_add_set_fields').css('display','none');
+            $('#box_add_set_fields input[name="edit_set_fields_name"]').val('');
+            $('#box_add_set_fields textarea').html('');
+        }
+        if(display_addf == 'block'){
+            $('#box_add_field').css('display','none');
+            $('#box_add_field input[name="extra-field-title"]').val('');
+            $('#box_add_field textarea[name="extra-field-desc"]').val('');
+            $('#box_add_field select#extra-field-type option:first').attr('selected','selected');
+        }
+        $('#bpge-admin-fields .fields').slideUp('fast');
+        var set_fields_id = $(this).data('set_id');
+        var name_set_fields = $('#set-' + set_fields_id + ' .name').html();
+        var desc_set_fields = $('#set-' + set_fields_id + ' .desc').html();
+        $('#box_edit_set_fields h4 span').html(name_set_fields);
+        $('#box_edit_set_fields input[name="edit_set_fields_name"]').val(name_set_fields);
+        $('#box_edit_set_fields textarea').html(desc_set_fields);
+        $('#box_edit_set_fields input[name="edit_set_fields_id"]').val(set_fields_id);
+        $('#box_edit_set_fields').css('display','block');
+        return false;
+    });
+
     $('#bpge-admin-fields .add_set_fields').click(function(){
         var display_edit = $('#box_edit_set_fields').css('display');
         var display_addf = $('#box_add_field').css('display');
@@ -67,48 +100,11 @@ jQuery(document).ready(function($){
         $('#bpge-admin-fields #box_add_set_fields').css('display','block');
         return false;
     });
-    
-    $('#bpge-admin-fields .field_edit').click(function(){
-        var display_add = $('#box_add_set_fields').css('display');
-        var display_addf = $('#box_add_field').css('display');
-        if(display_add == 'block'){
-            $('#box_add_set_fields').css('display','none');
-            $('#box_add_set_fields input[name="edit_set_fields_name"]').val('');
-            $('#box_add_set_fields textarea').html('');
-        }
-        if(display_addf == 'block'){
-            $('#box_add_field').css('display','none');
-            $('#box_add_field input[name="extra-field-title"]').val('');
-            $('#box_add_field textarea[name="extra-field-desc"]').val('');
-            $('#box_add_field select#extra-field-type option:first').attr('selected','selected');
-        }
-        $('#bpge-admin-fields .fields').slideUp('fast');
-        var set_fields_id = $(this).attr('set_fields');
-        var name_set_fields = $('#' + set_fields_id + ' .name').html();
-        var desc_set_fields = $('#' + set_fields_id + ' .desc').html();
-        $('#box_edit_set_fields h4 span').html(name_set_fields);
-        $('#box_edit_set_fields input[name="edit_set_fields_name"]').val(name_set_fields);
-        $('#box_edit_set_fields textarea').html(desc_set_fields);
-        $('#box_edit_set_fields input[name="slug_set_fields"]').val(set_fields_id);
-        $('#box_edit_set_fields').css('display','block');
-        return false;
-    });
-    
-    /*
-     * Delete set fields
-     **/
-    
-    $('#bpge-admin-fields .field_delete').click(function(){
-        var slug_set_fields = $(this).attr('set_fields');
-        $('#'+slug_set_fields).hide('fast');
-        $.post(ajaxurl,{action:'set_fields_delete',slug_set_fields:slug_set_fields},function(response){});
-        return false;
-    });
-    
+
     /*
      * Add field
      **/
-    
+
     $('#bpge-admin-fields .add_field').click(function(){
         var display_add = $('#box_add_set_fields').css('display');
         var display_edit = $('#box_edit_set_fields').css('display');
@@ -131,7 +127,7 @@ jQuery(document).ready(function($){
         $('#bpge-admin-fields #box_add_field').css('display','block');
         return false;
     });
-    
+
     /*
 	 * SECTION: ADD / EDIT FIELDS
 	 */
@@ -154,7 +150,7 @@ jQuery(document).ready(function($){
             jQuery('#extra-field-vars').css('display', 'none');
 		}
 	});
-    
+
     jQuery('#extra-field-vars a.remove_it').live('click', function(e){
 		e.preventDefault();
 		var extra = jQuery(this).attr('rel').split('_');
@@ -164,7 +160,7 @@ jQuery(document).ready(function($){
 		jQuery('#extra-field-vars span.'+type+'_'+id).remove();
 		console.log(action + id);
 	});
-	
+
 	jQuery('#extra-field-vars a#add_new').live('click', function(e){
 		e.preventDefault();
 		options_count += 1;

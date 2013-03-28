@@ -1,15 +1,12 @@
 <?php
 
-add_action('wp_ajax_set_fields_delete','set_fields_delete');
-function set_fields_delete(){
-    $sets_fields = get_option('bpge_def_fields');
-    unset($sets_fields[$_POST['slug_set_fields']]);
-    //print_var($sets_fields);
-    if(!empty($sets_fields)){
-        update_option('bpge_def_fields',$sets_fields);
-    }else{
-        delete_option('bpge_def_fields');
-    }
-    delete_option($_POST['slug_set_fields']);
-    exit;
+add_action('wp_ajax_fields_set_delete','bpge_fields_set_delete');
+function bpge_fields_set_delete(){
+    global $wpdb;
+
+    $set_id = intval($_POST['id']);
+    $wpdb->query($wpdb->prepare("DELETE FROM `{$wpdb->posts}` WHERE `ID` = %d", $set_id));
+    $wpdb->query($wpdb->prepare("DELETE FROM `{$wpdb->posts}` WHERE `post_parent` = %d", $set_id));
+
+    die('deleted');
 }
