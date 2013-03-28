@@ -111,15 +111,20 @@ class BPGE_ADMIN{
         if(!empty($_POST) && (!empty($_POST['add_set_fields_name']) || !empty($_POST['edit_set_fields_name']) || !empty($_POST['extra-field-title']))){
             // Save new Set of fields
             if(!empty($_POST['add_set_fields_name'])){
-                $set['post_type']    = BPGE_FIELDS_SET;
-                $set['post_title']   = $_POST['edit_set_fields_name'];
-                $set['post_content'] = $_POST['edit_set_field_description'];
+                $set = array(
+                        'post_type'    => BPGE_FIELDS_SET,
+                        'post_status'  => 'publish',
+                        'post_title'   => $_POST['add_set_fields_name'],
+                        'post_content' => $_POST['add_set_field_description']
+                    );
                 wp_insert_post( $set );
             // Edit Set of fields
             }else if(!empty($_POST['edit_set_fields_name']) && !empty($_POST['edit_set_fields_id'])){
-                $set['ID']           = $_POST['edit_set_fields_id'];
-                $set['post_title']   = $_POST['edit_set_fields_name'];
-                $set['post_content'] = $_POST['edit_set_field_description'];
+                $set = array(
+                        'ID'           => $_POST['edit_set_fields_id'],
+                        'post_title'   => $_POST['edit_set_fields_name'],
+                        'post_content' => $_POST['edit_set_field_description']
+                    );
                 wp_update_post( $set );
             }else if(!empty($_POST['extra-field-title'])){
                 if(!empty($_POST['slug_sf_for_field'])){
