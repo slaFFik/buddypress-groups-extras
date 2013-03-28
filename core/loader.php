@@ -30,7 +30,7 @@ class BPGE extends BP_Group_Extension {
 
     var $bpge_glob            = false;
 
-    function BPGE(){
+    function __construct(){
         global $bp;
 
         $this->bpge_glob = bp_get_option('bpge');
@@ -98,8 +98,6 @@ class BPGE extends BP_Group_Extension {
                 // }
             }
         }
-
-
     }
 
     // Public page with already saved content
@@ -296,7 +294,7 @@ class BPGE extends BP_Group_Extension {
     }
 
     function widget_display() {
-        do_action('bpge_widget_display',$this);
+        do_action('bpge_widget_display', $this);
     }
 
     /************************************************************************/
@@ -316,7 +314,6 @@ class BPGE extends BP_Group_Extension {
         }else{
             $this->edit_screen_general($bp);
         }
-
     }
 
     // Admin area - General Settings
@@ -395,44 +392,26 @@ class BPGE extends BP_Group_Extension {
     // Admin area - All Fields
     function edit_screen_fields($bp){
         $this->edit_screen_head('fields');
-
-        $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
-        $def_set_fields = bp_get_option('bpge_def_fields');
+        $fields = null;
+        // $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
+        // $def_set_fields = bp_get_option('bpge_def_fields');
+        // get set of fields
+        $def_set_fields = get_posts(array(
+                            'posts_per_page' => 50,
+                            'numberposts'    => 50,
+                            'order'          => 'ASC',
+                            'orderby'        => 'ID',
+                            'post_type'      => BPGE_FIELDS_SET
+                        ));
 
         if(empty($fields)){
             $this->notices('no_fields');
-            if(!empty($def_set_fields)){
-            echo '<div id="box_import_set_fields">
-                    <select name="import_def_set_fields">';
-                   foreach($def_set_fields as $key => $set_fields_name){
-                       echo '<option value="' . $key . '" desc="' . htmlspecialchars($set_fields_name['desc']) . '" >' . $set_fields_name['name'] . '</option>';
-                   }
-            echo   '</select>
-                    <div class="import_desc"></div>
-                    <span class="items-link">
-                        <a class="button import_set_fields" href="#">Import</a>
-                    </span>
-                    <input id="approve_import" type="hidden" name="approve_import" value="" />
-                 </div>';
-            }
-            return false;
         }
         if(!empty($def_set_fields)){
-            echo '<div id="box_import_set_fields">
-                    <select name="import_def_set_fields">';
-                   foreach($def_set_fields as $key => $set_fields_name){
-                       echo '<option value="' . $key . '" desc="' . htmlspecialchars($set_fields_name['desc']) . '" >' . $set_fields_name['name'] . '</option>';
-                   }
-            echo   '</select>
-                    <div class="import_desc"></div>
-                    <span class="items-link">
-                        <a class="button import_set_fields" href="#">Import</a>
-                    </span>
-                    <input id="approve_import" type="hidden" name="approve_import" value="" />
-                 </div>';
+            bpge_view('front_fields_import', array('def_set_fields' => $def_set_fields));
         }
         echo '<ul id="fields-sortable">';
-            foreach($fields as $field){
+            foreach((array)$fields as $field){
                 echo '<li id="position_'.str_replace('_', '', $field->slug).'" class="default">
                                 <strong title="' . $field->desc . '">' . $field->title .'</strong> &rarr; ' . $field->type . ' &rarr; ' . (($field->display == 1)?__('displayed','bpge'):__('<u>not</u> displayed','bpge')) . '
                                 <span class="items-link">
@@ -483,7 +462,7 @@ class BPGE extends BP_Group_Extension {
 
     }
 
-    // Add / Edit fields form
+    // Add / Edit 1 field form
     function edit_screen_fields_manage($bp){
         $field->required = $field->title = $field->display = $field->slug = '';
         if (isset($_GET['edit']) && !empty($_GET['edit'])){

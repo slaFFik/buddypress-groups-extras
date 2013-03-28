@@ -12,11 +12,11 @@ jQuery(document).ready(function($){
 				method: 'reorder_fields',
 				field_order: jQuery(this).sortable('serialize')
 			},
-			function(response){}); 
+			function(response){});
 		}
 	});
 	jQuery( "#fields-sortable" ).disableSelection();
-	
+
 	// sorting pages
 	jQuery("#pages-sortable").sortable({
 		placeholder: "highlight",
@@ -26,11 +26,11 @@ jQuery(document).ready(function($){
 				method: 'reorder_pages',
 				page_order: jQuery(this).sortable('serialize')
 			},
-			function(response){}); 
+			function(response){});
 		}
 	});
 	jQuery( "#pages-sortable" ).disableSelection();
-	
+
 	// sorting nav
 	jQuery("#nav-sortable").sortable({
 		placeholder: "highlight",
@@ -39,7 +39,7 @@ jQuery(document).ready(function($){
 		}
 	});
 	jQuery( "#nav-sortable" ).disableSelection();
-	
+
 	// delete field
 	jQuery("#fields-sortable li span a.delete_field").click(function(e){
 		e.preventDefault();
@@ -53,9 +53,9 @@ jQuery(document).ready(function($){
 		function(response){
 			if (response == 'deleted' )
 				jQuery('#fields-sortable li#position_'+field).fadeOut('fast');
-		}); 
+		});
 	});
-	
+
 	// delete page
 	jQuery("#pages-sortable li span a.delete_page").click(function(e){
 		e.preventDefault();
@@ -69,9 +69,9 @@ jQuery(document).ready(function($){
 		function(response){
 			if (response == 'deleted' )
 				jQuery('#pages-sortable li#position_'+page).fadeOut('fast');
-		}); 
+		});
 	});
-	
+
 	/*
 	 * SECTION: ADD / EDIT FIELDS
 	 */
@@ -103,7 +103,7 @@ jQuery(document).ready(function($){
 		jQuery('#extra-field-vars span.'+type+'_'+id).remove();
 		console.log(action + id);
 	});
-	
+
 	jQuery('#extra-field-vars a#add_new').live('click', function(e){
 		e.preventDefault();
 		options_count += 1;
@@ -111,24 +111,28 @@ jQuery(document).ready(function($){
 		var option = new_option(type, options_count);
 		jQuery('#extra-field-vars .content').append(option);
 	});
-    
+
+    /**
+     * Import Area
+     */
+    // Display selected Set description
     var desc = $('#box_import_set_fields select option:selected').attr('desc');
 	$('#box_import_set_fields .import_desc').html(desc);
-    
+    // Change description on set change
     $('#box_import_set_fields select').change(function(){
         var desc = $('#box_import_set_fields select option:selected').attr('desc');
         $('#box_import_set_fields .import_desc').html(desc);
     });
-    
+    // Make the import
     $('#box_import_set_fields .import_set_fields').click(function(){
         $('#box_import_set_fields #approve_import').val(true);
         $('#group-settings-form').submit();
         return false;
     });
-    
+
     $('#group-settings-form .box_field #save').click(function(){
         var field_name = $('#group-settings-form input[name="extra-field-title"]').val();
-        
+
         if($.trim(field_name) == ''){
             $('#group-settings-form input[name="extra-field-title"]').css('border','2px inset red');
             return false;
@@ -136,7 +140,7 @@ jQuery(document).ready(function($){
             $('#group-settings-form input[name="extra-field-title"]').css('border','1px inset #ccc');
         }
     });
-    
+
     $('#group-settings-form .box_page #save').click(function(){
         var edit = false;
         var page_name = $('#group-settings-form input[name="extra-page-title"]').val();
@@ -145,7 +149,7 @@ jQuery(document).ready(function($){
             var page_slug = $('#group-settings-form input[name="extra-page-slug"]').val();
         }
         var error = 0;
-        
+
         if($.trim(page_name) == ''){
             $('#group-settings-form input[name="extra-page-title"]').css('border','2px inset red');
             error++;
@@ -159,10 +163,10 @@ jQuery(document).ready(function($){
         }else{
             $('#group-settings-form input[name="extra-page-slug"]').css('border','1px inset #ccc');
         }
-        
+
         if(error != 0){
             return false;
-        } 
+        }
     });
-    
+
 });
