@@ -10,6 +10,7 @@ Author URI: http://cosydale.com/
 define('BPGE_VERSION',    '3.4');
 define('BPGE_FIELDS',     'bpge_fields');
 define('BPGE_FIELDS_SET', 'bpge_fields_set');
+define('BPGE_GFIELDS',    'bpge_gfields');
 define('BPGE_GPAGES',     'gpages');
 define('BPGE_URL',        plugins_url('_inc', __FILE__ )); // link to all assets, with /
 define('BPGE_PATH',       plugin_dir_path(__FILE__)); // with /
@@ -73,10 +74,12 @@ function bpge_pre_load(){
 
     // gpages
     bpge_register_groups_pages();
+    // bpge_gfields
+    bpge_register_fields();
     // bpge_fields_set
-    bpge_register_groups_fields_set();
+    bpge_register_set();
     // bpge_fields
-    bpge_register_groups_fields();
+    bpge_register_set_fields();
 
     return;
 }
@@ -155,8 +158,31 @@ function bpge_landing_page($old_slug){
 /**
  * Several hooks to fix some places
  */
+// Register group fields
+function bpge_register_fields(){
+    $labels = array(
+        'name'               => __('Groups Fields', 'bpge'),
+        'singular_name'      => __('Groups Field', 'bpge'),
+        'parent_item_colon'  => '',
+        'menu_name'          => __('Groups Fields', 'bpge')
+    );
+    $args = array(
+        'labels'              => $labels,
+        'public'              => true,
+        'show_in_menu'        => false,
+        'exclude_from_search' => true,
+        'show_in_nav_menus'   => false,
+        'menu_position'       => 100,
+        'hierarchical'        => true,
+        'query_var'           => true,
+        'rewrite'             => false,
+        'capability_type'     => 'page',
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+    );
+    register_post_type(BPGE_FIELDS_SET, $args);
+}
 // Register set of fields post types
-function bpge_register_groups_fields_set(){
+function bpge_register_set(){
     $labels = array(
         'name'               => __('Sets of Fields', 'bpge'),
         'singular_name'      => __('Set of Fields', 'bpge'),
@@ -178,9 +204,8 @@ function bpge_register_groups_fields_set(){
     );
     register_post_type(BPGE_FIELDS_SET, $args);
 }
-
 // Register groups fields post type, where all their content will be stored
-function bpge_register_groups_fields(){
+function bpge_register_set_fields(){
     $labels = array(
         'name'               => __('Groups Fields', 'bpge'),
         'singular_name'      => __('Groups Field', 'bpge'),

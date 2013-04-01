@@ -392,9 +392,18 @@ class BPGE extends BP_Group_Extension {
     // Admin area - All Fields
     function edit_screen_fields($bp){
         $this->edit_screen_head('fields');
-        $fields = null;
-        // $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
-        // $def_set_fields = bp_get_option('bpge_def_fields');
+
+        // get all groups fields
+        $fields = get_posts(array(
+                    'posts_per_page' => 50,
+                    'numberposts'    => 50,
+                    'order'          => 'ASC',
+                    'orderby'        => 'ID',
+                    'post_status'    => 'any',
+                    'post_parent'    => $bp->groups->current_group->id,
+                    'post_type'      => BPGE_GFIELDS,
+                ));
+
         // get set of fields
         $def_set_fields = get_posts(array(
                             'posts_per_page' => 50,
@@ -407,20 +416,12 @@ class BPGE extends BP_Group_Extension {
         if(empty($fields)){
             $this->notices('no_fields');
         }
+
         if(!empty($def_set_fields)){
             bpge_view('front_fields_import', array('def_set_fields' => $def_set_fields));
         }
-        echo '<ul id="fields-sortable">';
-            foreach((array)$fields as $field){
-                echo '<li id="position_'.str_replace('_', '', $field->slug).'" class="default">
-                                <strong title="' . $field->desc . '">' . $field->title .'</strong> &rarr; ' . $field->type . ' &rarr; ' . (($field->display == 1)?__('displayed','bpge'):__('<u>not</u> displayed','bpge')) . '
-                                <span class="items-link">
-                                    <a href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug . '/fields-manage/?edit=' . $field->slug . '" class="button" title="'.__('Change its title, description etc','bpge').'">'.__('Edit field', 'bpge').'</a>&nbsp;
-                                    <a href="#" class="button delete_field" title="'.__('Delete this item and all its content', 'bpge').'">'.__('Delete', 'bpge').'</a>
-                                </span>
-                            </li>';
-            }
-        echo '</ul>';
+
+        bpge_view('front_fields_list', array('fields' => $fields, 'slug' => $this->slug));
     }
 
     function get_all_gpages($post_status = 'any'){
@@ -600,6 +601,14 @@ class BPGE extends BP_Group_Extension {
 
             // Import set of fields
             if(isset($_POST['approve_import']) && $_POST['approve_import'] == true && !empty($_POST['import_def_set_fields'])){
+                global $wpdb;
+                // get all fields from a set with appropriate options from a db
+                $sql = "SELECT post_title, post_content, post_excerpt, post_type
+                        FROM {$wpdb->posts}
+                        WHERE ";
+                // save everything from a group
+
+
                 $fields        = $this->get_all_items('fields', $bp->groups->current_group->id);
                 $def_set_field = bp_get_option($_POST['import_def_set_fields']);
                 $count         = count($fields);
@@ -630,8 +639,9 @@ class BPGE extends BP_Group_Extension {
                         }
                     }
                     groups_update_groupmeta($bp->groups->current_group->id,'bpge_fields',json_encode($fields));
-                    header( 'Location: '. $group_link .'/fields/');
-                    exit();
+
+                    wp_redirect($group_link .'/fields/');
+                    die;
                 }
             }
 
