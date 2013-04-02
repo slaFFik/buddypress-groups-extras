@@ -465,69 +465,17 @@ class BPGE extends BP_Group_Extension {
 
     // Add / Edit 1 field form
     function edit_screen_fields_manage($bp){
-        $field->required = $field->title = $field->display = $field->slug = '';
+        // get empty values for Adding page
+        $field = bpge_get_field_defaults();
+
+        // if Editing page - get data
         if (isset($_GET['edit']) && !empty($_GET['edit'])){
-            $field = $this->get_item_by_slug('field', $_GET['edit']);
+            $field = get_post(intval($_GET['edit']));
         }
 
         $this->edit_screen_head('fields-manage');
-        echo '<div class="box_field">';
-        //echo '<p>';
-            echo '<label>' . __('Field Title', 'bpge') . '</label>';
-            echo '<input type="text" value="'.$field->title.'" name="extra-field-title">';
 
-            if (empty($field)){
-                echo '<label>' . __('Field Type', 'bpge') . '</label>';
-                echo '<select name="extra-field-type" id="extra-field-type">';
-                    echo '<option value="text">' . __('Text Box', 'bpge') . '</option>';
-                    echo '<option value="textarea">' . __('Multi-line Text Box', 'bpge') . '</option>';
-                    echo '<option value="checkbox">' . __('Checkboxes', 'bpge') . '</option>';
-                    echo '<option value="radio">' . __('Radio Buttons', 'bpge') . '</option>';
-                    //echo '<option value="datebox">' . __('Date Selector', 'bpge') . '</option>';
-                    echo '<option value="select">' . __('Drop Down Select Box', 'bpge') . '</option>';
-                echo '</select>';
-
-                echo '<div id="extra-field-vars">';
-                    echo '<div class="content"></div>';
-                    echo '<div class="links">
-                                    <a class="button" href="#" id="add_new">' . __('Add New', 'bpge') . '</a>
-                            </div>';
-                echo '</div>';
-            }
-            echo '<label>' . __('Field Description', 'bpge') . '</label>';
-                echo '<textarea name="extra-field-desc">'.$field->title.'</textarea>';
-
-            echo '<!--label for="extra-field-required">' . __('Is this field required (will be marked as required on group Edit Details page)?','bpge') . '</label>';
-                $req = '';
-                $not_req = 'checked="checked"';
-                if ( $field->required == 1 ) {
-                    $req = 'checked="checked"';
-                    $not_req = '';
-                }
-                echo '<input type="radio" value="1" '.$req.' name="extra-field-required"> '.__('Required', 'bpge').'<br />';
-                echo '<input type="radio" value="0" '.$not_req.' name="extra-field-required"> '. __('Not Required', 'bpge').'<br /-->';
-
-            echo '<label for="extra-field-display">' . sprintf(__('Should this field be displayed for public on "<u>%s</u>" page?','bpge'), $this->nav_item_name) . '</label>';
-                $disp = 'checked="checked"';
-                $not_disp = '';
-                if ( $field->display != 1 ) {
-                    $not_disp = 'checked="checked"';
-                    $disp = '';
-                }
-                echo '<input type="radio" value="1" '.$disp.' name="extra-field-display"> '.__('Display it', 'bpge').'<br />';
-                echo '<input type="radio" value="0" '.$not_disp.' name="extra-field-display"> '. __('Do NOT display it', 'bpge');
-        //echo '</p>';
-
-        do_action('bpge_field_manage', $this, $field);
-
-        if (empty($field)){
-            echo '<p><input type="submit" name="save_fields_add" id="save" value="'.__('Create New &rarr;','bpge').'"></p>';
-        }else{
-            echo '<input type="hidden" name="extra-field-slug" value="' . $field->slug . '">';
-            echo '<p><input type="submit" name="save_fields_edit" id="save" value="'.__('Save Changes &rarr;','bpge').'"></p>';
-        }
-        echo '</div>';
-        wp_nonce_field('groups_edit_group_extras');
+        bpge_view('front_fields_add_edit', array('field' => $field, 'nav_item_name' => $this->nav_item_name));
     }
 
     // Add / Edit pages form

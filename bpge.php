@@ -282,15 +282,21 @@ function bpge_gpages_redirect_to_all() {
  * Several Helpers
  */
 // Display view
-function bpge_view($view, $param = false){
+function bpge_view($view, $params = false){
     global $bp, $bpge;
 
-    if(!empty($param))
-        extract($param);
+    do_action('bpge_view_pre', $view, $params);
+
+    $params = apply_filters('bpge_view_params', $params);
+
+    if(!empty($params))
+        extract($params);
 
     $path = BPGE_PATH . 'views/'. $view . '.php';
     if(file_exists($path))
         include $path;
+
+    do_action('bpge_view_post', $view, $params);
 }
 
 // Helper for generating some titles
@@ -327,6 +333,21 @@ function bpge_names($name = 'name'){
             return __('Pages', 'bpge');
             break;
     }
+}
+
+// Empty defaults
+function bpge_get_field_defaults(){
+    $field = new Stdclass;
+
+    $field->ID           = '';
+    $field->post_title   = '';
+    $field->post_content = '';
+    $field->post_excerpt = '';
+    $field->post_status  = '';
+    $field->to_ping      = ''; // required or not
+    $field->post_type    = BPGE_GFIELDS;
+
+    return $field;
 }
 
 add_action('wp_ajax_bpge', 'bpge_ajax');
