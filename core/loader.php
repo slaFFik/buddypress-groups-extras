@@ -717,7 +717,7 @@ class BPGE extends BP_Group_Extension {
                 $new->ID           = apply_filters('bpge_update_field_id',       $_POST['extra-field-id']);
                 $new->post_title   = apply_filters('bpge_update_field_title',    $_POST['extra-field-title']);
                 $new->post_content = apply_filters('bpge_update_field_desc',     $_POST['extra-field-desc']);
-                // $new->post_excerpt = apply_filters('bpge_update_field_type',     $_POST['extra-field-type']);
+                $new->post_excerpt = apply_filters('bpge_update_field_type',     $_POST['extra-field-type']);
                 $new->to_ping      = apply_filters('bpge_update_field_required', $_POST['extra-field-required']);
                 $new->post_status  = apply_filters('bpge_update_field_display',  $_POST['extra-field-display']);
                 $new->post_parent  = apply_filters('bpge_update_field_group',    $_POST['group-id']);
@@ -993,20 +993,9 @@ class BPGE extends BP_Group_Extension {
                 break;
 
             case 'delete_field':
-                $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
-                $left = array();
-                // Delete all corresponding data
-                foreach( $fields as $field ) {
-                    if ( str_replace('_', '', $field->slug) == $_POST['field'] ){
-                        groups_delete_groupmeta($bp->groups->current_group->id, $field->slug);
-                        continue;
-                    }
-                    array_push($left, $field);
-                }
-                // Save fields that are left
-                $left = json_encode($left);
-                groups_update_groupmeta($bp->groups->current_group->id, 'bpge_fields', $left);
-                die('deleted');
+                if(wp_delete_post(intval($_POST['field']), true))
+                    echo 'deleted';
+                die;
                 break;
 
             case 'reorder_pages':

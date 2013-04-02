@@ -352,7 +352,7 @@ function bpge_get_field_defaults(){
 
 add_action('wp_ajax_bpge', 'bpge_ajax');
 function bpge_ajax(){
-    require ( BPGE_PATH . '/bpge-loader.php');
+    require ( BPGE_PATH . 'core/loader.php');
     $load = BPGE::getInstance();
     $load->ajax();
 }
