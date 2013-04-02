@@ -179,7 +179,7 @@ function bpge_register_fields(){
         'capability_type'     => 'page',
         'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
     );
-    register_post_type(BPGE_FIELDS_SET, $args);
+    register_post_type(BPGE_GFIELDS, $args);
 }
 // Register set of fields post types
 function bpge_register_set(){

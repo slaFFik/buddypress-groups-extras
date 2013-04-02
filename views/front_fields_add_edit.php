@@ -1,8 +1,9 @@
 <div class="box_field">
     <!-- <p> -->
 
-    <label><?php _e('Field Title', 'bpge'); ?></label>
-    <input type="text" value="<?php echo $field->post_title; ?>" name="extra-field-title">
+    <label for="extra-field-title"><?php _e('Field Title', 'bpge'); ?></label>
+    <input type="text" value="<?php esc_attr_e($field->post_title); ?>" name="extra-field-title" id="extra-field-title">
+    <script>jQuery('#extra-field-title').focus();</script>
 
     <?php if (empty($field->ID)){ ?>
         <label><?php _e('Field Type', 'bpge'); ?></label>
@@ -24,7 +25,7 @@
     <?php } ?>
 
     <label><?php _e('Field Description', 'bpge'); ?></label>
-    <textarea name="extra-field-desc"><?php echo $field->post_title; ?></textarea>
+    <textarea name="extra-field-desc"><?php echo $field->post_content; ?></textarea>
 
     <label for="extra-field-required"><?php _e('Is this field required (will be marked as required on group Edit Details page)?','bpge'); ?></label>
     <?php

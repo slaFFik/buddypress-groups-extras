@@ -465,12 +465,12 @@ class BPGE extends BP_Group_Extension {
 
     // Add / Edit 1 field form
     function edit_screen_fields_manage($bp){
-        // get empty values for Adding page
-        $field = bpge_get_field_defaults();
-
         // if Editing page - get data
         if (isset($_GET['edit']) && !empty($_GET['edit'])){
             $field = get_post(intval($_GET['edit']));
+        }else{
+            // get empty values for Adding page
+            $field = bpge_get_field_defaults();
         }
 
         $this->edit_screen_head('fields-manage');
@@ -555,7 +555,6 @@ class BPGE extends BP_Group_Extension {
                         FROM {$wpdb->posts}
                         WHERE ";
                 // save everything from a group
-
 
                 $fields        = $this->get_all_items('fields', $bp->groups->current_group->id);
                 $def_set_field = bp_get_option($_POST['import_def_set_fields']);
@@ -648,35 +647,29 @@ class BPGE extends BP_Group_Extension {
                 if ( !check_admin_referer( 'groups_edit_group_extras' ) )
                     return false;
 
-                // get current fields if any
-                $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
-                if (!$fields)
-                    $fields = array();
-
-                $new            = new Stdclass;
-                $new->title     = apply_filters('bpge_new_field_title', htmlspecialchars(strip_tags($_POST['extra-field-title'])));
-                $new->slug      = apply_filters('bpge_new_field_slug', str_replace('-', '_', sanitize_title($new->title))); // will be used as unique identifier
-                $new->desc      = apply_filters('bpge_new_field_desc', htmlspecialchars(strip_tags($_POST['extra-field-desc'])));
-                $new->type      = apply_filters('bpge_new_field_type', $_POST['extra-field-type']);
-                $new->required  = apply_filters('bpge_new_field_required', $_POST['extra-field-required']);
-                $new->display   = apply_filters('bpge_new_field_display', $_POST['extra-field-display']);
+                $new               = new Stdclass;
+                $new->post_title   = apply_filters('bpge_new_field_title',    $_POST['extra-field-title']);
+                $new->post_content = apply_filters('bpge_new_field_desc',     $_POST['extra-field-desc']);
+                $new->post_excerpt = apply_filters('bpge_new_field_type',     $_POST['extra-field-type']);
+                $new->to_ping      = apply_filters('bpge_new_field_required', $_POST['extra-field-required']);
+                $new->post_status  = apply_filters('bpge_new_field_display',  $_POST['extra-field-display']);
+                $new->post_parent  = apply_filters('bpge_new_field_group',    $_POST['group-id']);
+                $new->post_type    = apply_filters('bpge_new_field_type',     BPGE_GFIELDS);
 
                 if(!empty($_POST['options'])){
+                    $options = array();
                     foreach($_POST['options'] as $option){
-                        $new->options[] = htmlspecialchars(strip_tags($option));
+                        $options[] = htmlspecialchars(strip_tags($option));
                     }
                 }
 
                 do_action('bpge_save_new_field', $this, $new);
 
-                // To the end of an array of current fields
-                array_push($fields, $new);
+                // Save into DB
+                $field_id = wp_insert_post($new);
 
-                // Save into groupmeta table
-                $fields = json_encode($fields);
-                groups_update_groupmeta( $bp->groups->current_group->id, 'bpge_fields', $fields );
-
-                $this->notices('added_field');
+                if(is_integer($field_id))
+                    $this->notices('added_field');
 
                 bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug .'/fields/' );
             }
@@ -720,25 +713,30 @@ class BPGE extends BP_Group_Extension {
                 if ( !check_admin_referer( 'groups_edit_group_extras' ) )
                     return false;
 
-                // get current fields
-                $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
-                foreach( $fields as $field ){
-                    if ( $_POST['extra-field-slug'] == $field->slug ){
-                        $field->title    = apply_filters('bpge_updated_field_title', htmlspecialchars(strip_tags($_POST['extra-field-title'])));
-                        $field->desc     = apply_filters('bpge_updated_field_desc', htmlspecialchars(strip_tags($_POST['extra-field-desc'])));
-                        $field->required = apply_filters('bpge_updated_field_required', $_POST['extra-field-required']);
-                        $field->display  = apply_filters('bpge_updated_field_display', $_POST['extra-field-display']);
+                $new               = new Stdclass;
+                $new->ID           = apply_filters('bpge_update_field_id',       $_POST['extra-field-id']);
+                $new->post_title   = apply_filters('bpge_update_field_title',    $_POST['extra-field-title']);
+                $new->post_content = apply_filters('bpge_update_field_desc',     $_POST['extra-field-desc']);
+                // $new->post_excerpt = apply_filters('bpge_update_field_type',     $_POST['extra-field-type']);
+                $new->to_ping      = apply_filters('bpge_update_field_required', $_POST['extra-field-required']);
+                $new->post_status  = apply_filters('bpge_update_field_display',  $_POST['extra-field-display']);
+                $new->post_parent  = apply_filters('bpge_update_field_group',    $_POST['group-id']);
+                $new->post_type    = apply_filters('bpge_update_field_type',     BPGE_GFIELDS);
+
+                if(!empty($_POST['options'])){
+                    $options = array();
+                    foreach($_POST['options'] as $option){
+                        $options[] = htmlspecialchars(strip_tags($option));
                     }
-                    $updated[] = $field;
                 }
 
-                do_action('bpge_save_updated_field', $this, $updated);
+                // Save into DB
+                $field_id = wp_update_post($new);
 
-                // Save into groupmeta table
-                $updated = json_encode($updated);
-                groups_update_groupmeta( $bp->groups->current_group->id, 'bpge_fields', $updated );
+                do_action('bpge_update_field', $this, $new);
 
-                $this->notices('edited_field');
+                if(is_integer($field_id))
+                    $this->notices('edited_field');
 
                 bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug .'/fields/' );
 
