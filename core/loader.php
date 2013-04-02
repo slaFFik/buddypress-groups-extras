@@ -549,47 +549,8 @@ class BPGE extends BP_Group_Extension {
 
             // Import set of fields
             if(isset($_POST['approve_import']) && $_POST['approve_import'] == true && !empty($_POST['import_def_set_fields'])){
-                global $wpdb;
-                // get all fields from a set with appropriate options from a db
-                $sql = "SELECT post_title, post_content, post_excerpt, post_type
-                        FROM {$wpdb->posts}
-                        WHERE ";
-                // save everything from a group
-
-                $fields        = $this->get_all_items('fields', $bp->groups->current_group->id);
-                $def_set_field = bp_get_option($_POST['import_def_set_fields']);
-                $count         = count($fields);
-                $group_link    = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug;
-                if(!empty($def_set_field['fields'])){
-                    foreach($def_set_field['fields'] as $def_field){
-                        $k = 0;
-                        if(!empty($fields)){
-                            foreach($fields as $field){
-                                if($def_field['name'] == $field->title && $def_field['type'] == $field->type && $def_field['desc'] == $field->desc){
-                                    $k = 1;
-                                }
-                            }
-                        }
-                        if($k == 0){
-                            $fields[$count]->title = $def_field['name'];
-                            $fields[$count]->slug = str_replace(' ','',$def_field['name']);
-                            $fields[$count]->desc = $def_field['desc'];
-                            $fields[$count]->type = $def_field['type'];
-                            $fields[$count]->required = 0;
-                            $fields[$count]->display = 1;
-                            if(!empty($def_field['options'])){
-                                foreach($def_field['options'] as $options){
-                                    $fields[$count]->options[] = $options['name'];
-                                }
-                            }
-                            $count++;
-                        }
-                    }
-                    groups_update_groupmeta($bp->groups->current_group->id,'bpge_fields',json_encode($fields));
-
-                    wp_redirect($group_link .'/fields/');
-                    die;
-                }
+                $this->import_set_fields();
+                die;
             }
 
             // Save general settings
@@ -665,11 +626,16 @@ class BPGE extends BP_Group_Extension {
 
                 do_action('bpge_save_new_field', $this, $new);
 
-                // Save into DB
+                // Save Field
                 $field_id = wp_insert_post($new);
 
-                if(is_integer($field_id))
+
+                if(is_integer($field_id)){
+                    // Save field options
+                    update_post_meta( $field_id, 'bpge_field_options', $options );
+
                     $this->notices('added_field');
+                }
 
                 bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug .'/fields/' );
             }
@@ -777,8 +743,8 @@ class BPGE extends BP_Group_Extension {
                             <a href="'. $group_link .'/" class="button active">'. __('General', 'bpge') .'</a>
                             <a href="'. $group_link .'/fields/" class="button">'. __('All Fields', 'bpge') .'</a>
                             <a href="'. $group_link .'/pages/" class="button">'. __('All Pages', 'bpge') .'</a>
-                            <a href="'. $group_link .'/fields-manage/'.'" class="button">'. __('Add Field', 'bpge') .'</a>
-                            <a href="'. $group_link .'/pages-manage/'.'" class="button">'. __('Add Page', 'bpge') .'</a>';
+                            <a href="'. $group_link .'/fields-manage/" class="button">'. __('Add Field', 'bpge') .'</a>
+                            <a href="'. $group_link .'/pages-manage/" class="button">'. __('Add Page', 'bpge') .'</a>';
                             do_action('bpge_group_admin_head_nav', $cur, $group_link, $this);
                         echo '</span>';
                 break;
@@ -789,8 +755,8 @@ class BPGE extends BP_Group_Extension {
                             <a href="'. $group_link .'/" class="button">'. __('General', 'bpge') .'</a>
                             <a href="'. $group_link .'/fields/" class="button active">'. __('All Fields', 'bpge') .'</a>
                             <a href="'. $group_link .'/pages/" class="button">'. __('All Pages', 'bpge') .'</a>
-                            <a href="'. $group_link .'/fields-manage/'.'" class="button">'. __('Add Field', 'bpge') .'</a>
-                            <a href="'. $group_link .'/pages-manage/'.'" class="button">'. __('Add Page', 'bpge') .'</a>';
+                            <a href="'. $group_link .'/fields-manage/" class="button">'. __('Add Field', 'bpge') .'</a>
+                            <a href="'. $group_link .'/pages-manage/" class="button">'. __('Add Page', 'bpge') .'</a>';
                             do_action('bpge_group_admin_head_nav', $cur, $group_link, $this);
                         echo '</span>';
                 break;
@@ -808,7 +774,7 @@ class BPGE extends BP_Group_Extension {
                             <a href="'. $group_link . '/fields/" class="button">'. __('All Fields', 'bpge') .'</a>
                             <a href="'. $group_link . '/pages/" class="button">'. __('All Pages', 'bpge') .'</a>
                             <a href="'. $group_link . '/fields-manage/" class="button ' . $active . '">'. __('Add Field', 'bpge') .'</a>
-                            <a href="'. $group_link .'/pages-manage/'.'" class="button">'. __('Add Page', 'bpge') .'</a>';
+                            <a href="'. $group_link . '/pages-manage/" class="button">'. __('Add Page', 'bpge') .'</a>';
                             do_action('bpge_group_admin_head_nav', $cur, $group_link, $this);
                         echo '</span>';
                 break;
@@ -819,8 +785,8 @@ class BPGE extends BP_Group_Extension {
                             <a href="'. $group_link .'/" class="button">'. __('General', 'bpge') .'</a>
                             <a href="'. $group_link .'/fields/" class="button">'. __('All Fields', 'bpge') .'</a>
                             <a href="'. $group_link .'/pages/" class="button active">'. __('All Pages', 'bpge') .'</a>
-                            <a href="'. $group_link .'/fields-manage/'.'" class="button">'. __('Add Field', 'bpge') .'</a>
-                            <a href="'. $group_link .'/pages-manage/'.'" class="button">'. __('Add Page', 'bpge') .'</a>';
+                            <a href="'. $group_link .'/fields-manage/" class="button">'. __('Add Field', 'bpge') .'</a>
+                            <a href="'. $group_link .'/pages-manage/" class="button">'. __('Add Page', 'bpge') .'</a>';
                             do_action('bpge_group_admin_head_nav', $cur, $group_link, $this);
                         echo '</span>';
                 break;
@@ -838,7 +804,7 @@ class BPGE extends BP_Group_Extension {
                             <a href="'. $group_link . '/fields/" class="button">'. __('All Fields', 'bpge') .'</a>
                             <a href="'. $group_link . '/pages/" class="button">'. __('All Pages', 'bpge') .'</a>
                             <a href="'. $group_link . '/fields-manage/" class="button">'. __('Add Field', 'bpge') .'</a>
-                            <a href="'. $group_link .'/pages-manage/'.'" class="button ' . $active . '">'. __('Add Page', 'bpge') .'</a>';
+                            <a href="'. $group_link .'/pages-manage/" class="button ' . $active . '">'. __('Add Page', 'bpge') .'</a>';
                             do_action('bpge_group_admin_head_nav', $cur, $group_link, $this);
                         echo '</span>';
                 break;
@@ -898,9 +864,57 @@ class BPGE extends BP_Group_Extension {
         return apply_filters('bpge_items_by_slug', $searched);
     }
 
-    //Import set fields
+    // Import set fields
     function import_set_fields(){
+        global $wpdb, $bp;
 
+        $redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug .'/fields/';
+
+        if($_POST['group-id'] != $bp->groups->current_group->id){
+            wp_redirect($redirect);
+            die;
+        }
+
+        $group_id = $bp->groups->current_group->id;
+
+        // get all fields from a set with appropriate options from a db
+        $fields = $wpdb->get_results($wpdb->prepare(
+                            "SELECT ID, post_title, post_content, post_excerpt
+                                FROM {$wpdb->posts}
+                                WHERE post_parent = %d
+                                    AND post_type = %s
+                                ORDER BY ID ASC",
+                            intval($_POST['import_def_set_fields']),
+                            BPGE_FIELDS
+                        ));
+
+        // save everything to a group
+        foreach ($fields as $field) {
+            $field->options = array();
+            // get options if needed
+            if(in_array($field->post_excerpt, array('select', 'radio', 'checkbox'))){
+                $field->options = get_post_meta($field->ID, 'bpge_field_options', true);
+            }
+
+            // save the field
+            $new = new Stdclass;
+            $new->post_type    = BPGE_GFIELDS;
+            $new->post_parent  = $group_id;
+            $new->post_title   = $field->post_title;
+            $new->post_content = $field->post_content;
+            $new->post_excerpt = $field->post_excerpt;
+            $new->post_status  = 'draft'; // not public
+
+            $field_id = wp_insert_post($new);
+
+            // ... and options
+            if(!empty($field->options)){
+                update_post_meta( $field_id, 'bpge_field_options', $field->options );
+            }
+        }
+
+        wp_redirect($redirect);
+        die;
     }
 
     // Notices about user actions
@@ -938,20 +952,19 @@ class BPGE extends BP_Group_Extension {
         switch($what){
             case 'group_id':
                 global $current_blog;
-                $thisblog = $current_blog->blog_id;
-                $admin = get_user_by( 'email', get_blog_option($thisblog, 'admin_email'));
+                $admin    = get_user_by( 'email', get_blog_option($current_blog->blog_id, 'admin_email'));
                 $old_data = groups_get_groupmeta($bp->groups->current_group->id, 'bpge');
                 // create a gpage...
                 $old_data['gpage_id'] = wp_insert_post(array(
-                                                        'comment_status' => 'closed',
-                                                        'ping_status'    => 'closed',
-                                                        'post_author'    => $admin->ID,
-                                                        'post_content'   => $bp->groups->current_group->description,
-                                                        'post_name'      => $bp->groups->current_group->slug,
-                                                        'post_status'    => 'publish',
-                                                        'post_title'     => $bp->groups->current_group->name,
-                                                        'post_type'      => $this->page_slug
-                                                    ));
+                                            'comment_status' => 'closed',
+                                            'ping_status'    => 'closed',
+                                            'post_author'    => $admin->ID,
+                                            'post_content'   => $bp->groups->current_group->description,
+                                            'post_name'      => $bp->groups->current_group->slug,
+                                            'post_status'    => 'publish',
+                                            'post_title'     => $bp->groups->current_group->name,
+                                            'post_type'      => $this->page_slug
+                                        ));
                 // ...and save it to reuse later
                 groups_update_groupmeta($bp->groups->current_group->id, 'bpge', $old_data);
                 return $old_data['gpage_id'];

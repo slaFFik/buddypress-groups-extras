@@ -137,11 +137,11 @@ class BPGE_ADMIN{
                                 'post_excerpt' => $_POST['extra-field-type'],
                                 'post_status'  => 'publish'
                             ));
+
                 if(!empty($_POST['options'])){
-                    $option = array();
+                    $options = array();
                     foreach($_POST['options'] as $option){
-                        $option = htmlspecialchars(strip_tags($option));
-                        $options[] = $option;
+                        $options[] = htmlspecialchars(strip_tags($option));
                     }
                     update_post_meta( $field_id, 'bpge_field_options', $options );
                 }
