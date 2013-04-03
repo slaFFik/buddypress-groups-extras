@@ -93,9 +93,6 @@ class BPGE extends BP_Group_Extension {
                         'item_css_id'     => $this->page_slug,
                         'screen_function' => array(&$this, 'gpages')
                 ) );
-                // if( bp_is_current_action( $this->page_slug ) ){
-                //     $this->gpages();
-                // }
             }
         }
     }
@@ -103,7 +100,9 @@ class BPGE extends BP_Group_Extension {
     // Public page with already saved content
     function display() {
         global $bp;
-        $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
+        // get all to display
+        $fields = bpge_get_group_fields('publish');
+
         if (empty($fields))
             return false;
 
@@ -111,26 +110,30 @@ class BPGE extends BP_Group_Extension {
                    $bp->groups->current_group->extras['display_page_layout'] == 'plain' ){
             echo '<div class="extra-data">';
             foreach($fields as $field){
-                if ( $field->display != 1)
-                    continue;
+                $field->desc    = get_post_meta($field->ID, 'bpge_field_desc', true);
+                $field->options = json_decode($field->post_content);
 
-                echo '<h4 title="' . ( ! empty($field->desc)  ? esc_attr($field->desc) : '')  .'">' . $field->title .'</h4>';
-                $data = groups_get_groupmeta($bp->groups->current_group->id, $field->slug);
-                if ( is_array($data))
-                    $data = implode(', ', $data);
+                echo '<h4 title="' . ( ! empty($field->desc)  ? esc_attr($field->desc) : '')  .'">' . $field->post_title .'</h4>';
+
+                if ( is_array($field->options) )
+                    $data = implode(', ', $field->options);
+                else
+                    $data = $field->post_content;
                 echo '<p>' . $data . '</p>';
             }
             echo '</div>';
         }else{
             echo '<table class="profile-fields zebra">';
                 foreach($fields as $field){
-                    if ( $field->display != 1)
-                        continue;
+                    $field->desc    = get_post_meta($field->ID, 'bpge_field_desc', true);
+                    $field->options = json_decode($field->post_content);
 
-                    echo '<tr><td class="label" title="' . ( ! empty($field->desc)  ? esc_attr($field->desc) : '')  .'">' . $field->title .'</td>';
-                    $data = groups_get_groupmeta($bp->groups->current_group->id, $field->slug);
-                    if ( is_array($data))
-                        $data = implode(', ', $data);
+                    echo '<tr><td class="label" title="' . ( ! empty($field->desc)  ? esc_attr($field->desc) : '')  .'">' . $field->post_title .'</td>';
+
+                    if ( is_array($field->options) )
+                        $data = implode(', ', $field->options);
+                    else
+                        $data = $field->post_content;
                     echo '<td class="data">' . $data . '</td></tr>';
                 }
             echo '</table>';
@@ -208,88 +211,109 @@ class BPGE extends BP_Group_Extension {
 
     // Display exra fields on edit group details page
     function edit_group_fields(){
-        global $bp;
-
-        $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
+        $fields = bpge_get_group_fields('publish');
 
         if (empty($fields))
             return false;
 
         foreach( $fields as $field ){
-            $field->value = groups_get_groupmeta($bp->groups->current_group->id, $field->slug);
-            $req = false;
-            if ( $field->required == 1 ) $req = '* ';
-            echo '<label for="' . $field->slug . '">' . $req . $field->title . '</label>';
-            switch($field->type){
+            $field->desc    = get_post_meta($field->ID, 'bpge_field_desc', true);
+            $field->options = get_post_meta($field->ID, 'bpge_field_options', true);
+
+            $req_text = $req_class = false;
+            if ( $field->pinged == 'req' ) {
+                $req_text  = '* ';
+                $req_class = 'required';
+            }
+
+            echo '<label class="'.$req_class.'" for="bpge-' . $field->ID . '">' . $req_text . $field->post_title . '</label>';
+
+            switch($field->post_excerpt){
                 case 'text':
-                    echo '<input id="' . $field->slug . '" name="bpge-' . $field->slug . '" type="text" value="' . $field->value . '" />';
+                    echo '<input id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '" type="text" value="' . $field->post_content . '" />';
                     break;
                 case 'textarea':
-                    echo '<textarea id="' . $field->slug . '" name="bpge-' . $field->slug . '">' . $field->value . '</textarea>';
+                    echo '<textarea id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '">' . $field->post_content . '</textarea>';
                     break;
                 case 'select':
-                    echo '<select id="' . $field->slug . '" name="bpge-' . $field->slug . '">';
-                        echo '<option ' . ($field->value == $option ? 'selected="selected"' : '') .' value="">-------</option>';
+                    echo '<select id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '">';
+                        echo '<option value="">-------</option>';
                         foreach($field->options as $option){
-                            echo '<option ' . ($field->value == $option ? 'selected="selected"' : '') .' value="' . $option . '">' . $option . '</option>';
+                            echo '<option ' . ($field->post_content == $option ? 'selected="selected"' : '') .' value="' . $option . '">' . $option . '</option>';
                         }
                     echo '</select>';
                     break;
                 case 'checkbox':
-                    foreach($field->options as $option){
-                        echo '<input ' . ( in_array($option, (array)$field->value) ? 'checked="checked"' : '') .' type="' . $field->type . '" name="bpge-' . $field->slug . '[]" value="' . $option . '"> ' . $option . '<br />';
-                    }
-                    break;
-                case 'radio':
-                    echo '<span id="bpge-' . $field->slug . '">';
+                    echo '<span id="bpge-' . $field->ID . '">';
+                        $content = json_decode($field->post_content);
                         foreach($field->options as $option){
-                            echo '<input ' . ($field->value == $option ? 'checked="checked"' : '') .' type="' . $field->type . '" name="bpge-' . $field->slug . '" value="' . $option . '"> ' . $option . '<br />';
+                            echo '<input ' . ( in_array($option, (array)$content) ? 'checked="checked"' : '') .' type="checkbox" name="bpge-' . $field->ID . '[]" value="' . $option . '"> ' . $option . '<br />';
                         }
                     echo '</span>';
-                    if ($req)
-                        echo '<a class="clear-value" href="javascript:clear( \'bpge-' . $field->slug . '\' );">'. __( 'Clear', 'bpge' ) .'</a>';
+                    break;
+                case 'radio':
+                    echo '<span id="bpge-' . $field->ID . '">';
+                        foreach($field->options as $option){
+                            echo '<input ' . ($field->post_content == $option ? 'checked="checked"' : '') .' type="radio" name="bpge-' . $field->ID . '" value="' . $option . '"> ' . $option . '<br />';
+                        }
+                    echo '</span>';
+                    if ($req_text)
+                        echo '<a class="clear-value" href="javascript:clear( \'bpge-' . $field->ID . '\' );">'. __( 'Clear', 'bpge' ) .'</a>';
                     break;
                 case 'datebox':
-                    echo '<input id="' . $field->slug . '" class="datebox" name="bpge-' . $field->slug . '" type="text" value="' . $field->value . '" />';
+                    echo '<input id="bpge-' . $field->ID . '" class="datebox" name="bpge-' . $field->ID . '" type="text" value="' . $field->post_content . '" />';
                     break;
             }
             if ( ! empty($field->desc) ) echo '<p class="description">' . $field->desc . '</p>';
-            $req = false;
         }
         do_action('bpge_group_fields_edit', $this, $fields);
     }
 
     // Save extra fields in groupmeta
     function edit_group_fields_save($group_id){
-        global $bp;
+        global $wpdb, $bp;
 
-        if ( $bp->current_component == bp_get_groups_root_slug() && 'edit-details' == $bp->action_variables[0] ) {
-            if ( $bp->is_item_admin || $bp->is_item_mod  ) {
-                // If the edit form has been submitted, save the edited details
-                if ( isset( $_POST['save'] ) ) {
-                    /* Check the nonce first. */
-                    if ( !check_admin_referer( 'groups_edit_group_details' ) )
-                        return false;
+        // If the edit form has been submitted, save the edited details
+        if (
+            (bp_is_group() && 'edit-details' == $bp->action_variables[0])
+         && ($bp->is_item_admin || $bp->is_item_mod)
+         && isset( $_POST['save'] )
+        ) {
+            /* Check the nonce first. */
+            if ( !check_admin_referer( 'groups_edit_group_details' ) )
+                return false;
 
-                    $to_save = array();
+            $to_save = array();
 
-                    foreach($_POST as $data => $value){
-                        if ( substr($data, 0, 5) === 'bpge-' )
-                            $to_save[$data] = $value;
-                    }
-
-                    foreach($to_save as $key => $value){
-                        $key = substr($key, 5);
-                        if ( ! is_array($value) ) {
-                            $value = wp_kses_data($value);
-                            $value = force_balance_tags($value);
-                        }
-                        groups_update_groupmeta($group_id, $key, $value);
-                    }
-
-                    do_action('bpge_group_fields_save', $this, $to_save);
-                }
+            foreach($_POST as $data => $value){
+                if ( substr($data, 0, 5) === 'bpge-' )
+                    $to_save[$data] = $value;
             }
+
+            foreach($to_save as $key => $value){
+                $key = substr($key, 5);
+                if ( !is_array($value) ) {
+                    $data = wp_kses_data($value);
+                    $data = force_balance_tags($value);
+                }else{
+                    $value = array_map("wp_kses_data", $value);
+                    $value = array_map("force_balance_tags", $value);
+                    $data = json_encode($value);
+                }
+
+                $wpdb->update(
+                    $wpdb->posts,
+                    array(
+                        'post_content' => $data,  // string
+                    ),
+                    array( 'ID' => $key ),
+                    array( '%s' ), // data format
+                    array( '%d' ) // where format
+                );
+
+            }
+
+            do_action('bpge_group_fields_save', $this, $to_save);
         }
     }
 
@@ -394,15 +418,7 @@ class BPGE extends BP_Group_Extension {
         $this->edit_screen_head('fields');
 
         // get all groups fields
-        $fields = get_posts(array(
-                    'posts_per_page' => 50,
-                    'numberposts'    => 50,
-                    'order'          => 'ASC',
-                    'orderby'        => 'ID',
-                    'post_status'    => 'any',
-                    'post_parent'    => $bp->groups->current_group->id,
-                    'post_type'      => BPGE_GFIELDS,
-                ));
+        $fields = bpge_get_group_fields('any');
 
         // get set of fields
         $def_set_fields = get_posts(array(
@@ -468,6 +484,7 @@ class BPGE extends BP_Group_Extension {
         // if Editing page - get data
         if (isset($_GET['edit']) && !empty($_GET['edit'])){
             $field = get_post(intval($_GET['edit']));
+            $field->desc = get_post_meta($field->ID, 'bpge_field_desc', true);
         }else{
             // get empty values for Adding page
             $field = bpge_get_field_defaults();
@@ -545,6 +562,7 @@ class BPGE extends BP_Group_Extension {
         if ( bp_is_group() && 'extras' == $bp->action_variables[0] ) {
             if ( !$bp->is_item_admin )
                 return false;
+
             $group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug;
 
             // Import set of fields
@@ -610,9 +628,8 @@ class BPGE extends BP_Group_Extension {
 
                 $new               = new Stdclass;
                 $new->post_title   = apply_filters('bpge_new_field_title',    $_POST['extra-field-title']);
-                $new->post_content = apply_filters('bpge_new_field_desc',     $_POST['extra-field-desc']);
                 $new->post_excerpt = apply_filters('bpge_new_field_type',     $_POST['extra-field-type']);
-                $new->to_ping      = apply_filters('bpge_new_field_required', $_POST['extra-field-required']);
+                $new->pinged       = apply_filters('bpge_new_field_required', $_POST['extra-field-required']);
                 $new->post_status  = apply_filters('bpge_new_field_display',  $_POST['extra-field-display']);
                 $new->post_parent  = apply_filters('bpge_new_field_group',    $_POST['group-id']);
                 $new->post_type    = apply_filters('bpge_new_field_type',     BPGE_GFIELDS);
@@ -632,7 +649,10 @@ class BPGE extends BP_Group_Extension {
 
                 if(is_integer($field_id)){
                     // Save field options
-                    update_post_meta( $field_id, 'bpge_field_options', $options );
+                    update_post_meta($field_id, 'bpge_field_options', $options );
+
+                    $field_desc = apply_filters('bpge_new_field_desc', $_POST['extra-field-desc']);
+                    update_post_meta($field_id, 'bpge_field_desc', $field_desc);
 
                     $this->notices('added_field');
                 }
@@ -682,9 +702,8 @@ class BPGE extends BP_Group_Extension {
                 $new               = new Stdclass;
                 $new->ID           = apply_filters('bpge_update_field_id',       $_POST['extra-field-id']);
                 $new->post_title   = apply_filters('bpge_update_field_title',    $_POST['extra-field-title']);
-                $new->post_content = apply_filters('bpge_update_field_desc',     $_POST['extra-field-desc']);
                 $new->post_excerpt = apply_filters('bpge_update_field_type',     $_POST['extra-field-type']);
-                $new->to_ping      = apply_filters('bpge_update_field_required', $_POST['extra-field-required']);
+                $new->pinged       = apply_filters('bpge_update_field_required', $_POST['extra-field-required']);
                 $new->post_status  = apply_filters('bpge_update_field_display',  $_POST['extra-field-display']);
                 $new->post_parent  = apply_filters('bpge_update_field_group',    $_POST['group-id']);
                 $new->post_type    = apply_filters('bpge_update_field_type',     BPGE_GFIELDS);
@@ -701,8 +720,12 @@ class BPGE extends BP_Group_Extension {
 
                 do_action('bpge_update_field', $this, $new);
 
-                if(is_integer($field_id))
+                if(is_integer($field_id)){
+                    $field_desc = apply_filters('bpge_update_field_desc', htmlspecialchars(strip_tags($_POST['extra-field-desc'])));
+                    update_post_meta($field_id, 'bpge_field_desc', $field_desc);
+
                     $this->notices('edited_field');
+                }
 
                 bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/'.$this->slug .'/fields/' );
 
@@ -864,7 +887,7 @@ class BPGE extends BP_Group_Extension {
         return apply_filters('bpge_items_by_slug', $searched);
     }
 
-    // Import set fields
+    // Import set of fields
     function import_set_fields(){
         global $wpdb, $bp;
 
@@ -901,15 +924,19 @@ class BPGE extends BP_Group_Extension {
             $new->post_type    = BPGE_GFIELDS;
             $new->post_parent  = $group_id;
             $new->post_title   = $field->post_title;
-            $new->post_content = $field->post_content;
             $new->post_excerpt = $field->post_excerpt;
             $new->post_status  = 'draft'; // not public
 
             $field_id = wp_insert_post($new);
 
-            // ... and options
-            if(!empty($field->options)){
-                update_post_meta( $field_id, 'bpge_field_options', $field->options );
+            if (is_int($field_id)){
+                $field_desc = strip_tags($field->post_content);
+                update_post_meta( $field_id, 'bpge_field_desc', $field_desc );
+
+                // ... and options
+                if(!empty($field->options)){
+                    update_post_meta( $field_id, 'bpge_field_options', $field->options );
+                }
             }
         }
 
@@ -986,22 +1013,22 @@ class BPGE extends BP_Group_Extension {
 
         switch($method){
             case 'reorder_fields':
+                global $wpdb;
                 parse_str($_POST['field_order'], $field_order );
-                $fields = $this->get_all_items('fields', $bp->groups->current_group->id);
+                $fields = bpge_get_group_fields('any');
 
                 // reorder all fields accordig to new positions
-                foreach($field_order['position'] as $u_slug){
-                    foreach($fields as $field){
-                        if ( $u_slug == str_replace('_', '', $field->slug) ){
-                            $new_order[] = $field;
-                            //break;
-                        }
-                    }
+                $i = 1;
+                foreach($field_order['position'] as $field_id){
+                    $wpdb->update(
+                            $wpdb->posts,
+                            array('menu_order' => $i),
+                            array('ID' => $field_id),
+                            array('%d'),
+                            array('%d')
+                        );
+                    $i++;
                 }
-
-                // Save new order into groupmeta table
-                $new_order = json_encode($new_order);
-                groups_update_groupmeta( $bp->groups->current_group->id, 'bpge_fields', $new_order );
                 die('saved');
                 break;
 

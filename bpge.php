@@ -40,7 +40,7 @@ function bpge_deactivation() {
         global $wpdb, $bp;
         $wpdb->query("DELETE FROM {$wpdb->options}
                         WHERE `option_name` LIKE 'bpge%%'");
-        $post_types = "'" . implode("','", array(BPGE_FIELDS, BPGE_GPAGES)) . "'";
+        $post_types = "'" . implode("','", array(BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET)) . "'";
         $wpdb->query("DELETE FROM {$wpdb->posts}
                         WHERE `post_type` IN ({$post_types})");
         $group_meta = $bp->table_prefix . 'bp_groups_groupmeta';
@@ -55,7 +55,7 @@ function bpge_deactivation() {
 add_action ('plugins_loaded', 'bpge_load_textdomain', 7 );
 function bpge_load_textdomain() {
     $locale = apply_filters('buddypress_locale', get_locale() );
-    $mofile = dirname( __File__ )   . "/langs/bpge-$locale.mo";
+    $mofile = dirname( __File__ ) . "/langs/bpge-$locale.mo";
 
     if ( file_exists( $mofile ) )
         load_textdomain('bpge', $mofile);
@@ -103,8 +103,8 @@ function bpge_load(){
         // the core
         if ( bp_is_group() ) {
             if(
-                (is_string($bpge['groups']) && $bpge['groups'] == 'all' ) ||
-                (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']) )
+                (is_string($bpge['groups']) && $bpge['groups'] == 'all') ||
+                (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']))
             ){
                 require ( BPGE_PATH . '/core/loader.php');
             }else{
@@ -340,14 +340,37 @@ function bpge_get_field_defaults(){
     $field = new Stdclass;
 
     $field->ID           = '';
+    $field->desc         = '';
     $field->post_title   = '';
     $field->post_content = '';
-    $field->post_excerpt = '';
+    $field->post_excerpt = ''; // field type - radio, select, checkbox, text, textarea, datebox
     $field->post_status  = '';
-    $field->to_ping      = ''; // required or not
+    $field->pinged       = ''; // required or not
     $field->post_type    = BPGE_GFIELDS;
 
     return $field;
+}
+
+// Get all group fields
+function bpge_get_group_fields($status = 'publish', $group_id = false){
+    global $bp;
+
+    if(empty($group_id))
+        $group_id = $bp->groups->current_group->id;
+
+    // possible statuses: draft | publish | any
+
+    $fields = get_posts(array(
+                'posts_per_page' => 99,
+                'numberposts'    => 99,
+                'order'          => 'ASC',
+                'orderby'        => 'menu_order',
+                'post_status'    => $status,
+                'post_parent'    => $group_id,
+                'post_type'      => BPGE_GFIELDS,
+            ));
+
+    return $fields;
 }
 
 add_action('wp_ajax_bpge', 'bpge_ajax');

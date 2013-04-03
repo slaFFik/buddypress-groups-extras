@@ -89,6 +89,7 @@ jQuery(document).ready(function($){
             jQuery('#extra-field-vars .content').html(html);
             jQuery('#extra-field-vars').css('display', 'block');
         }else{
+            jQuery('#extra-field-vars').css('display', 'none');
             jQuery('#extra-field-vars .content').html('');
         }
     });
@@ -100,7 +101,6 @@ jQuery(document).ready(function($){
         var type = extra[1];
         var id = extra[2];
         jQuery('#extra-field-vars span.'+type+'_'+id).remove();
-        console.log(action + id);
     });
 
     jQuery('#extra-field-vars a#add_new').live('click', function(e){

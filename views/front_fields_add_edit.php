@@ -1,10 +1,11 @@
 <div class="box_field">
-    <!-- <p> -->
 
+    <!-- Title -->
     <label for="extra-field-title"><?php _e('Field Title', 'bpge'); ?></label>
     <input type="text" value="<?php esc_attr_e($field->post_title); ?>" name="extra-field-title" id="extra-field-title">
     <script>jQuery('#extra-field-title').focus();</script>
 
+    <!-- Type -->
     <?php if (empty($field->ID)){ ?>
         <label><?php _e('Field Type', 'bpge'); ?></label>
         <select name="extra-field-type" id="extra-field-type">
@@ -26,26 +27,21 @@
         <input type="hidden" name="extra-field-type" value="<?php echo $field->post_excerpt; ?>" />
     <?php } ?>
 
+    <!-- Description -->
     <label><?php _e('Field Description', 'bpge'); ?></label>
-    <textarea name="extra-field-desc"><?php echo $field->post_content; ?></textarea>
+    <textarea name="extra-field-desc"><?php echo $field->desc; ?></textarea>
 
+    <!-- Required or not? -->
+    <?php if(empty($field->pinged)) $field->pinged = 'not_req'; ?>
     <label for="extra-field-required"><?php _e('Is this field required (will be marked as required on group Edit Details page)?','bpge'); ?></label>
-    <?php
-    $req = '';
-    $not_req = 'checked="checked"';
-    if ( $field->to_ping == '1' ) {
-        $req = 'checked="checked"';
-        $not_req = '';
-    } ?>
-    <input type="radio" value="1" <?php echo $req;?>     name="extra-field-required"> <?php _e('Required', 'bpge'); ?><br />
-    <input type="radio" value="0" <?php echo $not_req;?> name="extra-field-required"> <?php _e('Not Required', 'bpge'); ?><br />
+    <input type="radio" value="req" <?php checked($field->pinged, 'req'); ?> name="extra-field-required"> <?php _e('Required', 'bpge'); ?><br />
+    <input type="radio" value="not_req" <?php checked($field->pinged, 'not_req'); ?> name="extra-field-required"> <?php _e('Not Required', 'bpge'); ?><br />
 
+    <!-- Display or not? -->
     <label for="extra-field-display"><?php echo sprintf(__('Should this field be displayed for public on "<u>%s</u>" page?','bpge'), $nav_item_name); ?></label>
     <?php if(empty($field->post_status)) $field->post_status = 'draft'; ?>
     <input type="radio" name="extra-field-display" value="publish" <?php checked($field->post_status, 'publish'); ?>> <?php _e('Display it', 'bpge'); ?><br />
     <input type="radio" name="extra-field-display" value="draft" <?php checked($field->post_status, 'draft'); ?>> <?php _e('Do NOT display it', 'bpge'); ?>
-
-    <!-- </p> -->
 
     <?php if (empty($field->ID)){ ?>
         <p><input type="submit" name="save_fields_add" id="save" value="<?php _e('Create New &rarr;','bpge'); ?>"></p>
