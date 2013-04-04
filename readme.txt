@@ -2,7 +2,7 @@
 Contributors: slaFFik, valant
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
 Requires at least: 3.4 and 1.6
-Tested up to: 3.5.1 and BP 1.6.4
+Tested up to: 3.5.1 and BP 1.6.5
 Stable tag: 3.4
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
@@ -13,11 +13,11 @@ After activating your groups will have ability to create any custom fields they 
 
 = Features =
 * Choose groups you want to allow custom fields.
-* Create custom fields using various type (radios, select, input, textarea etc)
+* Create custom fields using various type (radios, select, input, textarea and text)
 * Edit fields data on Edit Group Details page in Group Admin area.
 * Display / hide page, where fields (chosen by you) will be displayed.
 * Reorder fields.
-* Create group pages (for group FAQ or wiki).
+* Create group pages (for group FAQ or wiki or whatever you want).
 * Edit pages data on Edit Group Details page in Group Admin area using WP RichEditor (with embedding videos!).
 * and more to come in future releases!
 
@@ -42,9 +42,11 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 == Changelog ==
 
-= 3.4 (.03.2013) =
+= 3.4 (05.04.2013) =
 * New admin area option: delete or preserve all plugin's data on its deactivation
-* Lots of code improvements
+* Fields DB managing fully rewritten - now in a better WordPress way (supports caching!)
+* Added Italian translation (props <a href="https://github.com/luccame">Luca Camellini</a>)
+* Lots of other code improvements
 
 = 3.3.3 (26.03.2013) =
 * Added German translation (props <a href="http://www.per4mance.com/">Thorsten Wollenhöfe</a>)
