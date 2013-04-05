@@ -1,4 +1,9 @@
 <?php
+/**
+ * @todo
+ *     Access management
+ *     Apply set of field immediately
+ */
 
 $bpge_admin = new BPGE_ADMIN();
 

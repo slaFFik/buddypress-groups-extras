@@ -1004,65 +1004,6 @@ class BPGE extends BP_Group_Extension {
 
     }
 
-    // Handle all ajax requests
-    function ajax(){
-        global $bp;
-        $method = isset($_POST['method']) ? $_POST['method'] : '';
-
-        do_action('bpge_ajax', $this, $method);
-
-        switch($method){
-            case 'reorder_fields':
-                global $wpdb;
-                parse_str($_POST['field_order'], $field_order );
-                $fields = bpge_get_group_fields('any');
-
-                // reorder all fields accordig to new positions
-                $i = 1;
-                foreach($field_order['position'] as $field_id){
-                    $wpdb->update(
-                            $wpdb->posts,
-                            array('menu_order' => $i),
-                            array('ID' => $field_id),
-                            array('%d'),
-                            array('%d')
-                        );
-                    $i++;
-                }
-                die('saved');
-                break;
-
-            case 'delete_field':
-                if(wp_delete_post(intval($_POST['field']), true))
-                    echo 'deleted';
-                die;
-                break;
-
-            case 'reorder_pages':
-                parse_str($_POST['page_order'], $page_order );
-                // update menu_order for each gpage
-                foreach($page_order['position'] as $index => $page_id){
-                    wp_update_post(array(
-                        'ID'         => $page_id,
-                        'menu_order' => $index
-                    ));
-                }
-                die('saved');
-                break;
-
-            case 'delete_page':
-                if($deleted = wp_delete_post($_POST['page'], true) ){
-                    die('deleted');
-                }else{
-                    die('error');
-                }
-                break;
-
-            default:
-                die('error');
-        }
-    }
-
     /************************************************************************/
 
     // Creation step - enter the data

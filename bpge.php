@@ -45,7 +45,7 @@ function bpge_deactivation() {
                         WHERE `post_type` IN ({$post_types})");
         $group_meta = $bp->table_prefix . 'bp_groups_groupmeta';
         $wpdb->query("DELETE FROM {$group_meta}
-                        WHERE `meta_key` IN ('bpge_fields', 'bpge_pages', 'bpge_nav_order')");
+                        WHERE `meta_key` LIKE 'bpge%%'");
     }
 }
 
@@ -137,6 +137,9 @@ function bpge_nav_order(){
     }
 }
 
+/**
+ * Groups navigation reordering
+ */
 add_filter('bp_groups_default_extension','bpge_landing_page');
 function bpge_landing_page($old_slug){
     global $bp, $bpge;
@@ -228,7 +231,6 @@ function bpge_register_set_fields(){
     );
     register_post_type(BPGE_FIELDS, $args);
 }
-
 // Register groups pages post type, where all their content will be stored
 function bpge_register_groups_pages(){
     $labels = array(
@@ -371,11 +373,4 @@ function bpge_get_group_fields($status = 'publish', $group_id = false){
             ));
 
     return $fields;
-}
-
-add_action('wp_ajax_bpge', 'bpge_ajax');
-function bpge_ajax(){
-    require ( BPGE_PATH . 'core/loader.php');
-    $load = BPGE::getInstance();
-    $load->ajax();
 }
