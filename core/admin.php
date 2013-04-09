@@ -128,8 +128,9 @@ class BPGE_ADMIN{
 
         }
 
+        // Remove everything plugin related except options
         if ( isset($_POST['bpge-clear-data']) ) {
-
+            bpge_clear(false);
         }
 
         // now redirect to the same page to clear POST
@@ -148,6 +149,8 @@ class BPGE_ADMIN{
             <input type="submit" name="bpge-import-data" value="<?php _e('Import Data', 'bpge'); ?>" class="button-primary" /> &nbsp;
             <input type="submit" name="bpge-clear-data" value="<?php _e('Clear Data', 'bpge'); ?>" class="button" />
         </p>
+
+        <p class="description"><?php _e('Note:Clearing data will delete everything except options on this page.', 'bpge'); ?></p>
         <?php
     }
 

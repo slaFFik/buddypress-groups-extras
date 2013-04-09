@@ -36,17 +36,25 @@ function bpge_deactivation() {
     $bpge = bp_get_option('bpge');
 
     if($bpge['uninstall'] == 'yes'){
-        delete_option('bpge');
-        global $wpdb, $bp;
-        $wpdb->query("DELETE FROM {$wpdb->options}
-                        WHERE `option_name` LIKE 'bpge%%'");
-        $post_types = "'" . implode("','", array(BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET)) . "'";
-        $wpdb->query("DELETE FROM {$wpdb->posts}
-                        WHERE `post_type` IN ({$post_types})");
-        $group_meta = $bp->table_prefix . 'bp_groups_groupmeta';
-        $wpdb->query("DELETE FROM {$group_meta}
-                        WHERE `meta_key` LIKE 'bpge%%'");
+        bpge_clear('all');
     }
+}
+
+function bpge_clear($type = 'all'){
+    global $wpdb, $bp;
+
+    $post_types = "'" . implode("','", array(BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET)) . "'";
+    $group_meta = $bp->table_prefix . 'bp_groups_groupmeta';
+
+    if($type === 'all'){
+        delete_option('bpge');
+    }
+
+    $wpdb->query("DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'bpge_%%'");
+
+    $wpdb->query("DELETE FROM {$wpdb->posts} WHERE `post_type` IN ({$post_types})");
+
+    $wpdb->query("DELETE FROM {$group_meta} WHERE `meta_key` LIKE 'bpge%%'");
 }
 
 /**
@@ -90,7 +98,7 @@ function bpge_load(){
 
     // dirty hack #2
     if (!$bpge)
-        return;
+        $bpge = bp_get_option('bpge');
 
     // scripts and styles
     require ( BPGE_PATH . '/core/cssjs.php');
@@ -164,10 +172,7 @@ function bpge_landing_page($old_slug){
 // Register group fields
 function bpge_register_fields(){
     $labels = array(
-        'name'               => __('Groups Fields', 'bpge'),
-        'singular_name'      => __('Groups Field', 'bpge'),
-        'parent_item_colon'  => '',
-        'menu_name'          => __('Groups Fields', 'bpge')
+        'name'               => __('Groups Fields', 'bpge')
     );
     $args = array(
         'labels'              => $labels,
@@ -180,17 +185,14 @@ function bpge_register_fields(){
         'query_var'           => true,
         'rewrite'             => false,
         'capability_type'     => 'page',
-        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'comments')
     );
     register_post_type(BPGE_GFIELDS, $args);
 }
 // Register set of fields post types
 function bpge_register_set(){
     $labels = array(
-        'name'               => __('Sets of Fields', 'bpge'),
-        'singular_name'      => __('Set of Fields', 'bpge'),
-        'parent_item_colon'  => '',
-        'menu_name'          => __('Sets of Fields', 'bpge')
+        'name'               => __('Sets of Fields', 'bpge')
     );
     $args = array(
         'labels'              => $labels,
@@ -203,21 +205,17 @@ function bpge_register_set(){
         'query_var'           => true,
         'rewrite'             => false,
         'capability_type'     => 'page',
-        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes')
     );
     register_post_type(BPGE_FIELDS_SET, $args);
 }
 // Register groups fields post type, where all their content will be stored
 function bpge_register_set_fields(){
     $labels = array(
-        'name'               => __('Groups Fields', 'bpge'),
-        'singular_name'      => __('Groups Field', 'bpge'),
-        'parent_item_colon'  => '',
-        'menu_name'          => __('Groups Fields', 'bpge')
+        'name'               => __('Groups Fields', 'bpge')
     );
     $args = array(
         'labels'              => $labels,
-        'description'         => __('Displaying fields that were created in all community groups', 'bpge'),
         'public'              => true,
         'show_in_menu'        => false,
         'exclude_from_search' => true,
@@ -227,7 +225,7 @@ function bpge_register_set_fields(){
         'query_var'           => true,
         'rewrite'             => false,
         'capability_type'     => 'page',
-        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes')
     );
     register_post_type(BPGE_FIELDS, $args);
 }
