@@ -11,7 +11,7 @@
         <?php
         if(!empty($fields)){
             foreach($fields as $field){
-                echo '<li>'.$field->post_title.' &rarr; '.$field->post_excerpt.' &rarr; '.$field->post_content.'</li>';
+                echo '<li>'.$field->post_title.' &rarr; <em class="description">'.$field->post_excerpt.'</em> &rarr; '.$field->post_content.'</li>';
             }
         }else{
             echo '<li><strong>'.__('Fields not yet created','bpde').'</strong></li>';

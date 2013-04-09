@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress Groups Extras\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-04-05 08:06+0200\n"
-"PO-Revision-Date: 2013-04-05 08:06+0200\n"
+"POT-Creation-Date: 2013-04-09 08:28+0200\n"
+"PO-Revision-Date: 2013-04-09 08:28+0200\n"
 "Last-Translator: slaFFik <slava.abakumov@gmail.com>\n"
 "Language-Team: slaFFik <slaffik@list.ru>\n"
 "MIME-Version: 1.0\n"
@@ -16,208 +16,186 @@ msgstr ""
 "X-Poedit-SearchPath-0: W:\\_server\\home\\ovi\\ab\\wp-content\\plugins"
 "\\buddypress-groups-extras\n"
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:164
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:167
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:210
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:170
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:213
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:216
 msgid "Groups Fields"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:165
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:211
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:168
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:214
 msgid "Groups Field"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:187
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:190
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:193
 msgid "Sets of Fields"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:188
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:191
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:70
 msgid "Set of Fields"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:217
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:220
 msgid "Displaying fields that were created in all community groups"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:235
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:246
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:237
 msgid "Groups Pages"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:236
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:238
 msgid "Groups Page"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:237
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/admin_set_field_add.php:23
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/front_fields_add_edit.php:23
-msgid "Add New"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:238
-msgid "Add New Page"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:239
-msgid "Edit Page"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:240
-msgid "New Page"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:241
-msgid "View Page"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:242
-msgid "Search Groups Pages"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:243
-msgid "No groups pages found"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:244
-msgid "No groups pages found in Trash"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:250
-msgid "Displaying pages that were created in all community groups"
-msgstr ""
-
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:306
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:297
 msgid "Group Extras &rarr; General Settings"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:309
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:300
 msgid "Group Extras &rarr; Fields Management"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:312
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:303
 msgid "Group Extras &rarr; Pages Management"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:315
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:306
 msgid "Group Extras &rarr; Add Field"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:318
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:309
 msgid "Group Extras &rarr; Edit Field"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:321
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:312
 msgid "Group Extras &rarr; Add Page"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:324
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:315
 msgid "Group Extras &rarr; Edit Page"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:327
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:318
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/admin_set_add.php:8
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/admin_set_edit.php:8
 msgid "Description"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:330
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:321
 msgid "Extras"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:333
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/bpge.php:324
 msgid "Pages"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:38
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:39
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:47
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:48
 msgid "BP Groups Extras"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:55
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:64
+msgid "Data Import From Pre-v3.4"
+msgstr ""
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:65
 msgid "Rich Editor for Groups Pages"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:56
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:66
 msgid "Plugin Uninstall Options"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:57
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:67
 msgid "Need Help / Custom Work?"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:59
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:69
 msgid "Groups Management"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:60
-msgid "Default Fields"
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:144
+msgid ""
+"If you upgraded from any version of BuddyPress Groups Extras, which had the "
+"version number less than 3.4, and if you want to preserve all previously "
+"generated content (like default and groups fields etc) please do the import "
+"using controls below."
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:68
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:148
+msgid "Import Data"
+msgstr ""
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:149
+msgid "Clear Data"
+msgstr ""
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:159
 msgid ""
 "Would you like to enable Rich Editor for easy use of html tags for groups "
 "pages?"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:72
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:163
 msgid "Enable"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:73
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:164
 msgid "Disable"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:82
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:173
 msgid ""
 "On BPGE deactivation you can delete or preserve all its settings and created "
 "content (like groups pages and fields). What do you want to do?"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:89
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:180
 msgid "Preserve all data"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:90
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:181
 msgid "Delete everything"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:152
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:202
 msgid ""
 "Please create/edit here fields you want to be available as standard blocks "
 "of data.<br />This will be helpful for group admins - no need for them to "
 "create lots of fields from scratch."
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:182
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:232
 msgid ""
 "Currently there are no predefined fields. Groups admins should create all "
 "fields by themselves."
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:221
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:271
 msgid "BuddyPress Groups Extras"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:221
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:271
 msgid "Extend Your Groups"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:231
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:274
 msgid "All changes were saved. Go and check results!"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:245
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:260
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:287
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:302
 msgid "Save Changes"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:246
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:288
 msgid "Refresh current page"
 msgstr ""
 
-#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:246
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/core/admin.php:288
 msgid "Refresh"
 msgstr ""
 
@@ -509,6 +487,11 @@ msgstr ""
 
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/admin_set_field_add.php:16
 msgid "Dropdown Select Box"
+msgstr ""
+
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/admin_set_field_add.php:23
+#: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/front_fields_add_edit.php:23
+msgid "Add New"
 msgstr ""
 
 #: W:\_server\home\ovi\ab\wp-content\plugins\buddypress-groups-extras/views/admin_set_field_add.php:28

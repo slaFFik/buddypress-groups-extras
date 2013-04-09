@@ -235,21 +235,10 @@ function bpge_register_set_fields(){
 function bpge_register_groups_pages(){
     $labels = array(
         'name'               => __('Groups Pages', 'bpge'),
-        'singular_name'      => __('Groups Page', 'bpge'),
-        'add_new'            => __('Add New', 'bpge'),
-        'add_new_item'       => __('Add New Page', 'bpge'),
-        'edit_item'          => __('Edit Page', 'bpge'),
-        'new_item'           => __('New Page', 'bpge'),
-        'view_item'          => __('View Page', 'bpge'),
-        'search_items'       => __('Search Groups Pages', 'bpge'),
-        'not_found'          => __('No groups pages found', 'bpge'),
-        'not_found_in_trash' => __('No groups pages found in Trash', 'bpge'),
-        'parent_item_colon'  => '',
-        'menu_name'          => __('Groups Pages', 'bpge')
+        'singular_name'      => __('Groups Page', 'bpge')
     );
     $args = array(
         'labels'              => $labels,
-        'description'         => __('Displaying pages that were created in all community groups', 'bpge'),
         'public'              => true,
         'show_in_menu'        => true,
         'exclude_from_search' => true,
@@ -259,7 +248,7 @@ function bpge_register_groups_pages(){
         'query_var'           => true,
         'rewrite'             => false,
         'capability_type'     => 'page',
-        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'thumbnail', 'comments')
+        'supports'            => array('title', 'editor', 'custom-fields', 'page-attributes', 'comments')
     );
     register_post_type(BPGE_GPAGES, $args);
 }

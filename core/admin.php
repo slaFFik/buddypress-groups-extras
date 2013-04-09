@@ -17,6 +17,10 @@ class BPGE_ADMIN{
         }else{
             add_action('admin_menu', array( &$this, 'on_admin_menu') );
         }
+
+        if(!empty($_POST)){
+            $this->on_save();
+        }
     }
 
     /**
@@ -57,12 +61,94 @@ class BPGE_ADMIN{
         wp_enqueue_script('postbox');
 
         // sidebar
+        add_meta_box('bpge-admin-import', __('Data Import From Pre-v3.4', 'bpge'), array(&$this, 'on_bpge_admin_import'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-uninstall', __('Plugin Uninstall Options', 'bpge'), array(&$this, 'on_bpge_admin_uninstall'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, 'side', 'low' );
         // main content - normal
         add_meta_box('bpge-admin-groups', __('Groups Management', 'bpge'), array( &$this, 'on_bpge_admin_groups'), $this->pagehook, 'normal', 'core');
-        add_meta_box('bpge-admin-fields', __('Default Fields', 'bpge'), array( &$this, 'on_bpge_admin_fields'), $this->pagehook, 'normal', 'core');
+        add_meta_box('bpge-admin-fields', __('Set of Fields', 'bpge'), array( &$this, 'on_bpge_admin_fields'), $this->pagehook, 'normal', 'core');
+    }
+
+    function on_save(){
+        global $wpdb;
+        // Save new Set of fields
+        if(!empty($_POST['add_set_fields_name'])){
+            $set = array(
+                    'post_type'    => BPGE_FIELDS_SET,
+                    'post_status'  => 'publish',
+                    'post_title'   => $_POST['add_set_fields_name'],
+                    'post_content' => $_POST['add_set_field_description']
+                );
+            wp_insert_post( $set );
+        }
+
+        // Edit Set of fields
+        if(!empty($_POST['edit_set_fields_name']) && !empty($_POST['edit_set_fields_id'])){
+            $set = array(
+                    'ID'           => $_POST['edit_set_fields_id'],
+                    'post_title'   => $_POST['edit_set_fields_name'],
+                    'post_content' => $_POST['edit_set_field_description']
+                );
+            wp_update_post( $set );
+
+        }
+
+        // Save fields for a set
+        if(!empty($_POST['extra-field-title']) && !empty($_POST['sf_id_for_field'])){
+            // save field
+            $field_id = wp_insert_post(array(
+                            'post_type'    => BPGE_FIELDS,
+                            'post_parent'  => $_POST['sf_id_for_field'], // assign to a set of fields
+                            'post_title'   => $_POST['extra-field-title'],
+                            'post_content' => $_POST['extra-field-desc'],
+                            'post_excerpt' => $_POST['extra-field-type'],
+                            'post_status'  => 'publish'
+                        ));
+
+            if(!empty($_POST['options'])){
+                $options = array();
+                foreach($_POST['options'] as $option){
+                    $options[] = htmlspecialchars(strip_tags($option));
+                }
+                update_post_meta( $field_id, 'bpge_field_options', $options );
+            }
+        }
+
+        // Save other options
+        if ( isset($_POST['saveData']) ) {
+            $bpge['groups']    = $_POST['bpge_groups'] ? $_POST['bpge_groups'] : array();
+            $bpge['re']        = $_POST['bpge_re'];
+            $bpge['uninstall'] = $_POST['bpge_uninstall'];
+
+            bp_update_option('bpge', $bpge);
+        }
+
+        if ( isset($_POST['bpge-import-data']) ) {
+
+        }
+
+        if ( isset($_POST['bpge-clear-data']) ) {
+
+        }
+
+        // now redirect to the same page to clear POST
+        wp_redirect(site_url($_POST['_wp_http_referer']));
+    }
+
+    /**
+     * Data import from versions before BPGE v3.4
+     */
+    function on_bpge_admin_import($bpge){ ?>
+        <p>
+            <?php _e('If you upgraded from any version of BuddyPress Groups Extras, which had the version number less than 3.4, and if you want to preserve all previously generated content (like default and groups fields etc) please do the import using controls below.','bpge');?>
+        </p>
+
+        <p>
+            <input type="submit" name="bpge-import-data" value="<?php _e('Import Data', 'bpge'); ?>" class="button-primary" /> &nbsp;
+            <input type="submit" name="bpge-clear-data" value="<?php _e('Clear Data', 'bpge'); ?>" class="button" />
+        </p>
+        <?php
     }
 
     /**
@@ -112,47 +198,6 @@ class BPGE_ADMIN{
      * Set of Fields Management
      */
     function on_bpge_admin_fields($bpge){
-        global $wpdb;
-        if(!empty($_POST) && (!empty($_POST['add_set_fields_name']) || !empty($_POST['edit_set_fields_name']) || !empty($_POST['extra-field-title']))){
-            // Save new Set of fields
-            if(!empty($_POST['add_set_fields_name'])){
-                $set = array(
-                        'post_type'    => BPGE_FIELDS_SET,
-                        'post_status'  => 'publish',
-                        'post_title'   => $_POST['add_set_fields_name'],
-                        'post_content' => $_POST['add_set_field_description']
-                    );
-                wp_insert_post( $set );
-            // Edit Set of fields
-            }else if(!empty($_POST['edit_set_fields_name']) && !empty($_POST['edit_set_fields_id'])){
-                $set = array(
-                        'ID'           => $_POST['edit_set_fields_id'],
-                        'post_title'   => $_POST['edit_set_fields_name'],
-                        'post_content' => $_POST['edit_set_field_description']
-                    );
-                wp_update_post( $set );
-            // Save fields for a set
-            }else if(!empty($_POST['extra-field-title']) && !empty($_POST['sf_id_for_field'])){
-                // save field
-                $field_id = wp_insert_post(array(
-                                'post_type'    => BPGE_FIELDS,
-                                'post_parent'  => $_POST['sf_id_for_field'], // assign to a set of fields
-                                'post_title'   => $_POST['extra-field-title'],
-                                'post_content' => $_POST['extra-field-desc'],
-                                'post_excerpt' => $_POST['extra-field-type'],
-                                'post_status'  => 'publish'
-                            ));
-
-                if(!empty($_POST['options'])){
-                    $options = array();
-                    foreach($_POST['options'] as $option){
-                        $options[] = htmlspecialchars(strip_tags($option));
-                    }
-                    update_post_meta( $field_id, 'bpge_field_options', $options );
-                }
-            }
-        }
-
         echo '<p>';
             _e('Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.','bpge');
         echo '</p>';
@@ -225,17 +270,9 @@ class BPGE_ADMIN{
             <style>table.link-group li{margin:0 0 0 25px}</style>
             <h2><?php _e('BuddyPress Groups Extras','bpge') ?> <sup><?php echo 'v' . BPGE_VERSION; ?></sup> &rarr; <?php _e('Extend Your Groups', 'bpge') ?></h2>
 
-            <?php
-            if ( isset($_POST['saveData']) ) {
-                $bpge['groups']    = $_POST['bpge_groups'] ? $_POST['bpge_groups'] : array();
-                $bpge['re']        = $_POST['bpge_re'];
-                $bpge['uninstall'] = $_POST['bpge_uninstall'];
-
-                bp_update_option('bpge', $bpge);
-
-                echo "<div id='message' class='updated fade'><p>" . __('All changes were saved. Go and check results!', 'bpge') . "</p></div>";
-            }
-            ?>
+            <?php if ( isset($_POST['saveData']) ) { ?>
+                <div id='message' class='updated fade'><p><?php _e('All changes were saved. Go and check results!', 'bpge');?></p></div>
+            <?php } ?>
 
             <form action="" id="bpge-form" method="post">
                 <?php
