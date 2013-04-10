@@ -9,16 +9,19 @@ $bpge_admin = new BPGE_ADMIN();
 
 class BPGE_ADMIN{
 
+    private $slug = 'bpge-admin';
+
     function __construct() {
         add_filter('screen_layout_columns', array( &$this, 'on_screen_layout_columns'), 10, 2 );
         add_action('admin_head', 'bpge_js_localize', 5);
+
         if (is_multisite()){
             add_action('network_admin_menu', array( &$this, 'on_admin_menu') );
         }else{
             add_action('admin_menu', array( &$this, 'on_admin_menu') );
         }
 
-        if(is_admin() && !empty($_POST)){
+        if(is_admin() && !empty($_POST) && isset($_GET['page']) && $_GET['page'] == $this->slug){
             $this->on_save();
         }
     }
@@ -34,6 +37,8 @@ class BPGE_ADMIN{
                 $columns[ $this->pagehook ] = 2;
             }
             //$columns[ $this->pagehook ] = 1;
+        }else{
+            $columns[ $this->pagehook ] = 2;
         }
         return $columns;
     }
@@ -47,7 +52,7 @@ class BPGE_ADMIN{
                             __('BP Groups Extras', 'bpge'),
                             __('BP Groups Extras', 'bpge'),
                             'manage_options',
-                            'bpge-admin',
+                            $this->slug,
                             array( &$this, 'on_show_page') );
         add_action('load-'.$this->pagehook, array( &$this, 'on_load_page') );
     }
@@ -61,9 +66,9 @@ class BPGE_ADMIN{
         wp_enqueue_script('postbox');
 
         // sidebar
-        add_meta_box('bpge-admin-import', __('Data Import From Pre-v3.4', 'bpge'), array(&$this, 'on_bpge_admin_import'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-uninstall', __('Plugin Uninstall Options', 'bpge'), array(&$this, 'on_bpge_admin_uninstall'), $this->pagehook, 'side', 'low' );
+        add_meta_box('bpge-admin-import', __('Data Import From Pre-v3.4', 'bpge'), array(&$this, 'on_bpge_admin_import'), $this->pagehook, 'side', 'low' );
         add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, 'side', 'low' );
         // main content - normal
         add_meta_box('bpge-admin-groups', __('Groups Management', 'bpge'), array( &$this, 'on_bpge_admin_groups'), $this->pagehook, 'normal', 'core');
@@ -124,7 +129,9 @@ class BPGE_ADMIN{
         }
 
         if ( isset($_POST['bpge-import-data']) ) {
-            #1 Default fields
+            /**
+             * Default fields
+             */
             // get list of set of fields
             $set_fields = $wpdb->get_results(
                             "SELECT option_name AS `slug`, option_value AS `set`

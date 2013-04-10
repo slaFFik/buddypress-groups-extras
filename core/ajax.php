@@ -19,7 +19,7 @@ function bpge_ajax(){
     global $bp;
     $method = isset($_POST['method']) ? $_POST['method'] : '';
 
-    do_action('bpge_ajax', $this, $method);
+    do_action('bpge_ajax', $method);
 
     switch($method){
         case 'reorder_fields':

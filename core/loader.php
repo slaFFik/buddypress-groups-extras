@@ -409,7 +409,7 @@ class BPGE extends BP_Group_Extension {
 
         echo '<div class="clear">&nbsp;</div>';
 
-        echo '<p><input type="submit" name="save_general" id="save" value="'.__('Save Changes &rarr;','bpge').'"></p>';
+        echo '<p><input type="submit" name="save_general" id="save" value="'.__('Save Changes','bpge').'"></p>';
         wp_nonce_field('groups_edit_group_extras');
     }
 
