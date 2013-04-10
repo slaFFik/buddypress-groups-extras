@@ -243,6 +243,8 @@ class BPGE_ADMIN{
             <?php _e('If you upgraded from any version of BuddyPress Groups Extras, which had the version number less than 3.4, and if you want to preserve all previously generated content (like default and groups fields etc) please do the import using controls below.','bpge');?>
         </p>
 
+        <p class="description"><?php _e('<strong>Important</strong>: Do not import data twice - as this will create lots of duplicated fields.', 'bpge'); ?></p>
+
         <p>
             <input type="submit" name="bpge-import-data" value="<?php _e('Import Data', 'bpge'); ?>" class="button-primary" /> &nbsp;
             <input type="submit" name="bpge-clear-data" value="<?php _e('Clear Data', 'bpge'); ?>" class="button" />
