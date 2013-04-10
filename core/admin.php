@@ -194,34 +194,36 @@ class BPGE_ADMIN{
             }
 
             $i = 100;
-            foreach ($gFields->fields as $field){
-                $new               = new Stdclass;
-                $new->post_title   = apply_filters('bpge_new_field_title',    $field->title);
-                $new->post_excerpt = apply_filters('bpge_new_field_type',     $field->type);
-                $new->pinged       = apply_filters('bpge_new_field_required', $field->required);
-                $new->post_status  = apply_filters('bpge_new_field_display',  $field->display=='1'?'publish':'draft');
-                $new->post_parent  = apply_filters('bpge_new_field_group',    $gFields->group_id);
-                $new->post_type    = apply_filters('bpge_new_field_type',     BPGE_GFIELDS);
-                $new->menu_order   = $i;
+            if(!empty($gFields->fields) && is_array($gFields->fields) ){
+                foreach ($gFields->fields as $field){
+                    $new               = new Stdclass;
+                    $new->post_title   = apply_filters('bpge_new_field_title',    $field->title);
+                    $new->post_excerpt = apply_filters('bpge_new_field_type',     $field->type);
+                    $new->pinged       = apply_filters('bpge_new_field_required', $field->required);
+                    $new->post_status  = apply_filters('bpge_new_field_display',  $field->display=='1'?'publish':'draft');
+                    $new->post_parent  = apply_filters('bpge_new_field_group',    $gFields->group_id);
+                    $new->post_type    = apply_filters('bpge_new_field_type',     BPGE_GFIELDS);
+                    $new->menu_order   = $i;
 
-                if(isset($field->options) && !empty($field->options)){
-                    $options = array();
-                    foreach($field->options as $option){
-                        $options[] = htmlspecialchars(strip_tags($option));
+                    if(isset($field->options) && !empty($field->options)){
+                        $options = array();
+                        foreach($field->options as $option){
+                            $options[] = htmlspecialchars(strip_tags($option));
+                        }
                     }
+
+                    // Save Field
+                    $field_id = wp_insert_post($new);
+
+                    if(is_integer($field_id)){
+                        // Save field options
+                        update_post_meta($field_id, 'bpge_field_options', $options );
+
+                        $field_desc = apply_filters('bpge_new_field_desc', $field->desc);
+                        update_post_meta($field_id, 'bpge_field_desc', $field_desc);
+                    }
+                    $i++;
                 }
-
-                // Save Field
-                $field_id = wp_insert_post($new);
-
-                if(is_integer($field_id)){
-                    // Save field options
-                    update_post_meta($field_id, 'bpge_field_options', $options );
-
-                    $field_desc = apply_filters('bpge_new_field_desc', $field->desc);
-                    update_post_meta($field_id, 'bpge_field_desc', $field_desc);
-                }
-                $i++;
             }
         }
 
