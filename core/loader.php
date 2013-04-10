@@ -269,7 +269,7 @@ class BPGE extends BP_Group_Extension {
         do_action('bpge_group_fields_edit', $this, $fields);
     }
 
-    // Save extra fields in groupmeta
+    // Save extra fields in DB
     function edit_group_fields_save($group_id){
         global $wpdb, $bp;
 

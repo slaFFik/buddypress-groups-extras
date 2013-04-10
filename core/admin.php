@@ -76,7 +76,7 @@ class BPGE_ADMIN{
     }
 
     function on_save(){
-        global $wpdb;
+        global $wpdb, $bp;
         // Save new Set of fields
         if(!empty($_POST['add_set_fields_name'])){
             $set = array(
@@ -157,7 +157,7 @@ class BPGE_ADMIN{
                 $set_id = wp_insert_post($set_data);
 
                 // now we need to save fields in that set
-                if(is_int($set_id))
+                if(is_int($set_id)){}
                     foreach((array)$set->set['fields'] as $field){
                         $field_id = wp_insert_post(array(
                                         'post_type'    => BPGE_FIELDS,
@@ -178,14 +178,51 @@ class BPGE_ADMIN{
                     }
                 }
 
-
-            #2 Groups fields
+            /**
+             * Groups fields
+             */
             // get list of groups that have gFields from  groupmeta
-            // foreach ($gdata as $group){}
-                // define fields data for a group
-                // define order of fields
-                // foreach ($gfields as $field){}
-                    // save field
+            $gFields = $wpdb->get_row($wpdb->prepare(
+                            "SELECT group_id, meta_value AS `fields`
+                            FROM {$bp->table_prefix}bp_groups_groupmeta
+                            WHERE meta_key = 'bpge_fields'", __return_false()
+                        ));
+
+            // reformat data
+            if(!empty($gFields) && !empty($gFields->fields)){
+                $gFields->fields = json_decode($gFields->fields);
+            }
+
+            $i = 100;
+            foreach ($gFields->fields as $field){
+                $new               = new Stdclass;
+                $new->post_title   = apply_filters('bpge_new_field_title',    $field->title);
+                $new->post_excerpt = apply_filters('bpge_new_field_type',     $field->type);
+                $new->pinged       = apply_filters('bpge_new_field_required', $field->required);
+                $new->post_status  = apply_filters('bpge_new_field_display',  $field->display=='1'?'publish':'draft');
+                $new->post_parent  = apply_filters('bpge_new_field_group',    $gFields->group_id);
+                $new->post_type    = apply_filters('bpge_new_field_type',     BPGE_GFIELDS);
+                $new->menu_order   = $i;
+
+                if(isset($field->options) && !empty($field->options)){
+                    $options = array();
+                    foreach($field->options as $option){
+                        $options[] = htmlspecialchars(strip_tags($option));
+                    }
+                }
+
+                // Save Field
+                $field_id = wp_insert_post($new);
+
+                if(is_integer($field_id)){
+                    // Save field options
+                    update_post_meta($field_id, 'bpge_field_options', $options );
+
+                    $field_desc = apply_filters('bpge_new_field_desc', $field->desc);
+                    update_post_meta($field_id, 'bpge_field_desc', $field_desc);
+                }
+                $i++;
+            }
         }
 
         // Remove everything plugin-related except options
