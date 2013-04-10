@@ -18,7 +18,7 @@ class BPGE_ADMIN{
             add_action('admin_menu', array( &$this, 'on_admin_menu') );
         }
 
-        if(!empty($_POST)){
+        if(is_admin() && !empty($_POST)){
             $this->on_save();
         }
     }
@@ -91,7 +91,6 @@ class BPGE_ADMIN{
                     'post_content' => $_POST['edit_set_field_description']
                 );
             wp_update_post( $set );
-
         }
 
         // Save fields for a set
@@ -125,16 +124,71 @@ class BPGE_ADMIN{
         }
 
         if ( isset($_POST['bpge-import-data']) ) {
+            #1 Default fields
+            // get list of set of fields
+            $set_fields = $wpdb->get_results(
+                            "SELECT option_name AS `slug`, option_value AS `set`
+                            FROM {$wpdb->options}
+                            WHERE option_name LIKE 'bpge-set-%%'");
 
+            // reformat data
+            if(!empty($set_fields)){
+                foreach($set_fields as &$set){
+                    $set->set = maybe_unserialize($set->set);
+                }
+            }
+
+            // process the import part 1
+            foreach ((array)$set_fields as $set){
+                // save the set
+                $set_data = array(
+                        'post_type'    => BPGE_FIELDS_SET,
+                        'post_status'  => 'publish',
+                        'post_title'   => $set->set['name'],
+                        'post_content' => $set->set['desc']
+                    );
+                $set_id = wp_insert_post($set_data);
+
+                // now we need to save fields in that set
+                if(is_int($set_id))
+                    foreach((array)$set->set['fields'] as $field){
+                        $field_id = wp_insert_post(array(
+                                        'post_type'    => BPGE_FIELDS,
+                                        'post_parent'  => $set_id, // assign to a set of fields
+                                        'post_title'   => $field['name'],
+                                        'post_content' => $field['desc'],
+                                        'post_excerpt' => $field['type'],
+                                        'post_status'  => 'publish'
+                                    ));
+                        // and save options if any
+                        if(isset($field['options']) && !empty($field['options'])){
+                            $options = array();
+                            foreach($field['options'] as $option){
+                                $options[] = htmlspecialchars(strip_tags($option['name']));
+                            }
+                            update_post_meta( $field_id, 'bpge_field_options', $options );
+                        }
+                    }
+                }
+
+
+            #2 Groups fields
+            // get list of groups that have gFields from  groupmeta
+            // foreach ($gdata as $group){}
+                // define fields data for a group
+                // define order of fields
+                // foreach ($gfields as $field){}
+                    // save field
         }
 
-        // Remove everything plugin related except options
+        // Remove everything plugin-related except options
         if ( isset($_POST['bpge-clear-data']) ) {
             bpge_clear(false);
         }
 
         // now redirect to the same page to clear POST
-        wp_redirect(site_url($_POST['_wp_http_referer']));
+        if(isset($_POST['_wp_http_referer']))
+            wp_redirect(site_url($_POST['_wp_http_referer']));
     }
 
     /**
