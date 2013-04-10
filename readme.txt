@@ -1,8 +1,8 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik, valant
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
-Requires at least: 3.4 and 1.6
-Tested up to: 3.5.1 and BP 1.6.5
+Requires at least: 3.4 and BP 1.6
+Tested up to: 3.5.1 and BP BP 1.7
 Stable tag: 3.4
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
@@ -42,9 +42,10 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 
 == Changelog ==
 
-= 3.4 (05.04.2013) =
+= 3.4 (10.04.2013) =
 * New admin area option: delete or preserve all plugin's data on its deactivation
 * Fields DB managing fully rewritten - now in a better WordPress way (supports caching!)
+* Added import fields from the previous version of a plugin
 * Added Italian translation (props <a href="https://github.com/luccame">Luca Camellini</a>)
 * Lots of other code improvements
 
