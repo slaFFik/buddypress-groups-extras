@@ -1,5 +1,5 @@
 === BuddyPress Groups Extras ===
-Contributors: slaFFik, valant
+Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
 Requires at least: 3.4 and BP 1.6
 Tested up to: 3.5.2 and BP BP 1.7.3
