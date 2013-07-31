@@ -1,0 +1,209 @@
+/* Messi CSS */
+
+.messi-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+  opacity: 0;
+}
+
+.messi {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  text-shadow: none;
+}
+
+.messi-box {
+  position: relative;
+  width: 500px;
+  height: auto;
+  padding: 8px;
+  overflow: hidden;
+  background-color: #ccc;
+  border-radius: 6px;
+  opacity: 1;
+  box-shadow: 0 0 1em #444;
+}
+
+.messi-wrapper {
+  position: relative;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.messi-titlebox {
+  padding: 10px;
+  overflow: hidden;
+  font: 1.3em bold helvetica, arial;
+  color: #fff;
+  text-shadow: 0 -2px 1px rgba(0, 0, 0, 0.25);
+  background-color: #3b3b3b;
+}
+
+.messi-titlebox.info {
+  background-color: #4ea5cd;
+  background-image: none;
+}
+
+.messi-titlebox.error {
+  background-color: #de4343;
+  background-image: none;
+  margin:0;
+}
+
+.messi-titlebox.warning {
+  background-color: #eaaf51;
+  background-image: none;
+}
+
+.messi-titlebox.success {
+  background-color: #61b832;
+  background-image: none;
+  margin:0;
+}
+
+.messi-closebtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: block;
+  width: 25px;
+  height: 25px;
+  color: #333;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 40px;
+}
+
+.messi-closebtn::before {
+  position: relative;
+  top: 2px;
+  display: block;
+  width: 25px;
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+  content: '\00D7';
+}
+
+.messi-content {
+  padding: 10px;
+  overflow: hidden;
+  font: .9em normal helvetica, arial;
+}
+
+.messi-content p {
+  margin: 0 0 1.3em;
+  line-height: 1.3em;
+}
+
+.messi-content .messi-closebtn {
+  top: 7px;
+  font: 1.3em bold helvetica, arial;
+  color: #fff;
+  background-color: #333;
+  opacity: 0;
+  -webkit-transition: opacity .25s linear, visibility .1s linear .5s;
+     -moz-transition: opacity .25s linear, visibility .1s linear .5s;
+       -o-transition: opacity .25s linear, visibility .1s linear .5s;
+          transition: opacity .25s linear, visibility .1s linear .5s;
+}
+
+.messi-content:hover .messi-closebtn {
+  opacity: 1;
+}
+
+.messi-footbox {
+  width: 100%;
+  height: 55px;
+  overflow: hidden;
+}
+
+.messi-actions {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  padding-top: 8px;
+  margin: 0 10px;
+  width: 96%;
+  border-top: 1px solid #eee;
+  -webkit-box-orient: horizontal;
+     -moz-box-orient: horizontal;
+          box-orient: horizontal;
+}
+
+.messi-actions .btnbox {
+  margin-right: 10px;
+  text-align: center;
+  -webkit-box-flex: 1;
+     -moz-box-flex: 1;
+          box-flex: 1;
+}
+
+.messi-titlebox.anim {
+  background-color: #666;
+  background-image: -o-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+  background-image: -webkit-gradient(linear, left top, right bottom, color-stop(0.25, rgba(255, 255, 255, 0.05)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.05)), color-stop(0.75, rgba(255, 255, 255, 0.05)), color-stop(0.75, transparent), to(transparent));
+  background-image: -webkit-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+  background-image: -moz-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+  background-image: -ms-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.05) 75%, transparent 75%, transparent);
+  -webkit-background-size: 40px 40px;
+     -moz-background-size: 40px 40px;
+          background-size: 40px 40px;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+     -moz-box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+          box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.4);
+  -webkit-animation: animate-bg 5s linear infinite;
+     -moz-animation: animate-bg 5s linear infinite;
+}
+
+.messi-titlebox.anim.info {
+  background-color: #4ea5cd;
+}
+
+.messi-titlebox.anim.error {
+  background-color: #de4343;
+}
+
+.messi-titlebox.anim.warning {
+  background-color: #eaaf51;
+}
+
+.messi-titlebox.anim.success {
+  background-color: #61b832;
+}
+
+@-webkit-keyframes animate-bg {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -80px 0;
+  }
+}
+
+@-moz-keyframes animate-bg {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -80px 0;
+  }
+}
+
+.messi button {
+  cursor: pointer;
+  -webkit-appearance: button;
+}
+
+button.messi .btn::-moz-focus-inner {
+  padding: 0;
+  border: 0;
+}

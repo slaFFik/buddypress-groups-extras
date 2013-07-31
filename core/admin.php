@@ -1,422 +1,355 @@
 <?php
+
 /**
- * @todo
- *     Access management
- *     Apply set of field immediately
+ * Main class for WordPress admin area
  */
+class BPGE_ADMIN {
+    // page slug, used on URL
+    var $slug = BPGE_ADMIN_SLUG;
+    // where all options are stored
+    var $bpge = false;
+    // where to save in options table
+    var $bpge_options_key = 'bpge';
+    // default tab that will be opened in nothing specified
+    // will be redefined after all tabs are loaded
+    var $default_tab = null;
+    // the list of tabs in admin area, will be extended by child classes
+    var $bpge_tabs = array();
+    // path the folder where all tabs are situated
+    var $tabs_path = null;
 
-$bpge_admin = new BPGE_ADMIN();
+    /**
+     * Do some important initial routine
+     */
+    function __construct(){
+        global $bpge;
+        $this->bpge      = $bpge;
+        $this->tabs_path = dirname(__FILE__) . DS . 'admin_tabs';
 
-class BPGE_ADMIN{
-
-    private $slug = 'bpge-admin';
-
-    function __construct() {
-        add_filter('screen_layout_columns', array( &$this, 'on_screen_layout_columns'), 10, 2 );
         add_action('admin_head', 'bpge_js_localize', 5);
 
-        if (is_multisite()){
-            add_action('network_admin_menu', array( &$this, 'on_admin_menu') );
-        }else{
-            add_action('admin_menu', array( &$this, 'on_admin_menu') );
-        }
-
-        if(is_admin() && !empty($_POST) && isset($_GET['page']) && $_GET['page'] == $this->slug){
-            $this->on_save();
-        }
+        // create tabs
+        $this->get_tabs();
     }
 
     /**
-     * Columns managements for admin area
+     * Get all tabs from individual files (include)
      */
-    function on_screen_layout_columns( $columns, $screen ) {
-        if ( $screen == $this->pagehook ) {
-            if (is_multisite()){
-                $columns[ $this->pagehook ] = 1;
-            }else{
-                $columns[ $this->pagehook ] = 2;
-            }
-            //$columns[ $this->pagehook ] = 1;
-        }else{
-            $columns[ $this->pagehook ] = 2;
-        }
-        return $columns;
-    }
+    function get_tabs(){
+        if ($handle = opendir($this->tabs_path)) {
+            while (false !== ($file = readdir($handle))) {
+                if ($file == "." || $file == "..") continue;
 
-    /**
-     * Add admin area page with options
-     */
-    function on_admin_menu() {
-        $this->pagehook = add_submenu_page(
-                            is_multisite()?'settings.php':'options-general.php',
-                            __('BP Groups Extras', 'bpge'),
-                            __('BP Groups Extras', 'bpge'),
-                            'manage_options',
-                            $this->slug,
-                            array( &$this, 'on_show_page') );
-        add_action('load-'.$this->pagehook, array( &$this, 'on_load_page') );
-    }
-
-    /**
-     * Register all metaboxes
-     */
-    function on_load_page() {
-        wp_enqueue_script('common');
-        wp_enqueue_script('wp-lists');
-        wp_enqueue_script('postbox');
-
-        // sidebar
-        add_meta_box('bpge-admin-re', __('Rich Editor for Groups Pages', 'bpge'), array(&$this, 'on_bpge_admin_re'), $this->pagehook, 'side', 'low' );
-        add_meta_box('bpge-admin-uninstall', __('Plugin Uninstall Options', 'bpge'), array(&$this, 'on_bpge_admin_uninstall'), $this->pagehook, 'side', 'low' );
-        add_meta_box('bpge-admin-import', __('Data Import From Pre-v3.4', 'bpge'), array(&$this, 'on_bpge_admin_import'), $this->pagehook, 'side', 'low' );
-        add_meta_box('bpge-admin-promo', __('Need Help / Custom Work?', 'bpge'), array(&$this, 'on_bpge_admin_promo'), $this->pagehook, 'side', 'low' );
-        // main content - normal
-        add_meta_box('bpge-admin-groups', __('Groups Management', 'bpge'), array( &$this, 'on_bpge_admin_groups'), $this->pagehook, 'normal', 'core');
-        add_meta_box('bpge-admin-fields', __('Set of Fields', 'bpge'), array( &$this, 'on_bpge_admin_fields'), $this->pagehook, 'normal', 'core');
-    }
-
-    function on_save(){
-        global $wpdb, $bp;
-        // Save new Set of fields
-        if(!empty($_POST['add_set_fields_name'])){
-            $set = array(
-                    'post_type'    => BPGE_FIELDS_SET,
-                    'post_status'  => 'publish',
-                    'post_title'   => $_POST['add_set_fields_name'],
-                    'post_content' => $_POST['add_set_field_description']
-                );
-            wp_insert_post( $set );
-        }
-
-        // Edit Set of fields
-        if(!empty($_POST['edit_set_fields_name']) && !empty($_POST['edit_set_fields_id'])){
-            $set = array(
-                    'ID'           => $_POST['edit_set_fields_id'],
-                    'post_title'   => $_POST['edit_set_fields_name'],
-                    'post_content' => $_POST['edit_set_field_description']
-                );
-            wp_update_post( $set );
-        }
-
-        // Save fields for a set
-        if(!empty($_POST['extra-field-title']) && !empty($_POST['sf_id_for_field'])){
-            // save field
-            $field_id = wp_insert_post(array(
-                            'post_type'    => BPGE_FIELDS,
-                            'post_parent'  => $_POST['sf_id_for_field'], // assign to a set of fields
-                            'post_title'   => $_POST['extra-field-title'],
-                            'post_content' => $_POST['extra-field-desc'],
-                            'post_excerpt' => $_POST['extra-field-type'],
-                            'post_status'  => 'publish'
-                        ));
-
-            if(!empty($_POST['options'])){
-                $options = array();
-                foreach($_POST['options'] as $option){
-                    $options[] = htmlspecialchars(strip_tags($option));
-                }
-                update_post_meta( $field_id, 'bpge_field_options', $options );
-            }
-        }
-
-        // Save other options
-        if ( isset($_POST['saveData']) ) {
-            $bpge['groups']    = $_POST['bpge_groups'] ? $_POST['bpge_groups'] : array();
-            $bpge['re']        = $_POST['bpge_re'];
-            $bpge['uninstall'] = $_POST['bpge_uninstall'];
-
-            bp_update_option('bpge', $bpge);
-        }
-
-        if ( isset($_POST['bpge-import-data']) ) {
-            /**
-             * Default fields
-             */
-            // get list of set of fields
-            $set_fields = $wpdb->get_results(
-                            "SELECT option_name AS `slug`, option_value AS `set`
-                            FROM {$wpdb->options}
-                            WHERE option_name LIKE 'bpge-set-%%'");
-
-            // reformat data
-            if(!empty($set_fields)){
-                foreach($set_fields as &$set){
-                    $set->set = maybe_unserialize($set->set);
+                $tab = include($this->tabs_path . DS . $file);
+                if($tab){
+                    $this->bpge_tabs[] = $tab;
                 }
             }
+            closedir($handle);
+        }
 
-            // process the import part 1
-            foreach ((array)$set_fields as $set){
-                // save the set
-                $set_data = array(
-                        'post_type'    => BPGE_FIELDS_SET,
-                        'post_status'  => 'publish',
-                        'post_title'   => $set->set['name'],
-                        'post_content' => $set->set['desc']
-                    );
-                $set_id = wp_insert_post($set_data);
+        $this->bpge_tabs = apply_filters('bpge_admin_tabs', $this->bpge_tabs);
 
-                // now we need to save fields in that set
-                if(is_int($set_id)){}
-                    foreach((array)$set->set['fields'] as $field){
-                        $field_id = wp_insert_post(array(
-                                        'post_type'    => BPGE_FIELDS,
-                                        'post_parent'  => $set_id, // assign to a set of fields
-                                        'post_title'   => $field['name'],
-                                        'post_content' => $field['desc'],
-                                        'post_excerpt' => $field['type'],
-                                        'post_status'  => 'publish'
-                                    ));
-                        // and save options if any
-                        if(isset($field['options']) && !empty($field['options'])){
-                            $options = array();
-                            foreach($field['options'] as $option){
-                                $options[] = htmlspecialchars(strip_tags($option['name']));
-                            }
-                            update_post_meta( $field_id, 'bpge_field_options', $options );
-                        }
+        $this->reorder_tabs();
+    }
+
+    /**
+     * Used for sorting tabs according to their position
+     */
+    function reorder_tabs(){
+        if(empty($this->bpge_tabs) || !is_array($this->bpge_tabs))
+            return;
+
+        foreach($this->bpge_tabs as $tab){
+            $tmp[$tab->position] = $tab;
+        }
+
+        // make smaller position at the top of an array
+        ksort($tmp);
+        $this->bpge_tabs = $tmp;
+        unset($tmp);
+
+        // set the first tab as default
+        if(empty($this->default_tab)){
+            $first = reset($this->bpge_tabs);
+            $this->default_tab = $first->slug;
+        }
+    }
+
+    /**
+     * Load all required styles and scripts
+     */
+    function load_assets($pagehook){
+        $this->pagehook = $pagehook;
+
+        // Accordion for Tuts page
+        wp_enqueue_script('bpge_admin_js_acc', BPGE_URL . '/jquery.accordion.js', array('jquery'));
+        wp_enqueue_style('bpge_admin_css_acc', BPGE_URL . '/jquery.accordion.css');
+
+        add_action('admin_footer', array($this, 'load_pointers'));
+
+        // All other admin area js
+        add_action('admin_print_scripts', array($this, 'load_js'));
+        add_action('admin_print_styles', array($this, 'load_css'));
+    }
+
+    function load_pointers(){
+        $page = is_multisite()?'network/settings.php':'options-general.php';
+
+        $vote_content  = '<h3>'. __('BP Groups Extras: Features List', 'bpge'). '</h3>';
+        $vote_content .= '<p>'. sprintf(__('Go to plugin admin area and <a href="%s">vote</a> for new features!', 'bpge'), admin_url('/'.$page.'?page='.BPGE_ADMIN_SLUG.'&tab=more')) . '</p>';
+        $vote_content .= '<p>'. __('Based on voting results I will implement them in new plugin version (either in core or as modules to extend the initial functionality).', 'bpge'). '</p>';
+
+        $tuts_content  = '<h3>'. __('BP Groups Extras: Tutorials') .'</h3>';
+        $tuts_content .= '<p>'. sprintf(__('Now you can get the basic help from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled right into the plugin.', 'bpge'),  admin_url('/'.$page.'?page='.BPGE_ADMIN_SLUG.'&tab=tuts')) .'</p>';
+
+        $search_content  = '<h3>'. __('BP Groups Extras: Search') .'</h3>';
+        $search_content .= '<p>'. sprintf(__('Finally search in groups custom fields and pages is implemented! Get it working from special plugin <a href="%s">admin page</a>.', 'bpge'),  admin_url('/'.$page.'?page='.BPGE_ADMIN_SLUG.'&tab=search')) .'</p>';
+
+        // get all pointer that we dismissed
+        $dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) ) ;
+
+        // Check whether my pointer has been dismissed
+        if ( in_array( 'bpge_vote', $dismissed ) ) {
+            $vote_content = '';
+        }
+        if ( in_array( 'bpge_tuts', $dismissed ) ) {
+            $tuts_content = '';
+        }
+
+        if ( in_array( 'bpge_search', $dismissed ) ) {
+            $search_content = '';
+        }
+
+        if(!empty($vote_content)){ ?>
+            <script type="text/javascript">// <![CDATA[
+            jQuery(document).ready(function($) {
+                $('#menu-settings').pointer({
+                    content: '<?php echo $vote_content; ?>',
+                    position: {
+                        edge: 'left',
+                        align: 'center'
+                    },
+                    close: function() {
+                        $.post( ajaxurl, {
+                            action: 'dismiss-wp-pointer',
+                            pointer: 'bpge_vote'
+                        });
                     }
-                }
+                }).pointer('open');
+            });
+            // ]]></script>
+            <?php
+        }
 
-            /**
-             * Groups fields
-             */
-            // get list of groups that have gFields from  groupmeta
-            $gFields = $wpdb->get_row($wpdb->prepare(
-                            "SELECT group_id, meta_value AS `fields`
-                            FROM {$bp->table_prefix}bp_groups_groupmeta
-                            WHERE meta_key = 'bpge_fields'", __return_false()
-                        ));
-
-            // reformat data
-            if(!empty($gFields) && !empty($gFields->fields)){
-                $gFields->fields = json_decode($gFields->fields);
-            }
-
-            $i = 100;
-            if(!empty($gFields->fields) && is_array($gFields->fields) ){
-                foreach ($gFields->fields as $field){
-                    $new               = new Stdclass;
-                    $new->post_title   = apply_filters('bpge_new_field_title',    $field->title);
-                    $new->post_excerpt = apply_filters('bpge_new_field_type',     $field->type);
-                    $new->pinged       = apply_filters('bpge_new_field_required', $field->required);
-                    $new->post_status  = apply_filters('bpge_new_field_display',  $field->display=='1'?'publish':'draft');
-                    $new->post_parent  = apply_filters('bpge_new_field_group',    $gFields->group_id);
-                    $new->post_type    = apply_filters('bpge_new_field_type',     BPGE_GFIELDS);
-                    $new->menu_order   = $i;
-
-                    if(isset($field->options) && !empty($field->options)){
-                        $options = array();
-                        foreach($field->options as $option){
-                            $options[] = htmlspecialchars(strip_tags($option));
-                        }
+        if(!empty($tuts_content)){ ?>
+            <script type="text/javascript">// <![CDATA[
+            jQuery(document).ready(function($) {
+                $('#bpge_tab_tuts').pointer({
+                    content: '<?php echo $tuts_content; ?>',
+                    position: {
+                        edge: 'top',
+                        align: 'left'
+                    },
+                    close: function() {
+                        $.post( ajaxurl, {
+                            action: 'dismiss-wp-pointer',
+                            pointer: 'bpge_tuts'
+                        });
                     }
+                }).pointer('open');
+            });
+            // ]]></script>
+            <?php
+        }
 
-                    // Save Field
-                    $field_id = wp_insert_post($new);
-
-                    if(is_integer($field_id)){
-                        // Save field options
-                        update_post_meta($field_id, 'bpge_field_options', $options );
-
-                        $field_desc = apply_filters('bpge_new_field_desc', $field->desc);
-                        update_post_meta($field_id, 'bpge_field_desc', $field_desc);
+        if(!empty($search_content)){ ?>
+            <script type="text/javascript">// <![CDATA[
+            jQuery(document).ready(function($) {
+                $('#bpge_tab_search').pointer({
+                    content: '<?php echo $search_content; ?>',
+                    position: {
+                        edge: 'top',
+                        align: 'left'
+                    },
+                    close: function() {
+                        $.post( ajaxurl, {
+                            action: 'dismiss-wp-pointer',
+                            pointer: 'bpge_search'
+                        });
                     }
-                    $i++;
-                }
-            }
+                }).pointer('open');
+            });
+            // ]]></script>
+            <?php
         }
+    }
 
-        // Remove everything plugin-related except options
-        if ( isset($_POST['bpge-clear-data']) ) {
-            bpge_clear(false);
+    function load_js(){
+        wp_enqueue_script('wp-pointer');
+        if(isset($_GET['page']) && $_GET['page'] == BPGE_ADMIN_SLUG){
+            wp_enqueue_script('bpge_admin_js_popup', BPGE_URL . '/messi.js', array('jquery') );
         }
-
-        // now redirect to the same page to clear POST
-        if(isset($_POST['_wp_http_referer']))
-            wp_redirect(site_url($_POST['_wp_http_referer']));
+        wp_enqueue_script('bpge_admin_js', BPGE_URL . '/admin-scripts.js', array('wp-pointer') );
     }
 
-    /**
-     * Data import from versions before BPGE v3.4
-     */
-    function on_bpge_admin_import($bpge){ ?>
-        <p>
-            <?php _e('If you upgraded from any version of BuddyPress Groups Extras, which had the version number less than 3.4, and if you want to preserve all previously generated content (like default and groups fields etc) please do the import using controls below.','bpge');?>
-        </p>
+    function load_css(){
+        global $post_type;
 
-        <p class="description"><?php _e('<strong>Important</strong>: Do not import data twice - as this will create lots of duplicated fields.', 'bpge'); ?></p>
+        wp_enqueue_style('wp-pointer');
 
-        <p>
-            <input type="submit" name="bpge-import-data" value="<?php _e('Import Data', 'bpge'); ?>" class="button-primary" /> &nbsp;
-            <input type="submit" name="bpge-clear-data" value="<?php _e('Clear Data', 'bpge'); ?>" class="button" />
-        </p>
-
-        <p class="description"><?php _e('Note:Clearing data will delete everything except options on this page.', 'bpge'); ?></p>
-        <?php
-    }
-
-    /**
-     * Rich Editor
-     */
-    function on_bpge_admin_re($bpge){
-        echo '<p>';
-            _e('Would you like to enable Rich Editor for easy use of html tags for groups pages?','bpge');
-        echo '</p>';
-
-        echo '<p>';
-            echo '<label><input type="radio" name="bpge_re" '.($bpge['re'] == 1?'checked="checked"':'').' value="1">&nbsp'.__('Enable','bpge').'</label><br />';
-            echo '<label><input type="radio" name="bpge_re" '.($bpge['re'] != 1?'checked="checked"':'').' value="0">&nbsp'.__('Disable','bpge').'</label>';
-        echo '</p>';
-    }
-
-    /**
-     * Plugin Deactivation options
-     */
-    function on_bpge_admin_uninstall($bpge){
-        echo '<p>';
-            _e('On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?','bpge');
-        echo '</p>';
-
-        if(!isset($bpge['uninstall']))
-            $bpge['uninstall'] = 'no';
-
-        echo '<p>';
-            echo '<label><input type="radio" name="bpge_uninstall" '.($bpge['uninstall'] == 'no'?'checked="checked"':'').' value="no">&nbsp'.__('Preserve all data','bpge').'</label><br />';
-            echo '<label><input type="radio" name="bpge_uninstall" '.($bpge['uninstall'] == 'yes'?'checked="checked"':'').' value="yes">&nbsp'.__('Delete everything','bpge') . '</label>';
-        echo '</p>';
-    }
-
-    /**
-     * Promo (contact slaFFik)
-     */
-    function on_bpge_admin_promo($bpge){
-        echo '<p>If you:</p>
-                <ul style="list-style:disc;margin-left:15px;">
-                    <li>have a site/plugin idea and want to implement it</li>
-                    <li>want to modify this plugin to your needs and ready to sponsor this</li>
-                </ul>
-                <p>feel free to contact slaFFik via <a href="skype:slaffik_ua?chat">skype:slaFFik_ua</a></p>';
-    }
-
-    /**
-     * Set of Fields Management
-     */
-    function on_bpge_admin_fields($bpge){
-        echo '<p>';
-            _e('Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.','bpge');
-        echo '</p>';
-
-        $set_args = array(
-            'posts_per_page' => 50,
-            'numberposts'    => 50,
-            'orderby'        => 'ID',
-            'order'          => 'ASC',
-            'post_type'      => BPGE_FIELDS_SET
-        );
-        $set_of_fields = get_posts($set_args);
-
-        echo '<ul class="sets">';
-        if(!empty($set_of_fields)){
-            $fields_args = array(
-                'posts_per_page' => 50,
-                'numberposts'    => 50,
-                'orderby'        => 'ID',
-                'order'          => 'ASC',
-                'post_type'      => BPGE_FIELDS
-            );
-            foreach($set_of_fields as $set){
-                // get all fields in that set
-                $fields_args['post_parent'] = $set->ID;
-                $fields = get_posts($fields_args);
-                // display the html
-                bpge_view('admin_set_list', array('fields' => $fields, 'set' => $set));
-            }
-        }else{
-            echo '<li>';
-                echo '<span class="no_fields">'.__('Currently there are no predefined fields. Groups admins should create all fields by themselves.', 'bpge') . '</span>';
-            echo '</li>';
+        if (
+            (isset($_GET['post_type']) && $_GET['post_type'] == 'gpages')
+         || (isset($post_type) && $post_type == 'gpages')
+         || (isset($_GET['page']) && $_GET['page'] == $this->slug)
+        ) {
+            wp_enqueue_style('bpge_admin_css', BPGE_URL . '/admin-styles.css');
+            wp_enqueue_style('bpge_admin_css_messi', BPGE_URL . '/messi.css');
         }
-        echo '</ul>';
-
-        echo '<div class="clear"></div>';
-
-        // Adding set of fields
-        bpge_view('admin_set_add');
-
-        // Editing for set of fields
-        bpge_view('admin_set_edit');
-
-        // Form to add fields to a set
-        bpge_view('admin_set_field_add');
-    }
-
-    /**
-     * Display list of groups to enable BPGE for them
-     */
-    function on_bpge_admin_groups($bpge){
-        $arg['type']     = 'alphabetical';
-        $arg['per_page'] = '1000';
-        bpge_view('admin_groups_list', array('arg' => $arg));
     }
 
     /**
      * Actual html of a page (its core)
      */
-    function on_show_page() {
-        global $bp, $wpdb, $screen_layout_columns;
-
+    function admin_page() {
         //define some data that can be given to each metabox during rendering
-        $bpge = bp_get_option('bpge');
-        ?>
+        $tab = $this->get_cur_tab(); ?>
 
-        <div id="bpge-admin-general" class="wrap">
-            <?php screen_icon('options-general'); ?>
-            <style>table.link-group li{margin:0 0 0 25px}</style>
-            <h2><?php _e('BuddyPress Groups Extras','bpge') ?> <sup><?php echo 'v' . BPGE_VERSION; ?></sup> &rarr; <?php _e('Extend Your Groups', 'bpge') ?></h2>
+        <div id="bpge-admin" class="wrap">
+            <?php $this->bpge_header(); ?>
 
-            <?php if ( isset($_POST['saveData']) ) { ?>
-                <div id='message' class='updated fade'><p><?php _e('All changes were saved. Go and check results!', 'bpge');?></p></div>
-            <?php } ?>
-
-            <form action="" id="bpge-form" method="post">
+            <form action="" class="tab_<?php echo $tab; ?>" id="bpge-form" method="post">
                 <?php
-                wp_nonce_field('bpge-admin-general');
-                wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false );
-                wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
-
-                <div id="poststuff" class="metabox-holder<?php echo (2 == $screen_layout_columns) ? ' has-right-sidebar' : ''; ?>">
-                    <?php if( !is_multisite() ) { ?>
-                        <div id="side-info-column" class="inner-sidebar">
-                            <p style="text-align:center">
-                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>
-                                <a class="button" href="" title="<?php _e('Refresh current page', 'bpge') ?>"><?php _e('Refresh', 'bpge') ?></a>
-                            </p>
-                            <?php do_meta_boxes($this->pagehook, 'side', $bpge); ?>
-                        </div>
-                    <?php } ?>
-                    <div id="post-body" class="<?php !is_multisite()?' has-sidebar':''; ?>">
-                        <div id="post-body-content" class="<?php !is_multisite()?' has-sidebar-content':''; ?>">
-                            <?php
-                            do_meta_boxes($this->pagehook, 'normal', $bpge);
-                            if( is_multisite() ) {
-                                do_meta_boxes($this->pagehook, 'side', $bpge);
-                            }
-                            ?>
-                            <p>
-                                <input type="submit" value="<?php _e('Save Changes', 'bpge') ?>" class="button-primary" name="saveData"/>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                wp_nonce_field( 'bpge-options' );
+                settings_fields( $tab );
+                do_settings_sections( $tab );
+                submit_button();
+                ?>
             </form>
         </div>
-        <script type="text/javascript">
-            jQuery(document).ready( function() {
-                jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
-                postboxes.add_postbox_toggles('<?php echo $this->pagehook; ?>');
-            });
-        </script>
-    <?php
+        <?php
     }
+
+    /**
+     * We need to know the current tab at any time
+     * If not specified - get the default one
+     */
+    function get_cur_tab(){
+        if(isset($_GET['tab']) && !empty($_GET['tab'])) {
+            return $_GET['tab'];
+        }else{
+            return $this->default_tab;
+        }
+    }
+
+    /**
+     * Content part with header section.
+     * HTML
+     */
+    function bpge_header(){
+        $current_tab = $this->get_cur_tab();
+        screen_icon('options-general');
+        echo '<h2>';
+            _e('BuddyPress Groups Extras','bpge');
+            echo '<sup>v' . BPGE_VERSION . '</sup> &rarr; ';
+            _e('Extend Your Groups', 'bpge');
+            do_action('bpge_admin_header_title');
+        echo '</h2>';
+
+        if ( isset($_GET['saved']) ) {
+            echo '<div id="message" class="updated fade"><p>'. __('All changes were saved. Go and check results!', 'bpge'). '</p></div>';
+        }
+
+        echo '<h3 class="nav-tab-wrapper">';
+            foreach ( $this->bpge_tabs as $tab ) {
+                $active = $current_tab == $tab->slug ? 'nav-tab-active' : '';
+                echo '<a class="nav-tab ' . $active . '" id="bpge_tab_'. $tab->slug .'" href="?page='. $this->slug .'&tab='. $tab->slug .'">'. $tab->title .'</a>';
+            }
+            do_action('bpge_admin_tabs_links');
+
+            if( defined('BPGE_PRO')){
+                echo '<a class="nav-tab" target="_blank" style="float:right" href="http://ovirium.com/support/">'. __('Support', 'bpge') .'</a>';
+            }else{
+                echo '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:right;margin-top:-45px" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="PQMTKCJXWQ2CU">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>';
+
+                echo '<a class="nav-tab" target="_blank" style="float:right" href="http://wordpress.org/support/plugin/buddypress-groups-extras#latest">'. __('Support', 'bpge') .'</a>';
+            }
+        echo '</h3>';
+    }
+}
+
+/*************************************************************************/
+
+/**
+* Class that will be a skeleton for all other pages
+*/
+class BPGE_ADMIN_TAB {
+    // all theme options
+    var $bpge = null;
+
+    // all these vars are required and should be overwritten
+    var $position = 0;
+    var $title    = null;
+    var $slug     = null;
+
+    /**
+    * Create the actual page object
+    */
+    function __construct(){
+        if(!(isset($_GET['page']) && $_GET['page'] == BPGE_ADMIN_SLUG)){
+            return;
+        }
+
+        global $bpge;
+        $this->bpge = $bpge;
+
+        register_setting( $this->slug, $this->slug );
+        add_settings_section(
+            $this->slug . '_settings', // section id
+            '', // title
+            array(&$this, 'display'), // method handler
+            $this->slug // slug
+        );
+
+        $this->register_sections();
+
+        $tab = 'general';
+        if(isset($_GET['tab'])){
+            $tab = $_GET['tab'];
+        }
+
+        // process save process
+        if(is_admin() && !empty($_POST)
+            && isset($_GET['page']) && $_GET['page'] == BPGE_ADMIN_SLUG
+            && $this->slug == $tab
+        ){
+            $this->save();
+            // now redirect to the same page to clear POST
+            wp_redirect(str_replace('&saved', '', home_url($_POST['_wp_http_referer'])).'&saved');
+        }
+    }
+
+    /**
+     * Here we need to register all settings if needed
+     * Those sections will be used to display fields/options
+     * @override
+     */
+    function register_sections(){}
+
+    /**
+    * HTML should be here
+    * @override
+    */
+    function display(){}
+
+    /**
+    * All security and data checks should be here
+    * @override
+    */
+    function save(){}
 }

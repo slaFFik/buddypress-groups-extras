@@ -1,11 +1,7 @@
+<p class="description" style="margin-bottom:12px">
+    <?php _e('Which groups do you allow to create custom fields and pages for?', 'bpge') ?>
+</p>
 <table id="bp-gtm-admin-table" class="widefat link-group">
-    <thead>
-        <tr class="header">
-            <td colspan="2">
-                <p><?php _e('Which groups do you allow to create custom fields and pages?', 'bpge') ?></p>
-            </td>
-        </tr>
-    </thead>
     <tbody id="the-list">
         <tr>
             <td class="checkbox"><p><input type="checkbox" class="bpge_allgroups" name="bpge_groups" <?php echo ('all' == $bpge['groups']) ? 'checked="checked" ' : ''; ?> value="all" /></p></td>
@@ -13,7 +9,8 @@
         </tr>
         <?php
         if ( bp_has_groups($arg) ){
-            while ( bp_groups() ) : bp_the_group();
+            while ( bp_groups() ) {
+                bp_the_group();
                 $description = preg_replace( array('<<p>>', '<</p>>', '<<br />>', '<<br>>'), '', bp_get_group_description_excerpt() );
                 echo '<tr>
                         <td class="checkbox">
@@ -23,18 +20,12 @@
                             <p><a href="'.bp_get_group_permalink().'admin/extras/" target="_blank">'. bp_get_group_name() .'</a> &rarr; '.$description.'</p>
                         </td>
                     </tr>';
-            endwhile;
+            }
         }
         ?>
-    </tbody>
-    <tfoot>
-        <tr class="header">
-            <td><p>
-                <input type="checkbox" class="bpge_allgroups" name="bpge_groups" <?php echo ('all' == $bpge['groups']) ? 'checked="checked" ' : ''; ?> value="all" />
-            </p></td>
-            <td><p>
-                <strong><?php _e('All groups', 'bpge') ?></strong>
-            </p></td>
+        <tr>
+            <td class="checkbox"><p><input type="checkbox" class="bpge_allgroups" name="bpge_groups" <?php echo ('all' == $bpge['groups']) ? 'checked="checked" ' : ''; ?> value="all" /></p></td>
+            <td><p><strong><?php _e('All groups', 'bpge') ?></strong></p></td>
         </tr>
-    </tfoot>
+    </tbody>
 </table>

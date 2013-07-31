@@ -58,8 +58,7 @@ jQuery(document).ready(function($){
     // delete page
     jQuery("#pages-sortable li span a.delete_page").click(function(e){
         e.preventDefault();
-        var li = jQuery(this).parent().parent().attr('id').split('_');
-        var page = li[1];
+        var page = jQuery(this).parent().parent().attr('id').split('_')[1];
         jQuery.post( ajaxurl, {
             action: 'bpge',
             method: 'delete_page',

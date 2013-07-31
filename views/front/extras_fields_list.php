@@ -2,8 +2,8 @@
     <?php
     foreach((array)$fields as $field){ ?>
         <li id="position_<?php echo $field->ID; ?>" class="default">
-            <strong title="<?php echo  htmlspecialchars(strip_tags($field->post_content));?>"><?php echo $field->post_title;?></strong>
-            &rarr; <?php echo $field->post_excerpt;?>
+            <strong title="<?php echo  htmlspecialchars(strip_tags($field->post_content));?>"><?php echo stripslashes($field->post_title);?></strong>
+            &rarr; <?php echo stripslashes($field->post_excerpt);?>
             &rarr; <?php (($field->post_status == 'publish')?_e('displayed','bpge'):_e('<u>not</u> displayed','bpge'));?>
             &rarr; <?php (($field->pinged == 'req')?_e('required','bpge'):_e('<u>not</u> required','bpge'));?>
             <span class="items-link">

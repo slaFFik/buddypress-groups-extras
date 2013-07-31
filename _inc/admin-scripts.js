@@ -1,9 +1,8 @@
 jQuery(document).ready(function($){
 
-    /*
+    /**
      * Groups checkboxes
-    */
-
+     */
     jQuery('#bp-gtm-admin-table .bpge_allgroups').change(function(){
         var status = jQuery(this).attr('checked');
         if(status == 'checked'){
@@ -24,19 +23,63 @@ jQuery(document).ready(function($){
      * Fields set
      **/
     // show fields under the set
-    $('#bpge-admin-fields .display_fields').click(function(){
+    jQuery('#bpge-admin .display_fields').click(function(e){
+        e.preventDefault();
         var set_fields_id = $(this).data('set_id');
-        $('#bpge-admin-fields #fields_'+set_fields_id).slideToggle('fast');
-        $('#bpge-admin-fields #fields_'+set_fields_id+' li:last').css('list-style','none');
+        jQuery('#bpge-admin #fields_'+set_fields_id).slideToggle('fast');
+        jQuery('#bpge-admin #fields_'+set_fields_id+' li:last').css('list-style','none');
         return false;
     });
 
+    // apply the set to groups via ajax
+    jQuery('#bpge-admin .set_apply').click(function(e){
+        e.preventDefault();
+        var set_id = $(this).data('set_id');
+        var set_name = $('#set-'+set_id+' .name').text();
+        var link = jQuery(this);
+
+        if(link.hasClass('applied'))
+           return;
+
+        new Messi(bpge.apply_set, {
+            title: set_name,
+            buttons: [{id: 0, label: bpge.yes, val: 'Y'}, {id: 1, label: bpge.no, val: 'N'}],
+            callback: function(val) {
+                if(val == 'N')
+                    return;
+
+                jQuery.ajax({
+                    url: ajaxurl,
+                    type: 'POST',
+                    data: {
+                        action: 'bpge',
+                        method: 'apply_set',
+                        set_id: set_id
+                    },
+                    success: function(response){
+                        if(response == 'success'){
+                            link.addClass('applied')
+                                .text(bpge.applied);
+                            new Messi(bpge.success_apply_set, {title: bpge.success, titleClass: 'success', buttons: [{id: 0, label: bpge.close, val: 'X'}]});
+                        }else{
+                            new Messi(bpge.error_apply_set, {title: bpge.error, titleClass: 'error', buttons: [{id: 0, label: bpge.close, val: 'X'}]});
+                        }
+                    },
+                    error: function(response){
+                        new Messi(bpge.error_apply_set, {title: bpge.error, titleClass: 'error', buttons: [{id: 0, label: bpge.close, val: 'X'}]});
+                    },
+                    complete: function(){}
+                });
+            }
+        });
+    });
+
     // delete set of fields with all its fields
-    $('ul.sets a.field_delete').click(function(e){
+    jQuery('ul.sets a.field_delete').click(function(e){
         e.preventDefault();
         var field_id = jQuery(this).data('set_id');
 
-        $.ajax({
+        jQuery.ajax({
             url: ajaxurl,
             type: 'POST',
             data: {
@@ -45,8 +88,8 @@ jQuery(document).ready(function($){
             },
             success: function(response){
                 if(response == 'deleted'){
-                    $('ul.sets li#set-'+field_id).fadeOut('fast',function(){
-                        $(this).remove();
+                    jQuery('ul.sets li#set-'+field_id).fadeOut('fast',function(){
+                        jQuery(this).remove();
                     });
                 }
             }
@@ -54,7 +97,7 @@ jQuery(document).ready(function($){
     });
 
     // Edit set of fields
-    $('#bpge-admin-fields .field_edit').click(function(){
+    $('#bpge-admin .field_edit').click(function(){
         var display_add = $('#box_add_set_fields').css('display');
         var display_addf = $('#box_add_field').css('display');
         if(display_add == 'block'){
@@ -68,7 +111,7 @@ jQuery(document).ready(function($){
             $('#box_add_field textarea[name="extra-field-desc"]').val('');
             $('#box_add_field select#extra-field-type option:first').attr('selected','selected');
         }
-        $('#bpge-admin-fields .fields').slideUp('fast');
+        $('#bpge-admin .fields').slideUp('fast');
         var set_fields_id = $(this).data('set_id');
         var name_set_fields = $('#set-' + set_fields_id + ' .name').html();
         var desc_set_fields = $('#set-' + set_fields_id + ' .desc').html();
@@ -81,7 +124,7 @@ jQuery(document).ready(function($){
     });
 
     // Add set of fields
-    $('#bpge-admin-fields .add_set_fields').click(function(){
+    $('#bpge-admin .add_set_fields').click(function(){
         var display_edit = $('#box_edit_set_fields').css('display');
         var display_addf = $('#box_add_field').css('display');
         if(display_edit == 'block'){
@@ -96,13 +139,13 @@ jQuery(document).ready(function($){
             $('#box_add_field textarea[name="extra-field-desc"]').val('');
             $('#box_add_field select#extra-field-type option:first').attr('selected','selected');
         }
-        $('#bpge-admin-fields .fields').slideUp('fast');
-        $('#bpge-admin-fields #box_add_set_fields').css('display','block');
+        $('#bpge-admin .fields').slideUp('fast');
+        $('#bpge-admin #box_add_set_fields').css('display','block');
         return false;
     });
 
     // Add field for a set of fields
-    $('#bpge-admin-fields .add_field').click(function(){
+    $('#bpge-admin .add_field').click(function(){
         var display_add  = $('#box_add_set_fields').css('display');
         var display_edit = $('#box_edit_set_fields').css('display');
         if(display_add == 'block'){
@@ -121,7 +164,7 @@ jQuery(document).ready(function($){
         $('#box_add_field h4 span').html(name_set_fields);
         $('#box_add_field input[name="sf_id_for_field"]').val(set_fields_id);
         $('#extra-field-vars').css('display', 'none');
-        $('#bpge-admin-fields #box_add_field').css('display','block');
+        $('#bpge-admin #box_add_field').css('display','block');
         return false;
     });
 

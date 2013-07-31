@@ -1,13 +1,15 @@
 <?php
 /*
 Plugin Name: BuddyPress Groups Extras
-Plugin URI: http://ovirium.com/
+Plugin URI: http://ovirium.com/portfolio/bp-groups-extras/
 Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
-Version: 3.4
+Version: 3.6.1
 Author: slaFFik
-Author URI: http://cosydale.com/
+Author URI: http://ovirium.com/
 */
-define('BPGE_VERSION',    '3.4');
+define('BPGE_VERSION',    '3.6.1');
+define('BPGE',            'bpge');
+define('BPGE_ADMIN_SLUG', 'bpge-admin');
 define('BPGE_FIELDS',     'bpge_fields');
 define('BPGE_FIELDS_SET', 'bpge_fields_set');
 define('BPGE_GFIELDS',    'bpge_gfields');
@@ -15,15 +17,21 @@ define('BPGE_GPAGES',     'gpages');
 define('BPGE_URL',        plugins_url('_inc', __FILE__ )); // link to all assets, with /
 define('BPGE_PATH',       plugin_dir_path(__FILE__)); // with /
 
+if(!defined('DS'))
+    define('DS', DIRECTORY_SEPARATOR);
+
 /**
  * What to do on activation
  */
 register_activation_hook( __FILE__, 'bpge_activation');
 function bpge_activation() {
-    // some activation defaults
-    $bpge['groups']    = 'all';
-    $bpge['uninstall'] = 'no';
-    $bpge['re']        = '1';
+    // some defaults
+    $bpge['groups']        = 'all';
+    $bpge['uninstall']     = 'no';
+    $bpge['re']            = '1';
+    $bpge['re_fields']     = 'no';
+    $bpge['access_extras'] = 'g_s_admin';
+    $bpge['field_2_link']  = 'no';
 
     add_option('bpge', $bpge, '', 'yes');
 }
@@ -70,15 +78,48 @@ function bpge_load_textdomain() {
 }
 
 /**
+ * Load admin menu
+ */
+if(is_multisite()){
+    add_action('network_admin_menu', 'bpge_admin_init');
+}else{
+    add_action('admin_menu', 'bpge_admin_init');
+}
+function bpge_admin_init(){
+    include( BPGE_PATH . '/core/admin.php');
+
+    $admin = new BPGE_ADMIN();
+    $pagehook = add_submenu_page(
+            is_multisite()?'settings.php':'options-general.php',
+            __('BP Groups Extras', 'bpge'),
+            __('BP Groups Extras', 'bpge'),
+            'manage_options',
+            BPGE_ADMIN_SLUG,
+            array( $admin, 'admin_page') );
+    $admin->load_assets($pagehook);
+
+    do_action('bpge_admin_load');
+}
+
+/**
  * The main loader - BPGE Engine
  */
-// dirty hack #1 to work around BP bug: http://buddypress.trac.wordpress.org/ticket/4072
 add_action('init','bpge_pre_load');
 function bpge_pre_load(){
     global $bpge;
 
-    if (defined('BP_VERSION'))
-        $bpge = bp_get_option('bpge');
+    if (!defined('BP_VERSION'))
+        return;
+
+    $bpge = bp_get_option('bpge');
+
+    // scripts and styles
+    require ( BPGE_PATH . '/core/cssjs.php');
+    require ( BPGE_PATH . '/core/ajax.php');
+    require ( BPGE_PATH . '/core/templates.php');
+
+    // load pro features
+    bpge_include_pro_files(dirname(__FILE__).'/_pro');
 
     // gpages
     bpge_register_groups_pages();
@@ -96,36 +137,38 @@ add_action( 'bp_init', 'bpge_load' );
 function bpge_load(){
     global $bp, $bpge;
 
-    // dirty hack #2
-    if (!$bpge)
-        $bpge = bp_get_option('bpge');
+    if ( bp_is_group() && !defined('DOING_AJAX')) {
+        if(
+            (is_string($bpge['groups']) && $bpge['groups'] == 'all') ||
+            (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']))
+        ){
+            require ( BPGE_PATH . '/core/loader.php');
+        }
 
-    // scripts and styles
-    require ( BPGE_PATH . '/core/cssjs.php');
-    require ( BPGE_PATH . '/core/ajax.php');
+        do_action('bpge_group_load');
+    }
+}
 
-    // admin interface
-    if ( is_admin() ){
-        require ( BPGE_PATH . '/core/admin.php');
-    }else{
-        // the core
-        if ( bp_is_group() ) {
-            if(
-                (is_string($bpge['groups']) && $bpge['groups'] == 'all') ||
-                (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']))
-            ){
-                require ( BPGE_PATH . '/core/loader.php');
+function bpge_include_pro_files($dir){
+    if(!is_dir($dir))
+        return false;
+
+    if ($handle = opendir($dir)) {
+        while (false !== ($file = readdir($handle))) {
+            if ($file == "." || $file == "..") continue;
+
+            if(is_dir($dir . DS . $file)){
+                bpge_include_pro_files($dir . DS . $file);
             }else{
-                $bp->no_extras = true;
+                include ($dir . DS . $file);
             }
         }
+        closedir($handle);
     }
-
-    do_action('bpge_load');
 }
 
 // reorder group nav links
-add_action('bp_init', 'bpge_nav_order');
+add_action('bp_head', 'bpge_nav_order', 100);
 function bpge_nav_order(){
     global $bp, $bpge;
 
@@ -137,13 +180,18 @@ function bpge_nav_order(){
 
         if (!empty($order) && is_array($order)){
             foreach($order as $slug => $position){
-                $bp->bp_options_nav[$bp->groups->current_group->slug][$slug]['position'] = $position;
+                if(isset($bp->bp_options_nav[$bp->groups->current_group->slug][$slug])){
+                    $bp->bp_options_nav[$bp->groups->current_group->slug][$slug]['position'] = $position;
+                }
             }
         }
 
         do_action('bpge_nav_order');
+
+        return $bp->bp_options_nav[$bp->groups->current_group->slug];
     }
 }
+
 
 /**
  * Groups navigation reordering
@@ -151,13 +199,19 @@ function bpge_nav_order(){
 add_filter('bp_groups_default_extension','bpge_landing_page');
 function bpge_landing_page($old_slug){
     global $bp, $bpge;
-        $new_slug = $old_slug;
+
+    $new_slug = $old_slug;
 
     if ( bp_is_group() && bp_is_single_item() &&
-         in_array($bp->groups->current_group->id, (array)$bpge['groups'])
+        (
+            (is_array($bpge['groups']) && in_array($bp->groups->current_group->id, $bpge['groups']))
+            ||
+            (is_string($bpge['groups']) && $bpge['groups'] == 'all')
+        )
     ){
         // get all pages - take the first
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
+
         if(is_array($order) && !empty($order))
             $new_slug = reset(array_flip($order));
     }
@@ -270,22 +324,28 @@ function bpge_gpages_redirect_to_all() {
 /**
  * Several Helpers
  */
-// Display view
-function bpge_view($view, $params = false){
-    global $bp, $bpge;
+// Check access level: true or false as return
+if(!function_exists('bpge_user_can')){
+    function bpge_user_can($item, $user_id = false){
+        global $bp, $bpge;
 
-    do_action('bpge_view_pre', $view, $params);
+        if(empty($user_id) || !is_int($user_id) || $user_id < 1)
+            $user_id = bp_loggedin_user_id();
 
-    $params = apply_filters('bpge_view_params', $params);
+        if (is_super_admin($user_id))
+            return true;
 
-    if(!empty($params))
-        extract($params);
+        $current_group = groups_get_current_group();
 
-    $path = BPGE_PATH . 'views/'. $view . '.php';
-    if(file_exists($path))
-        include $path;
+        switch($item){
+            case 'group_extras_admin':
+                if ($bpge['access_extras'] == 'g_s_admin' && groups_is_user_admin($user_id, $current_group->id))
+                    return true;
+                break;
+        }
 
-    do_action('bpge_view_post', $view, $params);
+        return false;
+    }
 }
 
 // Helper for generating some titles

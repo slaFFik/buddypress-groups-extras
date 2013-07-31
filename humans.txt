@@ -1,0 +1,16 @@
+/* TEAM */
+
+    Developer: Slava UA
+    Contact: support [at] ovirium.com
+    Twitter: @slaFFik
+    From: Kharkiv, Ukraine
+
+/* THANKS */
+
+    WordPress.org
+    BuddyPress.org
+
+/* Plugin */
+
+    Language: English / Russian / German / Italian
+    IDE: Sublime Text 3
