@@ -97,7 +97,7 @@ class BPGE_ADMIN {
         $page = is_multisite()?'network/settings.php':'options-general.php';
 
         $vote_content  = '<h3>'. __('BP Groups Extras: Features List', 'bpge'). '</h3>';
-        $vote_content .= '<p>'. sprintf(__('Go to plugin admin area and <a href="%s">vote</a> for new features!', 'bpge'), admin_url('/'.$page.'?page='.BPGE_ADMIN_SLUG.'&tab=more')) . '</p>';
+        $vote_content .= '<p>'. sprintf(__('Go to plugin admin area and <a href="%s">vote</a> for new features!', 'bpge'), admin_url('/'.$page.'?page='.BPGE_ADMIN_SLUG.'&tab=poll')) . '</p>';
         $vote_content .= '<p>'. __('Based on voting results I will implement them in new plugin version (either in core or as modules to extend the initial functionality).', 'bpge'). '</p>';
 
         $tuts_content  = '<h3>'. __('BP Groups Extras: Tutorials') .'</h3>';
@@ -218,7 +218,15 @@ class BPGE_ADMIN {
         <div id="bpge-admin" class="wrap">
             <?php $this->bpge_header(); ?>
 
-            <form action="" class="tab_<?php echo $tab; ?>" id="bpge-form" method="post">
+            <?php
+            $page = is_multisite()?'network/settings.php':'options-general.php';
+            $page_url = admin_url('/'.$page.'?page='.BPGE_ADMIN_SLUG);
+            if(isset($_GET['tab']) && !empty($_GET['tab'])){
+                $page_url .= '&tab='. $_GET['tab'];
+            }
+            ?>
+
+            <form action="<?php echo $page_url; ?>" class="tab_<?php echo $tab; ?>" id="bpge-form" method="post">
                 <?php
                 wp_nonce_field( 'bpge-options' );
                 settings_fields( $tab );
