@@ -338,7 +338,7 @@ class BPGE_ADMIN_TAB {
         ){
             $this->save();
             // now redirect to the same page to clear POST
-            wp_redirect(str_replace('&saved', '', home_url($_POST['_wp_http_referer'])).'&saved');
+            wp_redirect(str_replace('&saved', '', $_POST['_wp_http_referer']).'&saved');
         }
     }
 
