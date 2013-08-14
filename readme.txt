@@ -2,7 +2,7 @@
 Contributors: slaFFik, valant
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
 Requires at least: 3.4 and BP 1.6
-Tested up to: 3.5.2 and BP BP 1.7.3
+Tested up to: 3.6 and BP 1.8.1
 Stable tag: 3.6.2
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
