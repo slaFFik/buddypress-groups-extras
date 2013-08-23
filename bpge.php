@@ -10,12 +10,13 @@ Author URI: http://ovirium.com/
 define('BPGE_VERSION',    '3.6.2');
 define('BPGE',            'bpge');
 define('BPGE_ADMIN_SLUG', 'bpge-admin');
+define('BPGE_URL',        plugins_url('_inc', __FILE__ )); // link to all assets, with /
+define('BPGE_PATH',       plugin_dir_path(__FILE__)); // with /
+// post types
 define('BPGE_FIELDS',     'bpge_fields');
 define('BPGE_FIELDS_SET', 'bpge_fields_set');
 define('BPGE_GFIELDS',    'bpge_gfields');
 define('BPGE_GPAGES',     'gpages');
-define('BPGE_URL',        plugins_url('_inc', __FILE__ )); // link to all assets, with /
-define('BPGE_PATH',       plugin_dir_path(__FILE__)); // with /
 
 if(!defined('DS'))
     define('DS', DIRECTORY_SEPARATOR);
