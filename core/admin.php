@@ -259,7 +259,9 @@ class BPGE_ADMIN {
         screen_icon('options-general');
         echo '<h2>';
             _e('BuddyPress Groups Extras','bpge');
-            echo '<sup>v' . BPGE_VERSION . '</sup> &rarr; ';
+            echo '<sup>v' . BPGE_VERSION . '</sup> ';
+            do_action('bpge_admin_header_title_pro');
+            echo '&rarr; ';
             _e('Extend Your Groups', 'bpge');
             do_action('bpge_admin_header_title');
         echo '</h2>';
@@ -305,6 +307,9 @@ class BPGE_ADMIN_TAB {
     var $title    = null;
     var $slug     = null;
 
+    // used by some pro extensions
+    var $extras_to_header = array();
+
     /**
     * Create the actual page object
     */
@@ -325,6 +330,12 @@ class BPGE_ADMIN_TAB {
         );
 
         $this->register_sections();
+
+        if($test = $this->header_title_attach()) {
+            $this->extras_to_header[] = $test;
+        }
+
+        add_action('bpge_admin_header_title', array($this, 'apply_header_extras'), 10);
 
         $tab = 'general';
         if(isset($_GET['tab'])){
@@ -348,6 +359,17 @@ class BPGE_ADMIN_TAB {
      * @override
      */
     function register_sections(){}
+
+    /**
+     * In case we need to add some strings to the admin page header
+     */
+    function header_title_attach(){}
+
+    function apply_header_extras(){
+        if ($data = array_filter($this->extras_to_header)){
+            echo ' ['. implode(', ', $data) . ']';
+        }
+    }
 
     /**
     * HTML should be here

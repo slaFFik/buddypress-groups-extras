@@ -421,3 +421,10 @@ function bpge_get_group_fields($status = 'publish', $group_id = false){
 
     return $fields;
 }
+
+add_action('bpge_admin_header_title_pro', 'bpge_admin_header_title_pro', 1);
+function bpge_admin_header_title_pro(){
+    if(defined('BPGE_PRO')){
+        echo ' [PRO] ';
+    }
+}
