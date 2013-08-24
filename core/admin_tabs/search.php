@@ -37,7 +37,9 @@ class BPGE_ADMIN_SEARCH extends BPGE_ADMIN_TAB {
 
         echo '<a href="http://ovirium.com/downloads/bp-groups-extras-pro-search/" target="_blank" class="button-primary buy_bpge">'. __('Buy Now for just $12<sup>.00</sup>', 'bpge') .'</a>';
 
-        echo '<p><img style="padding:5px;border:1px solid #ccc" src="http://ovirium.com/wp-content/uploads/edd/2013/06/bpge_pro_search_small.png" width="741" height="433" title="BP Groups Extras Pro - Search" alt="BP Groups Extras Pro - Search" /></p>';
+        echo '<p>Below is the screenshot of what you will get after purchasing the Search extension.</p>';
+
+        echo '<p><img style="padding:5px;border:1px solid #ccc" src="https://dl.dropboxusercontent.com/u/6771917/bpge/bpge_search_promo.jpg" width="931" height="540" title="BP Groups Extras Pro - Search" alt="BP Groups Extras Pro - Search" /></p>';
 
         // hide Submit button
         echo '<style>.submit{display:none}</style>';
