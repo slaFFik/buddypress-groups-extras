@@ -3,7 +3,7 @@ Contributors: slaFFik, valant
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
 Requires at least: 3.4 and BP 1.6
 Tested up to: 3.6 and BP 1.8.1
-Stable tag: 3.6.2
+Stable tag: 3.6.3
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
 
@@ -71,12 +71,13 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
-= 3.6.2 (14.08.2013) =
-* Fix 404 error on saving data in admin area if WordPress installed in subdirectory
-* Updated German translation
-* Added French translation
+= 3.6.3 (24.08.2013) =
+* Several minor changes to improve the way plugin works with PRO extensions
 
 == Changelog ==
+
+= 3.6.3 (24.08.2013) =
+* Several minor changes to improve the way plugin works with PRO extensions
 
 = 3.6.2 (14.08.2013) =
 * Fix 404 error on saving data in admin area if WordPress installed in subdirectory
