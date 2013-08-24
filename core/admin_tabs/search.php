@@ -41,6 +41,10 @@ class BPGE_ADMIN_SEARCH extends BPGE_ADMIN_TAB {
 
         echo '<p><img style="padding:5px;border:1px solid #ccc" src="https://dl.dropboxusercontent.com/u/6771917/bpge/bpge_search_promo.jpg" width="931" height="540" title="BP Groups Extras Pro - Search" alt="BP Groups Extras Pro - Search" /></p>';
 
+        echo '<p>And here is how the search results look like.</p>';
+
+        echo '<p><img src="http://content.screencast.com/users/slaFFik/folders/Jing/media/b4fd1e6f-e76d-4cde-8a68-541398de598c/2013-08-24_0157.png" /></p>';
+
         // hide Submit button
         echo '<style>.submit{display:none}</style>';
     }
