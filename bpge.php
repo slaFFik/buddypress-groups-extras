@@ -306,6 +306,39 @@ function bpge_register_groups_pages(){
     register_post_type(BPGE_GPAGES, $args);
 }
 
+// Delete associated gpage on group delete
+add_action('bp_groups_delete_group', 'bpge_delete_group', 10, 2);
+function bpge_delete_group($group_obj, $user_ids){
+    global $bp, $wpdb;
+
+    if(isset($bp->groups->current_group->extras['gpage_id']) && !empty($bp->groups->current_group->extras['gpage_id'])){
+        $to_delete = $bp->groups->current_group->extras['gpage_id'];
+    }else{
+        $bpge = groups_get_groupmeta($group_obj->id, 'bpge');
+        $to_delete = $bpge['gpage_id'];
+    }
+
+    // remove all group pages
+    $pages = $wpdb->get_col($wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE `post_parent` = %d",
+                $to_delete
+            ));
+    // remove all group fields
+    $fields = $wpdb->get_col($wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE `post_type` = '%s' AND  `post_parent` = %d",
+                BPGE_GFIELDS, $group_obj->id
+            ));
+    $data = array_merge($pages, $fields);
+    if(!empty($data)){
+        $wpdb->query($wpdb->prepare(
+            "DELETE FROM {$wpdb->posts} WHERE `ID` IN (%s)",
+            implode(',', $data)
+        ));
+    }
+
+    wp_delete_post($to_delete, true);
+}
+
 // hide add new menu and redirect from it to the whole list - do not allow admin to add manually
 add_action('admin_menu', 'bpge_gpages_hide_add_new');
 function bpge_gpages_hide_add_new() {

@@ -43,16 +43,17 @@ class BPGE_ADMIN {
     function manage_columns($columns){
         return array(
             'cb'         => '<input type="checkbox" />',
-            'title'      => __('Title'),
+            'title'      => __('Title', 'bpge'),
             'group_link' => __('Group Links', 'bpge'),
             'page_link'  => __('Page Links', 'bpge'),
-            'date'       => __('Date')
+            'date'       => __('Date', 'bpge')
         );
     }
 
     function manage_columns_content($column, $post_id) {
-        $group_id         = get_post_meta($post_id, 'group_id', true);
-        $post             = get_post($post_id);
+        $group_id = get_post_meta($post_id, 'group_id', true);
+        $post     = get_post($post_id);
+
         if(empty($group_id)){
             $groups_class  = new BP_Groups_Group;
             $groups_handle = $groups_class->get(array(
@@ -63,6 +64,10 @@ class BPGE_ADMIN {
             $group = $groups_handle['groups'][0];
         }else{
             $group = groups_get_group( array( 'group_id' => $group_id ) );
+        }
+
+        if($group->id == 0){
+            return;
         }
 
         $group_link       = bp_get_group_permalink( $group );
@@ -83,9 +88,7 @@ class BPGE_ADMIN {
                 if($post->post_parent == 0)
                     break;
 
-                $link = $group_link . BPGE_GPAGES.'/'.$post->post_name.'/';
-
-                echo '<a href="'.$link.'" target="_blank">'.__('Visit', 'bpge').'</a>';
+                echo '<a href="'.$group_link . BPGE_GPAGES.'/'.$post->post_name.'/" target="_blank">'.__('Visit', 'bpge').'</a>';
                 echo ' | ';
                 echo '<a href="'.$group_admin_link.'extras/pages-manage/?edit='.$post_id.'" target="_blank">'.__('Edit', 'bpge').'</a>';
                 break;
