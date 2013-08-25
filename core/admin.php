@@ -28,8 +28,78 @@ class BPGE_ADMIN {
 
         add_action('admin_head', 'bpge_js_localize', 5);
 
+        // own columns in gpages list
+        add_filter('manage_'.BPGE_GPAGES.'_posts_columns' , array($this, 'manage_columns'));
+        add_action('manage_'.BPGE_GPAGES.'_posts_custom_column' , array($this, 'manage_columns_content'), 10, 2 );
+        add_filter('page_row_actions', array($this, 'manage_columns_actions'), 10, 2);
+
         // create tabs
         $this->get_tabs();
+    }
+
+    /**
+     * Improve the table of Groups pages in wp-admin area
+     */
+    function manage_columns($columns){
+        return array(
+            'cb'         => '<input type="checkbox" />',
+            'title'      => __('Title'),
+            'group_link' => __('Group Links', 'bpge'),
+            'page_link'  => __('Page Links', 'bpge'),
+            'date'       => __('Date')
+        );
+    }
+
+    function manage_columns_content($column, $post_id) {
+        $group_id         = get_post_meta($post_id, 'group_id', true);
+        $post             = get_post($post_id);
+        if(empty($group_id)){
+            $groups_class  = new BP_Groups_Group;
+            $groups_handle = $groups_class->get(array(
+                                    'search_terms'    => $post->post_title,
+                                    'populate_extras' => false,
+                                    'show_hidden'     => true,
+                                ));
+            $group = $groups_handle['groups'][0];
+        }else{
+            $group = groups_get_group( array( 'group_id' => $group_id ) );
+        }
+
+        $group_link       = bp_get_group_permalink( $group );
+        $group_admin_link = bp_get_group_admin_permalink($group);
+
+        switch ($column) {
+            case 'group_link' :
+                if($post->post_parent != 0)
+                    break;
+
+                echo '<a href="'.$group_link.'" target="_blank">'.__('Visit', 'bpge').'</a>';
+                echo ' | ';
+                echo '<a href="'.$group_admin_link.'" target="_blank">'.__('Edit', 'bpge').'</a>';
+
+                break;
+
+            case 'page_link' :
+                if($post->post_parent == 0)
+                    break;
+
+                $link = $group_link . BPGE_GPAGES.'/'.$post->post_name.'/';
+
+                echo '<a href="'.$link.'" target="_blank">'.__('Visit', 'bpge').'</a>';
+                echo ' | ';
+                echo '<a href="'.$group_admin_link.'extras/pages-manage/?edit='.$post_id.'" target="_blank">'.__('Edit', 'bpge').'</a>';
+                break;
+        }
+    }
+
+    function manage_columns_actions($actions, $post){
+        if($post->post_type != BPGE_GPAGES){
+            return $actions;
+        }
+
+        unset($actions['view'], $actions['trash'], $actions['inline hide-if-no-js']);
+
+        return $actions;
     }
 
     /**
