@@ -73,11 +73,13 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 = 3.6.4 (.08.2013) =
 * Improved the list of groups pages in wp-admin area (easily access groups and pages from there using direct links)
+* Improved groups data deletion
 
 == Changelog ==
 
 = 3.6.4 (.08.2013) =
 * Improved the list of groups pages in wp-admin area (easily access groups and pages from there using direct links)
+* Improved groups data deletion
 
 = 3.6.3 (24.08.2013) =
 * Several minor changes to improve the way plugin works with PRO extensions
