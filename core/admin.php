@@ -32,6 +32,7 @@ class BPGE_ADMIN {
         add_filter('manage_'.BPGE_GPAGES.'_posts_columns' , array($this, 'manage_columns'));
         add_action('manage_'.BPGE_GPAGES.'_posts_custom_column' , array($this, 'manage_columns_content'), 10, 2 );
         add_filter('page_row_actions', array($this, 'manage_columns_actions'), 10, 2);
+        add_filter('bulk_actions-edit-'.BPGE_GPAGES, array($this, 'manage_columns_remove_bulk'));
 
         // create tabs
         $this->get_tabs();
@@ -103,6 +104,10 @@ class BPGE_ADMIN {
         unset($actions['view'], $actions['trash'], $actions['inline hide-if-no-js']);
 
         return $actions;
+    }
+
+    function manage_columns_remove_bulk($actions){
+        return array();
     }
 
     /**
