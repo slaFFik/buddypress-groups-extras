@@ -34,10 +34,6 @@ function bpge_js_localize(){
 add_action('wp_print_styles', 'bpge_css_all');
 function bpge_css_all() {
     if ( bp_is_group() ){
-        if (file_exists(BPGE_PATH . '/_inc/extra-styles.css')){
-            wp_enqueue_style('BPGE_EXTRA_CSS', BPGE_URL . '/extra-styles.css');
-        }else{
-            wp_enqueue_style('BPGE_EXTRA_CSS', BPGE_URL . '/extra-styles-dev.css');
-        }
+        wp_enqueue_style('BPGE_EXTRA_CSS', BPGE_URL . '/extra-styles.css');
     }
 }
