@@ -103,13 +103,14 @@ class BPGE_ADMIN_SETS extends BPGE_ADMIN_TAB {
                             'post_status'  => 'publish'
                         ));
 
-            if(!empty($_POST['options'])){
+            if(!empty($_POST['options']) && is_integer($field_id)){
                 $options = array();
                 foreach($_POST['options'] as $option){
                     $options[] = htmlspecialchars(strip_tags($option));
                 }
                 update_post_meta( $field_id, 'bpge_field_options', $options );
             }
+            update_post_meta($field_id, 'bpge_field_display', $_POST['extra-field-display']);
         }
     }
 }

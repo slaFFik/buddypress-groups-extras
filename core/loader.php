@@ -800,13 +800,19 @@ class BPGE extends BP_Group_Extension {
                 $field->options = get_post_meta($field->ID, 'bpge_field_options', true);
             }
 
+            // display option
+            $field_display = get_post_meta($field->ID, 'bpge_field_display', true);
+            if(empty($field_display)){
+                $field_display = 'no';
+            }
+
             // save the field
             $new = new Stdclass;
             $new->post_type    = BPGE_GFIELDS;
             $new->post_parent  = $group_id;
             $new->post_title   = $field->post_title;
             $new->post_excerpt = $field->post_excerpt;
-            $new->post_status  = 'draft'; // not public
+            $new->post_status  = $field_display == 'yes' ? 'publish' : 'draft';
 
             $field_id = wp_insert_post($new);
 

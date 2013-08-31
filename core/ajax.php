@@ -83,10 +83,24 @@ function bpge_ajax(){
                                         'post_parent' => $set_id,
                                         'post_type'   => BPGE_FIELDS
                                     ));
-            foreach ($fields->posts as &$field) {
+            $to_import = array();
+            foreach ($fields->posts as $field) {
                 $field->desc    = $field->post_content;
-                $field->options = get_post_meta( $field->ID, 'bpge_field_options', true );
-                unset($field->ID, $field->post_content, $field->guid, $field->filter, $field->post_type);
+                $field->options = get_post_meta($field->ID, 'bpge_field_options', true);
+                $field->display = get_post_meta($field->ID, 'bpge_field_display', true);
+                unset(
+                    $field->post_date,
+                    $field->post_date_gmt,
+                    $field->post_modified,
+                    $field->post_modified_gmt,
+                    $field->ID,
+                    $field->post_content,
+                    $field->post_parent,
+                    $field->guid,
+                    $field->filter,
+                    $field->post_type
+                );
+                $to_import[] = $field;
             }
 
             // get all groups ids
@@ -97,12 +111,14 @@ function bpge_ajax(){
                     ));
 
             // insert in the loop all the fields where parent_id = group_id
+            $mega = array();
             foreach($groups['groups'] as $group){
-                foreach($fields->posts as $field){
+                foreach($to_import as $field){
+                    $data = array();
                     $data = (array) $field;
                     $data['post_parent'] = $group->id;
                     $data['post_type']   = BPGE_GFIELDS;
-                    $data['post_status'] = 'draft';
+                    $data['post_status'] = $field->display == 'yes' ? 'publish' : 'draft';
                     $field_id = wp_insert_post($data);
 
                     if(is_integer($field_id)){

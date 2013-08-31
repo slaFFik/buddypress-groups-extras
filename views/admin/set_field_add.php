@@ -5,6 +5,7 @@
         <label><?php _e('Field Title','bpge');?></label>
         <input type="text" value="" name="extra-field-title">
     </div>
+
     <div>
         <label><?php _e('Field Type','bpge');?></label>
         <select name="extra-field-type" id="extra-field-type">
@@ -15,6 +16,12 @@
             <!--option value="datebox"><?php _e('Date Selector','bpge');?></option-->
             <option value="select"><?php _e('Dropdown Select Box','bpge');?></option>
         </select>
+    </div>
+
+    <div>
+        <label><?php _e('Display this field?', 'bpge'); ?></label>
+        <input type="radio" name="extra-field-display" style="width:auto" value="yes" />&nbsp;<?php _e('Yes', 'bpge');?>&nbsp;<span class="description"><?php _e('or', 'bpge'); ?></span>&nbsp;
+        <input type="radio" name="extra-field-display" style="width:auto" value="no" />&nbsp;<?php _e('No', 'bpge');?>
     </div>
 
     <div id="extra-field-vars" style="display:none;">
