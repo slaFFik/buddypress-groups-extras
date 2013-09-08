@@ -342,8 +342,16 @@ class BPGE_ADMIN {
             echo '&rarr; ';
             _e('Extend Your Groups', 'bpge');
             do_action('bpge_admin_header_title');
-        echo '</h2>';
+        echo '</h2>'; ?>
 
+        <div class="g-plusone" data-size="medium" data-href="http://ovirium.com/portfolio/bp-groups-extras/"></div>
+        <a href="https://twitter.com/slaFFik" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @slaFFik</a>&nbsp;&nbsp;
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ovirium.com/portfolio/bp-groups-extras/" data-via="slaFFik" data-related="slaFFik" data-hashtags="BPGE">Tweet</a>
+
+        <script type="text/javascript">(function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();</script>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+        <?php
         if ( isset($_GET['saved']) ) {
             echo '<div id="message" class="updated fade"><p>'. __('All changes were saved. Go and check results!', 'bpge'). '</p></div>';
         }
