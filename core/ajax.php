@@ -141,6 +141,13 @@ function bpge_ajax(){
 
             die('success');
             break;
+
+        case 'dismiss_review':
+            $bpge = bp_get_option('bpge');
+            $bpge['reviewed'] = 'yes';
+            bp_update_option('bpge', $bpge);
+            die('ok');
+            break;
     }
 
     die('error');

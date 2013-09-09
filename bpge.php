@@ -33,6 +33,7 @@ function bpge_activation() {
     $bpge['re_fields']     = 'no';
     $bpge['access_extras'] = 'g_s_admin';
     $bpge['field_2_link']  = 'no';
+    $bpge['reviewed']      = 'no';
 
     add_option('bpge', $bpge, '', 'yes');
 }

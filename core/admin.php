@@ -344,18 +344,36 @@ class BPGE_ADMIN {
             do_action('bpge_admin_header_title');
         echo '</h2>'; ?>
 
-        <div class="g-plusone" data-size="medium" data-href="http://ovirium.com/portfolio/bp-groups-extras/"></div>
-        <a href="https://twitter.com/slaFFik" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @slaFFik</a>&nbsp;&nbsp;
-        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ovirium.com/portfolio/bp-groups-extras/" data-via="slaFFik" data-related="slaFFik" data-hashtags="BuddyPress">Tweet</a>
+        <?php if(!defined('BPGE_PRO')){ ?>
+            <div class="g-plusone" data-size="medium" data-href="http://ovirium.com/portfolio/bp-groups-extras/"></div>
+            <a href="https://twitter.com/slaFFik" class="twitter-follow-button" data-show-count="false" data-dnt="true">Follow @slaFFik</a>&nbsp;&nbsp;
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ovirium.com/portfolio/bp-groups-extras/" data-via="slaFFik" data-related="slaFFik" data-hashtags="BuddyPress">Tweet</a>
+            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:left;margin:0 15px 10px 0" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="PQMTKCJXWQ2CU">
+                <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
 
-        <script type="text/javascript">(function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();</script>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            <script type="text/javascript">(function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;po.src = 'https://apis.google.com/js/plusone.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();</script>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        <?php } ?>
 
         <?php
         if ( isset($_GET['saved']) ) {
+            echo '<div style="clear:both"></div>';
             echo '<div id="message" class="updated fade"><p>'. __('All changes were saved. Go and check results!', 'bpge'). '</p></div>';
         }
 
+        if(!isset($this->bpge['reviewed']) || $this->bpge['reviewed'] == 'no'){
+            echo '<div style="clear:both"></div>';
+            echo '<div id="message" class="updated fade"><p>'.
+                    sprintf(__('If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', 'bpge'), 'http://wordpress.org/support/view/plugin-reviews/buddypress-groups-extras').
+                    '<span style="float:right"><a href="#" class="bpge_review_dismiss" style="color:red">'.__('Dismiss', 'bpge').'</span>'.
+                '</p></div>';
+        }
+
+        echo '<div style="clear:both"></div>';
         echo '<h3 class="nav-tab-wrapper">';
             foreach ( $this->bpge_tabs as $tab ) {
                 $active = $current_tab == $tab->slug ? 'nav-tab-active' : '';
@@ -366,13 +384,6 @@ class BPGE_ADMIN {
             if( defined('BPGE_PRO')){
                 echo '<a class="nav-tab" target="_blank" style="float:right" href="http://ovirium.com/support/">'. __('Support', 'bpge') .'</a>';
             }else{
-                echo '<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="float:right;margin-top:-45px" target="_top">
-                    <input type="hidden" name="cmd" value="_s-xclick">
-                    <input type="hidden" name="hosted_button_id" value="PQMTKCJXWQ2CU">
-                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                </form>';
-
                 echo '<a class="nav-tab" target="_blank" style="float:right" href="http://wordpress.org/support/plugin/buddypress-groups-extras#latest">'. __('Support', 'bpge') .'</a>';
             }
         echo '</h3>';

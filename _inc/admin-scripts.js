@@ -1,6 +1,28 @@
 jQuery(document).ready(function($){
 
     /**
+     * Review Dismiss button
+     */
+    jQuery('#bpge-admin .bpge_review_dismiss').click(function(e){
+        e.preventDefault();
+        var link = this;
+        jQuery.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'bpge',
+                method: 'dismiss_review'
+            }
+        })
+        .done(function(data){
+            if(data == 'ok'){
+                jQuery(link).parent().parent().parent().fadeOut();
+            }
+        });
+
+    });
+
+    /**
      * Groups checkboxes
      */
     jQuery('#bp-gtm-admin-table .bpge_allgroups').change(function(){

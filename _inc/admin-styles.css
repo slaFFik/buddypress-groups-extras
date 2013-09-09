@@ -72,6 +72,10 @@ table#bp-gtm-admin-table td.checkbox{
     overflow:hidden;
 }
 
+#bpge-admin .nav-tab-wrapper{
+    margin-top:5px;
+}
+
 #bpge-admin .add_set_fields{
     margin-top:14px;
 }
