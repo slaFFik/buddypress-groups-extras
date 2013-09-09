@@ -217,11 +217,11 @@ class BPGE extends BP_Group_Extension {
 
             $req_text = $req_class = false;
             if ( $field->pinged == 'req' ) {
-                $req_text  = '* ';
+                $req_text  = __('(required)', 'bpge');
                 $req_class = 'required';
             }
 
-            echo '<label class="'.$req_class.'" for="bpge-' . $field->ID . '">' . $req_text . stripslashes($field->post_title) . '</label>';
+            echo '<label class="'.$req_class.'" for="bpge-' . $field->ID . '">'. stripslashes($field->post_title) .' '. $req_text .'</label>';
 
             switch($field->post_excerpt){
                 case 'text':
@@ -296,8 +296,23 @@ class BPGE extends BP_Group_Extension {
                     $to_save[$data] = $value;
             }
 
-            foreach($to_save as $key => $value){
-                $key = substr($key, 5);
+            foreach($to_save as $ID => $value){
+                $ID = substr($ID, 5);
+
+                $field = get_post($ID);
+                if($field && $field->pinged == 'req' && empty($value)){
+                    $error[] = $field->post_title;
+                }
+
+                if(!empty($error)){
+                    bp_core_add_message(
+                        sprintf(
+                            __( 'Required fields should not be empty. Please fill in: %s', 'bpge' ),
+                            '<strong>'.implode(', ', $error).'</strong>'
+                        ),
+                        'error' );
+                }
+
                 if ( !is_array($value) ) {
                     $data = wp_kses_data($value);
                     $data = force_balance_tags($value);
@@ -312,11 +327,10 @@ class BPGE extends BP_Group_Extension {
                     array(
                         'post_content' => $data,    // [data]
                     ),
-                    array( 'ID' => $key ),          // [where]
+                    array( 'ID' => $ID ),          // [where]
                     array( '%s' ),                  // data format
                     array( '%d' )                   // where format
                 );
-
             }
 
             do_action('bpge_group_fields_save', $this, $to_save);
