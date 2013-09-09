@@ -311,19 +311,25 @@ function bpge_register_groups_pages(){
 add_action('bp_groups_delete_group', 'bpge_delete_group', 10, 2);
 function bpge_delete_group($group_obj, $user_ids){
     global $bp, $wpdb;
+    $to_delete = false;
+    $pages = $fields = array();
 
     if(isset($bp->groups->current_group->extras['gpage_id']) && !empty($bp->groups->current_group->extras['gpage_id'])){
         $to_delete = $bp->groups->current_group->extras['gpage_id'];
     }else{
         $bpge = groups_get_groupmeta($group_obj->id, 'bpge');
-        $to_delete = $bpge['gpage_id'];
+        if($bpge && isset($bpge['gpage_id']) && !empty($bpge['gpage_id'])){
+            $to_delete = $bpge['gpage_id'];
+        }
     }
 
-    // remove all group pages
-    $pages = $wpdb->get_col($wpdb->prepare(
-                "SELECT ID FROM {$wpdb->posts} WHERE `post_parent` = %d",
-                $to_delete
-            ));
+    if(!empty($to_delete)){
+        // remove all group pages
+        $pages = $wpdb->get_col($wpdb->prepare(
+                    "SELECT ID FROM {$wpdb->posts} WHERE `post_parent` = %d",
+                    $to_delete
+                ));
+    }
     // remove all group fields
     $fields = $wpdb->get_col($wpdb->prepare(
                 "SELECT ID FROM {$wpdb->posts} WHERE `post_type` = '%s' AND  `post_parent` = %d",
@@ -337,7 +343,9 @@ function bpge_delete_group($group_obj, $user_ids){
         ));
     }
 
-    wp_delete_post($to_delete, true);
+    if(!empty($to_delete)){
+        wp_delete_post($to_delete, true);
+    }
 }
 
 // hide add new menu and redirect from it to the whole list - do not allow admin to add manually
