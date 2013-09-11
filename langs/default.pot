@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress Groups Extras\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-01 19:48+0200\n"
-"PO-Revision-Date: 2013-09-01 19:48+0200\n"
+"POT-Creation-Date: 2013-09-11 11:19+0200\n"
+"PO-Revision-Date: 2013-09-11 11:19+0200\n"
 "Last-Translator: slaFFik <slava.abakumov@gmail.com>\n"
 "Language-Team: slaFFik <slaffik@list.ru>\n"
 "MIME-Version: 1.0\n"
@@ -16,67 +16,67 @@ msgstr ""
 "X-Poedit-SearchPath-0: W:\\OpenServer\\domains\\ovi\\pro\\wp-content\\plugins"
 "\\buddypress-groups-extras\n"
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:95
 #: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:96
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:97
 msgid "BP Groups Extras"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:230
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:270
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:231
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:271
 msgid "Groups Fields"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:250
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:251
 msgid "Sets of Fields"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:290
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:291
 msgid "Groups Pages"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:291
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:292
 msgid "Groups Page"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:389
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:398
 msgid "Group Extras &rarr; General Settings"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:392
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:401
 msgid "Group Extras &rarr; Fields Management"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:395
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:404
 msgid "Group Extras &rarr; Pages Management"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:398
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:407
 msgid "Group Extras &rarr; Add Field"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:401
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:410
 msgid "Group Extras &rarr; Edit Field"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:404
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:413
 msgid "Group Extras &rarr; Add Page"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:407
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:416
 msgid "Group Extras &rarr; Edit Page"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:410
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:419
 #: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/views/admin/set_add.php:8
 #: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/views/admin/set_edit.php:8
 msgid "Description"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:413
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:422
 msgid "Extras"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:416
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/bpge.php:425
 msgid "Pages"
 msgstr ""
 
@@ -153,12 +153,23 @@ msgstr ""
 msgid "Extend Your Groups"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:348
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:365
 msgid "All changes were saved. Go and check results!"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:359
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:368
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:371
+#, php-format
+msgid ""
+"If you like the plugin please review it on its <a href=\"%s\">WordPress "
+"Repository page</a>. Thanks in advance!"
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:372
+msgid "Dismiss"
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:385
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/admin.php:387
 msgid "Support"
 msgstr ""
 
@@ -216,35 +227,44 @@ msgid ""
 "applying this set will double fields for those groups that were successful."
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:267
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:221
+msgid "(required)"
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:268
 msgid "Clear"
 msgstr ""
 
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:838
-msgid "Group Extras settings were succefully updated."
-msgstr ""
-
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:841
-msgid "New field was successfully added."
-msgstr ""
-
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:844
-msgid "The field was successfully updated."
-msgstr ""
-
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:847
-msgid "New page was successfully added."
-msgstr ""
-
-#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:850
-msgid "The page was successfully updated."
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:311
+#, php-format
+msgid "Required fields should not be empty. Please fill in: %s"
 msgstr ""
 
 #: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:853
-msgid "Please create at least 1 extra field to show it in a list."
+msgid "Group Extras settings were succefully updated."
 msgstr ""
 
 #: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:856
+msgid "New field was successfully added."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:859
+msgid "The field was successfully updated."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:862
+msgid "New page was successfully added."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:865
+msgid "The page was successfully updated."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:868
+msgid "Please create at least 1 extra field to show it in a list."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\pro\wp-content\plugins\buddypress-groups-extras/core/loader.php:871
 msgid "Please create at least 1 extra page to show it in a list."
 msgstr ""
 

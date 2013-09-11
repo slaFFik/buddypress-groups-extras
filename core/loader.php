@@ -143,6 +143,7 @@ class BPGE extends BP_Group_Extension {
     function gpages(){
         add_action( 'bp_before_group_body', array( &$this, 'gpages_screen_nav' ) );
         add_action( 'bp_template_content', array( &$this, 'gpages_screen_content' ) );
+
         do_action( 'bpge_gpages', $this );
         bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'groups/single/plugins' ) );
     }
