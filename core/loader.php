@@ -341,7 +341,7 @@ class BPGE extends BP_Group_Extension {
     /************************************************************************/
 
     // Admin area - Main
-    function edit_screen() {
+    function edit_screen($group_id = NULL) {
         // check user access to group extras management pages
         if(!bpge_user_can('group_extras_admin'))
             return;
@@ -498,7 +498,7 @@ class BPGE extends BP_Group_Extension {
     }
 
     // Save all changes into DB
-    function edit_screen_save() {
+    function edit_screen_save($group_id = NULL) {
         // check user access to group extras management pages
         if(!bpge_user_can('group_extras_admin'))
             return;
@@ -913,12 +913,12 @@ class BPGE extends BP_Group_Extension {
     /************************************************************************/
 
     // Creation step - enter the data
-    function create_screen() {
+    function create_screen($group_id = NULL) {
         do_action('bpge_create_screen', $this);
     }
 
     // Creation step - save the data
-    function create_screen_save() {
+    function create_screen_save($group_id = NULL) {
         do_action('bpge_create_save', $this);
     }
 

@@ -51,6 +51,7 @@ function bpge_deactivation() {
 }
 
 function bpge_clear($type = 'all'){
+    /** @var $wpdb WPDB */
     global $wpdb, $bp;
 
     $post_types = "'" . implode("','", array(BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET)) . "'";
@@ -214,8 +215,10 @@ function bpge_landing_page($old_slug){
         // get all pages - take the first
         $order = groups_get_groupmeta($bp->groups->current_group->id, 'bpge_nav_order');
 
-        if(is_array($order) && !empty($order))
-            $new_slug = reset(array_flip($order));
+        if ( is_array($order) && !empty($order) ) {
+            $flipped  = array_flip($order);
+            $new_slug = reset($flipped);
+        }
     }
 
     return apply_filters('bpge_landing_page', $new_slug);
