@@ -192,7 +192,7 @@ function bpge_include_pro_files( $dir ) {
 /**
  * Reorder group nav links
  *
- * @return array
+ * @return bool|array
  */
 function bpge_nav_order() {
 	global $bp, $bpge;
@@ -213,9 +213,11 @@ function bpge_nav_order() {
 		}
 
 		do_action( 'bpge_nav_order' );
+
+		return $bp->bp_options_nav[ $bp->groups->current_group->slug ];
 	}
 
-	return $bp->bp_options_nav[ $bp->groups->current_group->slug ];
+	return false;
 }
 
 add_action( 'bp_head', 'bpge_nav_order', 100 );
