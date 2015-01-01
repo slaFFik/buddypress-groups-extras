@@ -45,7 +45,10 @@ class BPGE_ADMIN {
 	 *
 	 * @return array
 	 */
-	function manage_columns( $columns ) {
+	function manage_columns(
+		/** @noinspection PhpUnusedParameterInspection */
+		$columns
+	) {
 		return array(
 			'cb'         => '<input type="checkbox" />',
 			'title'      => __( 'Title', 'bpge' ),
@@ -112,7 +115,17 @@ class BPGE_ADMIN {
 		return $actions;
 	}
 
-	function manage_columns_remove_bulk( $actions ) {
+	/**
+	 * Remove all default actions, as we are currently not using them
+	 *
+	 * @param array $actions
+	 *
+	 * @return array
+	 */
+	function manage_columns_remove_bulk(
+		/** @noinspection PhpUnusedParameterInspection */
+		$actions
+	) {
 		return array();
 	}
 
@@ -126,6 +139,7 @@ class BPGE_ADMIN {
 					continue;
 				}
 
+				/** @noinspection PhpIncludeInspection */
 				$tab = include( $this->tabs_path . DS . $file );
 				if ( $tab ) {
 					$this->bpge_tabs[] = $tab;
@@ -211,6 +225,7 @@ class BPGE_ADMIN {
 		}
 
 		if ( ! empty( $vote_content ) ) { ?>
+			<!--suppress JSUnresolvedVariable -->
 			<script type="text/javascript">// <![CDATA[
 				jQuery(document).ready(function ($) {
 					$('#menu-settings').pointer({
@@ -456,8 +471,10 @@ class BPGE_ADMIN_TAB {
 
 	/**
 	 * In case we need to add some strings to the admin page header
+	 * @override
 	 */
 	function header_title_attach() {
+		return '';
 	}
 
 	function apply_header_extras() {
