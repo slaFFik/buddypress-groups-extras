@@ -1,6 +1,6 @@
 # BuddyPress Groups Extras
 
-[![Issues Left](https://badge.waffle.io/slaFFik/BP-Groups-Extras.png?label=todo&title=Issues Left)](http://waffle.io/slaFFik/BP-Groups-Extras)
+Issues planned to be fixed before next release: [![Issues Left](https://badge.waffle.io/slaFFik/BP-Groups-Extras.png?label=todo&title=Issues Left)](http://waffle.io/slaFFik/BP-Groups-Extras)
 
 BuddyPress Groups doesn't have much predefined content inside. Forums and activity are created (or not) by users. But most of the time group creators (aka administrators) have much more to say or explain to other members of community.
 
