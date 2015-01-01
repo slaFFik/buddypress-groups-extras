@@ -38,9 +38,13 @@ class BPGE_ADMIN {
         $this->get_tabs();
     }
 
-    /**
-     * Improve the table of Groups pages in wp-admin area
-     */
+	/**
+	 * Improve the table of Groups pages in wp-admin area
+	 *
+	 * @param array $columns
+	 *
+	 * @return array
+	 */
     function manage_columns($columns){
         return array(
             'cb'         => '<input type="checkbox" />',
@@ -154,9 +158,11 @@ class BPGE_ADMIN {
         }
     }
 
-    /**
-     * Load all required styles and scripts
-     */
+	/**
+	 * Load all required styles and scripts
+	 *
+	 * @param string $pagehook
+	 */
     function load_assets($pagehook){
         $this->pagehook = $pagehook;
 
@@ -334,8 +340,8 @@ class BPGE_ADMIN {
      */
     function bpge_header(){
         $current_tab = $this->get_cur_tab();
-        screen_icon('options-general');
-        echo '<h2>';
+
+	    echo '<h2>';
             _e('BuddyPress Groups Extras','bpge');
             echo '<sup>v' . BPGE_VERSION . '</sup> ';
             do_action('bpge_admin_header_title_pro');
