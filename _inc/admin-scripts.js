@@ -1,3 +1,6 @@
+var ajaxurl = window.ajaxurl,
+    bpge    = window.bpge;
+
 jQuery(document).ready(function($){
 
     /**

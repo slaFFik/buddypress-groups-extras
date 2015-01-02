@@ -30,7 +30,7 @@
 
 <hr />
 
-<label><?php _e('You can reorder here all navigation links in this group. The first item will become a landing page for this group. Save changes after reordering.<br />Please do NOT make Admin pages on first place - that will cause display problems.', 'bpge'); ?></label>
+<label><?php _e('You can reorder here all navigation links in this group. The first item will become a landing page for this group. Save changes after reordering.<br />Please do NOT make Admin/Manage pages on first place - that will cause display problems.', 'bpge'); ?></label>
 <ul id="nav-sortable">
     <?php
     foreach($group_nav as $nav){
