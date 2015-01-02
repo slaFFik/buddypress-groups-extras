@@ -196,7 +196,7 @@ add_action( 'bp_init', 'bpge_load' );
 function bpge_nav_order() {
 	global $bp, $bpge;
 
-	if ( ! $bpge ) {
+	if ( empty( $bpge ) ) {
 		$bpge = bpge_get_options();
 	}
 
