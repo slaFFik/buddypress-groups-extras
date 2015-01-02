@@ -79,8 +79,10 @@ class BPGE extends BP_Group_Extension {
 
 		// In Admin
 		$this->name = bpge_names( 'nav' );
+
 		// Public page
 		$this->nav_item_name = isset( $bp->groups->current_group->extras['display_page_name'] ) ? $bp->groups->current_group->extras['display_page_name'] : bpge_names( 'nav' );
+
 		// Home page
 		if ( ! empty( $bp->groups->current_group->extras['home_name'] ) ) {
 			$this->home_name                                                        = $bp->groups->current_group->extras['home_name'];
@@ -90,14 +92,15 @@ class BPGE extends BP_Group_Extension {
 		add_action( 'groups_custom_group_fields_editable', array( $this, 'edit_group_fields' ) );
 		add_action( 'groups_group_details_edited', array( $this, 'edit_group_fields_save' ) );
 
+		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
+		if ( ! empty( $order['extras'] ) ) {
+			$this->nav_item_position = $order['extras'];
+		}
+
 		if ( $this->enable_gpages_item ) {
 			if ( bp_is_group() && bp_is_single_item() ) {
-				$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
 				if ( empty( $order[ $this->page_slug ] ) ) {
 					$order[ $this->page_slug ] = 99;
-				}
-				if ( ! empty( $order['extras'] ) ) {
-					$this->nav_item_position = $order['extras'];
 				}
 				bp_core_new_subnav_item( array(
 					                         'name'            => $this->gpages_item_name,
@@ -164,7 +167,7 @@ class BPGE extends BP_Group_Extension {
 
 		$pages = $this->get_all_gpages( 'publish' );
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		if ( empty( $bp->action_variables ) ) {
 			$bp->action_variables[0] = $wpdb->get_var(
@@ -202,7 +205,7 @@ class BPGE extends BP_Group_Extension {
 		/** @var $wpdb WPDB */
 		global $bp, $wpdb;
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		$page = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM {$wpdb->prefix}posts
@@ -243,7 +246,7 @@ class BPGE extends BP_Group_Extension {
 			return;
 		}
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		foreach ( $fields as $field ) {
 			$field->desc    = get_post_meta( $field->ID, 'bpge_field_desc', true );
@@ -343,7 +346,7 @@ class BPGE extends BP_Group_Extension {
 				}
 			}
 
-			switch_to_blog(bpge_get_main_site_id());
+			switch_to_blog( bpge_get_main_site_id() );
 
 			foreach ( $to_save as $ID => $value ) {
 				$ID = substr( $ID, 5 );
@@ -443,7 +446,7 @@ class BPGE extends BP_Group_Extension {
 		           array(
 			           'nav_item_name'    => $this->nav_item_name,
 			           'gpages_item_name' => $this->gpages_item_name,
-			           'group_nav'        => bpge_nav_order(),
+			           'group_nav' => bpge_get_nav_order(),
 			           'home_name'        => ( $this->home_name ? $this->home_name : bpge_names( 'nav' ) )
 		           )
 		);
@@ -465,7 +468,7 @@ class BPGE extends BP_Group_Extension {
 		// get all groups fields
 		$fields = bpge_get_group_fields( 'any' );
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		// get set of fields
 		$def_set_fields = get_posts( array(
@@ -526,7 +529,7 @@ class BPGE extends BP_Group_Extension {
 			return;
 		}
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		// if Editing page - get data
 		if ( isset( $_GET['edit'] ) && ! empty( $_GET['edit'] ) ) {
@@ -596,7 +599,7 @@ class BPGE extends BP_Group_Extension {
 
 		global $bp;
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		if ( bp_is_group() && 'extras' == $bp->action_variables[0] ) {
 			if ( ! $bp->is_item_admin ) {
@@ -631,7 +634,7 @@ class BPGE extends BP_Group_Extension {
 				if ( ! empty( $_POST['bpge_group_nav_position'] ) ) {
 					// preparing vars
 					parse_str( $_POST['bpge_group_nav_position'], $tab_order );
-					$nav_old = bpge_nav_order();//$bp->bp_options_nav[$bp->groups->current_group->slug];
+					$nav_old = bpge_get_nav_order(); //$bp->bp_options_nav[$bp->groups->current_group->slug];
 					$order   = array();
 					$pos     = 1;
 
@@ -869,7 +872,7 @@ class BPGE extends BP_Group_Extension {
 	function get_all_gpages( $post_status = 'any' ) {
 		global $bp;
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		$args = array(
 			'post_parent' => $bp->groups->current_group->extras['gpage_id'],
@@ -930,7 +933,7 @@ class BPGE extends BP_Group_Extension {
 		/** @var $wpdb WPDB */
 		global $wpdb, $bp;
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/fields/';
 
@@ -1039,7 +1042,7 @@ class BPGE extends BP_Group_Extension {
 
 		$data = null;
 
-		switch_to_blog(bpge_get_main_site_id());
+		switch_to_blog( bpge_get_main_site_id() );
 
 		switch ( $what ) {
 			case 'group_id':

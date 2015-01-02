@@ -193,7 +193,7 @@ add_action( 'bp_init', 'bpge_load' );
  *
  * @return bool|array
  */
-function bpge_nav_order() {
+function bpge_get_nav_order() {
 	global $bp, $bpge;
 
 	if ( empty( $bpge ) ) {
@@ -211,7 +211,7 @@ function bpge_nav_order() {
 			}
 		}
 
-		do_action( 'bpge_nav_order' );
+		do_action( 'bpge_get_nav_order' );
 
 		return $bp->bp_options_nav[ $bp->groups->current_group->slug ];
 	}
@@ -219,7 +219,7 @@ function bpge_nav_order() {
 	return false;
 }
 
-add_action( 'bp_head', 'bpge_nav_order', 100 );
+add_action( 'bp_head', 'bpge_get_nav_order', 100 );
 
 /**
  * Groups navigation reordering
