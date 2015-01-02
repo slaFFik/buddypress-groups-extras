@@ -1,9 +1,9 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
-Requires at least: 3.4 and BP 1.6
-Tested up to: 3.6 and BP 1.8.1
-Stable tag: 3.6.5
+Requires at least: 3.7 and BP 1.8
+Tested up to: 4.1 and BP 2.1
+Stable tag: 3.6.6
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
 
@@ -71,12 +71,22 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
+= 3.6.6 (02.01.2015) =
+* Compatibility with WordPress 4.1 and BuddyPress 2.1
+* Adding BP_ENABLE_MULTIBLOG support
+* Code improvement and several other bug fixes
+
 = 3.6.5 (11.09.2013) =
 * Added error message when saving required fields as empty on group "Admin -> Details" page
 * Added some social network love in admin area
 * Updated i18n files
 
 == Changelog ==
+
+= 3.6.6 (02.01.2015) =
+* Compatibility with WordPress 4.1 and BuddyPress 2.1
+* Adding BP_ENABLE_MULTIBLOG support
+* Code improvement and several other bug fixes
 
 = 3.6.5 (11.09.2013) =
 * Added error message when saving required fields as empty on group "Admin -> Details" page
