@@ -44,7 +44,7 @@ function bpge_activation() {
  */
 register_deactivation_hook( __FILE__, 'bpge_deactivation' );
 function bpge_deactivation() {
-	$bpge = bp_get_option( 'bpge' );
+	$bpge = bpge_get_options();
 
 	if ( $bpge['uninstall'] == 'yes' ) {
 		bpge_clear( 'all' );
@@ -114,6 +114,25 @@ if ( is_multisite() ) {
 }
 
 /**
+ * Get BPGE plugin options
+ * They are always stored on the main site.
+ *
+ * @return array
+ */
+function bpge_get_options(){
+	return get_blog_option( bpge_get_main_site_id(), 'bpge' );
+}
+
+/**
+ * Get the main site id, usually <code>1</code>
+ *
+ * @return int
+ */
+function bpge_get_main_site_id(){
+	return apply_filters('bpge_get_main_site_id', 1);
+}
+
+/**
  * The main loader - BPGE Engine
  */
 function bpge_pre_load() {
@@ -123,7 +142,7 @@ function bpge_pre_load() {
 		return;
 	}
 
-	$bpge = bp_get_option( 'bpge' );
+	$bpge = bpge_get_options();
 
 	// scripts and styles
 	require( BPGE_PATH . '/core/cssjs.php' );
@@ -198,7 +217,7 @@ function bpge_nav_order() {
 	global $bp, $bpge;
 
 	if ( ! $bpge ) {
-		$bpge = bp_get_option( 'bpge' );
+		$bpge = bpge_get_options();
 	}
 
 	if ( bp_is_group() && bp_is_single_item() ) {
@@ -549,6 +568,8 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 
 	// possible statuses: draft | publish | any
 
+	switch_to_blog(bpge_get_main_site_id());
+
 	$fields = get_posts( array(
 		                     'posts_per_page' => 99,
 		                     'numberposts'    => 99,
@@ -558,6 +579,8 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 		                     'post_parent'    => $group_id,
 		                     'post_type'      => BPGE_GFIELDS,
 	                     ) );
+
+	restore_current_blog();
 
 	return $fields;
 }

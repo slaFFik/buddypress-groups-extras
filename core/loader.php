@@ -33,7 +33,7 @@ class BPGE extends BP_Group_Extension {
 	function __construct() {
 		global $bp;
 
-		$this->bpge_glob = bp_get_option( 'bpge' );
+		$this->bpge_glob = bpge_get_options();
 
 		// we are on a single group page
 		if ( ! empty( $bp->groups->current_group ) ) {
@@ -164,16 +164,23 @@ class BPGE extends BP_Group_Extension {
 
 		$pages = $this->get_all_gpages( 'publish' );
 
+		switch_to_blog(bpge_get_main_site_id());
+
 		if ( empty( $bp->action_variables ) ) {
-			$sql                     = "SELECT `post_name` FROM {$wpdb->prefix}posts
-                    WHERE `post_parent` = {$bp->groups->current_group->extras['gpage_id']}
-                        AND `post_type` = '{$this->page_slug}'
-                    ORDER BY `menu_order` ASC
-                    LIMIT 1";
-			$bp->action_variables[0] = $wpdb->get_var( $sql );
+			$bp->action_variables[0] = $wpdb->get_var(
+				"SELECT `post_name` FROM {$wpdb->prefix}posts
+                WHERE `post_parent` = {$bp->groups->current_group->extras['gpage_id']}
+                    AND `post_type` = '{$this->page_slug}'
+                ORDER BY `menu_order` ASC
+                LIMIT 1"
+			);
 		}
 
+		restore_current_blog();
+
 		$pages = apply_filters( 'bpge_gpages_nav_in', $pages );
+
+		do_action( 'bpge_gpages_nav_before', $this, $pages );
 
 		// display list of pages if there are more than of 1 of them
 		if ( count( $pages ) > 1 ) {
@@ -194,13 +201,20 @@ class BPGE extends BP_Group_Extension {
 	function gpages_screen_content() {
 		/** @var $wpdb WPDB */
 		global $bp, $wpdb;
-		$gpage_id = $bp->groups->current_group->extras['gpage_id'];
 
-		$sql  = "SELECT * FROM {$wpdb->prefix}posts
+		switch_to_blog(bpge_get_main_site_id());
+
+		$page = $wpdb->get_row( $wpdb->prepare(
+			"SELECT * FROM {$wpdb->prefix}posts
                     WHERE `post_name` = %s
                         AND `post_type` = %s
-                        AND `post_parent` = %d";
-		$page = $wpdb->get_row( $wpdb->prepare( $sql, $bp->action_variables[0], $this->page_slug, $gpage_id ) );
+                        AND `post_parent` = %d",
+			$bp->action_variables[0],
+			$this->page_slug,
+			$bp->groups->current_group->extras['gpage_id']
+		) );
+
+		restore_current_blog();
 
 		do_action( 'bpge_gpages_content_display_before', $this, $page );
 
@@ -228,6 +242,8 @@ class BPGE extends BP_Group_Extension {
 		if ( empty( $fields ) ) {
 			return;
 		}
+
+		switch_to_blog(bpge_get_main_site_id());
 
 		foreach ( $fields as $field ) {
 			$field->desc    = get_post_meta( $field->ID, 'bpge_field_desc', true );
@@ -293,20 +309,18 @@ class BPGE extends BP_Group_Extension {
 				echo '<p class="description">' . $field->desc . '</p>';
 			}
 		}
+
+		restore_current_blog();
+
 		do_action( 'bpge_group_fields_edit', $this, $fields );
 	}
 
 	/**
 	 * Save extra fields in DB
 	 *
-	 * @param $group_id
-	 *
 	 * @return bool
 	 */
-	function edit_group_fields_save(
-		/** @noinspection PhpUnusedParameterInspection */
-		$group_id
-	) {
+	function edit_group_fields_save() {
 		/** @var $wpdb WPDB */
 		global $wpdb, $bp;
 
@@ -328,6 +342,8 @@ class BPGE extends BP_Group_Extension {
 					$to_save[ $data ] = $value;
 				}
 			}
+
+			switch_to_blog(bpge_get_main_site_id());
 
 			foreach ( $to_save as $ID => $value ) {
 				$ID = substr( $ID, 5 );
@@ -365,6 +381,8 @@ class BPGE extends BP_Group_Extension {
 					array( '%d' )                   // where format
 				);
 			}
+
+			restore_current_blog();
 
 			do_action( 'bpge_group_fields_save', $this, $to_save );
 		}
@@ -435,13 +453,8 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Admin area - All Fields
-	 *
-	 * @param $bp
 	 */
-	function edit_screen_fields(
-		/** @noinspection PhpUnusedParameterInspection */
-		$bp
-	) {
+	function edit_screen_fields() {
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -452,6 +465,8 @@ class BPGE extends BP_Group_Extension {
 		// get all groups fields
 		$fields = bpge_get_group_fields( 'any' );
 
+		switch_to_blog(bpge_get_main_site_id());
+
 		// get set of fields
 		$def_set_fields = get_posts( array(
 			                             'posts_per_page' => 50,
@@ -460,6 +475,8 @@ class BPGE extends BP_Group_Extension {
 			                             'orderby'        => 'ID',
 			                             'post_type'      => BPGE_FIELDS_SET
 		                             ) );
+
+		restore_current_blog();
 
 		if ( empty( $fields ) ) {
 			$this->notices( 'no_fields' );
@@ -474,13 +491,8 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Admin area - All Pages
-	 *
-	 * @param $bp
 	 */
-	function edit_screen_pages(
-		/** @noinspection PhpUnusedParameterInspection */
-		$bp
-	) {
+	function edit_screen_pages() {
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -507,17 +519,14 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Add / Edit 1 field form
-	 *
-	 * @param $bp
 	 */
-	function edit_screen_fields_manage(
-		/** @noinspection PhpUnusedParameterInspection */
-		$bp
-	) {
+	function edit_screen_fields_manage() {
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
 		}
+
+		switch_to_blog(bpge_get_main_site_id());
 
 		// if Editing page - get data
 		if ( isset( $_GET['edit'] ) && ! empty( $_GET['edit'] ) ) {
@@ -527,6 +536,8 @@ class BPGE extends BP_Group_Extension {
 			// get empty values for Adding page
 			$field = bpge_get_field_defaults();
 		}
+
+		restore_current_blog();
 
 		$this->edit_screen_head( 'fields-manage' );
 
@@ -540,13 +551,8 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Add / Edit pages form
-	 *
-	 * @param $bp
 	 */
-	function edit_screen_pages_manage(
-		/** @noinspection PhpUnusedParameterInspection */
-		$bp
-	) {
+	function edit_screen_pages_manage() {
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -589,6 +595,8 @@ class BPGE extends BP_Group_Extension {
 		}
 
 		global $bp;
+
+		switch_to_blog(bpge_get_main_site_id());
 
 		if ( bp_is_group() && 'extras' == $bp->action_variables[0] ) {
 			if ( ! $bp->is_item_admin ) {
@@ -706,8 +714,7 @@ class BPGE extends BP_Group_Extension {
 					$current_blog->blog_id = 1;
 				}
 
-				$thisblog = $current_blog->blog_id;
-				$admin    = get_user_by( 'email', get_blog_option( $thisblog, 'admin_email' ) );
+				$admin = get_user_by( 'email', get_blog_option( $current_blog->blog_id, 'admin_email' ) );
 
 				// Save as a post_type
 				$page = array(
@@ -799,6 +806,8 @@ class BPGE extends BP_Group_Extension {
 			}
 		}
 
+		restore_current_blog();
+
 		return true;
 	}
 
@@ -859,6 +868,9 @@ class BPGE extends BP_Group_Extension {
 	 */
 	function get_all_gpages( $post_status = 'any' ) {
 		global $bp;
+
+		switch_to_blog(bpge_get_main_site_id());
+
 		$args = array(
 			'post_parent' => $bp->groups->current_group->extras['gpage_id'],
 			'post_type'   => $this->page_slug,
@@ -868,7 +880,11 @@ class BPGE extends BP_Group_Extension {
 			'post_status' => $post_status
 		);
 
-		return get_posts( $args );
+		$data = get_posts( $args );
+
+		restore_current_blog();
+
+		return $data;
 	}
 
 	/**
@@ -914,9 +930,12 @@ class BPGE extends BP_Group_Extension {
 		/** @var $wpdb WPDB */
 		global $wpdb, $bp;
 
+		switch_to_blog(bpge_get_main_site_id());
+
 		$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/fields/';
 
 		if ( $_POST['group-id'] != $bp->groups->current_group->id ) {
+			restore_current_blog();
 			wp_redirect( $redirect );
 			die;
 		}
@@ -969,6 +988,8 @@ class BPGE extends BP_Group_Extension {
 			}
 		}
 
+		restore_current_blog();
+
 		wp_redirect( $redirect );
 		die;
 	}
@@ -1016,6 +1037,10 @@ class BPGE extends BP_Group_Extension {
 	function get_gpage_by( $what, $input = false ) {
 		global $bp;
 
+		$data = null;
+
+		switch_to_blog(bpge_get_main_site_id());
+
 		switch ( $what ) {
 			case 'group_id':
 				global $current_blog;
@@ -1039,15 +1064,17 @@ class BPGE extends BP_Group_Extension {
 				// ...and save it to reuse later
 				groups_update_groupmeta( $bp->groups->current_group->id, 'bpge', $old_data );
 
-				return $old_data['gpage_id'];
+				$data = $old_data['gpage_id'];
 				break;
 
 			case 'id':
-				return get_post( $input );
+				$data = get_post( $input );
 				break;
 		}
 
-		return null;
+		restore_current_blog();
+
+		return $data;
 	}
 
 	/************************************************************************/
