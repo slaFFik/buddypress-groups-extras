@@ -10,7 +10,7 @@ class BPGE_ADMIN {
 	var $bpge = false;
 	// where to save in options table
 	var $bpge_options_key = 'bpge';
-	// default tab that will be opened in nothing specified
+	// default tab that will be opened if nothing specified
 	// will be redefined after all tabs are loaded
 	var $default_tab = null;
 	// the list of tabs in admin area, will be extended by child classes
