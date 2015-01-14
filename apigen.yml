@@ -1,0 +1,22 @@
+# allowed file extensions, see apigen --extensions <list>
+extensions: php
+
+# main project prefix, see apigen --main <value>
+main: BPGE
+
+# generated documentation title, see apigen --title <value>
+title: BuddyPress Groups Extras Doc
+
+# generate documentation for php classes, see apigen --php <yes|no>
+php: true
+# generate tree view, see apigen --tree <yes|no>
+tree: true
+# generate documentation for deprecated elements, see apigen --deprecated <yes|no>
+deprecated: true
+# generate list of tasks, see apigen --todo <yes|no>
+todo: true
+# generate highlighted source code, see apigen --source-code <yes|no>
+source-code: true
+
+# delete files generated in the previous run, see apigen --wipeout <yes|no>
+wipeout: true
