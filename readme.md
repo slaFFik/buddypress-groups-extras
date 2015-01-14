@@ -1,4 +1,4 @@
-# BuddyPress Groups Extras
+# BuddyPress Groups Extras [![API DOCS](http://apigenerator.org/badge.png)](http://slaFFik.github.io/BP-Groups-Extras/)
 
 Issues planned to be fixed before next release: [![Issues Left](https://badge.waffle.io/slaFFik/BP-Groups-Extras.png?label=todo&title=Issues Left)](http://waffle.io/slaFFik/BP-Groups-Extras)
 
