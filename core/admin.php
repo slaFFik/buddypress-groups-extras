@@ -26,8 +26,6 @@ class BPGE_ADMIN {
 		$this->bpge      = $bpge;
 		$this->tabs_path = dirname( __FILE__ ) . DS . 'admin_tabs';
 
-		add_action( 'admin_head', 'bpge_js_localize', 5 );
-
 		// own columns in gpages list
 		add_filter( 'manage_' . BPGE_GPAGES . '_posts_columns', array( $this, 'manage_columns' ) );
 		add_action( 'manage_' . BPGE_GPAGES . '_posts_custom_column', array( $this, 'manage_columns_content' ), 10, 2 );
@@ -179,21 +177,15 @@ class BPGE_ADMIN {
 
 	/**
 	 * Load all required styles and scripts
-	 *
-	 * @param string $pagehook
 	 */
-	function load_assets( $pagehook ) {
-		$this->pagehook = $pagehook;
-
-		// Accordion for Tuts page
-		wp_enqueue_script( 'bpge_admin_js_acc', BPGE_URL . '/jquery.accordion.js', array( 'jquery' ) );
-		wp_enqueue_style( 'bpge_admin_css_acc', BPGE_URL . '/jquery.accordion.css' );
-
+	function load_assets() {
+		wp_enqueue_script( 'wp-pointer' );
+		wp_enqueue_style( 'wp-pointer' );
 		add_action( 'admin_footer', array( $this, 'load_pointers' ) );
 
 		// All other admin area js
-		add_action( 'admin_print_scripts', array( $this, 'load_js' ) );
-		add_action( 'admin_print_styles', array( $this, 'load_css' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_js' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_css' ) );
 	}
 
 	function load_pointers() {
@@ -289,26 +281,35 @@ class BPGE_ADMIN {
 		}
 	}
 
-	function load_js() {
-		wp_enqueue_script( 'wp-pointer' );
-		if ( isset( $_GET['page'] ) && $_GET['page'] == BPGE_ADMIN_SLUG ) {
-			wp_enqueue_script( 'bpge_admin_js_popup', BPGE_URL . '/messi.js', array( 'jquery' ) );
+	function load_js( $hook ) {
+		if ( $hook !== 'settings_page_bpge-admin' ) {
+			return;
 		}
-		wp_enqueue_script( 'bpge_admin_js', BPGE_URL . '/admin-scripts.js', array( 'wp-pointer' ) );
+
+		// Accordion for Tuts page
+		wp_enqueue_script( 'bpge_admin_js_acc', BPGE_URL . '/jquery.accordion.js', array( 'jquery' ) );
+
+		wp_enqueue_script( 'bpge_admin_js_popup', BPGE_URL . '/messi.js', array( 'jquery' ), BPGE_VERSION );
+
+		wp_enqueue_script( 'bpge-admin', BPGE_URL . '/admin-scripts.js', array( 'wp-pointer' ), BPGE_VERSION );
+		wp_localize_script( 'bpge-admin', 'bpge', bpge_get_localized_data(), BPGE_VERSION );
 	}
 
-	function load_css() {
+	function load_css( $hook ) {
 		global $post_type;
 
-		wp_enqueue_style( 'wp-pointer' );
-
 		if (
-			( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'gpages' )
-			|| ( isset( $post_type ) && $post_type == 'gpages' )
-			|| ( isset( $_GET['page'] ) && $_GET['page'] == $this->slug )
+			( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'gpages' ) ||
+			( isset( $post_type ) && $post_type == 'gpages' ) ||
+			$hook == 'settings_page_bpge-admin'
 		) {
 			wp_enqueue_style( 'bpge_admin_css', BPGE_URL . '/admin-styles.css' );
+		}
+
+		if ( $hook == 'settings_page_bpge-admin' ) {
 			wp_enqueue_style( 'bpge_admin_css_messi', BPGE_URL . '/messi.css' );
+			// Accordion for Tuts page
+			wp_enqueue_style( 'bpge_admin_css_acc', BPGE_URL . '/jquery.accordion.css' );
 		}
 	}
 
@@ -320,7 +321,7 @@ class BPGE_ADMIN {
 		$tab = $this->get_cur_tab(); ?>
 
 		<div id="bpge-admin" class="wrap">
-			<?php $this->bpge_header(); ?>
+			<?php $this->header(); ?>
 
 			<?php
 			$page     = is_multisite() ? 'network/settings.php' : 'options-general.php';
@@ -358,7 +359,7 @@ class BPGE_ADMIN {
 	 * Content part with header section.
 	 * HTML
 	 */
-	function bpge_header() {
+	function header() {
 		$current_tab = $this->get_cur_tab();
 
 		echo '<h2>';
@@ -379,7 +380,10 @@ class BPGE_ADMIN {
 		if ( ! isset( $this->bpge['reviewed'] ) || $this->bpge['reviewed'] == 'no' ) {
 			echo '<div style="clear:both"></div>';
 			echo '<div id="message" class="updated fade"><p>' .
-			     sprintf( __( 'If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', 'bpge' ), 'http://wordpress.org/support/view/plugin-reviews/buddypress-groups-extras' ) .
+			     sprintf(
+				     __( 'If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', 'bpge' ),
+				     'http://wordpress.org/support/view/plugin-reviews/buddypress-groups-extras'
+			     ) .
 			     '<span style="float:right"><a href="#" class="bpge_review_dismiss" style="color:red">' . __( 'Dismiss', 'bpge' ) . '</span>' .
 			     '</p></div>';
 		}

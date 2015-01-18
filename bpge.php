@@ -101,7 +101,7 @@ function bpge_admin_init() {
 	include( BPGE_PATH . '/core/admin.php' );
 
 	$admin    = new BPGE_ADMIN();
-	$pagehook = add_submenu_page(
+	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
 		__( 'BP Groups Extras', 'bpge' ),
 		__( 'BP Groups Extras', 'bpge' ),
@@ -109,7 +109,7 @@ function bpge_admin_init() {
 		BPGE_ADMIN_SLUG,
 		array( $admin, 'admin_page' ) );
 
-	$admin->load_assets( $pagehook );
+	$admin->load_assets();
 
 	do_action( 'bpge_admin_load' );
 }
