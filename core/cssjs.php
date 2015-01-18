@@ -42,7 +42,10 @@ function bpge_load_css() {
 	if ( bp_is_group() ) {
 		global $bpge;
 
-		if ( in_array( bp_get_current_group_id(), $bpge['groups'] ) ) {
+		if (
+			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'] ) ) ||
+			( is_string( $bpge['groups'] ) && $bpge['groups'] == 'all' )
+		) {
 			wp_enqueue_style( 'bpge-main', BPGE_URL . '/extra-styles.css', false, BPGE_VERSION );
 		}
 	}

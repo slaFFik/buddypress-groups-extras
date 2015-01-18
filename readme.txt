@@ -71,6 +71,9 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
+= 3.6.7.1 (18.01.2015) =
+* Quick fix of a warning :(
+
 = 3.6.7 (18.01.2015) =
 * Optimized css/js loading (on appropriate pages only)
 * Improved pointers a bit (texts and placement)
@@ -78,6 +81,9 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Other minor improvements and fixes
 
 == Changelog ==
+
+= 3.6.7.1 (18.01.2015) =
+* Quick fix of a warning :(
 
 = 3.6.7 (18.01.2015) =
 * Optimized css/js loading (on appropriate pages only)
