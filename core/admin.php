@@ -191,15 +191,14 @@ class BPGE_ADMIN {
 	function load_pointers() {
 		$page = is_multisite() ? 'network/settings.php' : 'options-general.php';
 
-		$vote_content = '<h3>' . __( 'BP Groups Extras: Features List', 'bpge' ) . '</h3>';
-		$vote_content .= '<p>' . sprintf( __( 'Go to plugin admin area and <a href="%s">vote</a> for new features!', 'bpge' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=poll' ) ) . '</p>';
-		$vote_content .= '<p>' . __( 'Based on voting results I will implement them in new plugin version (either in core or as modules to extend the initial functionality).', 'bpge' ) . '</p>';
+		$vote_content = '<h3>' . __( 'Vote for Features', 'bpge' ) . '</h3>';
+		$vote_content .= '<p>' . __( 'Based on voting results I will implement features in new versions (either in core or as modules to extend the initial functionality).', 'bpge' ) . '</p>';
 
-		$tuts_content = '<h3>' . __( 'BP Groups Extras: Tutorials' ) . '</h3>';
-		$tuts_content .= '<p>' . sprintf( __( 'Now you can get the basic help from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled right into the plugin.', 'bpge' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) ) . '</p>';
+		$tuts_content = '<h3>' . __( 'Tutorials Included' ) . '</h3>';
+		$tuts_content .= '<p>' . sprintf( __( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', 'bpge' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) ) . '</p>';
 
-		$search_content = '<h3>' . __( 'BP Groups Extras: Search' ) . '</h3>';
-		$search_content .= '<p>' . sprintf( __( 'Finally search in groups custom fields and pages is implemented! Get it working from special plugin <a href="%s">admin page</a>.', 'bpge' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=search' ) ) . '</p>';
+		$search_content = '<h3>' . __( 'Extended Groups Data Search' ) . '</h3>';
+		$search_content .= '<p>' . __( 'Have or plan to have lots of custom groups fields and pages? Extend the default BuddyPress search with your additional data using this special <strong>Search</strong> extension.', 'bpge' ) . '</p>';
 
 		// get all pointer that we dismissed
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
@@ -219,15 +218,15 @@ class BPGE_ADMIN {
 		if ( ! empty( $vote_content ) ) { ?>
 			<!--suppress JSUnresolvedVariable -->
 			<script type="text/javascript">// <![CDATA[
-				jQuery(document).ready(function ($) {
-					$('#menu-settings').pointer({
+				jQuery(document).ready(function () {
+					jQuery('#bpge_tab_poll').pointer({
 						content: '<?php echo $vote_content; ?>',
 						position: {
-							edge: 'left',
-							align: 'center'
+							edge: 'top',
+							align: 'left'
 						},
 						close: function () {
-							$.post(ajaxurl, {
+							jQuery.post(ajaxurl, {
 								action: 'dismiss-wp-pointer',
 								pointer: 'bpge_vote'
 							});
@@ -240,15 +239,15 @@ class BPGE_ADMIN {
 
 		if ( ! empty( $tuts_content ) ) { ?>
 			<script type="text/javascript">// <![CDATA[
-				jQuery(document).ready(function ($) {
-					$('#bpge_tab_tuts').pointer({
+				jQuery(document).ready(function () {
+					jQuery('#bpge_tab_tuts').pointer({
 						content: '<?php echo $tuts_content; ?>',
 						position: {
 							edge: 'top',
 							align: 'left'
 						},
 						close: function () {
-							$.post(ajaxurl, {
+							jQuery.post(ajaxurl, {
 								action: 'dismiss-wp-pointer',
 								pointer: 'bpge_tuts'
 							});
@@ -261,15 +260,15 @@ class BPGE_ADMIN {
 
 		if ( ! empty( $search_content ) ) { ?>
 			<script type="text/javascript">// <![CDATA[
-				jQuery(document).ready(function ($) {
-					$('#bpge_tab_search').pointer({
+				jQuery(document).ready(function () {
+					jQuery('#bpge_tab_search').pointer({
 						content: '<?php echo $search_content; ?>',
 						position: {
 							edge: 'top',
 							align: 'left'
 						},
 						close: function () {
-							$.post(ajaxurl, {
+							jQuery.post(ajaxurl, {
 								action: 'dismiss-wp-pointer',
 								pointer: 'bpge_search'
 							});

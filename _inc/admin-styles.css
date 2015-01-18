@@ -1,5 +1,8 @@
 body.edit-php #wpbody-content h2 a.add-new-h2{display:none}
 
+.wp-pointer-bottom .wp-pointer-arrow, .wp-pointer-top .wp-pointer-arrow, .wp-pointer-undefined .wp-pointer-arrow {
+  left: 15px
+}
 table#bp-gtm-admin-table td.checkbox{
     width:15px;
     border-right: 1px solid #dfdfdf;
