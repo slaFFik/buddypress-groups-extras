@@ -13,14 +13,14 @@ if ( ! class_exists( 'BPGE_ADMIN_SETS' ) ) {
 		public $title = null;
 
 		public function __construct() {
-			$this->title = __( 'Default Sets of Fields', 'bpge' );
+			$this->title = __( 'Default Sets of Fields', BPGE_I18N );
 
 			parent::__construct();
 		}
 
 		public function display() {
 			echo '<p class="description">';
-			_e( 'Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.', 'bpge' );
+			_e( 'Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.', BPGE_I18N );
 			echo '</p>';
 
 			$set_args      = array(
@@ -52,7 +52,7 @@ if ( ! class_exists( 'BPGE_ADMIN_SETS' ) ) {
 				}
 			} else {
 				echo '<li>';
-				echo '<span class="no_fields">' . __( 'Currently there are no predefined fields. Groups admins should create all fields by themselves.', 'bpge' ) . '</span>';
+				echo '<span class="no_fields">' . __( 'Currently there are no predefined fields. Groups admins should create all fields by themselves.', BPGE_I18N ) . '</span>';
 				echo '</li>';
 			}
 			echo '</ul>';

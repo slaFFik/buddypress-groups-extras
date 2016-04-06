@@ -44,10 +44,10 @@ class BPGE_ADMIN {
 	public function manage_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
-			'title'      => __( 'Title', 'bpge' ),
-			'group_link' => __( 'Group Links', 'bpge' ),
-			'page_link'  => __( 'Page Links', 'bpge' ),
-			'date'       => __( 'Date', 'bpge' )
+			'title'      => __( 'Title', BPGE_I18N ),
+			'group_link' => __( 'Group Links', BPGE_I18N ),
+			'page_link'  => __( 'Page Links', BPGE_I18N ),
+			'date'       => __( 'Date', BPGE_I18N )
 		);
 	}
 
@@ -80,9 +80,9 @@ class BPGE_ADMIN {
 					break;
 				}
 
-				echo '<a href="' . $group_link . '" target="_blank">' . __( 'Visit', 'bpge' ) . '</a>';
+				echo '<a href="' . $group_link . '" target="_blank">' . __( 'Visit', BPGE_I18N ) . '</a>';
 				echo ' | ';
-				echo '<a href="' . $group_admin_link . '" target="_blank">' . __( 'Edit', 'bpge' ) . '</a>';
+				echo '<a href="' . $group_admin_link . '" target="_blank">' . __( 'Edit', BPGE_I18N ) . '</a>';
 
 				break;
 
@@ -91,9 +91,9 @@ class BPGE_ADMIN {
 					break;
 				}
 
-				echo '<a href="' . $group_link . BPGE_GPAGES . '/' . $post->post_name . '/" target="_blank">' . __( 'Visit', 'bpge' ) . '</a>';
+				echo '<a href="' . $group_link . BPGE_GPAGES . '/' . $post->post_name . '/" target="_blank">' . __( 'Visit', BPGE_I18N ) . '</a>';
 				echo ' | ';
-				echo '<a href="' . $group_admin_link . 'extras/pages-manage/?edit=' . $post_id . '" target="_blank">' . __( 'Edit', 'bpge' ) . '</a>';
+				echo '<a href="' . $group_admin_link . 'extras/pages-manage/?edit=' . $post_id . '" target="_blank">' . __( 'Edit', BPGE_I18N ) . '</a>';
 				break;
 		}
 	}
@@ -183,11 +183,11 @@ class BPGE_ADMIN {
 	public function load_pointers() {
 		$page = is_multisite() ? 'network/settings.php' : 'options-general.php';
 
-		$vote_content = '<h3>' . __( 'Vote for Features', 'bpge' ) . '</h3>';
-		$vote_content .= '<p>' . __( 'Based on voting results I will implement features in new versions (either in core or as modules to extend the initial functionality).', 'bpge' ) . '</p>';
+		$vote_content = '<h3>' . __( 'Vote for Features', BPGE_I18N ) . '</h3>';
+		$vote_content .= '<p>' . __( 'Based on voting results I will implement features in new versions (either in core or as modules to extend the initial functionality).', BPGE_I18N ) . '</p>';
 
 		$tuts_content = '<h3>' . __( 'Tutorials Included' ) . '</h3>';
-		$tuts_content .= '<p>' . sprintf( __( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', 'bpge' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) ) . '</p>';
+		$tuts_content .= '<p>' . sprintf( __( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', BPGE_I18N ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) ) . '</p>';
 
 		// get all pointer that we dismissed
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
@@ -326,28 +326,28 @@ class BPGE_ADMIN {
 		$current_tab = $this->get_cur_tab();
 
 		echo '<h2>';
-		_e( 'BuddyPress Groups Extras', 'bpge' );
+		_e( 'BuddyPress Groups Extras', BPGE_I18N );
 		echo '<sup>v' . BPGE_VERSION . '</sup> ';
 		do_action( 'bpge_admin_header_title_pro' );
 		echo '&rarr; ';
-		_e( 'Extend Your Groups', 'bpge' );
+		_e( 'Extend Your Groups', BPGE_I18N );
 		do_action( 'bpge_admin_header_title' );
 		echo '</h2>'; ?>
 
 		<?php
 		if ( isset( $_GET['saved'] ) ) {
 			echo '<div style="clear:both"></div>';
-			echo '<div id="message" class="updated fade"><p>' . __( 'All changes were saved. Go and check results!', 'bpge' ) . '</p></div>';
+			echo '<div id="message" class="updated fade"><p>' . __( 'All changes were saved. Go and check results!', BPGE_I18N ) . '</p></div>';
 		}
 
 		if ( ! isset( $this->bpge['reviewed'] ) || $this->bpge['reviewed'] == 'no' ) {
 			echo '<div style="clear:both"></div>';
 			echo '<div id="message" class="updated fade"><p>' .
 			     sprintf(
-				     __( 'If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', 'bpge' ),
+				     __( 'If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', BPGE_I18N ),
 				     'http://wordpress.org/support/view/plugin-reviews/buddypress-groups-extras'
 			     ) .
-			     '<span style="float:right"><a href="#" class="bpge_review_dismiss" style="color:red">' . __( 'Dismiss', 'bpge' ) . '</span>' .
+			     '<span style="float:right"><a href="#" class="bpge_review_dismiss" style="color:red">' . __( 'Dismiss', BPGE_I18N ) . '</span>' .
 			     '</p></div>';
 		}
 
@@ -360,9 +360,9 @@ class BPGE_ADMIN {
 		do_action( 'bpge_admin_tabs_links' );
 
 		if ( defined( 'BPGE_PRO' ) ) {
-			echo '<a class="nav-tab" target="_blank" style="float:right" href="http://ovirium.com/support/">' . __( 'Support', 'bpge' ) . '</a>';
+			echo '<a class="nav-tab" target="_blank" style="float:right" href="http://ovirium.com/support/">' . __( 'Support', BPGE_I18N ) . '</a>';
 		} else {
-			echo '<a class="nav-tab" target="_blank" style="float:right" href="http://wordpress.org/support/plugin/buddypress-groups-extras#latest">' . __( 'Support', 'bpge' ) . '</a>';
+			echo '<a class="nav-tab" target="_blank" style="float:right" href="http://wordpress.org/support/plugin/buddypress-groups-extras#latest">' . __( 'Support', BPGE_I18N ) . '</a>';
 		}
 		echo '</h3>';
 	}

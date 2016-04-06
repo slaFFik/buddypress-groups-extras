@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BuddyPress Groups Extras\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-18 13:41+0200\n"
-"PO-Revision-Date: 2015-04-09 11:23+0100\n"
+"POT-Creation-Date: 2016-04-07 00:58+0200\n"
+"PO-Revision-Date: 2016-04-07 01:00+0200\n"
 "Last-Translator: slaFFik <slava.abakumov@gmail.com>\n"
 "Language-Team: slaFFik <slaffik@list.ru>\n"
 "Language: en\n"
@@ -13,49 +13,150 @@ msgstr ""
 "X-Poedit-KeywordsList: __;gettext;gettext_noop;_e\n"
 "X-Poedit-Basepath: W:\\OpenServer\\domains\\ovi\\bpge\\wp-content\\plugins"
 "\\buddypress-groups-extras\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 1.6.10\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SearchPath-0: W:\\OpenServer\\domains\\ovi\\bpge\\wp-content"
 "\\plugins\\buddypress-groups-extras\n"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/bpge.php:106
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/bpge.php:107
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:12
+msgid "Search"
+msgstr "Buscar"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:26
+#, fuzzy
+msgid "Prepare Search"
+msgstr "Buscar"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:31
+#, fuzzy
+msgid "Search for Fields"
+msgstr "Mostrar Campos"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:36
+#, fuzzy
+msgid "Search for Pages"
+msgstr "Editor Extendido para Páginas"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:41
+msgid "Fields to Links"
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:51
+#, fuzzy
+msgid "Control the search options of groups fields and pages."
+msgstr ""
+"¡La habilidad para buscar en los campos de grupos y páginas fue implementada "
+"finalmente!"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:59
+msgid ""
+"Currently you need to prepare the data to be searchable. Use the button "
+"below for this purpose. This should be done only once."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:62
+#, fuzzy
+msgid "Prepare Data"
+msgstr "Borrar Datos"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:71
+#, fuzzy
+msgid ""
+"Would you like to enable sitewide search for data entered in groups fields?"
+msgstr ""
+"¿Le gustaría habilitar el  Editor Extendido para el uso fácil de etiquetas "
+"html para los campos de área de texto personalizados?"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:83
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:111
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:137
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:124
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:142
+msgid "Enable"
+msgstr "Habilitar"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:87
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:115
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:138
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:125
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:143
+msgid "Disable"
+msgstr "Deshabilitar"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:99
+#, fuzzy
+msgid ""
+"Would you like to enable sitewide search for data entered in groups pages?"
+msgstr ""
+"¿Le gustaría habilitar el  Editor Extendido para el uso fácil de etiquetas "
+"html para páginas de grupos personalizados?"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:127
+#, fuzzy
+msgid "Would you like to convert custom fields values in all groups to links?"
+msgstr ""
+"¿Cuáles grupos usted permite que creen campos y páginas personalizados?"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:129
+msgid ""
+"Using that links people will be able to search for groups with the same "
+"fields values."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search-admin.php:141
+msgid ""
+"Note: this option uses the same logic as members profiles fields auto-"
+"linking."
+msgstr ""
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search.php:77
+#, fuzzy
+msgid "Found in Group Pages:"
+msgstr "Páginas de Grupos"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras-pro-search/bpge-search.php:98
+#, fuzzy
+msgid "Found in Group Fields:"
+msgstr "Campos de Grupos"
+
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/bpge.php:112
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/bpge.php:113
 msgid "BP Groups Extras"
 msgstr "Extras de BP Groups"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:52
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:47
 msgid "Title"
 msgstr "Título"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:53
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:48
 msgid "Group Links"
 msgstr "Enlaces de Grupo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:54
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:49
 msgid "Page Links"
 msgstr "Enlaces de Página"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:55
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:50
 msgid "Date"
 msgstr "Fecha"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:88
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:99
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:83
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:94
 msgid "Visit"
 msgstr "Visita"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:90
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:101
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:10
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:85
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:96
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:12
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_pages_list.php:8
 msgid "Edit"
 msgstr "Editar"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:194
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:186
 msgid "Vote for Features"
 msgstr "Votar por Características"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:195
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:187
 msgid ""
 "Based on voting results I will implement features in new versions (either in "
 "core or as modules to extend the initial functionality)."
@@ -64,11 +165,11 @@ msgstr ""
 "nuevas versiones (ya sea en el núcleo o como módulos para extender la "
 "funcionalidad inicial)."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:197
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:189
 msgid "Tutorials Included"
 msgstr "Tutoriales incluidos"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:198
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:190
 #, php-format
 msgid ""
 "You can get the basic help of how to use this plugin right from the plugin "
@@ -79,33 +180,19 @@ msgstr ""
 "admin de plugin - muchos <a href=\"%s\">tutoriales muy detallados</a> están "
 "incluidos dentro del plugin."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:200
-msgid "Extended Groups Data Search"
-msgstr "Búsqueda Extendida de Datos de Grupos"
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:201
-msgid ""
-"Have or plan to have lots of custom groups fields and pages? Extend the "
-"default BuddyPress search with your additional data using this special "
-"<strong>Search</strong> extension."
-msgstr ""
-"¿Tiene un plan o tiene muchos campos y páginas personalizados de grupos? "
-"Extienda su búsqueda  por defecto de BuddyPress con sus datos adicionales "
-"utilizando esta extensión  de <strong>Búsqueda</strong> especial."
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:365
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:329
 msgid "BuddyPress Groups Extras"
 msgstr "Extras de BuddyPress Groups"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:369
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:333
 msgid "Extend Your Groups"
 msgstr "Extienda Sus Grupos"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:376
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:340
 msgid "All changes were saved. Go and check results!"
 msgstr "Todos los cambios fueron salvados. ¡Vaya a chequear los resultados!"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:383
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:347
 #, php-format
 msgid ""
 "If you like the plugin please review it on its <a href=\"%s\">WordPress "
@@ -114,12 +201,12 @@ msgstr ""
 "Si le gusta el plugin por favor comente en la <a href=\"%s\">Página de "
 "WordPress Repository</a>.¡Gracias de antemano!"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:386
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:350
 msgid "Dismiss"
 msgstr "Descartar"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:399
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:401
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:363
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin.php:365
 msgid "Support"
 msgstr "Soporte"
 
@@ -212,16 +299,6 @@ msgstr ""
 "¿Le gustaría habilitar el  Editor Extendido para el uso fácil de etiquetas "
 "html para páginas de grupos personalizados?"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:124
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:142
-msgid "Enable"
-msgstr "Habilitar"
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:125
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:143
-msgid "Disable"
-msgstr "Deshabilitar"
-
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/general.php:134
 msgid ""
 "Would you like to enable Rich Editor for easy use of html tags for groups "
@@ -263,39 +340,6 @@ msgstr ""
 "Por favor responda la pregunta debajo - esto me ayudará a priorizar mi "
 "trabajo de desarrollo."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/search.php:20
-msgid "Search"
-msgstr "Buscar"
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/search.php:27
-msgid "Ability to search in groups fields and pages was finally implemented!"
-msgstr ""
-"¡La habilidad para buscar en los campos de grupos y páginas fue implementada "
-"finalmente!"
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/search.php:31
-#, php-format
-msgid ""
-"Search extension is a <a href=\"%s\">PRO feature</a>, and costs just $12."
-msgstr ""
-"La extensión de búsqueda es una <a href=\"%s\">característica PRO</a>, y "
-"cuesta solamente $12."
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/search.php:35
-#, php-format
-msgid ""
-"All buyes will get the latest versions among the first AND extra support for "
-"their plugin PRO features on a dedicated forum on <a href=\"%1$s\" target="
-"\"_blank\">%2$s</a>"
-msgstr ""
-"Todos los compradores obtendrán las últimas versiones además del soporte "
-"extra Y primero para sus características PRO del plugin en un foro dedicado "
-"en <a href=\"%1$s\" target=\"_blank\">%2$s</a>"
-
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/search.php:38
-msgid "Buy Now for just $12<sup>.00</sup>"
-msgstr "Comprar ahora por solamente $12<sup>.00</sup>"
-
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/admin_tabs/sets.php:16
 msgid "Default Sets of Fields"
 msgstr "Grupos y Campos Por Defecto"
@@ -330,8 +374,8 @@ msgstr ""
 "Debajo usted va a ver varios tutoriales y como se hace, que le ayudarán a "
 "comprender mejor el plugin y cómo trabajar con él."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:7
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:55
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:8
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:54
 msgid "Groups Fields"
 msgstr "Campos de Grupos"
 
@@ -339,11 +383,11 @@ msgstr "Campos de Grupos"
 msgid "Sets of Fields"
 msgstr "Grupos de Campos"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:79
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:77
 msgid "Groups Pages"
 msgstr "Páginas de Grupos"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:80
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cpt.php:78
 msgid "Groups Page"
 msgstr "Página de Grupo"
 
@@ -364,7 +408,7 @@ msgid "Do you want to apply this set of fields to all groups on your site?"
 msgstr "¿Desea aplicar este grupo de campos a todos los grupos en su sitio?"
 
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cssjs.php:26
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:8
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:10
 msgid "Applied"
 msgstr "Aplicado"
 
@@ -378,7 +422,7 @@ msgid "Yes"
 msgstr "Si"
 
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/cssjs.php:29
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:24
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:25
 msgid "No"
 msgstr "No"
 
@@ -450,63 +494,64 @@ msgstr "Extras"
 msgid "Pages"
 msgstr "Páginas"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:257
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:278
 msgid "(required)"
 msgstr "(requerido)"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:304
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:325
 msgid "Clear"
 msgstr "Borrar"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:362
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:383
 #, php-format
 msgid "Required fields should not be empty. Please fill in: %s"
 msgstr "Los campos requeridos no deben estar vacíos. Por favor llénelos en: %s"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1008
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1030
 msgid "Group Extras settings were succefully updated."
 msgstr ""
 "Los ajustes de Group Extras &rarr; fueron actualizados satisfactoriamente."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1011
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1033
 msgid "New field was successfully added."
 msgstr "Un nuevo campo fue adicionado satisfactoriamente."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1014
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1036
 msgid "The field was successfully updated."
 msgstr "El campo fue actualizado satisfactoriamente."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1017
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1039
 msgid "New page was successfully added."
 msgstr "Una nueva página fue adicionada satisfactoriamente."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1020
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1042
 msgid "The page was successfully updated."
 msgstr "La página fue actualizada satisfactoriamente."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1023
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1045
 msgid "Please create at least 1 extra field to show it in a list."
 msgstr "Por favor cree al menos un campo extra para mostrarlo en la lista."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1026
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/loader.php:1048
 msgid "Please create at least 1 extra page to show it in a list."
 msgstr "Por favor cree al menos una página extra para mostrarla en la lista."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/templates.php:98
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/templates.php:108
 msgid "Edit link for group admins only"
 msgstr "Editar enlace solamente para los admins de group"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/templates.php:99
-msgid "[Edit this page]"
-msgstr "[Editar esta página]"
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/core/templates.php:109
+#, fuzzy
+msgid "[Edit]"
+msgstr "Editar"
 
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/groups_list.php:2
 msgid "Which groups do you allow to create custom fields and pages for?"
 msgstr ""
 "¿Cuáles grupos usted permite que creen campos y páginas personalizados?"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/groups_list.php:8
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/groups_list.php:28
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/groups_list.php:13
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/groups_list.php:38
 msgid "All groups"
 msgstr "Todos los grupos"
 
@@ -575,25 +620,25 @@ msgstr "Casilla de Selección Desplegable"
 msgid "Display this field?"
 msgstr "¿Mostrar este campo?"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:23
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:24
 msgid "or"
 msgstr "o"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:30
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:31
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:23
 msgid "Add New"
 msgstr "Adicionar Nuevo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:35
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:36
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:31
 msgid "Field Description"
 msgstr "Descripción del Campo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:40
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:41
 msgid "Add New Field"
 msgstr "Adicionar Nuevo Campo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:43
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_field_add.php:44
 msgid "Create the Set of Fields"
 msgstr "Crear el Grupo de Campos"
 
@@ -601,29 +646,29 @@ msgstr "Crear el Grupo de Campos"
 msgid "Show Fields"
 msgstr "Mostrar Campos"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:7
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:9
 msgid "Apply to all groups this set of fields"
 msgstr "Aplicar a todos los grupos este grupo de campos"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:7
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:9
 msgid "Already applied"
 msgstr "Ya está aplicado"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:8
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:10
 msgid "Apply"
 msgstr "Aplicar"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:11
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:11
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:13
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:13
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_pages_list.php:9
 msgid "Delete"
 msgstr "Borrar"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:21
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:23
 msgid "Fields not yet created"
 msgstr "Los campos aún no han sido creados"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:23
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/admin/set_list.php:25
 msgid "Add field"
 msgstr "Adicionar campo"
 
@@ -631,7 +676,7 @@ msgstr "Adicionar campo"
 msgid "Drop Down Select Box"
 msgstr "Casilla de Selección Desplegable"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:36
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:38
 msgid ""
 "Is this field required (will be marked as required on group Edit Details "
 "page)?"
@@ -639,35 +684,35 @@ msgstr ""
 "¿Es este campo es requerido (será marcado como requerido en la página de "
 "Editar Detalles del grupo)?"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:37
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:39
 msgid "Required"
 msgstr "Requerido"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:38
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:40
 msgid "Not Required"
 msgstr "No requerido"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:41
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:44
 #, php-format
 msgid "Should this field be displayed for public on \"<u>%s</u>\" page?"
 msgstr ""
 "¿Este campo debería ser mostrado para el público en la página \"<u>%s</u>\"?"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:43
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:48
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_pages_add_edit.php:35
 msgid "Display it"
 msgstr "Mostrarlo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:44
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:50
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_pages_add_edit.php:39
 msgid "Do NOT display it"
 msgstr "NO mostrarlo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:47
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:53
 msgid "Create New &rarr;"
 msgstr "Crear Nuevo &rarr;"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:50
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_add_edit.php:56
 msgid "Save Changes &rarr;"
 msgstr "Salvar Cambios  &rarr;"
 
@@ -693,15 +738,15 @@ msgstr "requerido"
 msgid "<u>not</u> required"
 msgstr "<u>no</u> requerido"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:10
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:11
 msgid "Change its title, description etc"
 msgstr "Cambiar su título, descripción etc"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:10
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:11
 msgid "Edit field"
 msgstr "Editar campo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:11
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_fields_list.php:13
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_pages_list.php:9
 msgid "Delete this item and all its content"
 msgstr "Borrar este elemento y todo su contenido"
@@ -712,7 +757,7 @@ msgstr ""
 "Por favor especifique el nombre de la página, donde todos los campos serán "
 "mostrados"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:7
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:8
 #, php-format
 msgid ""
 "Do you want to make <strong>\"%s\"</strong> page public? Everyone will see "
@@ -721,36 +766,36 @@ msgstr ""
 "¿Desea hacer pública la página <strong>\"%s\"</strong>? Todos verán esta "
 "página."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:8
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:27
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:10
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:35
 msgid "Show it"
 msgstr "Mostrarlo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:9
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:28
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:12
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:37
 msgid "Hide it"
 msgstr "Ocultarlo"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:13
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:17
 #, php-format
 msgid "Please choose the layout for <strong>\"%s\"</strong> page"
 msgstr "Por favor escoja el diseño para la página <strong>\"%s\"</strong>"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:14
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:19
 msgid "Plain (field title and its data below)"
 msgstr "Plano (campo título y sus datos debajo)"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:15
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:21
 msgid "Profile style (in a table)"
 msgstr "Estilo de perfil (en una tabla)"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:21
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:27
 msgid "Please specify the page name, where all custom pages will be displayed"
 msgstr ""
 "Por favor especifique el nombre de la página, donde todas las páginas "
 "personalizadas serán mostradas"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:26
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:33
 #, php-format
 msgid ""
 "Do you want to make <strong>\"%s\"</strong> page public (extra group pages "
@@ -759,7 +804,7 @@ msgstr ""
 "¿Desea hacer pública la página <strong>\"%s\"</strong> (las páginas extras "
 "del grupo serán mostradas aquí)?"
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:33
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:42
 msgid ""
 "You can reorder here all navigation links in this group. The first item will "
 "become a landing page for this group. Save changes after reordering.<br /"
@@ -771,13 +816,13 @@ msgstr ""
 "Salve los cambios luego de reorganizar.<br/>Por favor, NO haga las páginas "
 "de Gestión/Admin en primer lugar - esto va a causar problemas de mostrado."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:53
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:62
 msgid "Rename the Home group page - Activity (for example) is far better."
 msgstr ""
 "Renombre la página de Inicio del grupo - Actividad (por ejemplo) es mucho "
 "mejor."
 
-#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:60
+#: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_general.php:69
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_pages_add_edit.php:54
 msgid "Save Changes"
 msgstr "Salvar Cambios"
@@ -854,3 +899,36 @@ msgstr "Adicionar Campo"
 #: W:\OpenServer\domains\ovi\bpge\wp-content\plugins\buddypress-groups-extras/views/front/extras_top_menu.php:69
 msgid "Add Page"
 msgstr "Adicionar Página"
+
+#~ msgid "Extended Groups Data Search"
+#~ msgstr "Búsqueda Extendida de Datos de Grupos"
+
+#~ msgid ""
+#~ "Have or plan to have lots of custom groups fields and pages? Extend the "
+#~ "default BuddyPress search with your additional data using this special "
+#~ "<strong>Search</strong> extension."
+#~ msgstr ""
+#~ "¿Tiene un plan o tiene muchos campos y páginas personalizados de grupos? "
+#~ "Extienda su búsqueda  por defecto de BuddyPress con sus datos adicionales "
+#~ "utilizando esta extensión  de <strong>Búsqueda</strong> especial."
+
+#~ msgid ""
+#~ "Search extension is a <a href=\"%s\">PRO feature</a>, and costs just $12."
+#~ msgstr ""
+#~ "La extensión de búsqueda es una <a href=\"%s\">característica PRO</a>, y "
+#~ "cuesta solamente $12."
+
+#~ msgid ""
+#~ "All buyes will get the latest versions among the first AND extra support "
+#~ "for their plugin PRO features on a dedicated forum on <a href=\"%1$s\" "
+#~ "target=\"_blank\">%2$s</a>"
+#~ msgstr ""
+#~ "Todos los compradores obtendrán las últimas versiones además del soporte "
+#~ "extra Y primero para sus características PRO del plugin en un foro "
+#~ "dedicado en <a href=\"%1$s\" target=\"_blank\">%2$s</a>"
+
+#~ msgid "Buy Now for just $12<sup>.00</sup>"
+#~ msgstr "Comprar ahora por solamente $12<sup>.00</sup>"
+
+#~ msgid "[Edit this page]"
+#~ msgstr "[Editar esta página]"

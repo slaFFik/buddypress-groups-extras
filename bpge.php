@@ -4,7 +4,7 @@ Plugin Name: BuddyPress Groups Extras
 Plugin URI: http://ovirium.com/portfolio/bp-groups-extras/
 Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
 Version: 3.6.8
-Text Domain: bpge
+Text Domain: buddypress-groups-extras
 Domain Path: /langs/
 Author: slaFFik
 Author URI: https://ovirium.com/
@@ -22,6 +22,7 @@ define( 'BPGE_FIELDS', 'bpge_fields' );
 define( 'BPGE_FIELDS_SET', 'bpge_fields_set' );
 define( 'BPGE_GFIELDS', 'bpge_gfields' );
 define( 'BPGE_GPAGES', 'gpages' );
+define( 'BPGE_I18N', 'buddypress-groups-extras' );
 
 if ( ! defined( 'DS' ) ) {
 	define( 'DS', DIRECTORY_SEPARATOR );
@@ -90,10 +91,10 @@ function bpge_clear( $type = 'all' ) {
  */
 function bpge_load_textdomain() {
 	$locale = apply_filters( 'buddypress_locale', get_locale() );
-	$mofile = dirname( __File__ ) . "/langs/bpge-$locale.mo";
+	$mofile = dirname( __File__ ) . '/langs/' . BPGE_I18N . "-$locale.mo";
 
 	if ( file_exists( $mofile ) ) {
-		load_textdomain( 'bpge', $mofile );
+		load_textdomain( BPGE_I18N, $mofile );
 	}
 }
 
@@ -108,8 +109,8 @@ function bpge_admin_init() {
 	$admin = new BPGE_ADMIN();
 	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
-		__( 'BP Groups Extras', 'bpge' ),
-		'<span id="bpge-admin-menu" class="dashicons dashicons-groups"></span>&nbsp;' . __( 'BP Groups Extras', 'bpge' ),
+		__( 'BP Groups Extras', BPGE_I18N ),
+		'<span id="bpge-admin-menu" class="dashicons dashicons-groups"></span>&nbsp;' . __( 'BP Groups Extras', BPGE_I18N ),
 		'manage_options',
 		BPGE_ADMIN_SLUG,
 		array( $admin, 'admin_page' ) );

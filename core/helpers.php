@@ -44,34 +44,34 @@ function bpge_names( $name = 'name' ) {
 
 	switch ( $name ) {
 		case 'title_general':
-			$text = __( 'Group Extras &rarr; General Settings', 'bpge' );
+			$text = __( 'Group Extras &rarr; General Settings', BPGE_I18N );
 			break;
 		case 'title_fields':
-			$text = __( 'Group Extras &rarr; Fields Management', 'bpge' );
+			$text = __( 'Group Extras &rarr; Fields Management', BPGE_I18N );
 			break;
 		case 'title_pages':
-			$text = __( 'Group Extras &rarr; Pages Management', 'bpge' );
+			$text = __( 'Group Extras &rarr; Pages Management', BPGE_I18N );
 			break;
 		case 'title_fields_add':
-			$text = __( 'Group Extras &rarr; Add Field', 'bpge' );
+			$text = __( 'Group Extras &rarr; Add Field', BPGE_I18N );
 			break;
 		case 'title_fields_edit':
-			$text = __( 'Group Extras &rarr; Edit Field', 'bpge' );
+			$text = __( 'Group Extras &rarr; Edit Field', BPGE_I18N );
 			break;
 		case 'title_pages_add':
-			$text = __( 'Group Extras &rarr; Add Page', 'bpge' );
+			$text = __( 'Group Extras &rarr; Add Page', BPGE_I18N );
 			break;
 		case 'title_pages_edit':
-			$text = __( 'Group Extras &rarr; Edit Page', 'bpge' );
+			$text = __( 'Group Extras &rarr; Edit Page', BPGE_I18N );
 			break;
 		case 'name':
-			$text = __( 'Description', 'bpge' );
+			$text = __( 'Description', BPGE_I18N );
 			break;
 		case 'nav':
-			$text = __( 'Extras', 'bpge' );
+			$text = __( 'Extras', BPGE_I18N );
 			break;
 		case 'gpages':
-			$text = __( 'Pages', 'bpge' );
+			$text = __( 'Pages', BPGE_I18N );
 			break;
 	}
 

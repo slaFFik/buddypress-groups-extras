@@ -13,7 +13,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GROUPS' ) ) {
 		public $title = null;
 
 		public function __construct() {
-			$this->title = __( 'Allowed Groups', 'bpge' );
+			$this->title = __( 'Allowed Groups', BPGE_I18N );
 
 			parent::__construct();
 		}

@@ -275,7 +275,7 @@ class BPGE extends BP_Group_Extension {
 
 			$req_text = $req_class = false;
 			if ( $field->pinged == 'req' ) {
-				$req_text  = __( '(required)', 'bpge' );
+				$req_text  = __( '(required)', BPGE_I18N );
 				$req_class = 'required';
 			}
 
@@ -322,7 +322,7 @@ class BPGE extends BP_Group_Extension {
 					}
 					echo '</span>';
 					if ( $req_text ) {
-						echo '<a class="clear-value" href="javascript:clear( \'bpge-' . $field->ID . '\' );">' . __( 'Clear', 'bpge' ) . '</a>';
+						echo '<a class="clear-value" href="javascript:clear( \'bpge-' . $field->ID . '\' );">' . __( 'Clear', BPGE_I18N ) . '</a>';
 					}
 					break;
 				case 'datebox':
@@ -380,7 +380,7 @@ class BPGE extends BP_Group_Extension {
 				if ( ! empty( $error ) ) {
 					bp_core_add_message(
 						sprintf(
-							__( 'Required fields should not be empty. Please fill in: %s', 'bpge' ),
+							__( 'Required fields should not be empty. Please fill in: %s', BPGE_I18N ),
 							'<strong>' . implode( ', ', $error ) . '</strong>'
 						),
 						'error' );
@@ -1027,25 +1027,25 @@ class BPGE extends BP_Group_Extension {
 	public function notices( $type ) {
 		switch ( $type ) {
 			case 'settings_updated';
-				bp_core_add_message( __( 'Group Extras settings were succefully updated.', 'bpge' ) );
+				bp_core_add_message( __( 'Group Extras settings were succefully updated.', BPGE_I18N ) );
 				break;
 			case 'added_field';
-				bp_core_add_message( __( 'New field was successfully added.', 'bpge' ) );
+				bp_core_add_message( __( 'New field was successfully added.', BPGE_I18N ) );
 				break;
 			case 'edited_field';
-				bp_core_add_message( __( 'The field was successfully updated.', 'bpge' ) );
+				bp_core_add_message( __( 'The field was successfully updated.', BPGE_I18N ) );
 				break;
 			case 'added_page';
-				bp_core_add_message( __( 'New page was successfully added.', 'bpge' ) );
+				bp_core_add_message( __( 'New page was successfully added.', BPGE_I18N ) );
 				break;
 			case 'edited_page';
-				bp_core_add_message( __( 'The page was successfully updated.', 'bpge' ) );
+				bp_core_add_message( __( 'The page was successfully updated.', BPGE_I18N ) );
 				break;
 			case 'no_fields':
-				echo '<div class="" id="message"><p>' . __( 'Please create at least 1 extra field to show it in a list.', 'bpge' ) . '</p></div>';
+				echo '<div class="" id="message"><p>' . __( 'Please create at least 1 extra field to show it in a list.', BPGE_I18N ) . '</p></div>';
 				break;
 			case 'no_pages':
-				echo '<div class="" id="message"><p>' . __( 'Please create at least 1 extra page to show it in a list.', 'bpge' ) . '</p></div>';
+				echo '<div class="" id="message"><p>' . __( 'Please create at least 1 extra page to show it in a list.', BPGE_I18N ) . '</p></div>';
 				break;
 		}
 		do_action( 'bpge_notices', $type );
