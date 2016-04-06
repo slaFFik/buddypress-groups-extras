@@ -65,7 +65,9 @@ class BPGE extends BP_Group_Extension {
 		}
 
 		if ( bp_is_single_item() && ! empty( $bp->groups->current_group ) && empty( $bp->groups->current_group->extras['display_page_layout'] ) ) {
-			$bp->groups->current_group->extras['display_page_layout'] = 'profile';
+			$current_group_extras                        = $bp->groups->current_group->extras;
+			$current_group_extras['display_page_layout'] = 'profile';
+			$bp->groups->current_group->extras           = $current_group_extras;
 		}
 
 		// gPages Page
