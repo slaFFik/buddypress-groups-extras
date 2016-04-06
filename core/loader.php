@@ -69,7 +69,11 @@ class BPGE extends BP_Group_Extension {
 		}
 
 		if ( bp_is_single_item() && ! empty( $bp->groups->current_group ) && empty( $bp->groups->current_group->extras['display_page_layout'] ) ) {
-			$current_group_extras                        = $bp->groups->current_group->extras;
+			if ( isset( $bp->groups->current_group->extras ) ) {
+				$current_group_extras = $bp->groups->current_group->extras;
+			} else {
+				$current_group_extras = array();
+			}
 			$current_group_extras['display_page_layout'] = 'profile';
 			$bp->groups->current_group->extras           = $current_group_extras;
 		}
@@ -90,9 +94,16 @@ class BPGE extends BP_Group_Extension {
 		$this->nav_item_name = isset( $bp->groups->current_group->extras['display_page_name'] ) ? $bp->groups->current_group->extras['display_page_name'] : bpge_names( 'nav' );
 
 		// Home page
-		if ( ! empty( $bp->groups->current_group->extras['home_name'] ) ) {
-			$this->home_name                                                        = $bp->groups->current_group->extras['home_name'];
-			$bp->bp_options_nav[ $bp->groups->current_group->slug ]['home']['name'] = $this->home_name;
+		if ( isset( $bp->groups->current_group->extras ) && ! empty( $bp->groups->current_group->extras['home_name'] ) ) {
+			$this->home_name = $bp->groups->current_group->extras['home_name'];
+
+			if (
+				! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ] ) &&
+				! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ]['home'] ) &&
+				! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ]['home']['name'] )
+			) {
+				$bp->bp_options_nav[ $bp->groups->current_group->slug ]['home']['name'] = $this->home_name;
+			}
 		}
 
 		add_action( 'groups_custom_group_fields_editable', array( $this, 'edit_group_fields' ) );
