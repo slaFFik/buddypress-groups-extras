@@ -5,13 +5,13 @@ class BPGE extends BP_Group_Extension {
 
 	public $slug             = 'extras';
 	public $page_slug        = 'gpages';
-	public $name             = false;
-	public $nav_item_name    = false;
-	public $gpages_item_name = false;
+	public $name             = '';
+	public $nav_item_name    = '';
+	public $gpages_item_name = '';
 
-	public $home_name = false;
+	public $home_name = '';
 
-	public $gpage_id = false;
+	public $gpage_id = 0;
 
 	/* By default - Is it visible to non-members of a group? Options: public/private */
 	public $visibility = false;
@@ -28,8 +28,12 @@ class BPGE extends BP_Group_Extension {
 	public $display_hook  = 'groups_extras_group_boxes';
 	public $template_file = 'groups/single/plugins';
 
-	public $bpge_glob = false;
+	public $bpge_glob = array();
 
+	/**
+	 * BPGE constructor.
+	 * Initialize everything
+	 */
 	public function __construct() {
 		global $bp;
 
