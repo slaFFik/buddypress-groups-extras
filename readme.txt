@@ -1,8 +1,8 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
-Requires at least: 3.7 and BP 1.8
-Tested up to: 4.1 and BP 2.1.1
+Requires at least: 3.8
+Tested up to: 4.4.2
 Stable tag: 3.6.7.2
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
@@ -30,15 +30,6 @@ BuddyPress Groups Extras will give ability to them to create extra content.
 * Edit pages data in Group Admin area using WP RichEditor (with embedding content that WordPress supports!)
 * Display / hide page, where all groups pages will be displayed (and rename it too)
 * Reorder pages
-
-And even more in PRO version:
-
-* include groups pages and fields into global groups search
-* have a flexible access management to allow members see groups extra content only when they have rights (soon)
-* several groups top levels pages (soon)
-* group blog (collaborative or not) posts (soon)
-* group polls (soon)
-* and much more.
 
 Make your groups full of possibilities!
 
