@@ -172,13 +172,15 @@ class BPGE extends BP_Group_Extension {
 		switch_to_blog( bpge_get_main_site_id() );
 
 		if ( empty( $bp->action_variables ) ) {
-			$bp->action_variables[0] = $wpdb->get_var(
-				"SELECT `post_name` FROM {$wpdb->prefix}posts
-                WHERE `post_parent` = {$bp->groups->current_group->extras['gpage_id']}
-                    AND `post_type` = '{$this->page_slug}'
+			$bp->action_variables[0] = $wpdb->get_var( $wpdb->prepare(
+				"SELECT `post_name` FROM {$wpdb->posts}
+                WHERE `post_parent` = %d
+                    AND `post_type` = %s
+                    AND `post_status` = 'publish'
                 ORDER BY `menu_order` ASC
-                LIMIT 1"
-			);
+                LIMIT 1",
+				(int) $bp->groups->current_group->extras['gpage_id'],
+				$this->page_slug ) );
 		}
 
 		restore_current_blog();
