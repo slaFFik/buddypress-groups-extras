@@ -3,11 +3,16 @@
 Plugin Name: BuddyPress Groups Extras
 Plugin URI: http://ovirium.com/portfolio/bp-groups-extras/
 Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
-Version: 3.6.7.2
+Version: 3.6.8
+Text Domain: bpge
+Domain Path: /langs/
 Author: slaFFik
-Author URI: http://ovirium.com/
+Author URI: https://ovirium.com/
 */
-define( 'BPGE_VERSION', '3.6.7.2' );
+// Exit if accessed directly
+defined( 'ABSPATH' ) || exit;
+
+define( 'BPGE_VERSION', '3.6.8' );
 define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
 define( 'BPGE_URL', plugins_url( '_inc', __FILE__ ) ); // link to all assets, with /

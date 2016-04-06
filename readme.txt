@@ -1,9 +1,11 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik
-Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy
-Requires at least: 3.8
+Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy, pages
+Requires at least: 3.9
 Tested up to: 4.4.2
-Stable tag: 3.6.7.2
+Stable tag: 3.6.8
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
 
@@ -62,19 +64,26 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
-= 3.6.7.2 (09.04.2015) =
-* Added Spanish translation (props <a href="http://www.webhostinghub.com/">Andrew Kurtis</a>)
-
-= 3.6.7.1 (18.01.2015) =
-* Quick fix of a warning :(
-
-= 3.6.7 (18.01.2015) =
-* Optimized css/js loading (on appropriate pages only)
-* Improved pointers a bit (texts and placement)
-* Removed screenshots from the plugin zip (less plugin size to download)
-* Other minor improvements and fixes
+= 3.6.8 (07.04.2016) =
+* Fixed: completely hide all plugins CPT from front-end (sitemaps etc) - good for SEO
+* Fixed: conflict with BP_Groups_Hierarchy
+* Fixed: hide Add New button on the Groups Pages listing in wp-admin
+* Fixed: inproper page content if first item in groups navigation is Gpages that is set to not published
+* Fixed: several PHP warnings and notices
+* lots of minor code improvements
 
 == Changelog ==
+
+= 3.6.8 (07.04.2016) =
+* Fixed: completely hide all plugins CPT from front-end (sitemaps etc) - good for SEO
+* Fixed: conflict with BP_Groups_Hierarchy
+* Fixed: hide Add New button on the Groups Pages listing in wp-admin
+* Fixed: inproper page content if first item in groups navigation is Gpages that is set to not published
+* Fixed: several PHP warnings and notices
+* lots of minor code improvements
+
+= 3.6.7.2 (09.04.2015) =
+* Added Spanish translation (props <a href="http://www.webhostinghub.com/">Andrew Kurtis</a>)
 
 = 3.6.7.1 (18.01.2015) =
 * Quick fix of a warning :(
