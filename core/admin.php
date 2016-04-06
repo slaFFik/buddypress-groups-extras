@@ -227,7 +227,7 @@ class BPGE_ADMIN {
 					}).pointer('open');
 				});
 				// ]]></script>
-		<?php
+			<?php
 		}
 
 		if ( ! empty( $tuts_content ) ) { ?>
@@ -248,7 +248,7 @@ class BPGE_ADMIN {
 					}).pointer('open');
 				});
 				// ]]></script>
-		<?php
+			<?php
 		}
 	}
 
@@ -263,7 +263,7 @@ class BPGE_ADMIN {
 		wp_enqueue_script( 'bpge_admin_js_popup', BPGE_URL . '/messi.js', array( 'jquery' ), BPGE_VERSION );
 
 		wp_enqueue_script( 'bpge-admin', BPGE_URL . '/admin-scripts.js', array( 'wp-pointer' ), BPGE_VERSION );
-		wp_localize_script( 'bpge-admin', 'bpge', bpge_get_localized_data(), BPGE_VERSION );
+		wp_localize_script( 'bpge-admin', 'bpge', bpge_get_localized_data() );
 	}
 
 	function load_css( $hook ) {
@@ -311,7 +311,7 @@ class BPGE_ADMIN {
 				?>
 			</form>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**

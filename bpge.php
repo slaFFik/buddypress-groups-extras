@@ -100,7 +100,7 @@ add_action( 'plugins_loaded', 'bpge_load_textdomain', 7 );
 function bpge_admin_init() {
 	include( BPGE_PATH . '/core/admin.php' );
 
-	$admin    = new BPGE_ADMIN();
+	$admin = new BPGE_ADMIN();
 	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
 		__( 'BP Groups Extras', 'bpge' ),
@@ -119,6 +119,17 @@ if ( is_multisite() ) {
 } else {
 	add_action( 'admin_menu', 'bpge_admin_init' );
 }
+
+/**
+ * Remove New -> Groups page from admin bar
+ */
+function bpge_adminbar_remove_gpages_node() {
+	/** @var $wp_admin_bar WP_Admin_Bar */
+	global $wp_admin_bar;
+	$wp_admin_bar->remove_node( 'new-gpages' );
+}
+
+add_action( 'admin_bar_menu', 'bpge_adminbar_remove_gpages_node', 999 );
 
 /**
  * Get BPGE plugin options
