@@ -321,7 +321,7 @@ class BPGE extends BP_Group_Extension {
 	/**
 	 * Save extra fields in DB
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	function edit_group_fields_save() {
 		/** @var $wpdb WPDB */
@@ -1000,7 +1000,7 @@ class BPGE extends BP_Group_Extension {
 	/**
 	 * Notices about user actions
 	 *
-	 * @param $type
+	 * @param string $type
 	 */
 	function notices( $type ) {
 		switch ( $type ) {
@@ -1032,7 +1032,7 @@ class BPGE extends BP_Group_Extension {
 	/**
 	 * Create a storage for groups pages
 	 *
-	 * @param $what
+	 * @param string $what
 	 * @param bool $input
 	 *
 	 * @return int|null|WP_Post
