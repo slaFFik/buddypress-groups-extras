@@ -197,9 +197,6 @@ class BPGE_ADMIN {
 		$tuts_content = '<h3>' . __( 'Tutorials Included' ) . '</h3>';
 		$tuts_content .= '<p>' . sprintf( __( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', 'bpge' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) ) . '</p>';
 
-		$search_content = '<h3>' . __( 'Extended Groups Data Search' ) . '</h3>';
-		$search_content .= '<p>' . __( 'Have or plan to have lots of custom groups fields and pages? Extend the default BuddyPress search with your additional data using this special <strong>Search</strong> extension.', 'bpge' ) . '</p>';
-
 		// get all pointer that we dismissed
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
@@ -209,10 +206,6 @@ class BPGE_ADMIN {
 		}
 		if ( in_array( 'bpge_tuts', $dismissed ) ) {
 			$tuts_content = '';
-		}
-
-		if ( in_array( 'bpge_search', $dismissed ) ) {
-			$search_content = '';
 		}
 
 		if ( ! empty( $vote_content ) ) { ?>
@@ -250,27 +243,6 @@ class BPGE_ADMIN {
 							jQuery.post(ajaxurl, {
 								action: 'dismiss-wp-pointer',
 								pointer: 'bpge_tuts'
-							});
-						}
-					}).pointer('open');
-				});
-				// ]]></script>
-		<?php
-		}
-
-		if ( ! empty( $search_content ) ) { ?>
-			<script type="text/javascript">// <![CDATA[
-				jQuery(document).ready(function () {
-					jQuery('#bpge_tab_search').pointer({
-						content: '<?php echo $search_content; ?>',
-						position: {
-							edge: 'top',
-							align: 'left'
-						},
-						close: function () {
-							jQuery.post(ajaxurl, {
-								action: 'dismiss-wp-pointer',
-								pointer: 'bpge_search'
 							});
 						}
 					}).pointer('open');
