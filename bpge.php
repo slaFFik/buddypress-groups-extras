@@ -166,7 +166,6 @@ function bpge_pre_load() {
 	require( BPGE_PATH . '/core/cssjs.php' );
 	require( BPGE_PATH . '/core/ajax.php' );
 	require( BPGE_PATH . '/core/templates.php' );
-	require( BPGE_PATH . '/core/pro.php' );
 	require( BPGE_PATH . '/core/cpt.php' );
 	require( BPGE_PATH . '/core/helpers.php' );
 

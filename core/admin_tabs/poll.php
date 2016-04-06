@@ -6,19 +6,19 @@ if ( ! class_exists( 'BPGE_ADMIN_POLL' ) ) {
 	 */
 	class BPGE_ADMIN_POLL extends BPGE_ADMIN_TAB {
 		// position is used to define where exactly this tab will appear
-		var $position = 90;
+		public $position = 90;
 		// slug that is used in url to access this tab
-		var $slug = 'poll';
+		public $slug = 'poll';
 		// title is used as a tab name
-		var $title = null;
+		public $title = null;
 
-		function __construct() {
+		public function __construct() {
 			$this->title = __( 'Poll', 'bpge' );
 
 			parent::__construct();
 		}
 
-		function display() {
+		public function display() {
 			echo '<p class="description">';
 			_e( 'Please answer the question below - this will help me to prioritize my development work.', 'bpge' );
 			echo '</p><br />';

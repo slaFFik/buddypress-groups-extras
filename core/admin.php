@@ -5,23 +5,23 @@
  */
 class BPGE_ADMIN {
 	// page slug, used on URL
-	var $slug = BPGE_ADMIN_SLUG;
+	public $slug = BPGE_ADMIN_SLUG;
 	// where all options are stored
-	var $bpge = false;
+	public $bpge = false;
 	// where to save in options table
-	var $bpge_options_key = 'bpge';
+	public $bpge_options_key = 'bpge';
 	// default tab that will be opened if nothing specified
 	// will be redefined after all tabs are loaded
-	var $default_tab = null;
+	public $default_tab = null;
 	// the list of tabs in admin area, will be extended by child classes
-	var $bpge_tabs = array();
+	public $bpge_tabs = array();
 	// path the folder where all tabs are situated
-	var $tabs_path = null;
+	public $tabs_path = null;
 
 	/**
 	 * Do some important initial routine
 	 */
-	function __construct() {
+	public function __construct() {
 		global $bpge;
 		$this->bpge      = $bpge;
 		$this->tabs_path = dirname( __FILE__ ) . DS . 'admin_tabs';
@@ -43,7 +43,7 @@ class BPGE_ADMIN {
 	 *
 	 * @return array
 	 */
-	function manage_columns(
+	public function manage_columns(
 		/** @noinspection PhpUnusedParameterInspection */
 		$columns
 	) {
@@ -56,7 +56,7 @@ class BPGE_ADMIN {
 		);
 	}
 
-	function manage_columns_content( $column, $post_id ) {
+	public function manage_columns_content( $column, $post_id ) {
 		$group_id = get_post_meta( $post_id, 'group_id', true );
 		$post     = get_post( $post_id );
 
@@ -103,7 +103,7 @@ class BPGE_ADMIN {
 		}
 	}
 
-	function manage_columns_actions( $actions, $post ) {
+	public function manage_columns_actions( $actions, $post ) {
 		if ( $post->post_type != BPGE_GPAGES ) {
 			return $actions;
 		}
@@ -120,7 +120,7 @@ class BPGE_ADMIN {
 	 *
 	 * @return array
 	 */
-	function manage_columns_remove_bulk(
+	public function manage_columns_remove_bulk(
 		/** @noinspection PhpUnusedParameterInspection */
 		$actions
 	) {
@@ -130,7 +130,7 @@ class BPGE_ADMIN {
 	/**
 	 * Get all tabs from individual files (include)
 	 */
-	function get_tabs() {
+	public function get_tabs() {
 		if ( $handle = opendir( $this->tabs_path ) ) {
 			while ( false !== ( $file = readdir( $handle ) ) ) {
 				if ( $file == "." || $file == ".." ) {
@@ -154,7 +154,7 @@ class BPGE_ADMIN {
 	/**
 	 * Used for sorting tabs according to their position
 	 */
-	function reorder_tabs() {
+	public function reorder_tabs() {
 		if ( empty( $this->bpge_tabs ) || ! is_array( $this->bpge_tabs ) ) {
 			return;
 		}
@@ -178,7 +178,7 @@ class BPGE_ADMIN {
 	/**
 	 * Load all required styles and scripts
 	 */
-	function load_assets() {
+	public function load_assets() {
 		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_style( 'wp-pointer' );
 		add_action( 'admin_footer', array( $this, 'load_pointers' ) );
@@ -188,7 +188,7 @@ class BPGE_ADMIN {
 		add_action( 'admin_enqueue_scripts', array( $this, 'load_css' ) );
 	}
 
-	function load_pointers() {
+	public function load_pointers() {
 		$page = is_multisite() ? 'network/settings.php' : 'options-general.php';
 
 		$vote_content = '<h3>' . __( 'Vote for Features', 'bpge' ) . '</h3>';
@@ -252,7 +252,7 @@ class BPGE_ADMIN {
 		}
 	}
 
-	function load_js( $hook ) {
+	public function load_js( $hook ) {
 		if ( $hook !== 'settings_page_bpge-admin' ) {
 			return;
 		}
@@ -266,7 +266,7 @@ class BPGE_ADMIN {
 		wp_localize_script( 'bpge-admin', 'bpge', bpge_get_localized_data() );
 	}
 
-	function load_css( $hook ) {
+	public function load_css( $hook ) {
 		global $post_type;
 
 		if (
@@ -287,7 +287,7 @@ class BPGE_ADMIN {
 	/**
 	 * Actual html of a page (its core)
 	 */
-	function admin_page() {
+	public function admin_page() {
 		//define some data that can be given to each metabox during rendering
 		$tab = $this->get_cur_tab(); ?>
 
@@ -318,7 +318,7 @@ class BPGE_ADMIN {
 	 * We need to know the current tab at any time
 	 * If not specified - get the default one
 	 */
-	function get_cur_tab() {
+	public function get_cur_tab() {
 		if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 			return $_GET['tab'];
 		} else {
@@ -330,7 +330,7 @@ class BPGE_ADMIN {
 	 * Content part with header section.
 	 * HTML
 	 */
-	function header() {
+	public function header() {
 		$current_tab = $this->get_cur_tab();
 
 		echo '<h2>';
@@ -383,20 +383,20 @@ class BPGE_ADMIN {
  */
 class BPGE_ADMIN_TAB {
 	// all theme options
-	var $bpge = null;
+	public $bpge = null;
 
 	// all these vars are required and should be overwritten
-	var $position = 0;
-	var $title    = null;
-	var $slug     = null;
+	public $position = 0;
+	public $title    = null;
+	public $slug     = null;
 
 	// used by some pro extensions
-	var $extras_to_header = array();
+	public $extras_to_header = array();
 
 	/**
 	 * Create the actual page object
 	 */
-	function __construct() {
+	public function __construct() {
 		if ( ! ( isset( $_GET['page'] ) && $_GET['page'] == BPGE_ADMIN_SLUG ) ) {
 			return;
 		}
@@ -441,18 +441,18 @@ class BPGE_ADMIN_TAB {
 	 * Those sections will be used to display fields/options
 	 * @override
 	 */
-	function register_sections() {
+	public function register_sections() {
 	}
 
 	/**
 	 * In case we need to add some strings to the admin page header
 	 * @override
 	 */
-	function header_title_attach() {
+	public function header_title_attach() {
 		return '';
 	}
 
-	function apply_header_extras() {
+	public function apply_header_extras() {
 		if ( $data = array_filter( $this->extras_to_header ) ) {
 			echo ' [' . implode( ', ', $data ) . ']';
 		}
@@ -462,13 +462,13 @@ class BPGE_ADMIN_TAB {
 	 * HTML should be here
 	 * @override
 	 */
-	function display() {
+	public function display() {
 	}
 
 	/**
 	 * All security and data checks should be here
 	 * @override
 	 */
-	function save() {
+	public function save() {
 	}
 }

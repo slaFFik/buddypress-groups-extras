@@ -6,19 +6,19 @@ if ( ! class_exists( 'BPGE_ADMIN_SETS' ) ) {
 	 */
 	class BPGE_ADMIN_SETS extends BPGE_ADMIN_TAB {
 		// position is used to define where exactly this tab will appear
-		var $position = 20;
+		public $position = 20;
 		// slug that is used in url to access this tab
-		var $slug = 'sets';
+		public $slug = 'sets';
 		// title is used as a tab name
-		var $title = null;
+		public $title = null;
 
-		function __construct() {
+		public function __construct() {
 			$this->title = __( 'Default Sets of Fields', 'bpge' );
 
 			parent::__construct();
 		}
 
-		function display() {
+		public function display() {
 			echo '<p class="description">';
 			_e( 'Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch.', 'bpge' );
 			echo '</p>';
@@ -69,7 +69,7 @@ if ( ! class_exists( 'BPGE_ADMIN_SETS' ) ) {
 			bpge_view( 'admin/set_field_add' );
 		}
 
-		function save() {
+		public function save() {
 			// Save new Set of fields
 			if ( ! empty( $_POST['add_set_fields_name'] ) ) {
 				$set = array(

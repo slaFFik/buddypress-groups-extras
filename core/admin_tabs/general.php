@@ -6,13 +6,13 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 	 */
 	class BPGE_ADMIN_GENERAL extends BPGE_ADMIN_TAB {
 		// position is used to define where exactly this tab will appear
-		var $position = 10;
+		public $position = 10;
 		// slug that is used in url to access this tab
-		var $slug = 'general';
+		public $slug = 'general';
 		// title is used as a tab name
-		var $title = null;
+		public $title = null;
 
-		function __construct() {
+		public function __construct() {
 			$this->title = __( 'General Options', 'bpge' );
 
 			parent::__construct();
@@ -21,7 +21,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Create sections of options
 		 */
-		function register_sections() {
+		public function register_sections() {
 			do_action( 'bpge_admin_general_section_before', $this );
 
 			add_settings_field( 're_pages',
@@ -56,14 +56,14 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Display the tab description
 		 */
-		function display() {
+		public function display() {
 			echo '<p class="description">' . __( 'Here are some general settings.', 'bpge' ) . '</p>';
 		}
 
 		/**
 		 * Change accessibility of Extras group admin tab
 		 */
-		function display_access() {
+		public function display_access() {
 			?>
 			<p>
 				<?php _e( 'Sometimes we want to change the access level to different parts of a site. Options below will help you to do this.', 'bpge' );?>
@@ -94,7 +94,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Data import from versions before BPGE v3.4
 		 */
-		function display_import() { ?>
+		public function display_import() { ?>
 			<p>
 				<?php _e( 'If you upgraded from any version of BuddyPress Groups Extras, which had the version number less than 3.4, and if you want to preserve all previously generated content (like default and groups fields etc) please do the import using controls below.', 'bpge' );?>
 			</p>
@@ -115,7 +115,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Rich Editor for Pages content
 		 */
-		function display_re_pages() {
+		public function display_re_pages() {
 			echo '<p>';
 			_e( 'Would you like to enable Rich Editor for easy use of html tags for groups custom pages?', 'bpge' );
 			echo '</p>';
@@ -129,7 +129,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Rich Editor for Fields textareas
 		 */
-		function display_re_fields() {
+		public function display_re_fields() {
 			echo '<p>';
 			_e( 'Would you like to enable Rich Editor for easy use of html tags for groups custom textarea fields?', 'bpge' );
 			echo '</p>';
@@ -147,7 +147,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Plugin Deactivation options
 		 */
-		function display_uninstall() {
+		public function display_uninstall() {
 			echo '<p>';
 			_e( 'On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?', 'bpge' );
 			echo '</p>';
@@ -165,7 +165,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		/**
 		 * Validate and save
 		 */
-		function save() {
+		public function save() {
 			/** @var $wpdb WPDB */
 			global $wpdb, $bp;
 
