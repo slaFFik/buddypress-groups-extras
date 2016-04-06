@@ -117,8 +117,10 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Display the list of fields
+	 *
+	 * @param int|null $group_id
 	 */
-	function display() {
+	function display( $group_id = null ) {
 		global $bp;
 
 		// get all to display
@@ -1048,7 +1050,7 @@ class BPGE extends BP_Group_Extension {
 			case 'group_id':
 				global $current_blog;
 				if ( empty( $current_blog ) || ! isset( $current_blog->blog_id ) ) {
-					$current_blog          = new Stdclass;
+					$current_blog          = new stdClass();
 					$current_blog->blog_id = 1;
 				}
 				$admin    = get_user_by( 'email', get_blog_option( $current_blog->blog_id, 'admin_email' ) );
