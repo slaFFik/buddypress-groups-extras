@@ -121,17 +121,6 @@ if ( is_multisite() ) {
 }
 
 /**
- * Remove New -> Groups page from admin bar
- */
-function bpge_adminbar_remove_gpages_node() {
-	/** @var $wp_admin_bar WP_Admin_Bar */
-	global $wp_admin_bar;
-	$wp_admin_bar->remove_node( 'new-gpages' );
-}
-
-add_action( 'admin_bar_menu', 'bpge_adminbar_remove_gpages_node', 999 );
-
-/**
  * Get BPGE plugin options
  * They are always stored on the main site.
  *
