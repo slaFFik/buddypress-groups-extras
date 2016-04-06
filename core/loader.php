@@ -348,7 +348,7 @@ class BPGE extends BP_Group_Extension {
 				return;
 			}
 
-			$to_save = array();
+			$to_save = $error = array();
 
 			foreach ( $_POST as $data => $value ) {
 				if ( substr( $data, 0, 5 ) === 'bpge-' ) {
@@ -456,7 +456,7 @@ class BPGE extends BP_Group_Extension {
 		           array(
 			           'nav_item_name'    => $this->nav_item_name,
 			           'gpages_item_name' => $this->gpages_item_name,
-			           'group_nav' => bpge_get_nav_order(),
+			           'group_nav'        => bpge_get_nav_order(),
 			           'home_name'        => ( $this->home_name ? $this->home_name : bpge_names( 'nav' ) )
 		           )
 		);
@@ -723,7 +723,7 @@ class BPGE extends BP_Group_Extension {
 
 				global $current_blog;
 				if ( empty( $current_blog ) || ! isset( $current_blog->blog_id ) ) {
-					$current_blog          = new Stdclass;
+					$current_blog          = new stdClass();
 					$current_blog->blog_id = 1;
 				}
 
@@ -803,6 +803,7 @@ class BPGE extends BP_Group_Extension {
 					return false;
 				}
 
+				$page                 = array();
 				$page['ID']           = $_POST['extra-page-id'];
 				$page['post_title']   = apply_filters( 'bpge_updated_page_title', $_POST['extra-page-title'] );
 				$page['post_name']    = apply_filters( 'bpge_updated_page_slug', isset( $_POST['extra-page-slug'] ) ? $_POST['extra-page-slug'] : '' );

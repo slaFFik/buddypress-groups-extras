@@ -39,14 +39,9 @@ class BPGE_ADMIN {
 	/**
 	 * Improve the table of Groups pages in wp-admin area
 	 *
-	 * @param array $columns
-	 *
 	 * @return array
 	 */
-	public function manage_columns(
-		/** @noinspection PhpUnusedParameterInspection */
-		$columns
-	) {
+	public function manage_columns() {
 		return array(
 			'cb'         => '<input type="checkbox" />',
 			'title'      => __( 'Title', 'bpge' ),
@@ -116,14 +111,9 @@ class BPGE_ADMIN {
 	/**
 	 * Remove all default actions, as we are currently not using them
 	 *
-	 * @param array $actions
-	 *
 	 * @return array
 	 */
-	public function manage_columns_remove_bulk(
-		/** @noinspection PhpUnusedParameterInspection */
-		$actions
-	) {
+	public function manage_columns_remove_bulk() {
 		return array();
 	}
 
@@ -158,6 +148,8 @@ class BPGE_ADMIN {
 		if ( empty( $this->bpge_tabs ) || ! is_array( $this->bpge_tabs ) ) {
 			return;
 		}
+
+		$tmp = array();
 
 		foreach ( $this->bpge_tabs as $tab ) {
 			$tmp[ $tab->position ] = $tab;
