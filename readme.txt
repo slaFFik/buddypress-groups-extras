@@ -3,7 +3,7 @@ Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy, pages
 Requires at least: 3.9
 Tested up to: 4.4.2
-Stable tag: 3.6.8
+Stable tag: 3.6.8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -64,6 +64,9 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
+= 3.6.8.1 (07.04.2016) =
+* Adopt translate.wordpress.org for translations
+
 = 3.6.8 (07.04.2016) =
 * Fixed: completely hide all plugins CPT from front-end (sitemaps etc) - good for SEO
 * Fixed: conflict with BP_Groups_Hierarchy
@@ -73,6 +76,9 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * lots of minor code improvements
 
 == Changelog ==
+
+= 3.6.8.1 (07.04.2016) =
+* Adopt translate.wordpress.org
 
 = 3.6.8 (07.04.2016) =
 * Fixed: completely hide all plugins CPT from front-end (sitemaps etc) - good for SEO
