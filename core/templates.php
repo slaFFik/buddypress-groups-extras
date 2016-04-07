@@ -68,25 +68,30 @@ function bpge_filter_link_group_data( $field_value ) {
 	$values = explode( ',', $field_value );
 
 	if ( ! empty( $values ) ) {
+		$new_values = array();
+
 		foreach ( (array) $values as $value ) {
 			$value = trim( $value );
 
 			// If the value is a URL, skip it and just make it clickable.
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
+
 				$new_values[] = make_clickable( $value );
 
-				// Is not clickable
-			} else {
+			} else { // Is not clickable
 
 				// More than 5 spaces
 				if ( count( explode( ' ', $value ) ) > 5 ) {
+
 					$new_values[] = $value;
 
-					// Less than 5 spaces
-				} else {
+				} else { // Less than 5 spaces
+
 					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_groups_directory_permalink() );
 					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . $value . '</a>';
+
 				}
+
 			}
 		}
 
