@@ -195,8 +195,6 @@ add_action( 'bp_init', 'bpge_load' );
 
 /**
  * Reorder group nav links
- *
- * @return bool|array
  */
 function bpge_get_nav_order() {
 	global $bp, $bpge;
@@ -209,9 +207,14 @@ function bpge_get_nav_order() {
 		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
 
 		if ( ! empty( $order ) && is_array( $order ) ) {
+			$is_26 = version_compare( bp_get_version(), '2.6', '>=' );
 			foreach ( $order as $slug => $position ) {
-				if ( isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ] ) ) {
-					$bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ]['position'] = $position;
+				if ( $is_26 ) {
+					buddypress()->groups->nav->edit_nav( array( 'position' => $position ), $slug, bp_current_item() );
+				} else {
+					if ( isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ] ) ) {
+						$bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ]['position'] = $position;
+					}
 				}
 			}
 		}

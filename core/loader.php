@@ -97,11 +97,9 @@ class BPGE extends BP_Group_Extension {
 		if ( isset( $bp->groups->current_group->extras ) && ! empty( $bp->groups->current_group->extras['home_name'] ) ) {
 			$this->home_name = $bp->groups->current_group->extras['home_name'];
 
-			if (
-				! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ] ) &&
-				! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ]['home'] ) &&
-				! empty( $bp->bp_options_nav[ $bp->groups->current_group->slug ]['home']['name'] )
-			) {
+			if ( version_compare( bp_get_version(), '2.6', '>=' ) ) {
+				buddypress()->groups->nav->edit_nav( array( 'name' => $this->home_name ), 'home', bp_current_item() );
+			} else {
 				$bp->bp_options_nav[ $bp->groups->current_group->slug ]['home']['name'] = $this->home_name;
 			}
 		}
@@ -583,9 +581,10 @@ class BPGE extends BP_Group_Extension {
 		}
 
 		$is_edit = false;
-		$page    = new Stdclass;
+		$page    = new stdClass();
 		// defaults
-		$page->ID = $page->post_title = $page->post_name = $page->post_content = $page->post_status = '';
+		$page->ID          = $page->post_title = $page->post_name = $page->post_content = '';
+		$page->post_status = 'draft';
 
 		if ( isset( $_GET['edit'] ) && ! empty( $_GET['edit'] ) && is_numeric( $_GET['edit'] ) ) {
 			$is_edit = true;
