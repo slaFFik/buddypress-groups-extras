@@ -140,3 +140,21 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 function bpge_is_bp_26() {
 	return version_compare( bp_get_version(), '2.6', '>=' );
 }
+
+/**
+ * Get the group navigation array
+ *
+ * @return array
+ */
+function bpge_get_group_nav() {
+	if ( bpge_is_bp_26() ) {
+		$nav = buddypress()->groups->nav->get_secondary( array(
+			                                                 'parent_slug' => bp_get_current_group_slug(),
+		                                                 ) );
+	} else {
+		$bp  = buddypress();
+		$nav = $bp->bp_options_nav[ $bp->groups->current_group->slug ];
+	}
+
+	return $nav;
+}

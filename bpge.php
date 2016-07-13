@@ -210,13 +210,9 @@ function bpge_get_nav_order() {
 			foreach ( $order as $slug => $position ) {
 				if ( bpge_is_bp_26() ) {
 					buddypress()->groups->nav->edit_nav( array( 'position' => $position ), $slug, bp_current_item() );
-					$new_nav = buddypress()->groups->nav->get_secondary( array(
-						                                                     'parent_slug' => bp_get_current_group_slug(),
-					                                                     ) );
 				} else {
 					if ( isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ] ) ) {
 						$bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ]['position'] = $position;
-						$new_nav                                                                     = $bp->bp_options_nav[ $bp->groups->current_group->slug ];
 					}
 				}
 			}
@@ -224,7 +220,7 @@ function bpge_get_nav_order() {
 
 		do_action( 'bpge_get_nav_order' );
 
-		return $new_nav;
+		return bpge_get_group_nav();
 	}
 
 	return false;

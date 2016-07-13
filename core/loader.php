@@ -463,7 +463,7 @@ class BPGE extends BP_Group_Extension {
 		           array(
 			           'nav_item_name'    => $this->nav_item_name,
 			           'gpages_item_name' => $this->gpages_item_name,
-			           'group_nav'        => bpge_get_nav_order(),
+			           'group_nav'        => bpge_get_group_nav(),
 			           'home_name'        => ( $this->home_name ? $this->home_name : bpge_names( 'nav' ) )
 		           )
 		);
