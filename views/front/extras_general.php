@@ -25,7 +25,7 @@
 
 <p>
 	<label for="group_extras_display_name"><?php _e( 'Please specify the page name, where all custom pages will be displayed', BPGE_I18N ); ?></label>
-	<input type="text" value="<?php echo $gpages_item_name; ?>" name="group-gpages-display-name">
+	<input type="text" value="<?php echo esc_attr( $gpages_item_name ); ?>" name="group-gpages-display-name">
 </p>
 
 <p>
@@ -60,7 +60,7 @@
 
 <p>
 	<label for="group_extras_home_name"><?php _e( 'Rename the Home group page - Activity (for example) is far better.', BPGE_I18N ); ?></label>
-	<input type="text" value="<?php echo $home_name; ?>" name="group-extras-home-name">
+	<input type="text" value="<?php echo esc_attr( $home_name ); ?>" name="group-extras-home-name">
 </p>
 
 <div class="clear">&nbsp;</div>

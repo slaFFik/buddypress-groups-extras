@@ -97,7 +97,7 @@ class BPGE extends BP_Group_Extension {
 		if ( isset( $bp->groups->current_group->extras ) && ! empty( $bp->groups->current_group->extras['home_name'] ) ) {
 			$this->home_name = $bp->groups->current_group->extras['home_name'];
 
-			if ( version_compare( bp_get_version(), '2.6', '>=' ) ) {
+			if ( bpge_is_bp_26() ) {
 				buddypress()->groups->nav->edit_nav( array( 'name' => $this->home_name ), 'home', bp_current_item() );
 			} else {
 				$bp->bp_options_nav[ $bp->groups->current_group->slug ]['home']['name'] = $this->home_name;
@@ -339,8 +339,6 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Save extra fields in DB
-	 *
-	 * @return boolean|null
 	 */
 	public function edit_group_fields_save() {
 		/** @var $wpdb WPDB */
@@ -426,28 +424,28 @@ class BPGE extends BP_Group_Extension {
 		global $bp;
 
 		if ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'fields' ) {
-			$this->edit_screen_fields( $bp );
+			$this->edit_screen_fields();
 		} elseif ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'pages' ) {
-			$this->edit_screen_pages( $bp );
+			$this->edit_screen_pages();
 		} elseif ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'fields-manage' ) {
-			$this->edit_screen_fields_manage( $bp );
+			$this->edit_screen_fields_manage();
 		} elseif ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'pages-manage' ) {
-			$this->edit_screen_pages_manage( $bp );
+			$this->edit_screen_pages_manage();
 		} else {
-			$this->edit_screen_general( $bp );
+			$this->edit_screen_general();
 		}
 	}
 
 	/**
 	 * Admin area - General Settings
-	 *
-	 * @param $bp
 	 */
-	public function edit_screen_general( $bp ) {
+	public function edit_screen_general() {
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
 		}
+
+		$bp = buddypress();
 
 		if ( ! isset( $bp->groups->current_group->extras['display_page'] ) ) {
 			$bp->groups->current_group->extras['display_page'] = 'public';
@@ -621,7 +619,7 @@ class BPGE extends BP_Group_Extension {
 
 		switch_to_blog( bpge_get_main_site_id() );
 
-		if ( bp_is_group() && 'extras' == $bp->action_variables[0] ) {
+		if ( bp_is_group() && 'extras' === $bp->action_variables[0] ) {
 			if ( ! $bp->is_item_admin ) {
 				return false;
 			}

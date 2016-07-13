@@ -84,7 +84,7 @@ function bpge_names( $name = 'name' ) {
  * @return Stdclass
  */
 function bpge_get_field_defaults() {
-	$field = new Stdclass;
+	$field = new stdClass();
 
 	$field->ID           = '';
 	$field->desc         = '';
@@ -115,7 +115,7 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 
 	// possible statuses: draft | publish | any
 
-	switch_to_blog(bpge_get_main_site_id());
+	switch_to_blog( bpge_get_main_site_id() );
 
 	$fields = get_posts( array(
 		                     'posts_per_page' => 99,
@@ -130,4 +130,13 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 	restore_current_blog();
 
 	return $fields;
+}
+
+/**
+ * Check that we are on BuddyPress 2.6+
+ *
+ * @return bool
+ */
+function bpge_is_bp_26() {
+	return version_compare( bp_get_version(), '2.6', '>=' );
 }

@@ -207,13 +207,16 @@ function bpge_get_nav_order() {
 		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
 
 		if ( ! empty( $order ) && is_array( $order ) ) {
-			$is_26 = version_compare( bp_get_version(), '2.6', '>=' );
 			foreach ( $order as $slug => $position ) {
-				if ( $is_26 ) {
+				if ( bpge_is_bp_26() ) {
 					buddypress()->groups->nav->edit_nav( array( 'position' => $position ), $slug, bp_current_item() );
+					$new_nav = buddypress()->groups->nav->get_secondary( array(
+						                                                     'parent_slug' => bp_get_current_group_slug(),
+					                                                     ) );
 				} else {
 					if ( isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ] ) ) {
 						$bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ]['position'] = $position;
+						$new_nav                                                                     = $bp->bp_options_nav[ $bp->groups->current_group->slug ];
 					}
 				}
 			}
@@ -221,7 +224,7 @@ function bpge_get_nav_order() {
 
 		do_action( 'bpge_get_nav_order' );
 
-		return $bp->bp_options_nav[ $bp->groups->current_group->slug ];
+		return $new_nav;
 	}
 
 	return false;
