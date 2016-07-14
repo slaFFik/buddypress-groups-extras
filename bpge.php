@@ -259,6 +259,7 @@ add_filter( 'bp_groups_default_extension', 'bpge_landing_page' );
  * Add a link to Adminbar
  */
 function bpge_adminbar_menu_link() {
+	/** @var $wp_admin_bar WP_Admin_Bar */
 	global $wp_admin_bar;
 
 	// Only show if viewing a group.
