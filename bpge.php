@@ -254,3 +254,29 @@ function bpge_landing_page( $old_slug ) {
 }
 
 add_filter( 'bp_groups_default_extension', 'bpge_landing_page' );
+
+/**
+ * Add a link to Adminbar
+ */
+function bpge_adminbar_menu_link() {
+	global $wp_admin_bar;
+
+	// Only show if viewing a group.
+	if ( ! bp_is_group() || bp_is_group_create() ) {
+		return;
+	}
+
+	// Only show this menu to group admins and super admins.
+	if ( ! bp_current_user_can( 'bp_moderate' ) && ! bp_group_is_admin() ) {
+		return;
+	}
+
+	$wp_admin_bar->add_menu( array(
+		                         'parent' => buddypress()->group_admin_menu_id,
+		                         'id'     => 'extras',
+		                         'title'  => __( 'Edit Group Extras', 'buddypress-groups-extras' ),
+		                         'href'   => bp_get_groups_action_link( 'admin/extras' )
+	                         ) );
+}
+
+add_action( 'admin_bar_menu', 'bpge_adminbar_menu_link', 100 );
