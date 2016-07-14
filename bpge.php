@@ -22,7 +22,6 @@ define( 'BPGE_FIELDS', 'bpge_fields' );
 define( 'BPGE_FIELDS_SET', 'bpge_fields_set' );
 define( 'BPGE_GFIELDS', 'bpge_gfields' );
 define( 'BPGE_GPAGES', 'gpages' );
-define( 'BPGE_I18N', 'buddypress-groups-extras' );
 
 if ( ! defined( 'DS' ) ) {
 	define( 'DS', DIRECTORY_SEPARATOR );
@@ -90,15 +89,10 @@ function bpge_clear( $type = 'all' ) {
  * i18n: Load languages
  */
 function bpge_load_textdomain() {
-	$locale = apply_filters( 'buddypress_locale', get_locale() );
-	$mofile = dirname( __File__ ) . '/langs/' . BPGE_I18N . "-$locale.mo";
-
-	if ( file_exists( $mofile ) ) {
-		load_textdomain( BPGE_I18N, $mofile );
-	}
+	load_plugin_textdomain( 'buddypress-groups-extras', false, plugin_basename( dirname( __FILE__ ) ) . '/langs' );
 }
 
-add_action( 'plugins_loaded', 'bpge_load_textdomain', 7 );
+add_action( 'plugins_loaded', 'bpge_load_textdomain' );
 
 /**
  * Load admin menu
@@ -109,8 +103,8 @@ function bpge_admin_init() {
 	$admin = new BPGE_ADMIN();
 	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
-		__( 'BP Groups Extras', BPGE_I18N ),
-		'<span id="bpge-admin-menu" class="dashicons dashicons-groups"></span>&nbsp;' . __( 'BP Groups Extras', BPGE_I18N ),
+		__( 'BP Groups Extras', 'buddypress-groups-extras' ),
+		'<span id="bpge-admin-menu" class="dashicons dashicons-groups"></span>&nbsp;' . __( 'BP Groups Extras', 'buddypress-groups-extras' ),
 		'manage_options',
 		BPGE_ADMIN_SLUG,
 		array( $admin, 'admin_page' ) );

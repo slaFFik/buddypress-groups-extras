@@ -13,14 +13,14 @@ if ( ! class_exists( 'BPGE_ADMIN_TUTS' ) ) {
 		public $title = null;
 
 		public function __construct() {
-			$this->title = __( 'Tutorials', BPGE_I18N );
+			$this->title = __( 'Tutorials', 'buddypress-groups-extras' );
 
 			parent::__construct();
 		}
 
 		public function display() {
 			echo '<p class="description">';
-			_e( 'Below you will see several tutorials and how to, that will help you to better understand the plugin and how to work with it.', BPGE_I18N );
+			_e( 'Below you will see several tutorials and how to, that will help you to better understand the plugin and how to work with it.', 'buddypress-groups-extras' );
 			echo '</p>';
 
 			bpge_view( 'admin/tuts_data' );

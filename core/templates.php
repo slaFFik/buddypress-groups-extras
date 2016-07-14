@@ -110,9 +110,34 @@ function bpge_the_gpage_edit_link( $page_id ) {
 	global $bp;
 	if ( bpge_user_can( 'group_extras_admin' ) ) {
 		echo '<div class="edit_link">
-                <a target="_blank" title="' . __( 'Edit link for group admins only', BPGE_I18N ) . '" href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'admin/extras/pages-manage/?edit=' . $page_id . '">'
-		     . __( '[Edit]', BPGE_I18N ) .
+                <a target="_blank" title="' . __( 'Edit link for group admins only', 'buddypress-groups-extras' ) . '" href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'admin/extras/pages-manage/?edit=' . $page_id . '">'
+		     . __( '[Edit]', 'buddypress-groups-extras' ) .
 		     '</a>
             </div>';
 	}
+}
+
+/**
+ * Display a list of sortable group navigation items.
+ */
+function bpge_the_sortable_nav() {
+	$group_nav = bpge_get_group_nav();
+	?>
+
+	<ul id="nav-sortable">
+		<?php
+		foreach ( $group_nav as $nav ) {
+			if ( empty( $nav['position'] ) ) {
+				$nav['position'] = 99;
+			}
+			if ( isset( $nav['name'] ) ) {
+				echo '<li id="position_' . $nav['position'] . '" class="default">
+                    <strong>' . stripslashes( $nav['name'] ) . '</strong>
+                </li>';
+			}
+		} ?>
+		<input type="hidden" name="bpge_group_nav_position" value=""/>
+	</ul>
+
+	<?php
 }

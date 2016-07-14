@@ -5,7 +5,7 @@
 function bpge_register_fields() {
 	$args = array(
 		'labels'              => array(
-			'name' => __( 'Groups Fields', BPGE_I18N )
+			'name' => __( 'Groups Fields', 'buddypress-groups-extras' )
 		),
 		'public'              => false,
 		'show_in_menu'        => false,
@@ -28,7 +28,7 @@ function bpge_register_fields() {
 function bpge_register_set() {
 	$args = array(
 		'labels'              => array(
-			'name' => __( 'Sets of Fields', BPGE_I18N )
+			'name' => __( 'Sets of Fields', 'buddypress-groups-extras' )
 		),
 		'public'              => false,
 		'show_in_menu'        => false,
@@ -51,7 +51,7 @@ function bpge_register_set() {
 function bpge_register_set_fields() {
 	$args = array(
 		'labels'              => array(
-			'name' => __( 'Groups Fields', BPGE_I18N )
+			'name' => __( 'Groups Fields', 'buddypress-groups-extras' )
 		),
 		'public'              => false,
 		'show_in_menu'        => false,
@@ -74,8 +74,8 @@ function bpge_register_set_fields() {
 function bpge_register_groups_pages() {
 	$args = array(
 		'labels'              => array(
-			'name'          => __( 'Groups Pages', BPGE_I18N ),
-			'singular_name' => __( 'Groups Page', BPGE_I18N )
+			'name'          => __( 'Groups Pages', 'buddypress-groups-extras' ),
+			'singular_name' => __( 'Groups Page', 'buddypress-groups-extras' )
 		),
 		'public'              => false,
 		'exclude_from_search' => true,

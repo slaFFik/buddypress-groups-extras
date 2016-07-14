@@ -1,5 +1,5 @@
 <p class="description" style="margin-bottom:12px">
-	<?php _e( 'Which groups do you allow to create custom fields and pages for?', BPGE_I18N ) ?>
+	<?php _e( 'Which groups do you allow to create custom fields and pages for?', 'buddypress-groups-extras' ) ?>
 </p>
 <table id="bp-gtm-admin-table" class="widefat link-group">
 	<tbody id="the-list">
@@ -10,7 +10,7 @@
 				       name="bpge_groups" <?php echo ( 'all' == $bpge['groups'] ) ? 'checked="checked" ' : ''; ?> value="all"/>
 			</p>
 		</td>
-		<td><p><strong><?php _e( 'All groups', BPGE_I18N ) ?></strong></p></td>
+		<td><p><strong><?php _e( 'All groups', 'buddypress-groups-extras' ) ?></strong></p></td>
 	</tr>
 	<?php
 	if ( bp_has_groups( $arg ) ) {
@@ -35,7 +35,7 @@
 				       name="bpge_groups" <?php echo ( 'all' == $bpge['groups'] ) ? 'checked="checked" ' : ''; ?> value="all"/>
 			</p>
 		</td>
-		<td><p><strong><?php _e( 'All groups', BPGE_I18N ) ?></strong></p></td>
+		<td><p><strong><?php _e( 'All groups', 'buddypress-groups-extras' ) ?></strong></p></td>
 	</tr>
 	</tbody>
 </table>

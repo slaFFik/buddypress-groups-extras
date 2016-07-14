@@ -44,34 +44,37 @@ function bpge_names( $name = 'name' ) {
 
 	switch ( $name ) {
 		case 'title_general':
-			$text = __( 'Group Extras &rarr; General Settings', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; General Settings', 'buddypress-groups-extras' );
 			break;
 		case 'title_fields':
-			$text = __( 'Group Extras &rarr; Fields Management', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; Fields Management', 'buddypress-groups-extras' );
 			break;
 		case 'title_pages':
-			$text = __( 'Group Extras &rarr; Pages Management', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; Pages Management', 'buddypress-groups-extras' );
 			break;
 		case 'title_fields_add':
-			$text = __( 'Group Extras &rarr; Add Field', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; Add Field', 'buddypress-groups-extras' );
 			break;
 		case 'title_fields_edit':
-			$text = __( 'Group Extras &rarr; Edit Field', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; Edit Field', 'buddypress-groups-extras' );
 			break;
 		case 'title_pages_add':
-			$text = __( 'Group Extras &rarr; Add Page', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; Add Page', 'buddypress-groups-extras' );
 			break;
 		case 'title_pages_edit':
-			$text = __( 'Group Extras &rarr; Edit Page', BPGE_I18N );
+			$text = __( 'Group Extras &rarr; Edit Page', 'buddypress-groups-extras' );
 			break;
 		case 'name':
-			$text = __( 'Description', BPGE_I18N );
+			$text = __( 'Description', 'buddypress-groups-extras' );
 			break;
 		case 'nav':
-			$text = __( 'Extras', BPGE_I18N );
+			$text = __( 'Extras', 'buddypress-groups-extras' );
 			break;
 		case 'gpages':
-			$text = __( 'Pages', BPGE_I18N );
+			$text = __( 'Pages', 'buddypress-groups-extras' );
+			break;
+		case 'home':
+			$text = __( 'Home', 'buddypress-groups-extras' );
 			break;
 	}
 
@@ -157,4 +160,11 @@ function bpge_get_group_nav() {
 	}
 
 	return $nav;
+}
+
+/**
+ * Display a new home name for group navigation.
+ */
+function bpge_get_home_name() {
+	return ! empty( buddypress()->groups->current_group->extras['home_name'] ) ? buddypress()->groups->current_group->extras['home_name'] : bpge_names( 'home' );
 }

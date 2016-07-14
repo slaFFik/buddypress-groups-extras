@@ -13,14 +13,14 @@ if ( ! class_exists( 'BPGE_ADMIN_POLL' ) ) {
 		public $title = null;
 
 		public function __construct() {
-			$this->title = __( 'Poll', BPGE_I18N );
+			$this->title = __( 'Poll', 'buddypress-groups-extras' );
 
 			parent::__construct();
 		}
 
 		public function display() {
 			echo '<p class="description">';
-			_e( 'Please answer the question below - this will help me to prioritize my development work.', BPGE_I18N );
+			_e( 'Please answer the question below - this will help me to prioritize my development work.', 'buddypress-groups-extras' );
 			echo '</p><br />';
 
 			// hide Submit button
