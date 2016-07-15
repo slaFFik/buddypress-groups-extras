@@ -281,7 +281,7 @@ class BPGE extends BP_Group_Extension {
 
 			switch ( $field->post_excerpt ) {
 				case 'text':
-					echo '<input id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '" type="text" value="' . $field->post_content . '" />';
+					echo '<input id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '" type="text" value="' . esc_attr( $field->post_content ) . '" />';
 					break;
 				case 'textarea':
 					if ( function_exists( 'wp_editor' ) && isset( $bpge['re_fields'] ) && $bpge['re_fields'] == 'yes' ) {
@@ -294,14 +294,14 @@ class BPGE extends BP_Group_Extension {
 							)
 						);
 					} else {
-						echo '<textarea id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '">' . $field->post_content . '</textarea>';
+						echo '<textarea id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '">' . esc_textarea( $field->post_content ) . '</textarea>';
 					}
 					break;
 				case 'select':
 					echo '<select id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '">';
 					echo '<option value="">-------</option>';
 					foreach ( $field->options as $option ) {
-						echo '<option ' . ( $field->post_content == $option ? 'selected="selected"' : '' ) . ' value="' . $option . '">' . $option . '</option>';
+						echo '<option ' . ( $field->post_content == $option ? 'selected="selected"' : '' ) . ' value="' . esc_attr( $option ) . '">' . $option . '</option>';
 					}
 					echo '</select>';
 					break;
@@ -309,14 +309,14 @@ class BPGE extends BP_Group_Extension {
 					echo '<span id="bpge-' . $field->ID . '">';
 					$content = json_decode( $field->post_content );
 					foreach ( $field->options as $option ) {
-						echo '<input ' . ( in_array( $option, (array) $content ) ? 'checked="checked"' : '' ) . ' type="checkbox" name="bpge-' . $field->ID . '[]" value="' . $option . '"> ' . $option . '<br />';
+						echo '<input ' . ( in_array( $option, (array) $content ) ? 'checked="checked"' : '' ) . ' type="checkbox" name="bpge-' . $field->ID . '[]" value="' . esc_attr( $option ) . '"> ' . $option . '<br />';
 					}
 					echo '</span>';
 					break;
 				case 'radio':
 					echo '<span id="bpge-' . $field->ID . '">';
 					foreach ( $field->options as $option ) {
-						echo '<input ' . ( $field->post_content == $option ? 'checked="checked"' : '' ) . ' type="radio" name="bpge-' . $field->ID . '" value="' . $option . '"> ' . $option . '<br />';
+						echo '<input ' . ( $field->post_content == $option ? 'checked="checked"' : '' ) . ' type="radio" name="bpge-' . $field->ID . '" value="' . esc_attr( $option ) . '"> ' . $option . '<br />';
 					}
 					echo '</span>';
 					if ( $req_text ) {
@@ -324,11 +324,11 @@ class BPGE extends BP_Group_Extension {
 					}
 					break;
 				case 'datebox':
-					echo '<input id="bpge-' . $field->ID . '" class="datebox" name="bpge-' . $field->ID . '" type="text" value="' . $field->post_content . '" />';
+					echo '<input id="bpge-' . $field->ID . '" class="datebox" name="bpge-' . $field->ID . '" type="text" value="' . esc_attr( $field->post_content ) . '" />';
 					break;
 			}
 			if ( ! empty( $field->desc ) ) {
-				echo '<p class="description">' . $field->desc . '</p>';
+				echo '<p class="description">' . stripslashes( $field->desc ) . '</p>';
 			}
 		}
 
@@ -383,11 +383,11 @@ class BPGE extends BP_Group_Extension {
 				}
 
 				if ( ! is_array( $value ) ) {
-					$data = wp_kses_data( $value );
-					$data = force_balance_tags( $data );
+					// textarea and text
+					$data = force_balance_tags( wp_kses( $value, wp_kses_allowed_html( 'post' ) ) );
 				} else {
-					$value = array_map( "wp_kses_data", $value );
-					$value = array_map( "force_balance_tags", $value );
+					$value = array_map( 'wp_kses_data', $value );
+					$value = array_map( 'force_balance_tags', $value );
 					$data  = json_encode( $value );
 				}
 
