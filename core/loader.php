@@ -107,6 +107,8 @@ class BPGE extends BP_Group_Extension {
 		add_action( 'groups_custom_group_fields_editable', array( $this, 'edit_group_fields' ) );
 		add_action( 'groups_group_details_edited', array( $this, 'edit_group_fields_save' ) );
 
+		add_filter( 'bp_group_admin_form_action', array( $this, 'edit_group_admin_form_action' ), 10, 2 );
+
 		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
 		if ( ! empty( $order['extras'] ) ) {
 			$this->nav_item_position = $order['extras'];
@@ -1095,6 +1097,25 @@ class BPGE extends BP_Group_Extension {
 		restore_current_blog();
 
 		return $data;
+	}
+
+	/**
+	 * Modify form action in group admin area on front-end, so admin won't be redirected to the General settings.
+	 *
+	 * @param $link
+	 * @param $group
+	 *
+	 * @return string
+	 */
+	function edit_group_admin_form_action( $link, $group ) {
+		$bp = buddypress();
+
+		$post_fix = '';
+		if ( 'admin' == $bp->current_action && ! empty( $bp->action_variables[1] ) ) {
+			$post_fix = '/' . sanitize_key( $bp->action_variables[1] );
+		}
+
+		return $link . $post_fix;
 	}
 
 	/************************************************************************/
