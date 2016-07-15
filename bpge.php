@@ -104,7 +104,7 @@ function bpge_admin_init() {
 	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
 		__( 'BP Groups Extras', 'buddypress-groups-extras' ),
-		'<span id="bpge-admin-menu" class="dashicons dashicons-groups"></span>&nbsp;' . __( 'BP Groups Extras', 'buddypress-groups-extras' ),
+		__( 'BP Groups Extras', 'buddypress-groups-extras' ),
 		'manage_options',
 		BPGE_ADMIN_SLUG,
 		array( $admin, 'admin_page' ) );

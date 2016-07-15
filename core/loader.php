@@ -1107,7 +1107,7 @@ class BPGE extends BP_Group_Extension {
 	 *
 	 * @return string
 	 */
-	function edit_group_admin_form_action( $link, $group ) {
+	public function edit_group_admin_form_action( $link, $group ) {
 		$bp = buddypress();
 
 		$post_fix = '';
