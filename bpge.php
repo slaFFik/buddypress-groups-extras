@@ -12,7 +12,7 @@ Author URI: https://ovirium.com/
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
-define( 'BPGE_VERSION', '3.6.8.1' );
+define( 'BPGE_VERSION', '3.6.9' );
 define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
 define( 'BPGE_URL', plugins_url( '_inc', __FILE__ ) ); // link to all assets, with /
