@@ -1,9 +1,9 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy, pages
-Requires at least: 3.9
-Tested up to: 4.4.2
-Stable tag: 3.6.8.1
+Requires at least: 4.1
+Tested up to: 4.5.3
+Stable tag: 3.6.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,8 @@ BuddyPress Groups Extras will give ability to them to create extra content.
 * Define who will have access to managing fields or pages in groups (groups admins or site admins or both)
 * Create predefined Set of Fields that can be imported to all groups on a site OR can be imported on per group basis
 * Get tutorials on how to use the plugin (simplified and advanced variants) right in your admin area
+* Tweak various options, like enabling Rich Editor
+* Drag-n-drop groups nav menu items as you wish (Fields and Pages can be your new group front page!)
 
 = Groups Custom Fields =
 * Create custom fields using various type (radios, checkboxes, dropdown select, textarea and text)
@@ -64,18 +66,21 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
-= 3.6.8.1 (07.04.2016) =
-* Adopt translate.wordpress.org for translations
-
-= 3.6.8 (07.04.2016) =
-* Fixed: completely hide all plugins CPT from front-end (sitemaps etc) - good for SEO
-* Fixed: conflict with BP_Groups_Hierarchy
-* Fixed: hide Add New button on the Groups Pages listing in wp-admin
-* Fixed: inproper page content if first item in groups navigation is Gpages that is set to not published
-* Fixed: several PHP warnings and notices
-* lots of minor code improvements
+= 3.6.9 (15.07.2016) =
+* BuddyPress 2.6 compatibility release
+* Fixed: wrong redirect after editing/creating/reordering pages/fields
+* Fixed: HTML was not saved in textarea/input (including RichEditor)
+* Added: link to Group Extras page in admin bar on a single groups pages (quicker access to settings)
+* Added: lots of new actions in templates on front-end
 
 == Changelog ==
+
+= 3.6.9 (15.07.2016) =
+* BuddyPress 2.6 compatibility release
+* Fixed: wrong redirect after editing/creating/reordering pages/fields
+* Fixed: HTML was not saved in textarea/input (including RichEditor)
+* Added: link to Group Extras page in admin bar on a single groups pages (quicker access to settings)
+* Added: lots of new actions in templates on front-end
 
 = 3.6.8.1 (07.04.2016) =
 * Adopt translate.wordpress.org

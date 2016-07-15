@@ -11,6 +11,8 @@ BuddyPress Groups Extras will give ability to them to create extra content.
 * Define who will have access to managing fields or pages in groups (groups admins or site admins or both)
 * Create predefined Set of Fields that can be imported to all groups on a site OR can be imported on per group basis
 * Get tutorials on how to use the plugin (simplified and advanced variants) right in your admin area
+* Tweak various options, like enabling Rich Editor
+* Drag-n-drop groups nav menu items as you wish (Fields and Pages can be your new group front page!)
 
 ## Groups Custom Fields
 * Create custom fields using various type (radios, checkboxes, dropdown select, textarea and text)
