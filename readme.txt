@@ -78,6 +78,9 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Changelog ==
 
+= 3.6.9.1 (16.10.2016) =
+* BuddyPress 2.7 compatibility release
+
 = 3.6.9 (15.07.2016) =
 * BuddyPress 2.6 compatibility release
 * Fixed: wrong redirect after editing/creating/reordering pages/fields
