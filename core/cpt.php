@@ -110,8 +110,8 @@ function bpge_delete_group(
 	$to_delete = false;
 	$pages     = $fields = array();
 
-	if ( isset( $bp->groups->current_group->extras['gpage_id'] ) && ! empty( $bp->groups->current_group->extras['gpage_id'] ) ) {
-		$to_delete = $bp->groups->current_group->extras['gpage_id'];
+	if ( isset( $bp->groups->current_group->args['extras']['gpage_id'] ) && ! empty( $bp->groups->current_group->args['extras']['gpage_id'] ) ) {
+		$to_delete = $bp->groups->current_group->args['extras']['gpage_id'];
 	} else {
 		$bpge = groups_get_groupmeta( $group_obj->id, 'bpge' );
 		if ( $bpge && ! empty( $bpge['gpage_id'] ) ) {

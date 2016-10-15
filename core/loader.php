@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class BPGE
+ */
 class BPGE extends BP_Group_Extension {
 	public $bpge = false;
 
@@ -32,7 +35,7 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * BPGE constructor.
-	 * Initialize everything
+	 * Initialize everything.
 	 */
 	public function __construct() {
 		global $bp;
@@ -44,20 +47,20 @@ class BPGE extends BP_Group_Extension {
 			// populate extras data in global var
 			$bpge = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge' );
 			if ( ! empty( $bpge ) ) {
-				$bp->groups->current_group->extras = $bpge;
+				$bp->groups->current_group->args['extras'] = $bpge;
 			}
 		}
 
-		if ( ! empty( $bp->groups->current_group ) && ! empty( $bp->groups->current_group->extras['gpage_id'] ) ) {
-			$this->gpage_id = $bp->groups->current_group->extras['gpage_id'];
+		if ( ! empty( $bp->groups->current_group ) && ! empty( $bp->groups->current_group->args['extras']['gpage_id'] ) ) {
+			$this->gpage_id = $bp->groups->current_group->args['extras']['gpage_id'];
 		} elseif ( ! empty( $bp->groups->current_group ) ) {
 			$this->gpage_id = $this->get_gpage_by( 'group_id' );
 		}
 
 		// Display or Hide top custom Fields menu from group non-members
-		$this->visibility = isset( $bp->groups->current_group->extras['display_page'] ) ? $bp->groups->current_group->extras['display_page'] : 'public';
-		if ( isset( $bp->groups->current_group->extras['display_page'] ) &&
-		     $bp->groups->current_group->extras['display_page'] == 'public' &&
+		$this->visibility = isset( $bp->groups->current_group->args['extras']['display_page'] ) ? $bp->groups->current_group->args['extras']['display_page'] : 'public';
+		if ( isset( $bp->groups->current_group->args['extras']['display_page'] ) &&
+		     $bp->groups->current_group->args['extras']['display_page'] == 'public' &&
 		     $bp->groups->current_group->user_has_access
 		) {
 			$this->enable_nav_item = true;
@@ -68,20 +71,20 @@ class BPGE extends BP_Group_Extension {
 			$this->enable_edit_item = true;
 		}
 
-		if ( bp_is_single_item() && ! empty( $bp->groups->current_group ) && empty( $bp->groups->current_group->extras['display_page_layout'] ) ) {
-			if ( isset( $bp->groups->current_group->extras ) ) {
-				$current_group_extras = $bp->groups->current_group->extras;
+		if ( bp_is_single_item() && ! empty( $bp->groups->current_group ) && empty( $bp->groups->current_group->args['extras']['display_page_layout'] ) ) {
+			if ( isset( $bp->groups->current_group->args['extras'] ) ) {
+				$current_group_extras = $bp->groups->current_group->args['extras'];
 			} else {
 				$current_group_extras = array();
 			}
 			$current_group_extras['display_page_layout'] = 'profile';
-			$bp->groups->current_group->extras           = $current_group_extras;
+			$bp->groups->current_group->args['extras']   = $current_group_extras;
 		}
 
 		// gPages Page
-		$this->gpages_item_name = isset( $bp->groups->current_group->extras['gpage_name'] ) ? $bp->groups->current_group->extras['gpage_name'] : bpge_names( 'gpages' );
-		if ( isset( $bp->groups->current_group->extras['display_gpages'] ) &&
-		     $bp->groups->current_group->extras['display_gpages'] == 'public' &&
+		$this->gpages_item_name = isset( $bp->groups->current_group->args['extras']['gpage_name'] ) ? $bp->groups->current_group->args['extras']['gpage_name'] : bpge_names( 'gpages' );
+		if ( isset( $bp->groups->current_group->args['extras']['display_gpages'] ) &&
+		     $bp->groups->current_group->args['extras']['display_gpages'] == 'public' &&
 		     $bp->groups->current_group->user_has_access
 		) {
 			$this->enable_gpages_item = true;
@@ -91,11 +94,11 @@ class BPGE extends BP_Group_Extension {
 		$this->name = bpge_names( 'nav' );
 
 		// Public page
-		$this->nav_item_name = isset( $bp->groups->current_group->extras['display_page_name'] ) ? $bp->groups->current_group->extras['display_page_name'] : bpge_names( 'nav' );
+		$this->nav_item_name = isset( $bp->groups->current_group->args['extras']['display_page_name'] ) ? $bp->groups->current_group->args['extras']['display_page_name'] : bpge_names( 'nav' );
 
 		// Home page
-		if ( isset( $bp->groups->current_group->extras ) && ! empty( $bp->groups->current_group->extras['home_name'] ) ) {
-			$this->home_name = $bp->groups->current_group->extras['home_name'];
+		if ( isset( $bp->groups->current_group->args['extras'] ) && ! empty( $bp->groups->current_group->args['extras']['home_name'] ) ) {
+			$this->home_name = $bp->groups->current_group->args['extras']['home_name'];
 
 			if ( bpge_is_bp_26() ) {
 				buddypress()->groups->nav->edit_nav( array( 'name' => $this->home_name ), 'home', bp_current_item() );
@@ -147,8 +150,8 @@ class BPGE extends BP_Group_Extension {
 			return;
 		}
 
-		if ( isset( $bp->groups->current_group->extras['display_page_layout'] ) &&
-		     $bp->groups->current_group->extras['display_page_layout'] == 'plain'
+		if ( isset( $bp->groups->current_group->args['extras']['display_page_layout'] ) &&
+		     $bp->groups->current_group->args['extras']['display_page_layout'] == 'plain'
 		) {
 			bpge_view( 'front/display_fields_plain',
 			           array(
@@ -196,7 +199,7 @@ class BPGE extends BP_Group_Extension {
                     AND `post_status` = 'publish'
                 ORDER BY `menu_order` ASC
                 LIMIT 1",
-				(int) $bp->groups->current_group->extras['gpage_id'],
+				(int) $bp->groups->current_group->args['extras']['gpage_id'],
 				$this->page_slug ) );
 		}
 
@@ -235,7 +238,7 @@ class BPGE extends BP_Group_Extension {
                         AND `post_parent` = %d",
 			$bp->action_variables[0],
 			$this->page_slug,
-			$bp->groups->current_group->extras['gpage_id']
+			$bp->groups->current_group->args['extras']['gpage_id']
 		) );
 
 		restore_current_blog();
@@ -449,14 +452,14 @@ class BPGE extends BP_Group_Extension {
 
 		$bp = buddypress();
 
-		if ( ! isset( $bp->groups->current_group->extras['display_page'] ) ) {
-			$bp->groups->current_group->extras['display_page'] = 'public';
+		if ( empty( $bp->groups->current_group->args['extras']['display_page'] ) ) {
+			$bp->groups->current_group->args['extras']['display_page'] = 'public';
 		}
-		if ( ! isset( $bp->groups->current_group->extras['display_gpages'] ) ) {
-			$bp->groups->current_group->extras['display_gpages'] = 'public';
+		if ( empty( $bp->groups->current_group->args['extras']['display_gpages'] ) ) {
+			$bp->groups->current_group->args['extras']['display_gpages'] = 'public';
 		}
-		if ( ! isset( $bp->groups->current_group->extras['display_page_layout'] ) ) {
-			$bp->groups->current_group->extras['display_page_layout'] = 'plain';
+		if ( empty( $bp->groups->current_group->args['extras']['display_page_layout'] ) ) {
+			$bp->groups->current_group->args['extras']['display_page_layout'] = 'plain';
 		}
 
 		$this->edit_screen_head( 'general' );
@@ -637,16 +640,16 @@ class BPGE extends BP_Group_Extension {
 					return false;
 				}
 
-				$meta = $bp->groups->current_group->extras;
+				$meta = $bp->groups->current_group->args['extras'];
 
 				$meta['display_page']        = $_POST['group-extras-display'];
-				$meta['display_page_name']   = stripslashes( strip_tags( $_POST['group-extras-display-name'] ) );
+				$meta['display_page_name']   = stripslashes( wp_strip_all_tags( $_POST['group-extras-display-name'] ) );
 				$meta['display_page_layout'] = $_POST['group-extras-display-layout'];
 
-				$meta['gpage_name']     = stripslashes( strip_tags( $_POST['group-gpages-display-name'] ) );
+				$meta['gpage_name']     = stripslashes( wp_strip_all_tags( $_POST['group-gpages-display-name'] ) );
 				$meta['display_gpages'] = $_POST['group-gpages-display'];
 
-				$meta['home_name'] = stripslashes( strip_tags( $_POST['group-extras-home-name'] ) );
+				$meta['home_name'] = stripslashes( wp_strip_all_tags( $_POST['group-extras-home-name'] ) );
 
 				// now save nav order
 				if ( ! empty( $_POST['bpge_group_nav_position'] ) ) {
@@ -745,7 +748,7 @@ class BPGE extends BP_Group_Extension {
 					'post_title'     => $_POST['extra-page-title'],
 					'post_name'      => isset( $_POST['extra-page-slug'] ) ? $_POST['extra-page-slug'] : '',
 					'post_content'   => $_POST['extra-page-content'],
-					'post_parent'    => $bp->groups->current_group->extras['gpage_id'],
+					'post_parent'    => $bp->groups->current_group->args['extras']['gpage_id'],
 					'post_status'    => $_POST['extra-page-status'],
 					'menu_order'     => count( $this->get_all_gpages() ) + 1,
 					'post_type'      => $this->page_slug
@@ -894,7 +897,7 @@ class BPGE extends BP_Group_Extension {
 		switch_to_blog( bpge_get_main_site_id() );
 
 		$args = array(
-			'post_parent' => $bp->groups->current_group->extras['gpage_id'],
+			'post_parent' => $bp->groups->current_group->args['extras']['gpage_id'],
 			'post_type'   => $this->page_slug,
 			'orderby'     => 'menu_order',
 			'order'       => 'ASC',

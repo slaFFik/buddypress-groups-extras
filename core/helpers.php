@@ -166,5 +166,5 @@ function bpge_get_group_nav() {
  * Display a new home name for group navigation.
  */
 function bpge_get_home_name() {
-	return ! empty( buddypress()->groups->current_group->extras['home_name'] ) ? buddypress()->groups->current_group->extras['home_name'] : bpge_names( 'home' );
+	return ! empty( buddypress()->groups->current_group->args['extras']['home_name'] ) ? buddypress()->groups->current_group->args['extras']['home_name'] : bpge_names( 'home' );
 }
