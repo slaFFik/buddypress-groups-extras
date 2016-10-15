@@ -2,8 +2,8 @@
 Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy, pages
 Requires at least: 4.1
-Tested up to: 4.5.3
-Stable tag: 3.6.9
+Tested up to: 4.6.2
+Stable tag: 3.6.9.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -65,6 +65,9 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 
 == Upgrade Notice ==
+
+= 3.6.9.1 (16.10.2016) =
+* BuddyPress 2.7 compatibility release
 
 = 3.6.9 (15.07.2016) =
 * BuddyPress 2.6 compatibility release
