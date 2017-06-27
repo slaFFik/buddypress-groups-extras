@@ -9,7 +9,9 @@
  * @return string               HTML of a page or view
  */
 function bpge_view( $view, $params = false ) {
-	global $bp, $bpge;
+	
+	global $bpge;
+	$bp = buddypress();
 
 	do_action( 'bpge_view_pre', $view, $params );
 
@@ -107,7 +109,8 @@ function bpge_filter_link_group_data( $field_value ) {
  * @param int $page_id
  */
 function bpge_the_gpage_edit_link( $page_id ) {
-	global $bp;
+	
+	$bp = buddypress();
 	if ( bpge_user_can( 'group_extras_admin' ) ) {
 		echo '<div class="edit_link">
                 <a target="_blank" title="' . __( 'Edit link for group admins only', 'buddypress-groups-extras' ) . '" href="' . bp_get_group_permalink( $bp->groups->current_group ) . 'admin/extras/pages-manage/?edit=' . $page_id . '">'
