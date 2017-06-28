@@ -106,7 +106,9 @@ function bpge_delete_group(
 	$user_ids
 ) {
 	/** @var $wpdb WPDB */
-	global $bp, $wpdb;
+	global $wpdb;
+	$bp = buddypress();
+	
 	$to_delete = false;
 	$pages     = $fields = array();
 

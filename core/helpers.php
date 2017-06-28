@@ -110,7 +110,7 @@ function bpge_get_field_defaults() {
  * @return array
  */
 function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
-	global $bp;
+	$bp = buddypress();
 
 	if ( empty( $group_id ) ) {
 		$group_id = $bp->groups->current_group->id;

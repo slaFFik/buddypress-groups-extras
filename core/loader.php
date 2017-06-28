@@ -38,7 +38,7 @@ class BPGE extends BP_Group_Extension {
 	 * Initialize everything.
 	 */
 	public function __construct() {
-		global $bp;
+		$bp = buddypress();
 
 		$this->bpge_glob = bpge_get_options();
 
@@ -141,7 +141,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param int|null $group_id
 	 */
 	public function display( $group_id = null ) {
-		global $bp;
+		$bp = buddypress();
 
 		// get all to display
 		$fields = bpge_get_group_fields( 'publish' );
@@ -185,7 +185,8 @@ class BPGE extends BP_Group_Extension {
 	 */
 	public function gpages_screen_nav() {
 		/** @var $wpdb WPDB */
-		global $bp, $wpdb;
+		global $wpdb;
+		$bp = buddypress();
 
 		$pages = $this->get_all_gpages( 'publish' );
 
@@ -227,7 +228,8 @@ class BPGE extends BP_Group_Extension {
 	 */
 	public function gpages_screen_content() {
 		/** @var $wpdb WPDB */
-		global $bp, $wpdb;
+		global $wpdb;
+		$bp = buddypress();
 
 		switch_to_blog( bpge_get_main_site_id() );
 
@@ -347,7 +349,8 @@ class BPGE extends BP_Group_Extension {
 	 */
 	public function edit_group_fields_save() {
 		/** @var $wpdb WPDB */
-		global $wpdb, $bp;
+		global $wpdb;
+		$bp = buddypress();
 
 		// If the edit form has been submitted, save the edited details
 		if (
@@ -426,7 +429,7 @@ class BPGE extends BP_Group_Extension {
 			return;
 		}
 
-		global $bp;
+		$bp = buddypress();
 
 		if ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'fields' ) {
 			$this->edit_screen_fields();
@@ -618,7 +621,7 @@ class BPGE extends BP_Group_Extension {
 			return false;
 		}
 
-		global $bp;
+		$bp = buddypress();
 
 		switch_to_blog( bpge_get_main_site_id() );
 
@@ -842,7 +845,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param string $cur
 	 */
 	public function edit_screen_head( $cur = 'general' ) {
-		global $bp;
+		$bp = buddypress();
 		$group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug;
 
 		bpge_view( 'front/extras_top_menu',
@@ -892,7 +895,7 @@ class BPGE extends BP_Group_Extension {
 	 * @return array
 	 */
 	public function get_all_gpages( $post_status = 'any' ) {
-		global $bp;
+		$bp = buddypress();
 
 		switch_to_blog( bpge_get_main_site_id() );
 
@@ -921,7 +924,7 @@ class BPGE extends BP_Group_Extension {
 	 * @return mixed|void
 	 */
 	public function get_item_by_slug( $type, $slug ) {
-		global $bp;
+		$bp = buddypress();
 		// just in case...
 		if ( ! is_string( $type ) || ! is_string( $slug ) ) {
 			return false;
@@ -953,7 +956,8 @@ class BPGE extends BP_Group_Extension {
 	 */
 	public function import_set_fields() {
 		/** @var $wpdb WPDB */
-		global $wpdb, $bp;
+		global $wpdb;
+		$bp = buddypress();
 
 		switch_to_blog( bpge_get_main_site_id() );
 
@@ -1060,7 +1064,7 @@ class BPGE extends BP_Group_Extension {
 	 * @return int|null|WP_Post
 	 */
 	public function get_gpage_by( $what, $input = false ) {
-		global $bp;
+		$bp = buddypress();
 
 		$data = null;
 

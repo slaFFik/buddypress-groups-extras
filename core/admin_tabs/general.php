@@ -167,7 +167,8 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 */
 		public function save() {
 			/** @var $wpdb WPDB */
-			global $wpdb, $bp;
+			global $wpdb;
+			$bp = buddypress();
 
 			switch_to_blog( bpge_get_main_site_id() );
 

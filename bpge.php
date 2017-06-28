@@ -65,7 +65,8 @@ function bpge_deactivation() {
  */
 function bpge_clear( $type = 'all' ) {
 	/** @var $wpdb WPDB */
-	global $wpdb, $bp;
+	global $wpdb;
+	$bp = buddypress();
 
 	switch_to_blog( bpge_get_main_site_id() );
 
@@ -171,7 +172,8 @@ function bpge_pre_load() {
 add_action( 'init', 'bpge_pre_load' );
 
 function bpge_load() {
-	global $bp, $bpge;
+	global $bpge;
+   $bp = buddypress();
 
 	if ( bp_is_group() && ! defined( 'DOING_AJAX' ) ) {
 		if (
@@ -191,7 +193,8 @@ add_action( 'bp_init', 'bpge_load' );
  * Reorder group nav links
  */
 function bpge_get_nav_order() {
-	global $bp, $bpge;
+	global $bpge;
+	$bp = buddypress();
 
 	if ( empty( $bpge ) ) {
 		$bpge = bpge_get_options();
@@ -230,7 +233,8 @@ add_action( 'bp_head', 'bpge_get_nav_order', 100 );
  * @return string
  */
 function bpge_landing_page( $old_slug ) {
-	global $bp, $bpge;
+	global $bpge;
+	$bp = buddypress();
 
 	$new_slug = $old_slug;
 
