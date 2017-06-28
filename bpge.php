@@ -121,6 +121,44 @@ if ( is_multisite() ) {
 }
 
 /**
+ * Finds the URL of settings page
+ * @return string
+ */
+function bpge_admin_find_admin_location() {
+    if (!is_super_admin()) {
+        return false;
+    }
+    $locationMu = 'settings.php';
+    $location = bp_core_do_network_admin() ? $locationMu : 'options-general.php';
+    return $location;
+}
+
+/**
+ * Add settings link on plugin's page
+ * @param array $links
+ * @param string $file
+ * @return array
+ * 
+ */
+function bpge_admin_settings_link($links, $file) {
+   
+    $this_plugin = plugin_basename(plugin_basename(dirname(__FILE__))) . '/bpge.php';
+
+    if ($file == $this_plugin) {
+        $links = array_merge($links, array(
+            'settings' => '<a href="' . esc_url(add_query_arg(array('page' => BPGE_ADMIN_SLUG), bpge_admin_find_admin_location())) . '">' . esc_html__('Settings', 'buddypress') . '</a>',
+                ));
+    }
+
+    return $links;
+}
+
+/// Add link to settings page
+add_filter('plugin_action_links', 'bpge_admin_settings_link', 10, 2);
+add_filter('network_admin_plugin_action_links', 'bpge_admin_settings_link', 10, 2);
+
+
+/**
  * Get BPGE plugin options
  * They are always stored on the main site.
  *
