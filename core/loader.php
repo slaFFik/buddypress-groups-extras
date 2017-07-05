@@ -845,7 +845,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param string $cur
 	 */
 	public function edit_screen_head( $cur = 'general' ) {
-		$bp = buddypress();
+		$bp         = buddypress();
 		$group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug;
 
 		bpge_view( 'front/extras_top_menu',
