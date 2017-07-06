@@ -136,7 +136,7 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Added French translation
 
 = 3.6.1 (11.07.2013) =
-* Enhancement: Now group custom pages and fields fully inherites group privacy options for current logged in user (they will not appear even in navigation)
+* Enhancement: Now group custom pages and fields fully inherit group privacy options for currently logged in user (they will not appear even in navigation)
 * New: ability to enable rich editor for custom fields (textarea's)
 * Updated German translation (props <a href="http://www.per4mance.com/">Thorsten Wollenhöfe</a>)
 
@@ -168,7 +168,7 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Fixed admin area placement on WordPress MultiSite
 
 = 3.5.4 (03.06.2013) =
-* Fixed admin area styles (submin button disappeared)
+* Fixed admin area styles (submit button disappeared)
 * Fixed groups pages/fields visibility issues
 * Fixed doubling options from General tab on site General Settings page
 
@@ -237,4 +237,4 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Was released by mistake
 
 = 1.0 =
-* Initial realease
+* Initial release

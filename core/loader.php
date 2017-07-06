@@ -1031,7 +1031,7 @@ class BPGE extends BP_Group_Extension {
 	public function notices( $type ) {
 		switch ( $type ) {
 			case 'settings_updated';
-				bp_core_add_message( __( 'Group Extras settings were succefully updated.', 'buddypress-groups-extras' ) );
+				bp_core_add_message( __( 'Group Extras settings were successfully updated.', 'buddypress-groups-extras' ) );
 				break;
 			case 'added_field';
 				bp_core_add_message( __( 'New field was successfully added.', 'buddypress-groups-extras' ) );
