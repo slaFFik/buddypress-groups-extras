@@ -74,6 +74,8 @@ class BPGE extends BP_Group_Extension {
 		if ( bp_is_single_item() && ! empty( $bp->groups->current_group ) && empty( $bp->groups->current_group->args['extras']['display_page_layout'] ) ) {
 			if ( isset( $bp->groups->current_group->args['extras'] ) ) {
 				$current_group_extras = $bp->groups->current_group->args['extras'];
+				if( ! is_array($current_group_extras) )
+					$current_group_extras = array();
 			} else {
 				$current_group_extras = array();
 			}
@@ -113,6 +115,8 @@ class BPGE extends BP_Group_Extension {
 		add_filter( 'bp_group_admin_form_action', array( $this, 'edit_group_admin_form_action' ), 10, 2 );
 
 		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
+		if( ! is_array($order) )
+			$order = array();
 		if ( ! empty( $order['extras'] ) ) {
 			$this->nav_item_position = $order['extras'];
 		}
@@ -1079,6 +1083,8 @@ class BPGE extends BP_Group_Extension {
 				}
 				$admin    = get_user_by( 'email', get_blog_option( $current_blog->blog_id, 'admin_email' ) );
 				$old_data = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge' );
+				if( ! is_array($old_data) )
+					$old_data = array();
 				// create a gpage...
 				$old_data['gpage_id'] = wp_insert_post( array(
 					                                        'comment_status' => 'closed',
