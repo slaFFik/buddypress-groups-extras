@@ -93,7 +93,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    jQuery('#extra-field-vars a.remove_it').live('click', function(e){
+    jQuery(document).on('click', '#extra-field-vars a.remove_it', function(e){
         e.preventDefault();
         var extra = jQuery(this).attr('rel').split('_');
         var action = extra[0];
@@ -102,7 +102,7 @@ jQuery(document).ready(function($){
         jQuery('#extra-field-vars span.'+type+'_'+id).remove();
     });
 
-    jQuery('#extra-field-vars a#add_new').live('click', function(e){
+    jQuery(document).on('click', '#extra-field-vars a#add_new', function(e){
         e.preventDefault();
         options_count += 1;
         var type = jQuery('select#extra-field-type').val();
