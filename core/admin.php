@@ -4,6 +4,7 @@
  * Main class for WordPress admin area
  */
 class BPGE_ADMIN {
+
 	// page slug, used on URL
 	public $slug = BPGE_ADMIN_SLUG;
 	// where all options are stored
@@ -22,6 +23,7 @@ class BPGE_ADMIN {
 	 * Do some important initial routine
 	 */
 	public function __construct() {
+
 		global $bpge;
 		$this->bpge      = $bpge;
 		$this->tabs_path = dirname( __FILE__ ) . DS . 'admin_tabs';
@@ -42,32 +44,40 @@ class BPGE_ADMIN {
 	 * @return array
 	 */
 	public function manage_columns() {
+
 		return array(
 			'cb'         => '<input type="checkbox" />',
 			'title'      => __( 'Title', 'buddypress-groups-extras' ),
 			'group_link' => __( 'Group Links', 'buddypress-groups-extras' ),
 			'page_link'  => __( 'Page Links', 'buddypress-groups-extras' ),
-			'date'       => __( 'Date', 'buddypress-groups-extras' )
+			'date'       => __( 'Date', 'buddypress-groups-extras' ),
 		);
 	}
 
 	public function manage_columns_content( $column, $post_id ) {
+
 		$group_id = get_post_meta( $post_id, 'group_id', true );
 		$post     = get_post( $post_id );
 
 		if ( empty( $group_id ) ) {
 			$groups_class  = new BP_Groups_Group;
-			$groups_handle = $groups_class->get( array(
-				                                     'search_terms'    => $post->post_title,
-				                                     'populate_extras' => false,
-				                                     'show_hidden'     => true,
-			                                     ) );
-			$group         = $groups_handle['groups'][0];
+			$groups_handle = $groups_class::get(
+				array(
+					'search_terms'    => $post->post_title,
+					'search_columns'  => array( 'name' ),
+					'populate_extras' => false,
+					'show_hidden'     => true,
+				)
+			);
+
+			if ( ! empty( $groups_handle['groups'][0] ) ) {
+				$group = $groups_handle['groups'][0];
+			}
 		} else {
 			$group = groups_get_group( array( 'group_id' => $group_id ) );
 		}
 
-		if ( $group->id == 0 ) {
+		if ( empty( $group ) ) {
 			return;
 		}
 
@@ -76,7 +86,7 @@ class BPGE_ADMIN {
 
 		switch ( $column ) {
 			case 'group_link' :
-				if ( $post->post_parent != 0 ) {
+				if ( $post->post_parent !== 0 ) {
 					break;
 				}
 
@@ -87,7 +97,7 @@ class BPGE_ADMIN {
 				break;
 
 			case 'page_link' :
-				if ( $post->post_parent == 0 ) {
+				if ( $post->post_parent === 0 ) {
 					break;
 				}
 
@@ -99,7 +109,8 @@ class BPGE_ADMIN {
 	}
 
 	public function manage_columns_actions( $actions, $post ) {
-		if ( $post->post_type != BPGE_GPAGES ) {
+
+		if ( $post->post_type !== BPGE_GPAGES ) {
 			return $actions;
 		}
 
@@ -114,6 +125,7 @@ class BPGE_ADMIN {
 	 * @return array
 	 */
 	public function manage_columns_remove_bulk() {
+
 		return array();
 	}
 
@@ -121,9 +133,10 @@ class BPGE_ADMIN {
 	 * Get all tabs from individual files (include)
 	 */
 	public function get_tabs() {
+
 		if ( $handle = opendir( $this->tabs_path ) ) {
 			while ( false !== ( $file = readdir( $handle ) ) ) {
-				if ( $file == "." || $file == ".." ) {
+				if ( $file === "." || $file === ".." ) {
 					continue;
 				}
 
@@ -145,6 +158,7 @@ class BPGE_ADMIN {
 	 * Used for sorting tabs according to their position
 	 */
 	public function reorder_tabs() {
+
 		if ( empty( $this->bpge_tabs ) || ! is_array( $this->bpge_tabs ) ) {
 			return;
 		}
@@ -171,6 +185,7 @@ class BPGE_ADMIN {
 	 * Load all required styles and scripts
 	 */
 	public function load_assets() {
+
 		wp_enqueue_script( 'wp-pointer' );
 		wp_enqueue_style( 'wp-pointer' );
 		add_action( 'admin_footer', array( $this, 'load_pointers' ) );
@@ -181,6 +196,7 @@ class BPGE_ADMIN {
 	}
 
 	public function load_pointers() {
+
 		$page = is_multisite() ? 'network/settings.php' : 'options-general.php';
 
 		$vote_content = '<h3>' . __( 'Vote for Features', 'buddypress-groups-extras' ) . '</h3>';
@@ -193,58 +209,59 @@ class BPGE_ADMIN {
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
 		// Check whether my pointer has been dismissed
-		if ( in_array( 'bpge_vote', $dismissed ) ) {
+		if ( in_array( 'bpge_vote', $dismissed, true ) ) {
 			$vote_content = '';
 		}
-		if ( in_array( 'bpge_tuts', $dismissed ) ) {
+		if ( in_array( 'bpge_tuts', $dismissed, true ) ) {
 			$tuts_content = '';
 		}
 
 		if ( ! empty( $vote_content ) ) { ?>
 			<!--suppress JSUnresolvedVariable -->
 			<script type="text/javascript">// <![CDATA[
-				jQuery(document).ready(function () {
-					jQuery('#bpge_tab_poll').pointer({
+				jQuery( document ).ready( function() {
+					jQuery( '#bpge_tab_poll' ).pointer( {
 						content: '<?php echo $vote_content; ?>',
 						position: {
 							edge: 'top',
-							align: 'left'
+							align: 'left',
 						},
-						close: function () {
-							jQuery.post(ajaxurl, {
+						close: function() {
+							jQuery.post( ajaxurl, {
 								action: 'dismiss-wp-pointer',
-								pointer: 'bpge_vote'
-							});
-						}
-					}).pointer('open');
-				});
+								pointer: 'bpge_vote',
+							} );
+						},
+					} ).pointer( 'open' );
+				} );
 				// ]]></script>
 			<?php
 		}
 
 		if ( ! empty( $tuts_content ) ) { ?>
 			<script type="text/javascript">// <![CDATA[
-				jQuery(document).ready(function () {
-					jQuery('#bpge_tab_tuts').pointer({
+				jQuery( document ).ready( function() {
+					jQuery( '#bpge_tab_tuts' ).pointer( {
 						content: '<?php echo $tuts_content; ?>',
 						position: {
 							edge: 'top',
-							align: 'left'
+							align: 'left',
 						},
-						close: function () {
-							jQuery.post(ajaxurl, {
+						close: function() {
+							jQuery.post( ajaxurl, {
 								action: 'dismiss-wp-pointer',
-								pointer: 'bpge_tuts'
-							});
-						}
-					}).pointer('open');
-				});
+								pointer: 'bpge_tuts',
+							} );
+						},
+					} ).pointer( 'open' );
+				} );
 				// ]]></script>
 			<?php
 		}
 	}
 
 	public function load_js( $hook ) {
+
 		if ( $hook !== 'settings_page_bpge-admin' ) {
 			return;
 		}
@@ -259,6 +276,7 @@ class BPGE_ADMIN {
 	}
 
 	public function load_css( $hook ) {
+
 		global $post_type;
 
 		if (
@@ -280,6 +298,7 @@ class BPGE_ADMIN {
 	 * Actual html of a page (its core)
 	 */
 	public function admin_page() {
+
 		//define some data that can be given to each metabox during rendering
 		$tab = $this->get_cur_tab(); ?>
 
@@ -311,6 +330,7 @@ class BPGE_ADMIN {
 	 * If not specified - get the default one
 	 */
 	public function get_cur_tab() {
+
 		if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 			return $_GET['tab'];
 		} else {
@@ -323,6 +343,7 @@ class BPGE_ADMIN {
 	 * HTML
 	 */
 	public function header() {
+
 		$current_tab = $this->get_cur_tab();
 
 		echo '<h2>';
@@ -374,6 +395,7 @@ class BPGE_ADMIN {
  * Class that will be a skeleton for all other pages
  */
 class BPGE_ADMIN_TAB {
+
 	// all theme options
 	public $bpge = null;
 
@@ -389,6 +411,7 @@ class BPGE_ADMIN_TAB {
 	 * Create the actual page object
 	 */
 	public function __construct() {
+
 		if ( ! ( isset( $_GET['page'] ) && $_GET['page'] == BPGE_ADMIN_SLUG ) ) {
 			return;
 		}
@@ -431,6 +454,7 @@ class BPGE_ADMIN_TAB {
 	/**
 	 * Here we need to register all settings if needed
 	 * Those sections will be used to display fields/options
+	 *
 	 * @override
 	 */
 	public function register_sections() {
@@ -438,13 +462,16 @@ class BPGE_ADMIN_TAB {
 
 	/**
 	 * In case we need to add some strings to the admin page header
+	 *
 	 * @override
 	 */
 	public function header_title_attach() {
+
 		return '';
 	}
 
 	public function apply_header_extras() {
+
 		if ( $data = array_filter( $this->extras_to_header ) ) {
 			echo ' [' . implode( ', ', $data ) . ']';
 		}
@@ -452,6 +479,7 @@ class BPGE_ADMIN_TAB {
 
 	/**
 	 * HTML should be here
+	 *
 	 * @override
 	 */
 	public function display() {
@@ -459,6 +487,7 @@ class BPGE_ADMIN_TAB {
 
 	/**
 	 * All security and data checks should be here
+	 *
 	 * @override
 	 */
 	public function save() {

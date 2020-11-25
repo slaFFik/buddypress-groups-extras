@@ -4,6 +4,7 @@
  * Class BPGE
  */
 class BPGE extends BP_Group_Extension {
+
 	public $bpge = false;
 
 	public $slug             = 'extras';
@@ -38,6 +39,7 @@ class BPGE extends BP_Group_Extension {
 	 * Initialize everything.
 	 */
 	public function __construct() {
+
 		$bp = buddypress();
 
 		$this->bpge_glob = bpge_get_options();
@@ -74,6 +76,9 @@ class BPGE extends BP_Group_Extension {
 		if ( bp_is_single_item() && ! empty( $bp->groups->current_group ) && empty( $bp->groups->current_group->args['extras']['display_page_layout'] ) ) {
 			if ( isset( $bp->groups->current_group->args['extras'] ) ) {
 				$current_group_extras = $bp->groups->current_group->args['extras'];
+				if ( ! is_array( $current_group_extras ) ) {
+					$current_group_extras = array();
+				}
 			} else {
 				$current_group_extras = array();
 			}
@@ -113,6 +118,9 @@ class BPGE extends BP_Group_Extension {
 		add_filter( 'bp_group_admin_form_action', array( $this, 'edit_group_admin_form_action' ), 10, 2 );
 
 		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
+		if ( ! is_array( $order ) ) {
+			$order = array();
+		}
 		if ( ! empty( $order['extras'] ) ) {
 			$this->nav_item_position = $order['extras'];
 		}
@@ -122,15 +130,17 @@ class BPGE extends BP_Group_Extension {
 				if ( empty( $order[ $this->page_slug ] ) ) {
 					$order[ $this->page_slug ] = 99;
 				}
-				bp_core_new_subnav_item( array(
-					                         'name'            => $this->gpages_item_name,
-					                         'slug'            => $this->page_slug,
-					                         'parent_slug'     => $bp->groups->current_group->slug,
-					                         'parent_url'      => bp_get_group_permalink( $bp->groups->current_group ),
-					                         'position'        => $order[ $this->page_slug ],
-					                         'item_css_id'     => $this->page_slug,
-					                         'screen_function' => array( &$this, 'gpages' )
-				                         ) );
+				bp_core_new_subnav_item(
+					array(
+						'name'            => $this->gpages_item_name,
+						'slug'            => $this->page_slug,
+						'parent_slug'     => $bp->groups->current_group->slug,
+						'parent_url'      => bp_get_group_permalink( $bp->groups->current_group ),
+						'position'        => $order[ $this->page_slug ],
+						'item_css_id'     => $this->page_slug,
+						'screen_function' => array( &$this, 'gpages' ),
+					)
+				);
 			}
 		}
 	}
@@ -141,6 +151,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param int|null $group_id
 	 */
 	public function display( $group_id = null ) {
+
 		$bp = buddypress();
 
 		// get all to display
@@ -151,18 +162,20 @@ class BPGE extends BP_Group_Extension {
 		}
 
 		if ( isset( $bp->groups->current_group->args['extras']['display_page_layout'] ) &&
-		     $bp->groups->current_group->args['extras']['display_page_layout'] == 'plain'
+		     $bp->groups->current_group->args['extras']['display_page_layout'] === 'plain'
 		) {
-			bpge_view( 'front/display_fields_plain',
-			           array(
-				           'fields' => $fields
-			           )
+			bpge_view(
+				'front/display_fields_plain',
+				array(
+					'fields' => $fields,
+				)
 			);
 		} else {
-			bpge_view( 'front/display_fields_table',
-			           array(
-				           'fields' => $fields
-			           )
+			bpge_view(
+				'front/display_fields_table',
+				array(
+					'fields' => $fields,
+				)
 			);
 		}
 	}
@@ -173,6 +186,7 @@ class BPGE extends BP_Group_Extension {
 	 * Public gPages screen function
 	 */
 	public function gpages() {
+
 		add_action( 'bp_before_group_body', array( &$this, 'gpages_screen_nav' ) );
 		add_action( 'bp_template_content', array( &$this, 'gpages_screen_content' ) );
 
@@ -184,7 +198,7 @@ class BPGE extends BP_Group_Extension {
 	 * Pages second level navigation
 	 */
 	public function gpages_screen_nav() {
-		/** @var $wpdb WPDB */
+
 		global $wpdb;
 		$bp = buddypress();
 
@@ -212,11 +226,12 @@ class BPGE extends BP_Group_Extension {
 
 		// display list of pages if there are more than of 1 of them
 		if ( count( $pages ) > 1 ) {
-			bpge_view( 'front/display_gpages_nav',
-			           array(
-				           'pages'     => $pages,
-				           'page_slug' => $this->page_slug
-			           )
+			bpge_view(
+				'front/display_gpages_nav',
+				array(
+					'pages'     => $pages,
+					'page_slug' => $this->page_slug,
+				)
 			);
 		}
 
@@ -227,7 +242,7 @@ class BPGE extends BP_Group_Extension {
 	 * Group Pages content
 	 */
 	public function gpages_screen_content() {
-		/** @var $wpdb WPDB */
+
 		global $wpdb;
 		$bp = buddypress();
 
@@ -250,7 +265,7 @@ class BPGE extends BP_Group_Extension {
 		if ( ! empty( $page ) ) {
 			bpge_view( 'front/display_gpages_content',
 			           array(
-				           'page' => $page
+				           'page' => $page,
 			           )
 			);
 		}
@@ -264,6 +279,7 @@ class BPGE extends BP_Group_Extension {
 	 * Display exra fields on edit group details page
 	 */
 	public function edit_group_fields() {
+
 		global $bpge;
 
 		$fields = bpge_get_group_fields( 'publish' );
@@ -279,7 +295,7 @@ class BPGE extends BP_Group_Extension {
 			$field->options = get_post_meta( $field->ID, 'bpge_field_options', true );
 
 			$req_text = $req_class = false;
-			if ( $field->pinged == 'req' ) {
+			if ( $field->pinged === 'req' ) {
 				$req_text  = __( '(required)', 'buddypress-groups-extras' );
 				$req_class = 'required';
 			}
@@ -291,7 +307,7 @@ class BPGE extends BP_Group_Extension {
 					echo '<input id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '" type="text" value="' . esc_attr( $field->post_content ) . '" />';
 					break;
 				case 'textarea':
-					if ( function_exists( 'wp_editor' ) && isset( $bpge['re_fields'] ) && $bpge['re_fields'] == 'yes' ) {
+					if ( function_exists( 'wp_editor' ) && isset( $bpge['re_fields'] ) && $bpge['re_fields'] === 'yes' ) {
 						wp_editor(
 							stripslashes( $field->post_content ), // initial content
 							'bpge-' . $field->ID, // ID attribute value for the textarea
@@ -308,7 +324,7 @@ class BPGE extends BP_Group_Extension {
 					echo '<select id="bpge-' . $field->ID . '" name="bpge-' . $field->ID . '">';
 					echo '<option value="">-------</option>';
 					foreach ( $field->options as $option ) {
-						echo '<option ' . ( $field->post_content == $option ? 'selected="selected"' : '' ) . ' value="' . esc_attr( $option ) . '">' . $option . '</option>';
+						echo '<option ' . ( $field->post_content === $option ? 'selected="selected"' : '' ) . ' value="' . esc_attr( $option ) . '">' . $option . '</option>';
 					}
 					echo '</select>';
 					break;
@@ -323,7 +339,7 @@ class BPGE extends BP_Group_Extension {
 				case 'radio':
 					echo '<span id="bpge-' . $field->ID . '">';
 					foreach ( $field->options as $option ) {
-						echo '<input ' . ( $field->post_content == $option ? 'checked="checked"' : '' ) . ' type="radio" name="bpge-' . $field->ID . '" value="' . esc_attr( $option ) . '"> ' . $option . '<br />';
+						echo '<input ' . ( $field->post_content === $option ? 'checked="checked"' : '' ) . ' type="radio" name="bpge-' . $field->ID . '" value="' . esc_attr( $option ) . '"> ' . $option . '<br />';
 					}
 					echo '</span>';
 					if ( $req_text ) {
@@ -348,13 +364,14 @@ class BPGE extends BP_Group_Extension {
 	 * Save extra fields in DB
 	 */
 	public function edit_group_fields_save() {
+
 		/** @var $wpdb WPDB */
 		global $wpdb;
 		$bp = buddypress();
 
 		// If the edit form has been submitted, save the edited details
 		if (
-			( bp_is_group() && 'edit-details' == $bp->action_variables[0] ) &&
+			( bp_is_group() && 'edit-details' === $bp->action_variables[0] ) &&
 			( $bp->is_item_admin || $bp->is_item_mod ) &&
 			isset( $_POST['save'] )
 		) {
@@ -377,7 +394,7 @@ class BPGE extends BP_Group_Extension {
 				$ID = substr( $ID, 5 );
 
 				$field = get_post( $ID );
-				if ( $field && $field->pinged == 'req' && empty( $value ) ) {
+				if ( $field && $field->pinged === 'req' && empty( $value ) ) {
 					$error[] = $field->post_title;
 				}
 
@@ -424,6 +441,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param null $group_id
 	 */
 	public function edit_screen( $group_id = null ) {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -431,13 +449,13 @@ class BPGE extends BP_Group_Extension {
 
 		$bp = buddypress();
 
-		if ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'fields' ) {
+		if ( 'admin' === $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] === 'fields' ) {
 			$this->edit_screen_fields();
-		} elseif ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'pages' ) {
+		} elseif ( 'admin' === $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] === 'pages' ) {
 			$this->edit_screen_pages();
-		} elseif ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'fields-manage' ) {
+		} elseif ( 'admin' === $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] === 'fields-manage' ) {
 			$this->edit_screen_fields_manage();
-		} elseif ( 'admin' == $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] == 'pages-manage' ) {
+		} elseif ( 'admin' === $bp->current_action && isset( $bp->action_variables[1] ) && $bp->action_variables[1] === 'pages-manage' ) {
 			$this->edit_screen_pages_manage();
 		} else {
 			$this->edit_screen_general();
@@ -448,6 +466,7 @@ class BPGE extends BP_Group_Extension {
 	 * Admin area - General Settings
 	 */
 	public function edit_screen_general() {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -470,7 +489,7 @@ class BPGE extends BP_Group_Extension {
 		bpge_view( 'front/extras_general',
 		           array(
 			           'nav_item_name'    => $this->nav_item_name,
-			           'gpages_item_name' => $this->gpages_item_name
+			           'gpages_item_name' => $this->gpages_item_name,
 		           )
 		);
 
@@ -481,6 +500,7 @@ class BPGE extends BP_Group_Extension {
 	 * Admin area - All Fields
 	 */
 	public function edit_screen_fields() {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -494,13 +514,15 @@ class BPGE extends BP_Group_Extension {
 		switch_to_blog( bpge_get_main_site_id() );
 
 		// get set of fields
-		$def_set_fields = get_posts( array(
-			                             'posts_per_page' => 50,
-			                             'numberposts'    => 50,
-			                             'order'          => 'ASC',
-			                             'orderby'        => 'ID',
-			                             'post_type'      => BPGE_FIELDS_SET
-		                             ) );
+		$def_set_fields = get_posts(
+			array(
+				'posts_per_page' => 50,
+				'numberposts'    => 50,
+				'order'          => 'ASC',
+				'orderby'        => 'ID',
+				'post_type'      => BPGE_FIELDS_SET,
+			)
+		);
 
 		restore_current_blog();
 
@@ -519,6 +541,7 @@ class BPGE extends BP_Group_Extension {
 	 * Admin area - All Pages
 	 */
 	public function edit_screen_pages() {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -534,12 +557,13 @@ class BPGE extends BP_Group_Extension {
 			return;
 		}
 
-		bpge_view( 'front/extras_pages_list',
-		           array(
-			           'pages'     => $pages,
-			           'page_slug' => $this->page_slug,
-			           'slug'      => $this->slug
-		           )
+		bpge_view(
+			'front/extras_pages_list',
+			array(
+				'pages'     => $pages,
+				'page_slug' => $this->page_slug,
+				'slug'      => $this->slug,
+			)
 		);
 	}
 
@@ -547,6 +571,7 @@ class BPGE extends BP_Group_Extension {
 	 * Add / Edit 1 field form
 	 */
 	public function edit_screen_fields_manage() {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -570,7 +595,7 @@ class BPGE extends BP_Group_Extension {
 		bpge_view( 'front/extras_fields_add_edit',
 		           array(
 			           'field'         => $field,
-			           'nav_item_name' => $this->nav_item_name
+			           'nav_item_name' => $this->nav_item_name,
 		           )
 		);
 	}
@@ -579,6 +604,7 @@ class BPGE extends BP_Group_Extension {
 	 * Add / Edit pages form
 	 */
 	public function edit_screen_pages_manage() {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return;
@@ -601,7 +627,7 @@ class BPGE extends BP_Group_Extension {
 		           array(
 			           'page'       => $page,
 			           'is_edit'    => $is_edit,
-			           'enabled_re' => ( isset( $this->bpge_glob['re'] ) && $this->bpge_glob['re'] == '1' ) ? true : false
+			           'enabled_re' => ( isset( $this->bpge_glob['re'] ) && $this->bpge_glob['re'] == '1' ) ? true : false,
 		           )
 		);
 
@@ -616,6 +642,7 @@ class BPGE extends BP_Group_Extension {
 	 * @return bool|void
 	 */
 	public function edit_screen_save( $group_id = null ) {
+
 		// check user access to group extras management pages
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
 			return false;
@@ -754,7 +781,7 @@ class BPGE extends BP_Group_Extension {
 					'post_parent'    => $bp->groups->current_group->args['extras']['gpage_id'],
 					'post_status'    => $_POST['extra-page-status'],
 					'menu_order'     => count( $this->get_all_gpages() ) + 1,
-					'post_type'      => $this->page_slug
+					'post_type'      => $this->page_slug,
 				);
 
 				$page = apply_filters( 'bpge_new_page', $page );
@@ -807,7 +834,6 @@ class BPGE extends BP_Group_Extension {
 				}
 
 				bp_core_redirect( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/fields/' );
-
 			}
 
 			// Edit existing page
@@ -845,13 +871,14 @@ class BPGE extends BP_Group_Extension {
 	 * @param string $cur
 	 */
 	public function edit_screen_head( $cur = 'general' ) {
+
 		$bp         = buddypress();
 		$group_link = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug;
 
 		bpge_view( 'front/extras_top_menu',
 		           array(
 			           'group_link' => $group_link,
-			           'cur'        => $cur
+			           'cur'        => $cur,
 		           )
 		);
 
@@ -863,18 +890,19 @@ class BPGE extends BP_Group_Extension {
 	/**
 	 * Getting all extra items (fields or pages) for defined group
 	 *
-	 * @param string $type
+	 * @param string  $type
 	 * @param integer $id
 	 *
 	 * @return mixed|void
 	 */
 	public function get_all_items( $type, $id ) {
+
 		// get all fields
 		$items = array();
 
-		if ( $type == 'fields' ) {
+		if ( $type === 'fields' ) {
 			$items = groups_get_groupmeta( $id, 'bpge_fields' );
-		} elseif ( $type == 'pages' ) {
+		} elseif ( $type === 'pages' ) {
 			$items = groups_get_groupmeta( $id, 'bpge_pages' );
 		}
 
@@ -895,6 +923,7 @@ class BPGE extends BP_Group_Extension {
 	 * @return array
 	 */
 	public function get_all_gpages( $post_status = 'any' ) {
+
 		$bp = buddypress();
 
 		switch_to_blog( bpge_get_main_site_id() );
@@ -905,7 +934,7 @@ class BPGE extends BP_Group_Extension {
 			'orderby'     => 'menu_order',
 			'order'       => 'ASC',
 			'numberposts' => 999,
-			'post_status' => $post_status
+			'post_status' => $post_status,
 		);
 
 		$data = get_posts( $args );
@@ -924,6 +953,7 @@ class BPGE extends BP_Group_Extension {
 	 * @return mixed|void
 	 */
 	public function get_item_by_slug( $type, $slug ) {
+
 		$bp = buddypress();
 		// just in case...
 		if ( ! is_string( $type ) || ! is_string( $slug ) ) {
@@ -936,9 +966,9 @@ class BPGE extends BP_Group_Extension {
 		$type = apply_filters( 'bpge_items_by_slug_type', $type );
 		$slug = apply_filters( 'bpge_items_by_slug_slug', $slug );
 
-		if ( $type == 'field' ) {
+		if ( $type === 'field' ) {
 			$items = $this->get_all_items( 'fields', $bp->groups->current_group->id );
-		} elseif ( $type == 'page' ) {
+		} elseif ( $type === 'page' ) {
 			$items = $this->get_all_items( 'pages', $bp->groups->current_group->id );
 		}
 
@@ -955,6 +985,7 @@ class BPGE extends BP_Group_Extension {
 	 * Import set of fields
 	 */
 	public function import_set_fields() {
+
 		/** @var $wpdb WPDB */
 		global $wpdb;
 		$bp = buddypress();
@@ -1002,7 +1033,7 @@ class BPGE extends BP_Group_Extension {
 			$new['post_parent']  = $group_id;
 			$new['post_title']   = $field->post_title;
 			$new['post_excerpt'] = $field->post_excerpt;
-			$new['post_status']  = $field_display == 'yes' ? 'publish' : 'draft';
+			$new['post_status']  = $field_display === 'yes' ? 'publish' : 'draft';
 
 			$field_id = wp_insert_post( $new );
 
@@ -1029,6 +1060,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param string $type
 	 */
 	public function notices( $type ) {
+
 		switch ( $type ) {
 			case 'settings_updated';
 				bp_core_add_message( __( 'Group Extras settings were successfully updated.', 'buddypress-groups-extras' ) );
@@ -1059,11 +1091,12 @@ class BPGE extends BP_Group_Extension {
 	 * Create a storage for groups pages
 	 *
 	 * @param string $what
-	 * @param bool $input
+	 * @param bool   $input
 	 *
 	 * @return int|null|WP_Post
 	 */
 	public function get_gpage_by( $what, $input = false ) {
+
 		$bp = buddypress();
 
 		$data = null;
@@ -1079,17 +1112,22 @@ class BPGE extends BP_Group_Extension {
 				}
 				$admin    = get_user_by( 'email', get_blog_option( $current_blog->blog_id, 'admin_email' ) );
 				$old_data = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge' );
+				if ( ! is_array( $old_data ) ) {
+					$old_data = array();
+				}
 				// create a gpage...
-				$old_data['gpage_id'] = wp_insert_post( array(
-					                                        'comment_status' => 'closed',
-					                                        'ping_status'    => 'closed',
-					                                        'post_author'    => $admin->ID,
-					                                        'post_content'   => $bp->groups->current_group->description,
-					                                        'post_name'      => $bp->groups->current_group->slug,
-					                                        'post_status'    => 'publish',
-					                                        'post_title'     => $bp->groups->current_group->name,
-					                                        'post_type'      => $this->page_slug
-				                                        ) );
+				$old_data['gpage_id'] = wp_insert_post(
+					array(
+						'comment_status' => 'closed',
+						'ping_status'    => 'closed',
+						'post_author'    => $admin->ID,
+						'post_content'   => $bp->groups->current_group->description,
+						'post_name'      => $bp->groups->current_group->slug,
+						'post_status'    => 'publish',
+						'post_title'     => $bp->groups->current_group->name,
+						'post_type'      => $this->page_slug,
+					)
+				);
 				// ...and save it to reuse later
 				groups_update_groupmeta( $bp->groups->current_group->id, 'bpge', $old_data );
 
@@ -1115,10 +1153,11 @@ class BPGE extends BP_Group_Extension {
 	 * @return string
 	 */
 	public function edit_group_admin_form_action( $link, $group ) {
+
 		$bp = buddypress();
 
 		$post_fix = '';
-		if ( 'admin' == $bp->current_action && ! empty( $bp->action_variables[1] ) ) {
+		if ( 'admin' === $bp->current_action && ! empty( $bp->action_variables[1] ) ) {
 			$post_fix = '/' . sanitize_key( $bp->action_variables[1] );
 		}
 
@@ -1133,6 +1172,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param null $group_id
 	 */
 	public function create_screen( $group_id = null ) {
+
 		do_action( 'bpge_create_screen', $this );
 	}
 
@@ -1142,6 +1182,7 @@ class BPGE extends BP_Group_Extension {
 	 * @param null $group_id
 	 */
 	public function create_screen_save( $group_id = null ) {
+
 		do_action( 'bpge_create_save', $this );
 	}
 
@@ -1149,6 +1190,7 @@ class BPGE extends BP_Group_Extension {
 	private static $instance = false;
 
 	public static function getInstance() {
+
 		if ( ! self::$instance ) {
 			self::$instance = new BPGE;
 		}

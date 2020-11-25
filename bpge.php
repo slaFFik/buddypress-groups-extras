@@ -9,6 +9,7 @@ Domain Path: /langs/
 Author: slaFFik
 Author URI: https://ovirium.com/
 */
+
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
 
@@ -32,6 +33,7 @@ if ( ! defined( 'DS' ) ) {
  */
 register_activation_hook( __FILE__, 'bpge_activation' );
 function bpge_activation() {
+
 	// some defaults
 	$bpge = array(
 		'groups'        => 'all',
@@ -51,9 +53,10 @@ function bpge_activation() {
  */
 register_deactivation_hook( __FILE__, 'bpge_deactivation' );
 function bpge_deactivation() {
+
 	$bpge = bpge_get_options();
 
-	if ( $bpge['uninstall'] == 'yes' ) {
+	if ( $bpge['uninstall'] === 'yes' ) {
 		bpge_clear( 'all' );
 	}
 }
@@ -64,6 +67,7 @@ function bpge_deactivation() {
  * @param string $type
  */
 function bpge_clear( $type = 'all' ) {
+
 	/** @var $wpdb WPDB */
 	global $wpdb;
 	$bp = buddypress();
@@ -90,6 +94,7 @@ function bpge_clear( $type = 'all' ) {
  * i18n: Load languages
  */
 function bpge_load_textdomain() {
+
 	load_plugin_textdomain( 'buddypress-groups-extras', false, plugin_basename( dirname( __FILE__ ) ) . '/langs' );
 }
 
@@ -99,6 +104,7 @@ add_action( 'plugins_loaded', 'bpge_load_textdomain' );
  * Load admin menu
  */
 function bpge_admin_init() {
+
 	include( BPGE_PATH . '/core/admin.php' );
 
 	$admin = new BPGE_ADMIN();
@@ -123,9 +129,11 @@ if ( is_multisite() ) {
 
 /**
  * Finds the URL of settings page
+ *
  * @return string
  */
 function bpge_admin_find_admin_location() {
+
 	if ( ! is_super_admin() ) {
 		return false;
 	}
@@ -136,19 +144,23 @@ function bpge_admin_find_admin_location() {
 /**
  * Add settings link on plugin's page.
  *
- * @param array $links
+ * @param array  $links
  * @param string $file
  *
  * @return array
  *
  */
 function bpge_admin_settings_link( $links, $file ) {
+
 	$this_plugin = plugin_basename( plugin_basename( dirname( __FILE__ ) ) ) . '/bpge.php';
 
 	if ( $file == $this_plugin ) {
-		$links = array_merge( $links, array(
-			'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => BPGE_ADMIN_SLUG ), bpge_admin_find_admin_location() ) ) . '">' . esc_html__( 'Settings', 'buddypress-groups-extras' ) . '</a>',
-		) );
+		$links = array_merge(
+			$links,
+			array(
+				'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => BPGE_ADMIN_SLUG ), bpge_admin_find_admin_location() ) ) . '">' . esc_html__( 'Settings', 'buddypress-groups-extras' ) . '</a>',
+			)
+		);
 	}
 
 	return $links;
@@ -165,6 +177,7 @@ add_filter( 'network_admin_plugin_action_links', 'bpge_admin_settings_link', 10,
  * @return array
  */
 function bpge_get_options() {
+
 	return get_blog_option( bpge_get_main_site_id(), 'bpge' );
 }
 
@@ -174,6 +187,7 @@ function bpge_get_options() {
  * @return int
  */
 function bpge_get_main_site_id() {
+
 	return apply_filters( 'bpge_get_main_site_id', 1 );
 }
 
@@ -181,6 +195,7 @@ function bpge_get_main_site_id() {
  * The main loader - BPGE Engine
  */
 function bpge_pre_load() {
+
 	global $bpge;
 
 	if ( ! defined( 'BP_VERSION' ) ) {
@@ -209,6 +224,7 @@ function bpge_pre_load() {
 add_action( 'init', 'bpge_pre_load' );
 
 function bpge_load() {
+
 	global $bpge;
 	$bp = buddypress();
 
@@ -230,6 +246,7 @@ add_action( 'bp_init', 'bpge_load' );
  * Reorder group nav links
  */
 function bpge_get_nav_order() {
+
 	global $bpge;
 	$bp = buddypress();
 
@@ -270,6 +287,7 @@ add_action( 'bp_head', 'bpge_get_nav_order', 100 );
  * @return string
  */
 function bpge_landing_page( $old_slug ) {
+
 	global $bpge;
 	$bp = buddypress();
 
@@ -300,6 +318,7 @@ add_filter( 'bp_groups_default_extension', 'bpge_landing_page' );
  * Add a link to Adminbar
  */
 function bpge_adminbar_menu_link() {
+
 	/** @var $wp_admin_bar WP_Admin_Bar */
 	global $wp_admin_bar;
 
@@ -313,12 +332,14 @@ function bpge_adminbar_menu_link() {
 		return;
 	}
 
-	$wp_admin_bar->add_menu( array(
-		                         'parent' => buddypress()->group_admin_menu_id,
-		                         'id'     => 'extras',
-		                         'title'  => __( 'Edit Group Extras', 'buddypress-groups-extras' ),
-		                         'href'   => bp_get_groups_action_link( 'admin/extras' )
-	                         ) );
+	$wp_admin_bar->add_menu(
+		array(
+			'parent' => buddypress()->group_admin_menu_id,
+			'id'     => 'extras',
+			'title'  => __( 'Edit Group Extras', 'buddypress-groups-extras' ),
+			'href'   => bp_get_groups_action_link( 'admin/extras' ),
+		)
+	);
 }
 
 add_action( 'admin_bar_menu', 'bpge_adminbar_menu_link', 100 );

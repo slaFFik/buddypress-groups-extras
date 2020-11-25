@@ -3,15 +3,12 @@
 /**
  * Get the template file and output its content
  *
- * @param  string $view template file name
- * @param  mixed $params variables that should be passed to the view
+ * @param string $view   template file name
+ * @param mixed  $params variables that should be passed to the view
  *
  * @return string               HTML of a page or view
  */
 function bpge_view( $view, $params = false ) {
-	
-	global $bpge;
-	$bp = buddypress();
 
 	do_action( 'bpge_view_pre', $view, $params );
 
@@ -55,6 +52,7 @@ function bpge_view( $view, $params = false ) {
  * @return array|string
  */
 function bpge_filter_link_group_data( $field_value ) {
+
 	global $bpge;
 
 	$field_value = stripslashes( $field_value );
@@ -77,23 +75,17 @@ function bpge_filter_link_group_data( $field_value ) {
 
 			// If the value is a URL, skip it and just make it clickable.
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
-
 				$new_values[] = make_clickable( $value );
-
 			} else { // Is not clickable
 
 				// More than 5 spaces
 				if ( count( explode( ' ', $value ) ) > 5 ) {
-
 					$new_values[] = $value;
-
 				} else { // Less than 5 spaces
 
 					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_groups_directory_permalink() );
 					$new_values[] = '<a href="' . $search_url . '" rel="nofollow">' . $value . '</a>';
-
 				}
-
 			}
 		}
 
@@ -109,7 +101,7 @@ function bpge_filter_link_group_data( $field_value ) {
  * @param int $page_id
  */
 function bpge_the_gpage_edit_link( $page_id ) {
-	
+
 	$bp = buddypress();
 	if ( bpge_user_can( 'group_extras_admin' ) ) {
 		echo '<div class="edit_link">
@@ -124,6 +116,7 @@ function bpge_the_gpage_edit_link( $page_id ) {
  * Display a list of sortable group navigation items.
  */
 function bpge_the_sortable_nav() {
+
 	$group_nav = bpge_get_group_nav();
 	?>
 
@@ -139,7 +132,7 @@ function bpge_the_sortable_nav() {
                 </li>';
 			}
 		} ?>
-		<input type="hidden" name="bpge_group_nav_position" value=""/>
+		<input type="hidden" name="bpge_group_nav_position" value="" />
 	</ul>
 
 	<?php
