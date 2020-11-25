@@ -280,14 +280,14 @@ class BPGE_ADMIN {
 		global $post_type;
 
 		if (
-			( isset( $_GET['post_type'] ) && $_GET['post_type'] == 'gpages' ) ||
-			( isset( $post_type ) && $post_type == 'gpages' ) ||
-			$hook == 'settings_page_bpge-admin'
+			( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'gpages' ) ||
+			( isset( $post_type ) && $post_type === 'gpages' ) ||
+			$hook === 'settings_page_bpge-admin'
 		) {
 			wp_enqueue_style( 'bpge_admin_css', BPGE_URL . '/admin-styles.css' );
 		}
 
-		if ( $hook == 'settings_page_bpge-admin' ) {
+		if ( $hook === 'settings_page_bpge-admin' ) {
 			wp_enqueue_style( 'bpge_admin_css_messi', BPGE_URL . '/messi.css' );
 			// Accordion for Tuts page
 			wp_enqueue_style( 'bpge_admin_css_acc', BPGE_URL . '/jquery.accordion.css' );
@@ -333,9 +333,9 @@ class BPGE_ADMIN {
 
 		if ( isset( $_GET['tab'] ) && ! empty( $_GET['tab'] ) ) {
 			return $_GET['tab'];
-		} else {
-			return $this->default_tab;
 		}
+
+		return $this->default_tab;
 	}
 
 	/**
@@ -348,7 +348,6 @@ class BPGE_ADMIN {
 
 		echo '<h2>';
 		_e( 'BuddyPress Groups Extras', 'buddypress-groups-extras' );
-		echo '<sup>v' . BPGE_VERSION . '</sup> ';
 		do_action( 'bpge_admin_header_title_pro' );
 		echo '&rarr; ';
 		_e( 'Extend Your Groups', 'buddypress-groups-extras' );
@@ -361,7 +360,7 @@ class BPGE_ADMIN {
 			echo '<div id="message" class="updated fade"><p>' . __( 'All changes were saved. Go and check results!', 'buddypress-groups-extras' ) . '</p></div>';
 		}
 
-		if ( ! isset( $this->bpge['reviewed'] ) || $this->bpge['reviewed'] == 'no' ) {
+		if ( ! isset( $this->bpge['reviewed'] ) || $this->bpge['reviewed'] === 'no' ) {
 			echo '<div style="clear:both"></div>';
 			echo '<div id="message" class="updated fade"><p>' .
 			     sprintf(
@@ -379,12 +378,6 @@ class BPGE_ADMIN {
 			echo '<a class="nav-tab ' . $active . '" id="bpge_tab_' . $tab->slug . '" href="?page=' . $this->slug . '&tab=' . $tab->slug . '">' . $tab->title . '</a>';
 		}
 		do_action( 'bpge_admin_tabs_links' );
-
-		if ( defined( 'BPGE_PRO' ) ) {
-			echo '<a class="nav-tab" target="_blank" style="float:right" href="http://ovirium.com/support/">' . __( 'Support', 'buddypress-groups-extras' ) . '</a>';
-		} else {
-			echo '<a class="nav-tab" target="_blank" style="float:right" href="http://wordpress.org/support/plugin/buddypress-groups-extras#latest">' . __( 'Support', 'buddypress-groups-extras' ) . '</a>';
-		}
 		echo '</h3>';
 	}
 }
@@ -412,7 +405,7 @@ class BPGE_ADMIN_TAB {
 	 */
 	public function __construct() {
 
-		if ( ! ( isset( $_GET['page'] ) && $_GET['page'] == BPGE_ADMIN_SLUG ) ) {
+		if ( ! ( isset( $_GET['page'] ) && $_GET['page'] === BPGE_ADMIN_SLUG ) ) {
 			return;
 		}
 
@@ -442,8 +435,8 @@ class BPGE_ADMIN_TAB {
 
 		// process save process
 		if ( is_admin() && ! empty( $_POST )
-		     && isset( $_GET['page'] ) && $_GET['page'] == BPGE_ADMIN_SLUG
-		     && $this->slug == $tab
+		     && isset( $_GET['page'] ) && $_GET['page'] === BPGE_ADMIN_SLUG
+		     && $this->slug === $tab
 		) {
 			$this->save();
 			// now redirect to the same page to clear POST
