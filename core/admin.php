@@ -270,11 +270,11 @@ class BPGE_ADMIN {
 		}
 
 		// Accordion for Tuts page.
-		wp_enqueue_script( 'bpge_admin_js_acc', BPGE_URL . '/jquery.accordion.js', array( 'jquery' ) );
+		wp_enqueue_script( 'bpge_admin_js_acc', BPGE_URL . '/libs/jquery.accordion.js', array( 'jquery' ) );
 
-		wp_enqueue_script( 'bpge_admin_js_popup', BPGE_URL . '/messi.js', array( 'jquery' ), BPGE_VERSION );
+		wp_enqueue_script( 'bpge_admin_js_popup', BPGE_URL . '/libs/messi.js', array( 'jquery' ), BPGE_VERSION );
 
-		wp_enqueue_script( 'bpge-admin', BPGE_URL . '/admin-scripts.js', array( 'wp-pointer' ), BPGE_VERSION );
+		wp_enqueue_script( 'bpge-admin', BPGE_URL . '/js/admin-scripts.js', array( 'wp-pointer' ), BPGE_VERSION );
 		wp_localize_script( 'bpge-admin', 'bpge', bpge_get_localized_data() );
 	}
 
@@ -287,13 +287,13 @@ class BPGE_ADMIN {
 			( isset( $post_type ) && $post_type === 'gpages' ) ||
 			$hook === 'settings_page_bpge-admin'
 		) {
-			wp_enqueue_style( 'bpge_admin_css', BPGE_URL . '/admin-styles.css' );
+			wp_enqueue_style( 'bpge_admin_css', BPGE_URL . '/css/admin-styles.css' );
 		}
 
 		if ( $hook === 'settings_page_bpge-admin' ) {
-			wp_enqueue_style( 'bpge_admin_css_messi', BPGE_URL . '/messi.css' );
+			wp_enqueue_style( 'bpge_admin_css_messi', BPGE_URL . '/libs/messi.css' );
 			// Accordion for Tuts page.
-			wp_enqueue_style( 'bpge_admin_css_acc', BPGE_URL . '/jquery.accordion.css' );
+			wp_enqueue_style( 'bpge_admin_css_acc', BPGE_URL . '/libs/jquery.accordion.css' );
 		}
 	}
 

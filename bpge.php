@@ -7,7 +7,7 @@
  * Author URI: https://ovirium.com/
  * Version: 3.6.9.1
  * Text Domain: buddypress-groups-extras
- * Domain Path: /langs/
+ * Domain Path: /assets/
  * Requires PHP: 5.3
  * Requires at least: 4.1
  */
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 define( 'BPGE_VERSION', '3.6.9.1' );
 define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
-define( 'BPGE_URL', plugins_url( '_inc', __FILE__ ) ); // link to all assets, with /
+define( 'BPGE_URL', plugins_url( 'assets', __FILE__ ) ); // link to all assets, with /
 define( 'BPGE_PATH', __DIR__ . '/' ); // with /
 // Post types.
 define( 'BPGE_FIELDS', 'bpge_fields' );
@@ -95,7 +95,7 @@ function bpge_clear( $type = 'all' ) {
  */
 function bpge_load_textdomain() {
 
-	load_plugin_textdomain( 'buddypress-groups-extras', false, plugin_basename( __DIR__ ) . '/langs' );
+	load_plugin_textdomain( 'buddypress-groups-extras', false, plugin_basename( __DIR__ ) . '/assets' );
 }
 
 add_action( 'plugins_loaded', 'bpge_load_textdomain' );
