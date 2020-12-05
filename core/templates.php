@@ -18,6 +18,8 @@ function bpge_view( $view, $params = false ) {
 		extract( $params );
 	}
 
+	// Currently used in templates heavily.
+	/** @noinspection PhpUnusedLocalVariableInspection */
 	$bp = buddypress();
 
 	$theme_parent_file = get_template_directory() . DS . BPGE . DS . $view . '.php';

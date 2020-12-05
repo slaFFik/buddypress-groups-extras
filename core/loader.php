@@ -397,7 +397,7 @@ class BPGE extends BP_Group_Extension {
 
 				if ( ! empty( $error ) ) {
 					bp_core_add_message(
-						sprintf(
+						sprintf( /* translators: %s - List of empty fields. */
 							esc_html__( 'Required fields should not be empty. Please fill in: %s', 'buddypress-groups-extras' ),
 							implode( ', ', $error )
 						),

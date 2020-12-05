@@ -31,7 +31,7 @@
 	<?php do_action( 'bpge_template_extras_page_manage_after_content', $page, $is_edit ); ?>
 
 	<p>
-		<label for="extra-page-display"><?php esc_html_e( 'Should this page be displayed for public in group navigation?', 'buddypress-groups-extras' ); ?></label>
+		<label for="extra-page-display"><?php esc_html_e( 'Should this page be displayed publicly in group navigation?', 'buddypress-groups-extras' ); ?></label>
 		<label>
 			<input type="radio" value="publish" <?php echo checked( $page->post_status, 'publish' ); ?> name="extra-page-status"/>&nbsp;
 			<?php esc_html_e( 'Display it', 'buddypress-groups-extras' ); ?>

@@ -203,7 +203,10 @@ class BPGE_ADMIN {
 		$vote_content .= '<p>' . __( 'Based on voting results I will implement features in new versions (either in core or as modules to extend the initial functionality).', 'buddypress-groups-extras' ) . '</p>';
 
 		$tuts_content = '<h3>' . __( 'Tutorials Included' ) . '</h3>';
-		$tuts_content .= '<p>' . sprintf( __( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', 'buddypress-groups-extras' ), admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) ) . '</p>';
+		$tuts_content .= '<p>' . sprintf( /* translators: %s - Tutorials page URL in plugin admin area. */
+				__( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', 'buddypress-groups-extras' ),
+				esc_url( admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) )
+			) . '</p>';
 
 		// Get all pointer that we dismissed.
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
@@ -362,7 +365,7 @@ class BPGE_ADMIN {
 		if ( ! isset( $this->bpge['reviewed'] ) || $this->bpge['reviewed'] === 'no' ) {
 			echo '<div style="clear:both"></div>';
 			echo '<div id="message" class="updated fade"><p>' .
-			     sprintf(
+			     sprintf( /* translators: %s - URL to WordPress.org page where use can review the plugin. */
 				     __( 'If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', 'buddypress-groups-extras' ),
 				     'https://wordpress.org/support/view/plugin-reviews/buddypress-groups-extras'
 			     ) .

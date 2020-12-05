@@ -124,7 +124,7 @@
 
                         <h4>Step 4.b</h4>
                         IMPORTANT Click the "<em>Edit Field"</em> button.
-                        Under "<em>Should this field be displayed for public on "Group Info" page?</em>" select "<em>Display it</em>" &amp; save changes.
+                        Under "<em>Should this field be displayed publicly on "Group Info" page?</em>" select "<em>Display it</em>" &amp; save changes.
                     </div>
 
                     <p><em>*** For this tutorial, repeat this step for all fields ***</em></p>

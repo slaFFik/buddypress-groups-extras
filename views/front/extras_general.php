@@ -4,7 +4,14 @@
 </p>
 
 <p>
-	<label for="group_extras_display"><?php echo sprintf( esc_html__( 'Do you want to make "%s" page public? Everyone will see this page.', 'buddypress-groups-extras' ), $nav_item_name ); ?></label>
+	<label for="group_extras_display">
+		<?php
+		echo sprintf( /* translators: %s - Title of the page. */
+			esc_html__( 'Do you want to make the "%s" page public? Everyone will see this page.', 'buddypress-groups-extras' ),
+			$nav_item_name
+		);
+		?>
+	</label>
 	<input type="radio" value="public" <?php echo checked( $bp->groups->current_group->args['extras']['display_page'], 'public', false ); ?>
 	       name="group-extras-display"> <?php esc_html_e( 'Show it', 'buddypress-groups-extras' ); ?><br/>
 	<input type="radio" value="private" <?php echo checked( $bp->groups->current_group->args['extras']['display_page'], 'private', false ); ?>
@@ -12,7 +19,14 @@
 </p>
 
 <p>
-	<label for="group_extras_display_layout"><?php echo sprintf( esc_html__( 'Please choose the layout for "%s" page', 'buddypress-groups-extras' ), $nav_item_name ); ?></label>
+	<label for="group_extras_display_layout">
+		<?php
+		echo sprintf( /* translators: %s - Title of the page. */
+			esc_html__( 'Please choose the layout for the "%s" page', 'buddypress-groups-extras' ),
+			$nav_item_name
+		);
+		?>
+	</label>
 	<input type="radio" value="plain" <?php echo checked( $bp->groups->current_group->args['extras']['display_page_layout'], 'plain', false ); ?>
 	       name="group-extras-display-layout"> <?php esc_html_e( 'Plain (field title and its data below)', 'buddypress-groups-extras' ); ?><br/>
 	<input type="radio" value="profile" <?php echo checked( $bp->groups->current_group->args['extras']['display_page_layout'], 'profile', false ); ?>
@@ -27,7 +41,14 @@
 </p>
 
 <p>
-	<label for="group_extras_display"><?php echo sprintf( esc_html__( 'Do you want to make "%s" page public (extra group pages will be displayed there)?', 'buddypress-groups-extras' ), $gpages_item_name ); ?></label>
+	<label for="group_extras_display">
+		<?php
+		echo sprintf( /* translators: %s - Title of the page. */
+			esc_html__( 'Do you want to make the "%s" page public (extra group pages will be displayed there)?', 'buddypress-groups-extras' ),
+			$gpages_item_name
+		);
+		?>
+	</label>
 	<input type="radio" value="public" <?php echo checked( $bp->groups->current_group->args['extras']['display_gpages'], 'public', false ); ?>
 	       name="group-gpages-display"> <?php esc_html_e( 'Show it', 'buddypress-groups-extras' ); ?><br/>
 	<input type="radio" value="private" <?php echo checked( $bp->groups->current_group->args['extras']['display_gpages'], 'private', false ); ?>

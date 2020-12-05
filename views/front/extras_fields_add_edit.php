@@ -44,7 +44,14 @@
 	<?php if ( empty( $field->post_status ) ) {
 		$field->post_status = 'draft';
 	} ?>
-	<label><?php echo sprintf( esc_html__( 'Should this field be displayed for public on "%s" page?', 'buddypress-groups-extras' ), $nav_item_name ); ?></label>
+	<label>
+		<?php
+		echo sprintf( /* translators: %s - Title of the page. */
+			esc_html__( 'Should this field be displayed publicly on "%s" page?', 'buddypress-groups-extras' ),
+			$nav_item_name
+		);
+		?>
+	</label>
 	<input type="radio" name="extra-field-display" value="publish" <?php checked( $field->post_status, 'publish' ); ?>>&nbsp;<?php esc_html_e( 'Display it', 'buddypress-groups-extras' ); ?>
 	<br />
 	<input type="radio" name="extra-field-display" value="draft" <?php checked( $field->post_status, 'draft' ); ?>>&nbsp;<?php esc_html_e( 'Do NOT display it', 'buddypress-groups-extras' ); ?>
