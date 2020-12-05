@@ -28,7 +28,6 @@ if ( ! class_exists( 'BPGE_ADMIN_GROUPS' ) ) {
 				'admin/groups_list',
 				array(
 					'arg'  => $arg,
-					'bpge' => bpge_get_options(),
 				)
 			);
 		}

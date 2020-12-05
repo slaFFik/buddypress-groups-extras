@@ -1119,10 +1119,8 @@ class BPGE extends BP_Group_Extension {
 					$current_blog->blog_id = 1;
 				}
 				$admin    = get_user_by( 'email', get_blog_option( $current_blog->blog_id, 'admin_email' ) );
-				$old_data = groups_get_groupmeta( bp_get_current_group_id(), 'bpge' );
-				if ( ! is_array( $old_data ) ) {
-					$old_data = array();
-				}
+				$old_data = (array) groups_get_groupmeta( bp_get_current_group_id(), 'bpge' );
+
 				// create a gpage...
 				$old_data['gpage_id'] = wp_insert_post(
 					array(

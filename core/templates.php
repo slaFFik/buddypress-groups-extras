@@ -10,6 +10,8 @@
  */
 function bpge_view( $view, $params = false ) {
 
+	global $bpge;
+
 	do_action( 'bpge_view_pre', $view, $params );
 
 	$params = apply_filters( 'bpge_view_params', $params );

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-12-06T01:28:38+03:00\n"
+"POT-Creation-Date: 2020-12-06T01:38:33+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: buddypress-groups-extras\n"
@@ -35,24 +35,24 @@ msgstr ""
 msgid "https://ovirium.com/"
 msgstr ""
 
-#: bpge.php:73
+#: bpge.php:66
 msgid "BuddyPress Groups Extras plugin has been deactivated. Your site is running an outdated version of PHP that is no longer supported and is not compatible with the plugin. Please update PHP to a version supported by WordPress."
 msgstr ""
 
-#: bpge.php:91
+#: bpge.php:82
 msgid "BuddyPress Groups Extras plugin has been deactivated because it requres an activated BuddyPress plugin with Groups component enabled. Please make sure those two requirements are met in order to use BuddyPress Groups Extras."
 msgstr ""
 
-#: bpge.php:181
-#: bpge.php:182
+#: bpge.php:172
+#: bpge.php:173
 msgid "BP Groups Extras"
 msgstr ""
 
-#: bpge.php:229
+#: bpge.php:219
 msgid "Settings"
 msgstr ""
 
-#: bpge.php:405
+#: bpge.php:402
 msgid "Edit Group Extras"
 msgstr ""
 
