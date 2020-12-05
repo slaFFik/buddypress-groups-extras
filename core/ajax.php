@@ -41,13 +41,13 @@ function bpge_ajax() {
 			global $wpdb;
 			parse_str( $_REQUEST['field_order'], $field_order );
 
-			// Reorder all fields accordig to new positions.
+			// Reorder all fields according to new positions.
 			$i = 1;
 			foreach ( $field_order['position'] as $field_id ) {
 				$wpdb->update(
 					$wpdb->posts,
 					array( 'menu_order' => $i ),
-					array( 'ID' => $field_id ),
+					array( 'ID' => (int) $field_id ),
 					array( '%d' ),
 					array( '%d' )
 				);
@@ -57,7 +57,7 @@ function bpge_ajax() {
 			break;
 
 		case 'delete_field':
-			if ( wp_delete_post( intval( $_REQUEST['field'] ), true ) ) {
+			if ( wp_delete_post( (int) $_REQUEST['field'], true ) ) {
 				$return = 'deleted';
 			}
 			break;
@@ -68,8 +68,8 @@ function bpge_ajax() {
 			foreach ( $page_order['position'] as $index => $page_id ) {
 				wp_update_post(
 					array(
-						'ID'         => $page_id,
-						'menu_order' => $index,
+						'ID'         => (int) $page_id,
+						'menu_order' => (int) $index,
 					)
 				);
 			}

@@ -202,21 +202,12 @@ class BPGE_ADMIN {
 		$vote_content = '<h3>' . __( 'Vote for Features', 'buddypress-groups-extras' ) . '</h3>';
 		$vote_content .= '<p>' . __( 'Based on voting results I will implement features in new versions (either in core or as modules to extend the initial functionality).', 'buddypress-groups-extras' ) . '</p>';
 
-		$tuts_content = '<h3>' . __( 'Tutorials Included' ) . '</h3>';
-		$tuts_content .= '<p>' . sprintf( /* translators: %s - Tutorials page URL in plugin admin area. */
-				__( 'You can get the basic help of how to use this plugin right from the plugin admin area - several <a href="%s">very detailed tutorials</a> are bundled into the plugin.', 'buddypress-groups-extras' ),
-				esc_url( admin_url( '/' . $page . '?page=' . BPGE_ADMIN_SLUG . '&tab=tuts' ) )
-			) . '</p>';
-
 		// Get all pointer that we dismissed.
 		$dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
 
 		// Check whether my pointer has been dismissed.
 		if ( in_array( 'bpge_vote', $dismissed, true ) ) {
 			$vote_content = '';
-		}
-		if ( in_array( 'bpge_tuts', $dismissed, true ) ) {
-			$tuts_content = '';
 		}
 
 		if ( ! empty( $vote_content ) ) { ?>
@@ -240,27 +231,6 @@ class BPGE_ADMIN {
 				// ]]></script>
 			<?php
 		}
-
-		if ( ! empty( $tuts_content ) ) { ?>
-			<script type="text/javascript">// <![CDATA[
-				jQuery( document ).ready( function() {
-					jQuery( '#bpge_tab_tuts' ).pointer( {
-						content: '<?php echo $tuts_content; ?>',
-						position: {
-							edge: 'top',
-							align: 'left',
-						},
-						close: function() {
-							jQuery.post( ajaxurl, {
-								action: 'dismiss-wp-pointer',
-								pointer: 'bpge_tuts',
-							} );
-						},
-					} ).pointer( 'open' );
-				} );
-				// ]]></script>
-			<?php
-		}
 	}
 
 	public function load_js( $hook ) {
@@ -268,9 +238,6 @@ class BPGE_ADMIN {
 		if ( $hook !== 'settings_page_bpge-admin' ) {
 			return;
 		}
-
-		// Accordion for Tuts page.
-		wp_enqueue_script( 'bpge_admin_js_acc', BPGE_URL . '/libs/jquery.accordion.js', array( 'jquery' ) );
 
 		wp_enqueue_script( 'bpge_admin_js_popup', BPGE_URL . '/libs/messi.js', array( 'jquery' ), BPGE_VERSION );
 
@@ -292,8 +259,6 @@ class BPGE_ADMIN {
 
 		if ( $hook === 'settings_page_bpge-admin' ) {
 			wp_enqueue_style( 'bpge_admin_css_messi', BPGE_URL . '/libs/messi.css' );
-			// Accordion for Tuts page.
-			wp_enqueue_style( 'bpge_admin_css_acc', BPGE_URL . '/libs/jquery.accordion.css' );
 		}
 	}
 
