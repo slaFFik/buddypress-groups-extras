@@ -2,6 +2,7 @@
 Contributors: slaFFik
 Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy, pages
 Requires at least: 4.1
+Requires PHP: 5.3
 Tested up to: 4.6.2
 Stable tag: 3.6.9.1
 License: GPLv2 or later

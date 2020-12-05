@@ -3,16 +3,16 @@
  * Plugin Name: BuddyPress Groups Extras
  * Plugin URI: https://wordpress.org/plugins/buddypress-groups-extras/
  * Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
+ * Author: slaFFik
+ * Author URI: https://ovirium.com/
  * Version: 3.6.9.1
  * Text Domain: buddypress-groups-extras
  * Domain Path: /langs/
- * Author: slaFFik
- * Author URI: https://ovirium.com/
- * Requires at least: 4.9
- * Requires PHP:      5.6
+ * Requires PHP: 5.3
+ * Requires at least: 4.1
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 define( 'BPGE_VERSION', '3.6.9.1' );
@@ -20,7 +20,7 @@ define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
 define( 'BPGE_URL', plugins_url( '_inc', __FILE__ ) ); // link to all assets, with /
 define( 'BPGE_PATH', __DIR__ . '/' ); // with /
-// post types
+// Post types.
 define( 'BPGE_FIELDS', 'bpge_fields' );
 define( 'BPGE_FIELDS_SET', 'bpge_fields_set' );
 define( 'BPGE_GFIELDS', 'bpge_gfields' );
@@ -31,7 +31,7 @@ if ( ! defined( 'DS' ) ) {
 }
 
 /**
- * What to do on activation
+ * What to do on activation.
  */
 register_activation_hook( __FILE__, 'bpge_activation' );
 function bpge_activation() {
@@ -51,7 +51,7 @@ function bpge_activation() {
 }
 
 /**
- * What to do on deactivation
+ * What to do on deactivation.
  */
 register_deactivation_hook( __FILE__, 'bpge_deactivation' );
 function bpge_deactivation() {
@@ -64,7 +64,7 @@ function bpge_deactivation() {
 }
 
 /**
- * Remove all plugin data
+ * Remove all plugin data.
  *
  * @param string $type
  */
@@ -91,17 +91,17 @@ function bpge_clear( $type = 'all' ) {
 }
 
 /**
- * i18n: Load languages
+ * Load languages.
  */
 function bpge_load_textdomain() {
 
-	load_plugin_textdomain( 'buddypress-groups-extras', false, plugin_basename( dirname( __FILE__ ) ) . '/langs' );
+	load_plugin_textdomain( 'buddypress-groups-extras', false, plugin_basename( __DIR__ ) . '/langs' );
 }
 
 add_action( 'plugins_loaded', 'bpge_load_textdomain' );
 
 /**
- * Load admin menu
+ * Load admin menu.
  */
 function bpge_admin_init() {
 
@@ -128,7 +128,7 @@ if ( is_multisite() ) {
 }
 
 /**
- * Finds the URL of settings page
+ * Finds the URL of settings page.
  *
  * @return string
  */
@@ -171,7 +171,7 @@ add_filter( 'network_admin_plugin_action_links', 'bpge_admin_settings_link', 10,
 
 
 /**
- * Get BPGE plugin options
+ * Get BPGE plugin options.
  * They are always stored on the main site.
  *
  * @return array
@@ -192,7 +192,7 @@ function bpge_get_main_site_id() {
 }
 
 /**
- * The main loader - BPGE Engine
+ * The main loader - BPGE Engine.
  */
 function bpge_pre_load() {
 
@@ -230,7 +230,7 @@ function bpge_load() {
 	if ( bp_is_group() && ! wp_doing_ajax() ) {
 		if (
 			( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' ) ||
-			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'] ) )
+			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
 		) {
 			require( BPGE_PATH . '/core/loader.php' );
 		}
@@ -242,7 +242,7 @@ function bpge_load() {
 add_action( 'bp_init', 'bpge_load' );
 
 /**
- * Reorder group nav links
+ * Reorder group nav links.
  *
  * @return false|array
  */
@@ -281,7 +281,7 @@ function bpge_get_nav_order() {
 add_action( 'bp_head', 'bpge_get_nav_order', 100 );
 
 /**
- * Groups navigation reordering
+ * Groups navigation reordering.
  *
  * @param $old_slug
  *
@@ -315,7 +315,7 @@ function bpge_landing_page( $old_slug ) {
 add_filter( 'bp_groups_default_extension', 'bpge_landing_page' );
 
 /**
- * Add a link to Adminbar
+ * Add a link to Adminbar.
  */
 function bpge_adminbar_menu_link() {
 

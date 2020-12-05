@@ -1,8 +1,8 @@
 <?php
 
 /**
- * WP Admin area
- * Remove set of fields on appropriate tabs
+ * WP Admin area.
+ * Remove set of fields on appropriate tabs.
  */
 function bpge_fields_set_delete() {
 
@@ -22,7 +22,7 @@ function bpge_fields_set_delete() {
 add_action( 'wp_ajax_fields_set_delete', 'bpge_fields_set_delete' );
 
 /**
- * All main non-admin ajax requests
+ * All main non-admin ajax requests.
  */
 function bpge_ajax() {
 
@@ -41,7 +41,7 @@ function bpge_ajax() {
 			global $wpdb;
 			parse_str( $_REQUEST['field_order'], $field_order );
 
-			// reorder all fields accordig to new positions
+			// Reorder all fields accordig to new positions.
 			$i = 1;
 			foreach ( $field_order['position'] as $field_id ) {
 				$wpdb->update(
@@ -64,7 +64,7 @@ function bpge_ajax() {
 
 		case 'reorder_pages':
 			parse_str( $_REQUEST['page_order'], $page_order );
-			// update menu_order for each gpage
+			// Update menu_order for each gpage.
 			foreach ( $page_order['position'] as $index => $page_id ) {
 				wp_update_post(
 					array(
@@ -77,7 +77,7 @@ function bpge_ajax() {
 			break;
 
 		case 'delete_page':
-			if ( $deleted = wp_delete_post( intval( $_REQUEST['page'] ), true ) ) {
+			if ( $deleted = wp_delete_post( (int) $_REQUEST['page'], true ) ) {
 				$return = 'deleted';
 			} else {
 				$return = 'error';
@@ -91,7 +91,7 @@ function bpge_ajax() {
 				break;
 			}
 
-			// get all fields for that set
+			// Get all fields for that set.
 			$fields    = new WP_Query(
 				array(
 					'post_parent' => $set_id,
@@ -118,7 +118,7 @@ function bpge_ajax() {
 				$to_import[] = $field;
 			}
 
-			// get all groups ids
+			// Get all groups ids.
 			$groups = groups_get_groups(
 				array(
 					'show_hidden'     => true,
@@ -127,7 +127,7 @@ function bpge_ajax() {
 				)
 			);
 
-			// insert in the loop all the fields where parent_id = group_id
+			// IUnsert in the loop all the fields where parent_id = group_id.
 			foreach ( $groups['groups'] as $group ) {
 				foreach ( $to_import as $field ) {
 					$data                = (array) $field;
@@ -136,11 +136,11 @@ function bpge_ajax() {
 					$data['post_status'] = $field->display == 'yes' ? 'publish' : 'draft';
 					$field_id            = wp_insert_post( $data );
 
-					if ( is_integer( $field_id ) ) {
-						// save field description
+					if ( is_int( $field_id ) ) {
+						// Save field description.
 						update_post_meta( $field_id, 'bpge_field_desc', $data['desc'] );
 
-						// now save options
+						// Now save options.
 						if ( ! empty( $data['options'] ) ) {
 							$options = array();
 							foreach ( $data['options'] as $option ) {

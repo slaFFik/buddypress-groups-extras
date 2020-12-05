@@ -4,7 +4,7 @@
  *******************/
 
 /**
- * Check access level: true or false as return
+ * Check access level: true or false as return.
  */
 if ( ! function_exists( 'bpge_user_can' ) ) {
 	function bpge_user_can( $item, $user_id = 0 ) {
@@ -34,7 +34,7 @@ if ( ! function_exists( 'bpge_user_can' ) ) {
 }
 
 /**
- * Helper for generating some titles
+ * Helper for generating some titles.
  *
  * @param string $name
  *
@@ -46,37 +46,37 @@ function bpge_names( $name = 'name' ) {
 
 	switch ( $name ) {
 		case 'title_general':
-			$text = __( 'Group Extras &rarr; General Settings', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; General Settings', 'buddypress-groups-extras' );
 			break;
 		case 'title_fields':
-			$text = __( 'Group Extras &rarr; Fields Management', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; Fields Management', 'buddypress-groups-extras' );
 			break;
 		case 'title_pages':
-			$text = __( 'Group Extras &rarr; Pages Management', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; Pages Management', 'buddypress-groups-extras' );
 			break;
 		case 'title_fields_add':
-			$text = __( 'Group Extras &rarr; Add Field', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; Add Field', 'buddypress-groups-extras' );
 			break;
 		case 'title_fields_edit':
-			$text = __( 'Group Extras &rarr; Edit Field', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; Edit Field', 'buddypress-groups-extras' );
 			break;
 		case 'title_pages_add':
-			$text = __( 'Group Extras &rarr; Add Page', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; Add Page', 'buddypress-groups-extras' );
 			break;
 		case 'title_pages_edit':
-			$text = __( 'Group Extras &rarr; Edit Page', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Group Extras &rarr; Edit Page', 'buddypress-groups-extras' );
 			break;
 		case 'name':
-			$text = __( 'Description', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Description', 'buddypress-groups-extras' );
 			break;
 		case 'nav':
-			$text = __( 'Extras', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Extras', 'buddypress-groups-extras' );
 			break;
 		case 'gpages':
-			$text = __( 'Pages', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Pages', 'buddypress-groups-extras' );
 			break;
 		case 'home':
-			$text = __( 'Home', 'buddypress-groups-extras' );
+			$text = esc_html__( 'Home', 'buddypress-groups-extras' );
 			break;
 	}
 
@@ -84,7 +84,7 @@ function bpge_names( $name = 'name' ) {
 }
 
 /**
- * Empty defaults
+ * Empty defaults.
  *
  * @return Stdclass
  */
@@ -105,7 +105,7 @@ function bpge_get_field_defaults() {
 }
 
 /**
- * Get all group fields
+ * Get all group fields.
  *
  * @param string $status
  * @param bool   $group_id
@@ -120,7 +120,7 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 		$group_id = bp_get_current_group_id();
 	}
 
-	// possible statuses: draft | publish | any
+	// Possible statuses: draft | publish | any.
 
 	switch_to_blog( bpge_get_main_site_id() );
 
@@ -142,7 +142,7 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 }
 
 /**
- * Check that we are on BuddyPress 2.6+
+ * Check that we are on BuddyPress 2.6+.
  *
  * @return bool
  */
@@ -152,7 +152,7 @@ function bpge_is_bp_26() {
 }
 
 /**
- * Get the group navigation array
+ * Get the group navigation array.
  *
  * @return array
  */

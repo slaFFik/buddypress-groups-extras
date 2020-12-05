@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Register group fields
+ * Register group fields.
  */
 function bpge_register_fields() {
 
@@ -25,7 +25,7 @@ function bpge_register_fields() {
 }
 
 /**
- * Register set of fields post types
+ * Register set of fields post types.
  */
 function bpge_register_set() {
 
@@ -49,7 +49,7 @@ function bpge_register_set() {
 }
 
 /**
- * Register groups fields post type, where all their content will be stored
+ * Register groups fields post type, where all their content will be stored.
  */
 function bpge_register_set_fields() {
 
@@ -73,7 +73,7 @@ function bpge_register_set_fields() {
 }
 
 /**
- * Register groups pages post type, where all their content will be stored
+ * Register groups pages post type, where all their content will be stored.
  */
 function bpge_register_groups_pages() {
 
@@ -101,7 +101,7 @@ function bpge_register_groups_pages() {
 }
 
 /**
- * Delete associated gpage on group delete
+ * Delete associated gpage on group delete.
  *
  * @param object $group_obj
  * @param array  $user_ids
@@ -129,13 +129,13 @@ function bpge_delete_group(
 	}
 
 	if ( ! empty( $to_delete ) ) {
-		// remove all group pages
+		// Remove all group pages.
 		$pages = $wpdb->get_col( $wpdb->prepare(
 			"SELECT ID FROM {$wpdb->posts} WHERE `post_parent` = %d",
 			$to_delete
 		) );
 	}
-	// remove all group fields
+	// Remove all group fields.
 	$fields = $wpdb->get_col( $wpdb->prepare(
 		"SELECT ID FROM {$wpdb->posts} WHERE `post_type` = '%s' AND  `post_parent` = %d",
 		BPGE_GFIELDS,
@@ -157,7 +157,7 @@ function bpge_delete_group(
 add_action( 'bp_groups_delete_group', 'bpge_delete_group', 10, 2 );
 
 /**
- * Рide add new menu and redirect from it to the whole list - do not allow admin to add manually
+ * Hide add new menu and redirect from it to the whole list - do not allow admin to add manually.
  */
 function bpge_gpages_hide_add_new() {
 
@@ -173,11 +173,12 @@ function bpge_gpages_hide_add_new() {
 add_action( 'admin_menu', 'bpge_gpages_hide_add_new' );
 
 /**
- * Do not allow create group pages in wp-admin area - redirect to the list
+ * Do not allow create group pages in wp-admin area - redirect to the list.
  */
 function bpge_gpages_redirect_to_all() {
 
 	$result = stripos( $_SERVER['REQUEST_URI'], 'post-new.php?post_type=' . BPGE_GPAGES );
+
 	if ( $result !== false ) {
 		wp_redirect( home_url( '/wp-admin/edit.php?post_type=' . BPGE_GPAGES ) );
 		exit;

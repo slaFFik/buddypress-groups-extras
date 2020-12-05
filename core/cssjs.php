@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Load js on appropriate pages only
+ * Load js on appropriate pages only.
  */
 function bpge_load_js() {
 
-	if ( bp_is_group() && bp_current_action() == 'admin' && bp_action_variable( 0 ) == 'extras' ) {
+	if ( bp_is_group() && bp_current_action() === 'admin' && bp_action_variable( 0 ) === 'extras' ) {
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_script( 'bpge-main', BPGE_URL . '/extra-scripts.js', array( 'jquery' ), BPGE_VERSION );
 		// localize js string
@@ -17,7 +17,7 @@ add_action( 'wp_enqueue_scripts', 'bpge_load_js' );
 
 
 /**
- * JS translatable strings
+ * JS translatable strings.
  */
 function bpge_get_localized_data() {
 
@@ -40,7 +40,7 @@ function bpge_get_localized_data() {
 }
 
 /**
- * Load css on appropriate pages only
+ * Load css on appropriate pages only.
  */
 function bpge_load_css() {
 
@@ -48,8 +48,8 @@ function bpge_load_css() {
 		global $bpge;
 
 		if (
-			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'] ) ) ||
-			( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' )
+			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) ) ||
+			( ! empty( $bpge['groups'] ) && $bpge['groups'] === 'all' )
 		) {
 			wp_enqueue_style( 'bpge-main', BPGE_URL . '/extra-styles.css', false, BPGE_VERSION );
 		}
