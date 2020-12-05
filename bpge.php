@@ -1,14 +1,16 @@
 <?php
-/*
-Plugin Name: BuddyPress Groups Extras
-Plugin URI: https://wordpress.org/plugins/buddypress-groups-extras/
-Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
-Version: 3.6.9.1
-Text Domain: buddypress-groups-extras
-Domain Path: /langs/
-Author: slaFFik
-Author URI: https://ovirium.com/
-*/
+/**
+ * Plugin Name: BuddyPress Groups Extras
+ * Plugin URI: https://wordpress.org/plugins/buddypress-groups-extras/
+ * Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
+ * Version: 3.6.9.1
+ * Text Domain: buddypress-groups-extras
+ * Domain Path: /langs/
+ * Author: slaFFik
+ * Author URI: https://ovirium.com/
+ * Requires at least: 4.9
+ * Requires PHP:      5.6
+ */
 
 // Exit if accessed directly
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +19,7 @@ define( 'BPGE_VERSION', '3.6.9.1' );
 define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
 define( 'BPGE_URL', plugins_url( '_inc', __FILE__ ) ); // link to all assets, with /
-define( 'BPGE_PATH', dirname( __FILE__ ) . '/' ); // with /
+define( 'BPGE_PATH', __DIR__ . '/' ); // with /
 // post types
 define( 'BPGE_FIELDS', 'bpge_fields' );
 define( 'BPGE_FIELDS_SET', 'bpge_fields_set' );
@@ -68,14 +70,12 @@ function bpge_deactivation() {
  */
 function bpge_clear( $type = 'all' ) {
 
-	/** @var $wpdb WPDB */
 	global $wpdb;
-	$bp = buddypress();
 
 	switch_to_blog( bpge_get_main_site_id() );
 
 	$post_types = "'" . implode( "','", array( BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET ) ) . "'";
-	$group_meta = $bp->table_prefix . 'bp_groups_groupmeta';
+	$group_meta = bp_core_get_table_prefix() . 'bp_groups_groupmeta';
 
 	if ( $type === 'all' ) {
 		delete_option( 'bpge' );
@@ -154,7 +154,7 @@ function bpge_admin_settings_link( $links, $file ) {
 
 	$this_plugin = plugin_basename( plugin_basename( dirname( __FILE__ ) ) ) . '/bpge.php';
 
-	if ( $file == $this_plugin ) {
+	if ( $file === $this_plugin ) {
 		$links = array_merge(
 			$links,
 			array(
@@ -226,12 +226,11 @@ add_action( 'init', 'bpge_pre_load' );
 function bpge_load() {
 
 	global $bpge;
-	$bp = buddypress();
 
-	if ( bp_is_group() && ! defined( 'DOING_AJAX' ) ) {
+	if ( bp_is_group() && ! wp_doing_ajax() ) {
 		if (
-			( is_string( $bpge['groups'] ) && $bpge['groups'] == 'all' ) ||
-			( is_array( $bpge['groups'] ) && in_array( $bp->groups->current_group->id, $bpge['groups'] ) )
+			( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' ) ||
+			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'] ) )
 		) {
 			require( BPGE_PATH . '/core/loader.php' );
 		}
@@ -244,6 +243,8 @@ add_action( 'bp_init', 'bpge_load' );
 
 /**
  * Reorder group nav links
+ *
+ * @return false|array
  */
 function bpge_get_nav_order() {
 
@@ -255,7 +256,7 @@ function bpge_get_nav_order() {
 	}
 
 	if ( bp_is_group() && bp_is_single_item() ) {
-		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
+		$order = groups_get_groupmeta( bp_get_current_group_id(), 'bpge_nav_order' );
 
 		if ( ! empty( $order ) && is_array( $order ) ) {
 			foreach ( $order as $slug => $position ) {
@@ -289,19 +290,18 @@ add_action( 'bp_head', 'bpge_get_nav_order', 100 );
 function bpge_landing_page( $old_slug ) {
 
 	global $bpge;
-	$bp = buddypress();
 
 	$new_slug = $old_slug;
 
 	if ( bp_is_group() && bp_is_single_item() &&
 	     (
-		     ( is_array( $bpge['groups'] ) && in_array( $bp->groups->current_group->id, $bpge['groups'] ) )
+		     ( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
 		     ||
-		     ( is_string( $bpge['groups'] ) && $bpge['groups'] == 'all' )
+		     ( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' )
 	     )
 	) {
 		// get all pages - take the first
-		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
+		$order = groups_get_groupmeta( bp_get_current_group_id(), 'bpge_nav_order' );
 
 		if ( is_array( $order ) && ! empty( $order ) ) {
 			$flipped  = array_flip( $order );
@@ -319,7 +319,6 @@ add_filter( 'bp_groups_default_extension', 'bpge_landing_page' );
  */
 function bpge_adminbar_menu_link() {
 
-	/** @var $wp_admin_bar WP_Admin_Bar */
 	global $wp_admin_bar;
 
 	// Only show if viewing a group.

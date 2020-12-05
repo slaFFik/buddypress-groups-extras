@@ -5,6 +5,8 @@
  */
 class BPGE extends BP_Group_Extension {
 
+	private static $instance;
+
 	public $bpge = false;
 
 	public $slug             = 'extras';
@@ -47,7 +49,7 @@ class BPGE extends BP_Group_Extension {
 		// we are on a single group page
 		if ( ! empty( $bp->groups->current_group ) ) {
 			// populate extras data in global var
-			$bpge = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge' );
+			$bpge = groups_get_groupmeta( bp_get_current_group_id(), 'bpge' );
 			if ( ! empty( $bpge ) ) {
 				$bp->groups->current_group->args['extras'] = $bpge;
 			}
@@ -117,7 +119,7 @@ class BPGE extends BP_Group_Extension {
 
 		add_filter( 'bp_group_admin_form_action', array( $this, 'edit_group_admin_form_action' ), 10, 2 );
 
-		$order = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order' );
+		$order = groups_get_groupmeta( bp_get_current_group_id(), 'bpge_nav_order' );
 		if ( ! is_array( $order ) ) {
 			$order = array();
 		}
@@ -689,10 +691,14 @@ class BPGE extends BP_Group_Extension {
 					$order   = array();
 					$pos     = 1;
 
+					if ( ! is_array( $nav_old ) || empty( $nav_old ) ) {
+						$nav_old = [];
+					}
+
 					// update menu_order for each nav item
 					foreach ( $tab_order['position'] as $index => $old_position ) {
 						foreach ( $nav_old as $nav ) {
-							if ( $nav['position'] == $old_position ) {
+							if ( (int) $nav['position'] === (int) $old_position ) {
 								$order[ $nav['slug'] ] = $pos;
 							}
 							$pos ++;
@@ -700,13 +706,13 @@ class BPGE extends BP_Group_Extension {
 					}
 
 					// save to DB
-					groups_update_groupmeta( $bp->groups->current_group->id, 'bpge_nav_order', $order );
+					groups_update_groupmeta( bp_get_current_group_id(), 'bpge_nav_order', $order );
 				}
 
 				do_action( 'bpge_save_general', $this, $meta );
 
 				// Save into groupmeta table some general settings
-				groups_update_groupmeta( $bp->groups->current_group->id, 'bpge', $meta );
+				groups_update_groupmeta( bp_get_current_group_id(), 'bpge', $meta );
 
 				$this->notices( 'settings_updated' );
 
@@ -788,7 +794,7 @@ class BPGE extends BP_Group_Extension {
 
 				do_action( 'bpge_save_new_page_before', $this, $page );
 				$page_id = wp_insert_post( $page );
-				update_post_meta( $page_id, 'group_id', $bp->groups->current_group->id );
+				update_post_meta( $page_id, 'group_id', bp_get_current_group_id() );
 				do_action( 'bpge_save_new_page_after', $this, $page, $page_id );
 
 				$this->notices( 'added_page' );
@@ -967,9 +973,9 @@ class BPGE extends BP_Group_Extension {
 		$slug = apply_filters( 'bpge_items_by_slug_slug', $slug );
 
 		if ( $type === 'field' ) {
-			$items = $this->get_all_items( 'fields', $bp->groups->current_group->id );
+			$items = $this->get_all_items( 'fields', bp_get_current_group_id() );
 		} elseif ( $type === 'page' ) {
-			$items = $this->get_all_items( 'pages', $bp->groups->current_group->id );
+			$items = $this->get_all_items( 'pages', bp_get_current_group_id() );
 		}
 
 		foreach ( $items as $item ) {
@@ -994,13 +1000,13 @@ class BPGE extends BP_Group_Extension {
 
 		$redirect = bp_get_group_permalink( $bp->groups->current_group ) . 'admin/' . $this->slug . '/fields/';
 
-		if ( $_POST['group-id'] != $bp->groups->current_group->id ) {
+		if ( (int) $_POST['group-id'] !== bp_get_current_group_id() ) {
 			restore_current_blog();
 			wp_redirect( $redirect );
 			die;
 		}
 
-		$group_id = $bp->groups->current_group->id;
+		$group_id = bp_get_current_group_id();
 
 		// get all fields from a set with appropriate options from a db
 		$fields = $wpdb->get_results( $wpdb->prepare(
@@ -1111,7 +1117,7 @@ class BPGE extends BP_Group_Extension {
 					$current_blog->blog_id = 1;
 				}
 				$admin    = get_user_by( 'email', get_blog_option( $current_blog->blog_id, 'admin_email' ) );
-				$old_data = groups_get_groupmeta( $bp->groups->current_group->id, 'bpge' );
+				$old_data = groups_get_groupmeta( bp_get_current_group_id(), 'bpge' );
 				if ( ! is_array( $old_data ) ) {
 					$old_data = array();
 				}
@@ -1129,7 +1135,7 @@ class BPGE extends BP_Group_Extension {
 					)
 				);
 				// ...and save it to reuse later
-				groups_update_groupmeta( $bp->groups->current_group->id, 'bpge', $old_data );
+				groups_update_groupmeta( bp_get_current_group_id(), 'bpge', $old_data );
 
 				$data = $old_data['gpage_id'];
 				break;
@@ -1186,9 +1192,11 @@ class BPGE extends BP_Group_Extension {
 		do_action( 'bpge_create_save', $this );
 	}
 
-	// Load if was not already loaded
-	private static $instance = false;
-
+	/**
+	 * Load if was not already loaded.
+	 *
+	 * @return BPGE
+	 */
 	public static function getInstance() {
 
 		if ( ! self::$instance ) {

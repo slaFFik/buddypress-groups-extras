@@ -117,7 +117,7 @@ function bpge_get_group_fields( $status = 'publish', $group_id = false ) {
 	$bp = buddypress();
 
 	if ( empty( $group_id ) ) {
-		$group_id = $bp->groups->current_group->id;
+		$group_id = bp_get_current_group_id();
 	}
 
 	// possible statuses: draft | publish | any

@@ -1,10 +1,11 @@
 <?php
-if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 
+if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 	/**
 	 * General BPGE options, nothing too special
 	 */
 	class BPGE_ADMIN_GENERAL extends BPGE_ADMIN_TAB {
+
 		// position is used to define where exactly this tab will appear
 		public $position = 10;
 		// slug that is used in url to access this tab
@@ -13,6 +14,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		public $title = null;
 
 		public function __construct() {
+
 			$this->title = __( 'General Options', 'buddypress-groups-extras' );
 
 			parent::__construct();
@@ -22,6 +24,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 * Create sections of options
 		 */
 		public function register_sections() {
+
 			do_action( 'bpge_admin_general_section_before', $this );
 
 			add_settings_field( 're_pages',
@@ -57,6 +60,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 * Display the tab description
 		 */
 		public function display() {
+
 			echo '<p class="description">' . __( 'Here are some general settings.', 'buddypress-groups-extras' ) . '</p>';
 		}
 
@@ -64,6 +68,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 * Change accessibility of Extras group admin tab
 		 */
 		public function display_access() {
+
 			?>
 			<p>
 				<?php _e( 'Sometimes we want to change the access level to different parts of a site. Options below will help you to do this.', 'buddypress-groups-extras' ); ?>
@@ -78,17 +83,17 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 			<ul>
 				<li><label>
 						<input name="bpge_access_extras" type="radio"
-						       value="s_admin" <?php checked( 's_admin', $this->bpge['access_extras'] ); ?> />&nbsp;
+							value="s_admin" <?php checked( 's_admin', $this->bpge['access_extras'] ); ?> />&nbsp;
 						<?php _e( 'Site admins only', 'buddypress-groups-extras' ); ?>
 					</label></li>
 				<li><label>
 						<input name="bpge_access_extras" type="radio"
-						       value="g_s_admin" <?php checked( 'g_s_admin', $this->bpge['access_extras'] ); ?> />&nbsp;
+							value="g_s_admin" <?php checked( 'g_s_admin', $this->bpge['access_extras'] ); ?> />&nbsp;
 						<?php _e( 'Group administrators and site admins', 'buddypress-groups-extras' ); ?>
 					</label></li>
 			</ul>
 
-		<?php
+			<?php
 		}
 
 		/**
@@ -103,19 +108,20 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 
 			<p>
 				<input type="submit" name="bpge-import-data" value="<?php _e( 'Import Data', 'buddypress-groups-extras' ); ?>"
-				       class="button-secondary"/> &nbsp;
+					class="button-secondary" /> &nbsp;
 				<input type="submit" name="bpge-clear-data" value="<?php _e( 'Clear Data', 'buddypress-groups-extras' ); ?>"
-				       class="button"/>
+					class="button" />
 			</p>
 
 			<p class="description"><?php _e( 'Note: Clearing data will delete everything except options on this page.', 'buddypress-groups-extras' ); ?></p>
-		<?php
+			<?php
 		}
 
 		/**
 		 * Rich Editor for Pages content
 		 */
 		public function display_re_pages() {
+
 			echo '<p>';
 			_e( 'Would you like to enable Rich Editor for easy use of html tags for groups custom pages?', 'buddypress-groups-extras' );
 			echo '</p>';
@@ -130,6 +136,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 * Rich Editor for Fields textareas
 		 */
 		public function display_re_fields() {
+
 			echo '<p>';
 			_e( 'Would you like to enable Rich Editor for easy use of html tags for groups custom textarea fields?', 'buddypress-groups-extras' );
 			echo '</p>';
@@ -148,6 +155,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 * Plugin Deactivation options
 		 */
 		public function display_uninstall() {
+
 			echo '<p>';
 			_e( 'On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?', 'buddypress-groups-extras' );
 			echo '</p>';
@@ -166,6 +174,7 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 * Validate and save
 		 */
 		public function save() {
+
 			/** @var $wpdb WPDB */
 			global $wpdb;
 			$bp = buddypress();
@@ -201,24 +210,28 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 				// process the import part 1
 				foreach ( (array) $set_fields as $set ) {
 					// save the set
-					$set_id = wp_insert_post( array(
-						                          'post_type'    => BPGE_FIELDS_SET,
-						                          'post_status'  => 'publish',
-						                          'post_title'   => $set->set['name'],
-						                          'post_content' => $set->set['desc']
-					                          ) );
+					$set_id = wp_insert_post(
+						array(
+							'post_type'    => BPGE_FIELDS_SET,
+							'post_status'  => 'publish',
+							'post_title'   => $set->set['name'],
+							'post_content' => $set->set['desc'],
+						)
+					);
 
 					// now we need to save fields in that set
-					if ( is_integer( $set_id ) ) {
+					if ( is_int( $set_id ) ) {
 						foreach ( (array) $set->set['fields'] as $field ) {
-							$field_id = wp_insert_post( array(
-								                            'post_type'    => BPGE_FIELDS,
-								                            'post_parent'  => $set_id, // assign to a set of fields
-								                            'post_title'   => $field['name'],
-								                            'post_content' => $field['desc'],
-								                            'post_excerpt' => $field['type'],
-								                            'post_status'  => 'publish'
-							                            ) );
+							$field_id = wp_insert_post(
+								array(
+									'post_type'    => BPGE_FIELDS,
+									'post_parent'  => $set_id, // assign to a set of fields
+									'post_title'   => $field['name'],
+									'post_content' => $field['desc'],
+									'post_excerpt' => $field['type'],
+									'post_status'  => 'publish',
+								)
+							);
 							// and save options if any
 							if ( isset( $field['options'] ) && ! empty( $field['options'] ) ) {
 								$options = array();
@@ -238,7 +251,8 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 				$gFields = $wpdb->get_row( $wpdb->prepare(
 					"SELECT group_id, meta_value AS `fields`
                             FROM {$bp->table_prefix}bp_groups_groupmeta
-                            WHERE meta_key = 'bpge_fields'", __return_false()
+                            WHERE meta_key = 'bpge_fields'",
+					__return_false()
 				) );
 
 				// reformat data
@@ -299,5 +313,4 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 	if ( is_admin() ) {
 		return new BPGE_ADMIN_GENERAL;
 	}
-
 }
