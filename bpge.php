@@ -31,6 +31,65 @@ if ( ! defined( 'DS' ) ) {
 }
 
 /**
+ * Check plugin requirements.
+ * We do it on `plugins_loaded` hook. If earlier - core constants still not defined.
+ */
+function bpge_check_requirements() {
+
+	if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+		add_action( 'admin_init', 'bpge_deactivate' );
+		add_action( 'admin_notices', 'bpge_deactivate_msg_php' );
+
+	} elseif ( ! function_exists( 'buddypress' ) ) {
+		// Houston, we have a problem.
+		add_action( 'admin_init', 'bpge_deactivate' );
+		add_action( 'admin_notices', 'bpge_deactivate_msg_bp' );
+	}
+}
+
+add_action( 'plugins_loaded', 'bpge_check_requirements' );
+
+/**
+ * Deactivate plugin.
+ */
+function bpge_deactivate() {
+
+	deactivate_plugins( plugin_basename( __FILE__ ) );
+}
+
+/**
+ * Admin notice for minimum PHP version.
+ */
+function bpge_deactivate_msg_php() {
+
+	echo '<div class="notice notice-error"><p>';
+	esc_html_e( 'BuddyPress Groups Extras plugin has been deactivated. Your site is running an outdated version of PHP that is no longer supported and is not compatible with the plugin. Please update PHP to a version supported by WordPress.', 'buddypress-groups-extras' );
+	echo '</p></div>';
+
+	// phpcs:disable
+	if ( isset( $_GET['activate'] ) ) {
+		unset( $_GET['activate'] );
+	}
+	// phpcs:enable
+}
+
+/**
+ * Admin notice for minimum PHP version.
+ */
+function bpge_deactivate_msg_bp() {
+
+	echo '<div class="notice notice-error"><p>';
+	esc_html_e( 'BuddyPress Groups Extras plugin has been deactivated because it requres an activated BuddyPress plugin with Groups component enabled. Please make sure those two requirements are met in order to use BuddyPress Groups Extras.', 'buddypress-groups-extras' );
+	echo '</p></div>';
+
+	// phpcs:disable
+	if ( isset( $_GET['activate'] ) ) {
+		unset( $_GET['activate'] );
+	}
+	// phpcs:enable
+}
+
+/**
  * What to do on activation.
  */
 register_activation_hook( __FILE__, 'bpge_activation' );
@@ -40,7 +99,7 @@ function bpge_activation() {
 	$bpge = array(
 		'groups'        => 'all',
 		'uninstall'     => 'no',
-		're'            => '1',
+		're'            => 1,
 		're_fields'     => 'no',
 		'access_extras' => 'g_s_admin',
 		'field_2_link'  => 'no',
@@ -110,8 +169,8 @@ function bpge_admin_init() {
 	$admin = new BPGE_ADMIN();
 	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
-		__( 'BP Groups Extras', 'buddypress-groups-extras' ),
-		__( 'BP Groups Extras', 'buddypress-groups-extras' ),
+		esc_html__( 'BP Groups Extras', 'buddypress-groups-extras' ),
+		esc_html__( 'BP Groups Extras', 'buddypress-groups-extras' ),
 		'manage_options',
 		BPGE_ADMIN_SLUG,
 		array( $admin, 'admin_page' ) );
@@ -148,11 +207,10 @@ function bpge_admin_find_admin_location() {
  * @param string $file
  *
  * @return array
- *
  */
 function bpge_admin_settings_link( $links, $file ) {
 
-	$this_plugin = plugin_basename( plugin_basename( dirname( __FILE__ ) ) ) . '/bpge.php';
+	$this_plugin = plugin_basename( plugin_basename( __DIR__ ) ) . '/bpge.php';
 
 	if ( $file === $this_plugin ) {
 		$links = array_merge(
@@ -196,6 +254,13 @@ function bpge_get_main_site_id() {
  */
 function bpge_pre_load() {
 
+	if ( ! bp_is_active( 'groups' ) ) {
+		// Houston, we have a problem.
+		add_action( 'admin_init', 'bpge_deactivate' );
+		add_action( 'admin_notices', 'bpge_deactivate_msg_bp' );
+		return;
+	}
+
 	global $bpge;
 
 	if ( ! defined( 'BP_VERSION' ) ) {
@@ -204,7 +269,6 @@ function bpge_pre_load() {
 
 	$bpge = bpge_get_options();
 
-	// scripts and styles
 	require( BPGE_PATH . '/core/cssjs.php' );
 	require( BPGE_PATH . '/core/ajax.php' );
 	require( BPGE_PATH . '/core/templates.php' );
