@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-12-06T01:47:34+03:00\n"
+"POT-Creation-Date: 2020-12-06T23:41:55+03:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: buddypress-groups-extras\n"
@@ -126,80 +126,56 @@ msgid "User Access"
 msgstr ""
 
 #: core/admin_tabs/general.php:53
-msgid "Data Import"
-msgstr ""
-
-#: core/admin_tabs/general.php:60
 msgid "Uninstall Options"
 msgstr ""
 
-#: core/admin_tabs/general.php:74
+#: core/admin_tabs/general.php:67
 msgid "Here are some general settings."
 msgstr ""
 
-#: core/admin_tabs/general.php:84
+#: core/admin_tabs/general.php:77
 msgid "Sometimes we want to change the access level to different parts of a site. Options below will help you to do this."
 msgstr ""
 
-#: core/admin_tabs/general.php:87
+#: core/admin_tabs/general.php:80
 msgid "Who can open group admin tab Extras?"
 msgstr ""
 
-#: core/admin_tabs/general.php:97
+#: core/admin_tabs/general.php:90
 msgid "Site admins only"
 msgstr ""
 
-#: core/admin_tabs/general.php:103
+#: core/admin_tabs/general.php:96
 msgid "Group administrators and site admins"
 msgstr ""
 
-#: core/admin_tabs/general.php:116
-msgid "If you upgraded from any version of BuddyPress Groups Extras, which had the version number less than 3.4, and if you want to preserve all previously generated content (like default and groups fields etc) please do the import using controls below."
-msgstr ""
-
-#: core/admin_tabs/general.php:119
-msgid "IMPORTANT: Do not import data twice - as this will create lots of duplicated fields."
-msgstr ""
-
-#: core/admin_tabs/general.php:122
-msgid "Import Data"
-msgstr ""
-
-#: core/admin_tabs/general.php:124
-msgid "Clear Data"
-msgstr ""
-
-#: core/admin_tabs/general.php:128
-msgid "Note: Clearing data will delete everything except options on this page."
-msgstr ""
-
-#: core/admin_tabs/general.php:138
+#: core/admin_tabs/general.php:110
 msgid "Would you like to enable Rich Editor for easy use of html tags for groups custom pages?"
 msgstr ""
 
-#: core/admin_tabs/general.php:142
-#: core/admin_tabs/general.php:161
+#: core/admin_tabs/general.php:114
+#: core/admin_tabs/general.php:133
 msgid "Enable"
 msgstr ""
 
-#: core/admin_tabs/general.php:143
-#: core/admin_tabs/general.php:162
+#: core/admin_tabs/general.php:115
+#: core/admin_tabs/general.php:134
 msgid "Disable"
 msgstr ""
 
-#: core/admin_tabs/general.php:153
+#: core/admin_tabs/general.php:125
 msgid "Would you like to enable Rich Editor for easy use of html tags for groups custom textarea fields?"
 msgstr ""
 
-#: core/admin_tabs/general.php:172
+#: core/admin_tabs/general.php:144
 msgid "On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?"
 msgstr ""
 
-#: core/admin_tabs/general.php:180
+#: core/admin_tabs/general.php:152
 msgid "Preserve all data"
 msgstr ""
 
-#: core/admin_tabs/general.php:181
+#: core/admin_tabs/general.php:153
 msgid "Delete everything"
 msgstr ""
 

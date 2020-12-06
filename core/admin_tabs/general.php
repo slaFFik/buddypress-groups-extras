@@ -49,13 +49,6 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 				$this->slug . '_settings'
 			);
 			add_settings_field(
-				'import',
-				esc_html__( 'Data Import', 'buddypress-groups-extras' ),
-				array( $this, 'display_import' ),
-				$this->slug,
-				$this->slug . '_settings'
-			);
-			add_settings_field(
 				'uninstall',
 				esc_html__( 'Uninstall Options', 'buddypress-groups-extras' ),
 				array( $this, 'display_uninstall' ),
@@ -105,27 +98,6 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 				</li>
 			</ul>
 
-			<?php
-		}
-
-		/**
-		 * Data import from versions before BPGE v3.4.
-		 */
-		public function display_import() { ?>
-			<p>
-				<?php esc_html_e( 'If you upgraded from any version of BuddyPress Groups Extras, which had the version number less than 3.4, and if you want to preserve all previously generated content (like default and groups fields etc) please do the import using controls below.', 'buddypress-groups-extras' ); ?>
-			</p>
-
-			<p class="description"><?php esc_html_e( 'IMPORTANT: Do not import data twice - as this will create lots of duplicated fields.', 'buddypress-groups-extras' ); ?></p>
-
-			<p>
-				<input type="submit" name="bpge-import-data" value="<?php esc_html_e( 'Import Data', 'buddypress-groups-extras' ); ?>"
-					class="button-secondary" /> &nbsp;
-				<input type="submit" name="bpge-clear-data" value="<?php esc_html_e( 'Clear Data', 'buddypress-groups-extras' ); ?>"
-					class="button" />
-			</p>
-
-			<p class="description"><?php esc_html_e( 'Note: Clearing data will delete everything except options on this page.', 'buddypress-groups-extras' ); ?></p>
 			<?php
 		}
 
@@ -199,113 +171,6 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 				$this->bpge['access_extras'] = sanitize_key( $_POST['bpge_access_extras'] );
 
 				bp_update_option( 'bpge', $this->bpge );
-			}
-
-			if ( isset( $_POST['bpge-import-data'] ) ) {
-				/**
-				 * Default fields.
-				 */
-				// Get list of set of fields.
-				$set_fields = $wpdb->get_results(
-					"SELECT option_name AS `slug`, option_value AS `set`
-                            FROM {$wpdb->options}
-                            WHERE option_name LIKE 'bpge-set-%%'" );
-
-				// Reformat data.
-				if ( ! empty( $set_fields ) ) {
-					foreach ( $set_fields as &$set ) {
-						$set->set = maybe_unserialize( $set->set );
-					}
-				}
-
-				// Process the import part 1.
-				foreach ( (array) $set_fields as $set ) {
-					// Save the set.
-					$set_id = wp_insert_post(
-						array(
-							'post_type'    => BPGE_FIELDS_SET,
-							'post_status'  => 'publish',
-							'post_title'   => $set->set['name'],
-							'post_content' => $set->set['desc'],
-						)
-					);
-
-					// Now we need to save fields in that set.
-					if ( is_int( $set_id ) ) {
-						foreach ( (array) $set->set['fields'] as $field ) {
-							$field_id = wp_insert_post(
-								array(
-									'post_type'    => BPGE_FIELDS,
-									'post_parent'  => $set_id, // assign to a set of fields.
-									'post_title'   => $field['name'],
-									'post_content' => $field['desc'],
-									'post_excerpt' => $field['type'],
-									'post_status'  => 'publish',
-								)
-							);
-							// And save options if any.
-							if ( isset( $field['options'] ) && ! empty( $field['options'] ) ) {
-								$options = array();
-								foreach ( $field['options'] as $option ) {
-									$options[] = htmlspecialchars( strip_tags( $option['name'] ) );
-								}
-								update_post_meta( $field_id, 'bpge_field_options', $options );
-							}
-						}
-					}
-				}
-
-				/**
-				 * Groups fields.
-				 */
-				// get list of groups that have gFields from  groupmeta.
-				$gFields = $wpdb->get_row( $wpdb->prepare(
-					"SELECT group_id, meta_value AS `fields`
-                            FROM {$bp->table_prefix}bp_groups_groupmeta
-                            WHERE meta_key = 'bpge_fields'",
-					__return_false()
-				) );
-
-				// Reformat data.
-				if ( ! empty( $gFields ) && ! empty( $gFields->fields ) ) {
-					$gFields->fields = json_decode( $gFields->fields );
-				}
-
-				$i = 100;
-				if ( ! empty( $gFields->fields ) && is_array( $gFields->fields ) ) {
-					foreach ( $gFields->fields as $field ) {
-						$new_field = array(
-							'post_title'   => $field->title,
-							'post_excerpt' => $field->type,
-							'pinged'       => $field->required,
-							'post_status'  => (bool) $field->display ? 'publish' : 'draft',
-							'post_parent'  => $gFields->group_id,
-							'post_type'    => BPGE_GFIELDS,
-							'menu_order'   => $i,
-						);
-
-						$new_field = apply_filters( 'bpge_new_field', $new_field );
-
-						$options = array();
-						if ( isset( $field->options ) && ! empty( $field->options ) ) {
-							foreach ( $field->options as $option ) {
-								$options[] = htmlspecialchars( wp_strip_all_tags( $option ) );
-							}
-						}
-
-						// Save Field.
-						$field_id = wp_insert_post( $new_field );
-
-						if ( is_int( $field_id ) ) {
-							// Save field options.
-							update_post_meta( $field_id, 'bpge_field_options', $options );
-
-							$field_desc = apply_filters( 'bpge_new_field_desc', $field->desc );
-							update_post_meta( $field_id, 'bpge_field_desc', $field_desc );
-						}
-						$i ++;
-					}
-				}
 			}
 
 			restore_current_blog();
