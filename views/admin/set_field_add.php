@@ -20,7 +20,7 @@
 
 	<div>
 		<label><?php esc_html_e( 'Display this field?', 'buddypress-groups-extras' ); ?></label>
-		<input type="radio" name="extra-field-display" style="width:auto" value="yes" />&nbsp;<?php esc_html_e( 'Yes', 'buddypress-groups-extras' ); ?>&nbsp;<span
+		<input type="radio" name="extra-field-display" style="width:auto" value="yes" checked />&nbsp;<?php esc_html_e( 'Yes', 'buddypress-groups-extras' ); ?>&nbsp;<span
 			class="description"><?php esc_html_e( 'or', 'buddypress-groups-extras' ); ?></span>&nbsp;
 		<input type="radio" name="extra-field-display" style="width:auto" value="no" />&nbsp;<?php esc_html_e( 'No', 'buddypress-groups-extras' ); ?>
 	</div>
