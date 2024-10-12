@@ -74,6 +74,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 = 3.7.0
 * Make sure the plugin is compatible with WordPress 6.7 and BuddyPress 14.
 * Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props emaralive.
+* Fixed: Avoid using BuddyPress functions that are deprecated.
 
 = 3.6.10 (06.12.2020) =
 * WordPress 5.6, BuddyPress 6.4 and PHP 7 compatibility.

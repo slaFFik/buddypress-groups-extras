@@ -23,7 +23,7 @@
                         <p><input name="bpge_groups[' . (int) bp_get_group_id() . ']" class="bpge_groups" type="checkbox" ' . ( ( 'all' === $bpge['groups'] || in_array( bp_get_group_id(), $bpge['groups'], true ) ) ? 'checked="checked" ' : '' ) . 'value="' . (int) bp_get_group_id() . '" /></p>
                     </td>
                     <td>
-                        <p><a href="' . esc_url( bp_get_group_permalink() ) . 'admin/extras/" target="_blank">' . esc_html( bp_get_group_name() ) . '</a> &rarr; ' . $description . '</p>
+                        <p><a href="' . esc_url( bp_get_group_url() ) . 'admin/extras/" target="_blank">' . esc_html( bp_get_group_name() ) . '</a> &rarr; ' . $description . '</p>
                     </td>
                 </tr>';
 		}
