@@ -2,8 +2,10 @@
 name: Feature request
 about: Suggest an idea for this plugin
 title: ''
-labels: feature
-assignees: ''
+labels: 'feature'
+type: 'feature'
+assignees: 'slaFFik'
+projects: "slaFFik/8"
 
 ---
 
