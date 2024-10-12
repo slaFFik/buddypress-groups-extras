@@ -10,6 +10,8 @@
  * Domain Path: /assets/
  * Requires PHP: 5.3
  * Requires at least: 4.1
+ *
+ * @package BuddyPress Groups Extras
  */
 
 // Exit if accessed directly.
@@ -18,8 +20,9 @@ defined( 'ABSPATH' ) || exit;
 define( 'BPGE_VERSION', '3.6.9.1' );
 define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
-define( 'BPGE_URL', plugins_url( 'assets', __FILE__ ) ); // link to all assets, with /
-define( 'BPGE_PATH', __DIR__ . '/' ); // with /
+define( 'BPGE_URL', plugins_url( 'assets', __FILE__ ) ); // link to all assets, with '/".
+define( 'BPGE_PATH', __DIR__ . '/' ); // with "/".
+
 // Post types.
 define( 'BPGE_FIELDS', 'bpge_fields' );
 define( 'BPGE_FIELDS_SET', 'bpge_fields_set' );
@@ -40,7 +43,7 @@ function bpge_check_requirements() {
 		add_action( 'admin_init', 'bpge_deactivate' );
 		add_action( 'admin_notices', 'bpge_deactivate_msg_php' );
 
-	} elseif ( ! function_exists( 'buddypress' ) ) {
+	} elseif ( ! function_exists( 'bp_is_active' ) ) {
 		// Houston, we have a problem.
 		add_action( 'admin_init', 'bpge_deactivate' );
 		add_action( 'admin_notices', 'bpge_deactivate_msg_bp' );
@@ -93,9 +96,13 @@ function bpge_deactivate_msg_bp() {
  * What to do on activation.
  */
 register_activation_hook( __FILE__, 'bpge_activation' );
+
+/**
+ * Activation hook callback function.
+ */
 function bpge_activation() {
 
-	// some defaults
+	// some defaults.
 	$bpge = array(
 		'groups'        => 'all',
 		'uninstall'     => 'no',
@@ -106,6 +113,10 @@ function bpge_activation() {
 		'reviewed'      => 'no',
 	);
 
+	if ( ! function_exists( 'add_blog_option' ) ) {
+		require_once ABSPATH . 'wp-includes/ms-blogs.php';
+	}
+
 	add_blog_option( bpge_get_main_site_id(), 'bpge', $bpge );
 }
 
@@ -113,11 +124,15 @@ function bpge_activation() {
  * What to do on deactivation.
  */
 register_deactivation_hook( __FILE__, 'bpge_deactivation' );
+
+/**
+ * Deactivation hook callback function.
+ */
 function bpge_deactivation() {
 
 	$bpge = bpge_get_options();
 
-	if ( $bpge['uninstall'] === 'yes' ) {
+	if ( 'yes' === $bpge['uninstall'] ) {
 		bpge_clear( 'all' );
 	}
 }
@@ -125,7 +140,7 @@ function bpge_deactivation() {
 /**
  * Remove all plugin data.
  *
- * @param string $type
+ * @param string $type Clear plugin data, default set to "all".
  */
 function bpge_clear( $type = 'all' ) {
 
@@ -136,15 +151,15 @@ function bpge_clear( $type = 'all' ) {
 	$post_types = "'" . implode( "','", array( BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET ) ) . "'";
 	$group_meta = bp_core_get_table_prefix() . 'bp_groups_groupmeta';
 
-	if ( $type === 'all' ) {
+	if ( 'all' === $type ) {
 		delete_option( 'bpge' );
 	}
 
-	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE 'bpge_%%'" );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE %s", 'bpge_%%' ) ); // db call ok; no-cache ok.
 
-	$wpdb->query( "DELETE FROM {$wpdb->posts} WHERE `post_type` IN ({$post_types})" );
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE `post_type` IN (%s)", $post_types ) ); // db call ok; no-cache ok.
 
-	$wpdb->query( "DELETE FROM {$group_meta} WHERE `meta_key` LIKE 'bpge%%'" );
+	$wpdb->query( $wpdb->prepare( 'DELETE FROM %s WHERE `meta_key` LIKE %s', $group_meta, 'bpge%%' ) ); // db call ok; no-cache ok.
 
 	restore_current_blog();
 }
@@ -164,7 +179,7 @@ add_action( 'plugins_loaded', 'bpge_load_textdomain' );
  */
 function bpge_admin_init() {
 
-	include( BPGE_PATH . '/core/admin.php' );
+	include BPGE_PATH . '/core/admin.php';
 
 	$admin = new BPGE_ADMIN();
 	add_submenu_page(
@@ -173,7 +188,8 @@ function bpge_admin_init() {
 		esc_html__( 'BP Groups Extras', 'buddypress-groups-extras' ),
 		'manage_options',
 		BPGE_ADMIN_SLUG,
-		array( $admin, 'admin_page' ) );
+		array( $admin, 'admin_page' )
+	);
 
 	$admin->load_assets();
 
@@ -203,8 +219,8 @@ function bpge_admin_find_admin_location() {
 /**
  * Add settings link on plugin's page.
  *
- * @param array  $links
- * @param string $file
+ * @param array  $links Settings link.
+ * @param string $file  File name for comparison.
  *
  * @return array
  */
@@ -224,8 +240,10 @@ function bpge_admin_settings_link( $links, $file ) {
 	return $links;
 }
 
-add_filter( 'plugin_action_links', 'bpge_admin_settings_link', 10, 2 );
-add_filter( 'network_admin_plugin_action_links', 'bpge_admin_settings_link', 10, 2 );
+if ( function_exists( 'bp_is_active' ) ) {
+	add_filter( 'plugin_action_links', 'bpge_admin_settings_link', 10, 2 );
+	add_filter( 'network_admin_plugin_action_links', 'bpge_admin_settings_link', 10, 2 );
+}
 
 
 /**
@@ -235,6 +253,10 @@ add_filter( 'network_admin_plugin_action_links', 'bpge_admin_settings_link', 10,
  * @return array
  */
 function bpge_get_options() {
+
+	if ( ! function_exists( 'get_blog_option' ) ) {
+		require_once ABSPATH . 'wp-includes/ms-blogs.php';
+	}
 
 	return get_blog_option( bpge_get_main_site_id(), 'bpge' );
 }
@@ -269,34 +291,37 @@ function bpge_pre_load() {
 
 	$bpge = bpge_get_options();
 
-	require( BPGE_PATH . '/core/cssjs.php' );
-	require( BPGE_PATH . '/core/ajax.php' );
-	require( BPGE_PATH . '/core/templates.php' );
-	require( BPGE_PATH . '/core/cpt.php' );
-	require( BPGE_PATH . '/core/helpers.php' );
+	require BPGE_PATH . '/core/cssjs.php';
+	require BPGE_PATH . '/core/ajax.php';
+	require BPGE_PATH . '/core/templates.php';
+	require BPGE_PATH . '/core/cpt.php';
+	require BPGE_PATH . '/core/helpers.php';
 
-	// gpages
+	// gpages.
 	bpge_register_groups_pages();
-	// bpge_gfields
+	// bpge_gfields.
 	bpge_register_fields();
-	// bpge_fields_set
+	// bpge_fields_set.
 	bpge_register_set();
-	// bpge_fields
+	// bpge_fields.
 	bpge_register_set_fields();
 }
 
-add_action( 'init', 'bpge_pre_load' );
+add_action( 'bp_init', 'bpge_pre_load' );
 
+/**
+ * The group component loader.
+ */
 function bpge_load() {
 
 	global $bpge;
 
 	if ( bp_is_group() && ! wp_doing_ajax() ) {
 		if (
-			( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' ) ||
+			( is_string( $bpge['groups'] ) && 'all' === $bpge['groups'] ) ||
 			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
 		) {
-			require( BPGE_PATH . '/core/loader.php' );
+			require BPGE_PATH . '/core/loader.php';
 		}
 
 		do_action( 'bpge_group_load' );
@@ -347,7 +372,7 @@ add_action( 'bp_head', 'bpge_get_nav_order', 100 );
 /**
  * Groups navigation reordering.
  *
- * @param $old_slug
+ * @param string $old_slug Previous nav menu slug.
  *
  * @return string
  */
@@ -355,16 +380,17 @@ function bpge_landing_page( $old_slug ) {
 
 	global $bpge;
 
+	$bpge = bpge_get_options();
+
 	$new_slug = $old_slug;
 
 	if ( bp_is_group() && bp_is_single_item() &&
-	     (
-		     ( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
-		     ||
-		     ( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' )
-	     )
-	) {
-		// get all pages - take the first
+		(
+			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
+			||
+			( is_string( $bpge['groups'] ) && 'all' === $bpge['groups'] )
+		) ) {
+		// get all pages - take the first.
 		$order = groups_get_groupmeta( bp_get_current_group_id(), 'bpge_nav_order' );
 
 		if ( is_array( $order ) && ! empty( $order ) ) {
@@ -405,4 +431,8 @@ function bpge_adminbar_menu_link() {
 	);
 }
 
-add_action( 'admin_bar_menu', 'bpge_adminbar_menu_link', 100 );
+if ( function_exists( 'bp_is_active' ) ) {
+
+	add_action( 'admin_bar_menu', 'bpge_adminbar_menu_link', 100 );
+
+}
