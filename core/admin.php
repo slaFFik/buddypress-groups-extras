@@ -329,7 +329,7 @@ class BPGE_ADMIN {
 
 		if ( ! isset( $this->bpge['reviewed'] ) || $this->bpge['reviewed'] === 'no' ) {
 			echo '<div style="clear:both"></div>';
-			echo '<div id="message" class="updated fade"><p>' .
+			echo '<div id="message" class="notice notice-info fade"><p>' .
 			     sprintf( /* translators: %s - URL to WordPress.org page where use can review the plugin. */
 				     __( 'If you like the plugin please review it on its <a href="%s">WordPress Repository page</a>. Thanks in advance!', 'buddypress-groups-extras' ),
 				     'https://wordpress.org/support/view/plugin-reviews/buddypress-groups-extras'
