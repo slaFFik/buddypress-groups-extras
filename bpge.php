@@ -16,7 +16,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-define( 'BPGE_VERSION', '3.6.9.1' );
+define( 'BPGE_VERSION', '3.6.10' );
 define( 'BPGE', 'bpge' );
 define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
 define( 'BPGE_URL', plugins_url( 'assets', __FILE__ ) ); // link to all assets, with '/".
