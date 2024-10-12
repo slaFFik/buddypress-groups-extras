@@ -10,8 +10,7 @@
  * Domain Path: /assets/
  * Requires PHP: 5.3
  * Requires at least: 4.1
- *
- * @package BuddyPress Groups Extras
+ * Requires Plugins: buddypress
  */
 
 // Exit if accessed directly.
