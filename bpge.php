@@ -38,7 +38,7 @@ if ( ! defined( 'DS' ) ) {
  */
 function bpge_check_requirements() {
 
-	if ( version_compare( PHP_VERSION, '5.3', '<' ) ) {
+	if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
 		add_action( 'admin_init', 'bpge_deactivate' );
 		add_action( 'admin_notices', 'bpge_deactivate_msg_php' );
 
@@ -102,7 +102,7 @@ register_activation_hook( __FILE__, 'bpge_activation' );
 function bpge_activation() {
 
 	// some defaults.
-	$bpge = array(
+	$bpge = [
 		'groups'        => 'all',
 		'uninstall'     => 'no',
 		're'            => 1,
@@ -110,7 +110,7 @@ function bpge_activation() {
 		'access_extras' => 'g_s_admin',
 		'field_2_link'  => 'no',
 		'reviewed'      => 'no',
-	);
+	];
 
 	if ( ! function_exists( 'add_blog_option' ) ) {
 		require_once ABSPATH . 'wp-includes/ms-blogs.php';
@@ -131,7 +131,7 @@ function bpge_deactivation() {
 
 	$bpge = bpge_get_options();
 
-	if ( 'yes' === $bpge['uninstall'] ) {
+	if ( $bpge['uninstall'] === 'yes' ) {
 		bpge_clear( 'all' );
 	}
 }
@@ -244,7 +244,6 @@ if ( function_exists( 'bp_is_active' ) ) {
 	add_filter( 'network_admin_plugin_action_links', 'bpge_admin_settings_link', 10, 2 );
 }
 
-
 /**
  * Get BPGE plugin options.
  * They are always stored on the main site.
@@ -262,12 +261,10 @@ function bpge_get_options() {
 
 /**
  * Get the main site id, usually <code>1</code>.
- *
- * @return int
  */
 function bpge_get_main_site_id() {
 
-	return apply_filters( 'bpge_get_main_site_id', 1 );
+	return (int) apply_filters( 'bpge_get_main_site_id', 1 );
 }
 
 /**
