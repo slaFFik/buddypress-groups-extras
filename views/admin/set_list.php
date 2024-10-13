@@ -1,3 +1,11 @@
+<?php
+/**
+ * Set list item.
+ *
+ * @var \WP_Post[] $fields List of fields stored as CPT.
+ * @var \WP_Post   $set    List of set of fields stored as CPT.
+ */
+?>
 <li id="set-<?php echo (int) $set->ID ?>">
 
 	<span class="name"><?php echo esc_html( $set->post_title ) ?></span>
