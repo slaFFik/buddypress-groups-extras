@@ -81,7 +81,7 @@ class BPGE_ADMIN {
 			return;
 		}
 
-		$group_link       = bp_get_group_permalink( $group );
+		$group_link       = bp_get_group_url( $group );
 		$group_admin_link = bp_get_group_admin_permalink( $group );
 
 		switch ( $column ) {
