@@ -1,18 +1,18 @@
 <div class="box_page">
 	<p>
-		<label><?php _e( 'Page Title', 'buddypress-groups-extras' ); ?></label>
+		<label><?php esc_html_e( 'Page Title', 'buddypress-groups-extras' ); ?></label>
 		<input type="text" value="<?php echo esc_attr( $page->post_title ); ?>" name="extra-page-title">
 	</p>
 
 	<?php if ( $is_edit ) : ?>
 		<p>
-			<label><?php _e( 'Page Slug', 'buddypress-groups-extras' ); ?></label>
-			<input type="text" value="<?php echo $page->post_name; ?>" name="extra-page-slug">
+			<label><?php esc_html_e( 'Page Slug', 'buddypress-groups-extras' ); ?></label>
+			<input type="text" value="<?php echo esc_attr( $page->post_name ); ?>" name="extra-page-slug">
 		</p>
 	<?php endif; ?>
 
 	<p style="margin:0;">
-		<label><?php _e( 'Page Content', 'buddypress-groups-extras' ); ?></label>
+		<label><?php esc_html_e( 'Page Content', 'buddypress-groups-extras' ); ?></label>
 		<?php
 		if ( function_exists( 'wp_editor' ) && $enabled_re ) :
 			wp_editor(
@@ -31,14 +31,14 @@
 	<?php do_action( 'bpge_template_extras_page_manage_after_content', $page, $is_edit ); ?>
 
 	<p>
-		<label for="extra-page-display"><?php _e( 'Should this page be displayed for public in group navigation?', 'buddypress-groups-extras' ); ?></label>
+		<label for="extra-page-display"><?php esc_html_e( 'Should this page be displayed publicly in group navigation?', 'buddypress-groups-extras' ); ?></label>
 		<label>
 			<input type="radio" value="publish" <?php echo checked( $page->post_status, 'publish' ); ?> name="extra-page-status"/>&nbsp;
-			<?php _e( 'Display it', 'buddypress-groups-extras' ); ?>
+			<?php esc_html_e( 'Display it', 'buddypress-groups-extras' ); ?>
 		</label>
 		<label>
 			<input type="radio" value="draft" <?php echo checked( $page->post_status, 'draft' ); ?> name="extra-page-status"/>&nbsp;
-			<?php _e( 'Do NOT display it', 'buddypress-groups-extras' ); ?>
+			<?php esc_html_e( 'Do NOT display it', 'buddypress-groups-extras' ); ?>
 		</label>
 	</p>
 
@@ -48,12 +48,12 @@
 
 	<?php if ( ! $is_edit ) : ?>
 		<p>
-			<input type="submit" name="save_pages_add" id="save" value="<?php _e( 'Create New', 'buddypress-groups-extras' ); ?>"/>
+			<input type="submit" name="save_pages_add" id="save" value="<?php esc_attr_e( 'Create New', 'buddypress-groups-extras' ); ?>"/>
 		</p>
 	<?php else: ?>
 		<input type="hidden" name="extra-page-id" value="<?php echo (int) $page->ID; ?>"/>
 		<p>
-			<input type="submit" name="save_pages_edit" id="save" value="<?php echo __( 'Save Changes', 'buddypress-groups-extras' ); ?>"/>
+			<input type="submit" name="save_pages_edit" id="save" value="<?php esc_attr_e( 'Save Changes', 'buddypress-groups-extras' ); ?>"/>
 		</p>
 	<?php endif; ?>
 

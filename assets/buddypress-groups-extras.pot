@@ -1,0 +1,693 @@
+# Copyright (C) 2020 slaFFik
+# This file is distributed under the same license as the BuddyPress Groups Extras plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Groups Extras 3.6.9.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/buddypress-groups-extras\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-12-06T23:41:55+03:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: buddypress-groups-extras\n"
+
+#. Plugin Name of the plugin
+#: core/admin.php:317
+msgid "BuddyPress Groups Extras"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://wordpress.org/plugins/buddypress-groups-extras/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Adding extra fields and pages, menu sorting and other missing functionality to groups"
+msgstr ""
+
+#. Author of the plugin
+msgid "slaFFik"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://ovirium.com/"
+msgstr ""
+
+#: bpge.php:66
+msgid "BuddyPress Groups Extras plugin has been deactivated. Your site is running an outdated version of PHP that is no longer supported and is not compatible with the plugin. Please update PHP to a version supported by WordPress."
+msgstr ""
+
+#: bpge.php:82
+msgid "BuddyPress Groups Extras plugin has been deactivated because it requres an activated BuddyPress plugin with Groups component enabled. Please make sure those two requirements are met in order to use BuddyPress Groups Extras."
+msgstr ""
+
+#: bpge.php:172
+#: bpge.php:173
+msgid "BP Groups Extras"
+msgstr ""
+
+#: bpge.php:219
+msgid "Settings"
+msgstr ""
+
+#: bpge.php:402
+msgid "Edit Group Extras"
+msgstr ""
+
+#: core/admin.php:50
+msgid "Title"
+msgstr ""
+
+#: core/admin.php:51
+msgid "Group Links"
+msgstr ""
+
+#: core/admin.php:52
+msgid "Page Links"
+msgstr ""
+
+#: core/admin.php:53
+msgid "Date"
+msgstr ""
+
+#: core/admin.php:93
+#: core/admin.php:104
+msgid "Visit"
+msgstr ""
+
+#: core/admin.php:95
+#: core/admin.php:106
+#: views/admin/set_list.php:14
+#: views/front/extras_pages_list.php:19
+msgid "Edit"
+msgstr ""
+
+#: core/admin.php:202
+msgid "Vote for Features"
+msgstr ""
+
+#: core/admin.php:203
+msgid "Based on voting results I will implement features in new versions (either in core or as modules to extend the initial functionality)."
+msgstr ""
+
+#: core/admin.php:320
+msgid "Extend Your Groups"
+msgstr ""
+
+#: core/admin.php:327
+msgid "All changes were saved. Go and check results!"
+msgstr ""
+
+#. translators: %s - URL to WordPress.org page where use can review the plugin.
+#: core/admin.php:334
+msgid "If you like the plugin please review it on its <a href=\"%s\">WordPress Repository page</a>. Thanks in advance!"
+msgstr ""
+
+#: core/admin.php:337
+msgid "Dismiss"
+msgstr ""
+
+#: core/admin_tabs/general.php:18
+msgid "General Options"
+msgstr ""
+
+#: core/admin_tabs/general.php:32
+msgid "Rich Editor for Pages"
+msgstr ""
+
+#: core/admin_tabs/general.php:39
+msgid "Rich Editor for Fields"
+msgstr ""
+
+#: core/admin_tabs/general.php:46
+msgid "User Access"
+msgstr ""
+
+#: core/admin_tabs/general.php:53
+msgid "Uninstall Options"
+msgstr ""
+
+#: core/admin_tabs/general.php:67
+msgid "Here are some general settings."
+msgstr ""
+
+#: core/admin_tabs/general.php:77
+msgid "Sometimes we want to change the access level to different parts of a site. Options below will help you to do this."
+msgstr ""
+
+#: core/admin_tabs/general.php:80
+msgid "Who can open group admin tab Extras?"
+msgstr ""
+
+#: core/admin_tabs/general.php:90
+msgid "Site admins only"
+msgstr ""
+
+#: core/admin_tabs/general.php:96
+msgid "Group administrators and site admins"
+msgstr ""
+
+#: core/admin_tabs/general.php:110
+msgid "Would you like to enable Rich Editor for easy use of html tags for groups custom pages?"
+msgstr ""
+
+#: core/admin_tabs/general.php:114
+#: core/admin_tabs/general.php:133
+msgid "Enable"
+msgstr ""
+
+#: core/admin_tabs/general.php:115
+#: core/admin_tabs/general.php:134
+msgid "Disable"
+msgstr ""
+
+#: core/admin_tabs/general.php:125
+msgid "Would you like to enable Rich Editor for easy use of html tags for groups custom textarea fields?"
+msgstr ""
+
+#: core/admin_tabs/general.php:144
+msgid "On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?"
+msgstr ""
+
+#: core/admin_tabs/general.php:152
+msgid "Preserve all data"
+msgstr ""
+
+#: core/admin_tabs/general.php:153
+msgid "Delete everything"
+msgstr ""
+
+#: core/admin_tabs/groups.php:18
+msgid "Allowed Groups"
+msgstr ""
+
+#: core/admin_tabs/poll.php:18
+msgid "Poll"
+msgstr ""
+
+#: core/admin_tabs/poll.php:26
+msgid "Please answer the question below - this will help me to prioritize my development work."
+msgstr ""
+
+#: core/admin_tabs/sets.php:16
+msgid "Default Sets of Fields"
+msgstr ""
+
+#: core/admin_tabs/sets.php:23
+msgid "Please create/edit here fields you want to be available as standard blocks of data.<br />This will be helpful for group admins - no need for them to create lots of fields from scratch."
+msgstr ""
+
+#: core/admin_tabs/sets.php:55
+msgid "Currently there are no predefined fields. Groups admins should create all fields by themselves."
+msgstr ""
+
+#: core/cpt.php:10
+#: core/cpt.php:58
+msgid "Groups Fields"
+msgstr ""
+
+#: core/cpt.php:34
+msgid "Sets of Fields"
+msgstr ""
+
+#: core/cpt.php:82
+msgid "Groups Pages"
+msgstr ""
+
+#: core/cpt.php:83
+msgid "Groups Page"
+msgstr ""
+
+#: core/cssjs.php:26
+msgid "Please enter options for this Field"
+msgstr ""
+
+#: core/cssjs.php:27
+msgid "Option"
+msgstr ""
+
+#: core/cssjs.php:28
+msgid "Remove It"
+msgstr ""
+
+#: core/cssjs.php:29
+msgid "Do you want to apply this set of fields to all groups on your site?"
+msgstr ""
+
+#: core/cssjs.php:30
+#: views/admin/set_list.php:12
+msgid "Applied"
+msgstr ""
+
+#: core/cssjs.php:31
+msgid "Close"
+msgstr ""
+
+#: core/cssjs.php:32
+#: views/admin/set_field_add.php:23
+msgid "Yes"
+msgstr ""
+
+#: core/cssjs.php:33
+#: views/admin/set_field_add.php:25
+msgid "No"
+msgstr ""
+
+#: core/cssjs.php:34
+msgid "Success"
+msgstr ""
+
+#: core/cssjs.php:35
+msgid "This set of fields was successfully applied to all groups on this site."
+msgstr ""
+
+#: core/cssjs.php:36
+msgid "Error"
+msgstr ""
+
+#: core/cssjs.php:37
+msgid "Unfortunately, there was an error while applying this set of fields. Please try again a bit later or recreate the set from scratch. Be aware, that re-applying this set will double fields for those groups that were successful."
+msgstr ""
+
+#: core/helpers.php:49
+msgid "Group Extras &rarr; General Settings"
+msgstr ""
+
+#: core/helpers.php:52
+msgid "Group Extras &rarr; Fields Management"
+msgstr ""
+
+#: core/helpers.php:55
+msgid "Group Extras &rarr; Pages Management"
+msgstr ""
+
+#: core/helpers.php:58
+msgid "Group Extras &rarr; Add Field"
+msgstr ""
+
+#: core/helpers.php:61
+msgid "Group Extras &rarr; Edit Field"
+msgstr ""
+
+#: core/helpers.php:64
+msgid "Group Extras &rarr; Add Page"
+msgstr ""
+
+#: core/helpers.php:67
+msgid "Group Extras &rarr; Edit Page"
+msgstr ""
+
+#: core/helpers.php:70
+#: views/admin/set_add.php:8
+#: views/admin/set_edit.php:8
+msgid "Description"
+msgstr ""
+
+#: core/helpers.php:73
+msgid "Extras"
+msgstr ""
+
+#: core/helpers.php:76
+msgid "Pages"
+msgstr ""
+
+#: core/helpers.php:79
+msgid "Home"
+msgstr ""
+
+#: core/loader.php:297
+msgid "(required)"
+msgstr ""
+
+#: core/loader.php:344
+msgid "Clear"
+msgstr ""
+
+#. translators: %s - List of empty fields.
+#: core/loader.php:401
+msgid "Required fields should not be empty. Please fill in: %s"
+msgstr ""
+
+#: core/loader.php:1074
+msgid "Group Extras settings were successfully updated."
+msgstr ""
+
+#: core/loader.php:1077
+msgid "New field was successfully added."
+msgstr ""
+
+#: core/loader.php:1080
+msgid "The field was successfully updated."
+msgstr ""
+
+#: core/loader.php:1083
+msgid "New page was successfully added."
+msgstr ""
+
+#: core/loader.php:1086
+msgid "The page was successfully updated."
+msgstr ""
+
+#: core/loader.php:1089
+msgid "Please create at least 1 extra field to show it in a list."
+msgstr ""
+
+#: core/loader.php:1092
+msgid "Please create at least 1 extra page to show it in a list."
+msgstr ""
+
+#: core/templates.php:114
+msgid "Edit link for group admins only"
+msgstr ""
+
+#: core/templates.php:115
+msgid "[Edit]"
+msgstr ""
+
+#: views/admin/groups_list.php:2
+msgid "Which groups do you allow to create custom fields and pages for?"
+msgstr ""
+
+#: views/admin/groups_list.php:13
+#: views/admin/groups_list.php:39
+msgid "All groups"
+msgstr ""
+
+#: views/admin/set_add.php:2
+msgid "Add new Set of Fields"
+msgstr ""
+
+#: views/admin/set_add.php:4
+#: views/admin/set_edit.php:4
+msgid "Name"
+msgstr ""
+
+#: views/admin/set_add.php:12
+msgid "Save New Set of Fields"
+msgstr ""
+
+#: views/admin/set_edit.php:2
+#: views/admin/set_edit.php:12
+msgid "Edit Set of Fields"
+msgstr ""
+
+#: views/admin/set_field_add.php:2
+msgid "Add field into"
+msgstr ""
+
+#: views/admin/set_field_add.php:5
+#: views/front/extras_fields_add_edit.php:4
+msgid "Field Title"
+msgstr ""
+
+#: views/admin/set_field_add.php:10
+#: views/front/extras_fields_add_edit.php:10
+msgid "Field Type"
+msgstr ""
+
+#: views/admin/set_field_add.php:12
+#: views/front/extras_fields_add_edit.php:12
+msgid "Text Box"
+msgstr ""
+
+#: views/admin/set_field_add.php:13
+#: views/front/extras_fields_add_edit.php:13
+msgid "Multi-line Text Box"
+msgstr ""
+
+#: views/admin/set_field_add.php:14
+#: views/front/extras_fields_add_edit.php:14
+msgid "Checkboxes"
+msgstr ""
+
+#: views/admin/set_field_add.php:15
+#: views/front/extras_fields_add_edit.php:15
+msgid "Radio Buttons"
+msgstr ""
+
+#: views/admin/set_field_add.php:16
+#: views/front/extras_fields_add_edit.php:16
+msgid "Date Selector"
+msgstr ""
+
+#: views/admin/set_field_add.php:17
+msgid "Dropdown Select Box"
+msgstr ""
+
+#: views/admin/set_field_add.php:22
+msgid "Display this field?"
+msgstr ""
+
+#: views/admin/set_field_add.php:24
+msgid "or"
+msgstr ""
+
+#: views/admin/set_field_add.php:31
+#: views/front/extras_fields_add_edit.php:23
+msgid "Add New"
+msgstr ""
+
+#: views/admin/set_field_add.php:36
+#: views/front/extras_fields_add_edit.php:31
+msgid "Field Description"
+msgstr ""
+
+#: views/admin/set_field_add.php:41
+msgid "Add New Field"
+msgstr ""
+
+#: views/admin/set_field_add.php:44
+msgid "Create the Set of Fields"
+msgstr ""
+
+#: views/admin/set_list.php:8
+msgid "Show Fields"
+msgstr ""
+
+#: views/admin/set_list.php:11
+msgid "Apply to all groups this set of fields"
+msgstr ""
+
+#: views/admin/set_list.php:11
+msgid "Already applied"
+msgstr ""
+
+#: views/admin/set_list.php:12
+msgid "Apply"
+msgstr ""
+
+#: views/admin/set_list.php:15
+#: views/front/extras_fields_list.php:19
+#: views/front/extras_pages_list.php:26
+msgid "Delete"
+msgstr ""
+
+#: views/admin/set_list.php:29
+msgid "Add field"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:17
+msgid "Drop Down Select Box"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:38
+msgid "Is this field required (will be marked as required on group Edit Details page)?"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:39
+msgid "Required"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:40
+msgid "Not Required"
+msgstr ""
+
+#. translators: %s - Title of the page.
+#: views/front/extras_fields_add_edit.php:50
+msgid "Should this field be displayed publicly on \"%s\" page?"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:55
+#: views/front/extras_pages_add_edit.php:37
+msgid "Display it"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:57
+#: views/front/extras_pages_add_edit.php:41
+msgid "Do NOT display it"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:62
+msgid "Create New &rarr;"
+msgstr ""
+
+#: views/front/extras_fields_add_edit.php:65
+msgid "Save Changes &rarr;"
+msgstr ""
+
+#: views/front/extras_fields_import.php:11
+msgid "Import"
+msgstr ""
+
+#: views/front/extras_fields_list.php:7
+#: views/front/extras_pages_list.php:7
+msgid "displayed"
+msgstr ""
+
+#: views/front/extras_fields_list.php:7
+#: views/front/extras_pages_list.php:7
+msgid "not displayed"
+msgstr ""
+
+#: views/front/extras_fields_list.php:8
+msgid "required"
+msgstr ""
+
+#: views/front/extras_fields_list.php:8
+msgid "not required"
+msgstr ""
+
+#: views/front/extras_fields_list.php:12
+msgid "Change its title, description etc"
+msgstr ""
+
+#: views/front/extras_fields_list.php:13
+msgid "Edit field"
+msgstr ""
+
+#: views/front/extras_fields_list.php:18
+#: views/front/extras_pages_list.php:25
+msgid "Delete this item and all its content"
+msgstr ""
+
+#: views/front/extras_general.php:2
+msgid "Please specify the page name, where all fields will be displayed"
+msgstr ""
+
+#. translators: %s - Title of the page.
+#: views/front/extras_general.php:10
+msgid "Do you want to make the \"%s\" page public? Everyone will see this page."
+msgstr ""
+
+#: views/front/extras_general.php:16
+#: views/front/extras_general.php:53
+msgid "Show it"
+msgstr ""
+
+#: views/front/extras_general.php:18
+#: views/front/extras_general.php:55
+msgid "Hide it"
+msgstr ""
+
+#. translators: %s - Title of the page.
+#: views/front/extras_general.php:25
+msgid "Please choose the layout for the \"%s\" page"
+msgstr ""
+
+#: views/front/extras_general.php:31
+msgid "Plain (field title and its data below)"
+msgstr ""
+
+#: views/front/extras_general.php:33
+msgid "Profile style (in a table)"
+msgstr ""
+
+#: views/front/extras_general.php:39
+msgid "Please specify the page name, where all custom pages will be displayed"
+msgstr ""
+
+#. translators: %s - Title of the page.
+#: views/front/extras_general.php:47
+msgid "Do you want to make the \"%s\" page public (extra group pages will be displayed there)?"
+msgstr ""
+
+#: views/front/extras_general.php:63
+msgid "You can reorder here all navigation links in this group. The first item will become a landing page for this group. Save changes after reordering."
+msgstr ""
+
+#: views/front/extras_general.php:64
+msgid "Please do NOT make admin only pages on first place - that will cause problems."
+msgstr ""
+
+#: views/front/extras_general.php:71
+msgid "Rename the \"Home\" default group page to \"Activity\" (for example), which is far better."
+msgstr ""
+
+#: views/front/extras_general.php:81
+#: views/front/extras_pages_add_edit.php:56
+msgid "Save Changes"
+msgstr ""
+
+#: views/front/extras_pages_add_edit.php:3
+msgid "Page Title"
+msgstr ""
+
+#: views/front/extras_pages_add_edit.php:9
+msgid "Page Slug"
+msgstr ""
+
+#: views/front/extras_pages_add_edit.php:15
+msgid "Page Content"
+msgstr ""
+
+#: views/front/extras_pages_add_edit.php:34
+msgid "Should this page be displayed publicly in group navigation?"
+msgstr ""
+
+#: views/front/extras_pages_add_edit.php:51
+msgid "Create New"
+msgstr ""
+
+#: views/front/extras_pages_list.php:12
+msgid "View this page live"
+msgstr ""
+
+#: views/front/extras_pages_list.php:13
+msgid "View"
+msgstr ""
+
+#: views/front/extras_pages_list.php:18
+msgid "Change its title, content, etc"
+msgstr ""
+
+#: views/front/extras_top_menu.php:7
+#: views/front/extras_top_menu.php:19
+#: views/front/extras_top_menu.php:37
+#: views/front/extras_top_menu.php:50
+#: views/front/extras_top_menu.php:68
+msgid "General"
+msgstr ""
+
+#: views/front/extras_top_menu.php:8
+#: views/front/extras_top_menu.php:20
+#: views/front/extras_top_menu.php:38
+#: views/front/extras_top_menu.php:51
+#: views/front/extras_top_menu.php:69
+msgid "All Fields"
+msgstr ""
+
+#: views/front/extras_top_menu.php:9
+#: views/front/extras_top_menu.php:21
+#: views/front/extras_top_menu.php:39
+#: views/front/extras_top_menu.php:52
+#: views/front/extras_top_menu.php:70
+msgid "All Pages"
+msgstr ""
+
+#: views/front/extras_top_menu.php:10
+#: views/front/extras_top_menu.php:22
+#: views/front/extras_top_menu.php:41
+#: views/front/extras_top_menu.php:53
+#: views/front/extras_top_menu.php:71
+msgid "Add Field"
+msgstr ""
+
+#: views/front/extras_top_menu.php:11
+#: views/front/extras_top_menu.php:23
+#: views/front/extras_top_menu.php:42
+#: views/front/extras_top_menu.php:54
+#: views/front/extras_top_menu.php:72
+msgid "Add Page"
+msgstr ""

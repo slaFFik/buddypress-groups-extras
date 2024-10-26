@@ -1,39 +1,39 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik
-Tags: buddypress, groups, ajax, meta, custom, fields, extend, admin, privacy, pages
+Tags: buddypress, groups, custom fields, custom pages, extend, pages, sets
 Requires at least: 4.1
-Tested up to: 4.5.3
-Stable tag: 3.6.9
+Requires PHP: 5.3
+Tested up to: 5.6
+Stable tag: 3.6.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-After activating your groups will have ability to create any custom fields they want. Also extra page will appear with chosen content.
+Give your groups the ability to have any custom fields admins want. Also, an extra page will appear with the chosen content (with subpages).
 
 == Description ==
 
-BuddyPress Groups doesn't have much predefined content inside. Forums and activity are created (or not) by users. But most of the time group creators (aka administrators) have much more to say or explain to other members of community.
+BuddyPress Groups doesn't have much-predefined content inside. Forums and activities are created (or not) by users. But most of the time group creators (aka administrators) have much more to say or explain to other members of the community.
 
-BuddyPress Groups Extras will give ability to them to create extra content.
+BuddyPress Groups Extras will give the ability to them to create extra content.
 
 = General =
-* Choose groups you want to allow custom fields and pages
-* Define who will have access to managing fields or pages in groups (groups admins or site admins or both)
-* Create predefined Set of Fields that can be imported to all groups on a site OR can be imported on per group basis
-* Get tutorials on how to use the plugin (simplified and advanced variants) right in your admin area
-* Tweak various options, like enabling Rich Editor
-* Drag-n-drop groups nav menu items as you wish (Fields and Pages can be your new group front page!)
+* Choose groups you want to allow custom fields and pages.
+* Define who will have access to managing fields or pages in groups (groups admins or site admins or both).
+* Create a predefined Set of Fields that can be imported to all groups on a site OR can be imported on a per-group basis.
+* Tweak various options, like enabling Rich Editor.
+* Drag-n-drop groups nav menu items as you wish (Fields and Pages can be your new group front page!).
 
 = Groups Custom Fields =
-* Create custom fields using various type (radios, checkboxes, dropdown select, textarea and text)
-* Edit fields data on Edit Group Details page in Group Admin area
-* Display / hide page, where all groups fields will be displayed (and rename it too)
-* Reorder fields
+* Create custom fields using various types (radios, checkboxes, dropdown select, textarea, and text).
+* Edit fields data on Edit Group Details page in Group Admin area.
+* Display/hide page, where all groups fields will be displayed (and rename it too).
+* Reorder fields.
 
 = Groups Custom Pages =
-* Create group pages (for group FAQ or wiki, or events, or descriptions or whatever you want)
-* Edit pages data in Group Admin area using WP RichEditor (with embedding content that WordPress supports!)
-* Display / hide page, where all groups pages will be displayed (and rename it too)
-* Reorder pages
+* Create group pages (for group FAQ or wiki, or events, or descriptions or whatever you want).
+* Edit page data in the Group Admin area using WordPress RichEditor (with embedding content that WordPress supports!).
+* Display/hide page, where all group pages will be displayed (and rename it too).
+* Reorder pages.
 
 Make your groups full of possibilities!
 
@@ -41,7 +41,7 @@ Make your groups full of possibilities!
 
 1. Upload plugin folder `/buddypress-groups-extras/` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Go to BP Groups Extras under Settings menu and make customizations as needed.
+1. Go to the Settings > BP Groups Extras menu and make customizations as needed.
 
 == Frequently Asked Questions ==
 
@@ -52,7 +52,7 @@ Please go to group admin area and define Fields and Pages navigation labels and 
 = How can I redefine templates? =
 Starting from BPGE v3.6 you can now change the html that is used to display any content in front-end (in groups) right from your theme folder. This is useful if you want to change the way pages and fields are displayed, but it works for "Admin -> Extras" management pages as well.
 
-To do this you need to create a folder called `bpge` in the root of your theme. So for example if you use Frisco theme, create a folder like this: `wp-content/themes/frisco-for-buddypress/bpge`. Then copy required file (that you want to modify) from this plugin folder `wp-content/plugins/buddypress-groups-extras/views/front` to that created in a theme. That is it - now the plugin uses the template from your theme.
+To do this you need to create a folder called `bpge` in the root of your theme. So for example if you use Frisco theme, create a folder like this: `wp-content/themes/frisco-for-buddypress/bpge`. Then copy a required file (that you want to modify) from this plugin folder `wp-content/plugins/buddypress-groups-extras/views/front` to that created in a theme. That is it - now the plugin uses the template from your theme.
 
 == Screenshots ==
 
@@ -66,14 +66,25 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
-= 3.6.9 (15.07.2016) =
-* BuddyPress 2.6 compatibility release
-* Fixed: wrong redirect after editing/creating/reordering pages/fields
-* Fixed: HTML was not saved in textarea/input (including RichEditor)
-* Added: link to Group Extras page in admin bar on a single groups pages (quicker access to settings)
-* Added: lots of new actions in templates on front-end
+= 3.6.10 (06.12.2020) =
+This is mostly a compatibility release: fixed a ton of notices/warnings, checked with the latest WordPress and BuddyPress, cleaned up the plugin a bit. Highly recommended upgrade for everyone.
 
 == Changelog ==
+
+= 3.7.0
+* Make sure the plugin is compatible with WordPress 6.7 and BuddyPress 14.
+* Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props emaralive.
+* Fixed: Avoid using BuddyPress functions that are deprecated.
+
+= 3.6.10 (06.12.2020) =
+* WordPress 5.6, BuddyPress 6.4 and PHP 7 compatibility.
+* Fixed a ton of notices and warnings that were previously generated by the plugin.
+* Removed unused assets.
+* Removed obsolete plugin options/pages.
+* Improved localization support via translate.wordpress.org.
+
+= 3.6.9.1 (16.10.2016) =
+* BuddyPress 2.7 compatibility release
 
 = 3.6.9 (15.07.2016) =
 * BuddyPress 2.6 compatibility release
@@ -130,7 +141,7 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Added French translation
 
 = 3.6.1 (11.07.2013) =
-* Enhancement: Now group custom pages and fields fully inherites group privacy options for current logged in user (they will not appear even in navigation)
+* Enhancement: Now group custom pages and fields fully inherit group privacy options for currently logged in user (they will not appear even in navigation)
 * New: ability to enable rich editor for custom fields (textarea's)
 * Updated German translation (props <a href="http://www.per4mance.com/">Thorsten Wollenhöfe</a>)
 
@@ -162,7 +173,7 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Fixed admin area placement on WordPress MultiSite
 
 = 3.5.4 (03.06.2013) =
-* Fixed admin area styles (submin button disappeared)
+* Fixed admin area styles (submit button disappeared)
 * Fixed groups pages/fields visibility issues
 * Fixed doubling options from General tab on site General Settings page
 
@@ -231,4 +242,4 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 * Was released by mistake
 
 = 1.0 =
-* Initial realease
+* Initial release

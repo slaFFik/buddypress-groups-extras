@@ -73,11 +73,15 @@ table#bp-gtm-admin-table td.checkbox {
 
 #bpge-form ul.sets li span.no_fields {
 	float: left;
+	border: 1px solid #c3c4c7;
+	border-left: 4px solid #72aee6;
+	padding: 10px;
+	background-color: #fff;
 }
 
 #bpge-form ul.sets li span.actions,
 #bpge-form ul.sets li a.create_fields_set {
-	float: right
+	float: right;
 }
 
 #bpge-admin .inside {
@@ -96,7 +100,7 @@ table#bp-gtm-admin-table td.checkbox {
 #box_edit_set_fields,
 #box_add_field {
 	display: none;
-	padding: 10px 12px 0px;
+	padding: 10px 12px 0;
 }
 
 #bpge-admin #box_add_set_fields h4,

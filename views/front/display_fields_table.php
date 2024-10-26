@@ -8,7 +8,7 @@
 
 		echo '<tr>';
 
-		echo '<td class="label" title="' . ( ! empty( $field->desc ) ? esc_attr( $field->desc ) : '' ) . '">' . stripslashes( $field->post_title ) . '</td>';
+		echo '<td class="label" title="' . ( ! empty( $field->desc ) ? esc_attr( $field->desc ) : '' ) . '">' . esc_html( $field->post_title ) . '</td>';
 
 		if ( is_array( $field->options ) ) {
 			$data = implode( ', ', $field->options );

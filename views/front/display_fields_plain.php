@@ -7,7 +7,7 @@
 		$field->desc    = get_post_meta( $field->ID, 'bpge_field_desc', true );
 		$field->options = json_decode( $field->post_content );
 
-		echo '<h4 title="' . ( ! empty( $field->desc ) ? esc_attr( $field->desc ) : '' ) . '">' . stripslashes( $field->post_title ) . '</h4>';
+		echo '<h4 title="' . ( ! empty( $field->desc ) ? esc_attr( $field->desc ) : '' ) . '">' . esc_html( $field->post_title ) . '</h4>';
 
 		if ( is_array( $field->options ) ) {
 			$data = implode( ', ', $field->options );
