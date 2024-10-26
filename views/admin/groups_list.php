@@ -1,42 +1,71 @@
-<p class="description" style="margin-bottom:12px">
-	 <?php esc_html_e( 'Which groups do you allow to create custom fields and pages for?', 'buddypress-groups-extras' ) ?>
-</p>
-<table id="bp-gtm-admin-table" class="widefat link-group">
-	<tbody id="the-list">
-	<tr>
-		<td class="checkbox">
-			<p>
-				<input type="checkbox" class="bpge_allgroups"
-					name="bpge_groups" <?php echo ( 'all' === $bpge['groups'] ) ? 'checked="checked" ' : ''; ?> value="all" />
-			</p>
-		</td>
-		<td><p><strong> <?php esc_html_e( 'All groups', 'buddypress-groups-extras' ) ?></strong></p></td>
-	</tr>
-	<?php
+<?php
+/* @var $arg array */
+/* @var $bpge array */
+?>
+<table id="bp-gtm-admin-table" class="widefat link-group striped">
+	<thead>
+		<tr>
+			<th class="checkbox">
+				<input type="checkbox" id="bpge_allgroups" class="bpge_allgroups" name="bpge_groups" <?php checked( $bpge['groups'], 'all' ); ?> value="all" />
+			</th>
+			<th>
+				<label for="bpge_allgroups">
+					<strong><?php esc_html_e( 'All groups', 'buddypress-groups-extras' ); ?></strong>
+				</label>
+			</th>
+			<th>
+				<strong><?php esc_html_e( 'Status', 'buddypress-groups-extras' ); ?></strong>
+			</th>
+		</tr>
+	</thead>
 
-	if ( bp_has_groups( $arg ) ) {
-		while ( bp_groups() ) {
-			bp_the_group();
-			$description = preg_replace( array( '<<p>>', '<</p>>', '<<br />>', '<<br>>' ), '', bp_get_group_description_excerpt() );
-			echo '<tr>
-                    <td class="checkbox">
-                        <p><input name="bpge_groups[' . (int) bp_get_group_id() . ']" class="bpge_groups" type="checkbox" ' . ( ( 'all' === $bpge['groups'] || in_array( bp_get_group_id(), $bpge['groups'], true ) ) ? 'checked="checked" ' : '' ) . 'value="' . (int) bp_get_group_id() . '" /></p>
-                    </td>
-                    <td>
-                        <p><a href="' . esc_url( bp_get_group_url() ) . 'admin/extras/" target="_blank">' . esc_html( bp_get_group_name() ) . '</a> &rarr; ' . $description . '</p>
-                    </td>
-                </tr>';
+	<tbody id="the-list">
+		<?php
+		if ( bp_has_groups( $arg ) ) {
+			while ( bp_groups() ) {
+				bp_the_group();
+
+				$group_id = bp_get_group_id();
+				?>
+
+				<tr>
+	                <td class="checkbox">
+	                    <input id="bpge_groups_<?php echo (int) $group_id; ?>" name="bpge_groups[<?php echo (int) $group_id; ?>]" class="bpge_groups" type="checkbox" <?php echo ( ( $bpge['groups'] === 'all' || in_array( $group_id, $bpge['groups'], true ) ) ? 'checked="checked" ' : '' ); ?> value="<?php echo (int) $group_id; ?>" />
+	                </td>
+	                <td>
+	                    <a href="<?php echo esc_url( bp_get_group_url() . 'admin/extras/' ); ?>" target="_blank">
+		                    <strong><?php echo esc_html( bp_get_group_name() ); ?></strong>
+	                    </a>
+	                    <br/>
+	                    <label for="bpge_groups_<?php echo (int) $group_id; ?>">
+		                    <?php echo esc_html( wp_strip_all_tags( bp_get_group_description_excerpt() ) ); ?>
+	                    </label>
+	                </td>
+					<td>
+						<label for="bpge_groups_<?php echo (int) $group_id; ?>">
+							<code><?php echo esc_html( bp_get_group_status() ); ?></code>
+						</label>
+					</td>
+	            </tr>
+				<?php
+			}
 		}
-	}
-	?>
-	<tr>
-		<td class="checkbox">
-			<p>
-				<input type="checkbox" class="bpge_allgroups"
-					name="bpge_groups" <?php echo ( 'all' === $bpge['groups'] ) ? 'checked="checked" ' : ''; ?> value="all" />
-			</p>
-		</td>
-		<td><p><strong> <?php esc_html_e( 'All groups', 'buddypress-groups-extras' ) ?></strong></p></td>
-	</tr>
+		?>
 	</tbody>
+
+	<tfoot>
+		<tr>
+			<th class="checkbox">
+				<input type="checkbox" id="bpge_allgroups" class="bpge_allgroups" name="bpge_groups" <?php checked( $bpge['groups'], 'all' ); ?> value="all" />
+			</th>
+			<th>
+				<label for="bpge_allgroups">
+					<strong><?php esc_html_e( 'All groups', 'buddypress-groups-extras' ); ?></strong>
+				</label>
+			</th>
+			<th>
+				<strong><?php esc_html_e( 'Status', 'buddypress-groups-extras' ); ?></strong>
+			</th>
+		</tr>
+	</tfoot>
 </table>

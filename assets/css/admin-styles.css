@@ -11,6 +11,10 @@ table#bp-gtm-admin-table td.checkbox {
 	border-right: 1px solid #dfdfdf;
 }
 
+table#bp-gtm-admin-table td.checkbox input {
+	margin-left: 8px;
+}
+
 #bpge-form .buy_bpge {
 	font-size: 24px;
 	height: auto;
@@ -20,13 +24,14 @@ table#bp-gtm-admin-table td.checkbox {
 
 #bpge-form ul.sets {
 	overflow: hidden;
-	margin: 20px 0 10px 10px;
+	margin: 20px 0 10px 0;
 }
 
 #bpge-form ul.sets li {
 	overflow: hidden;
 	margin-bottom: 10px;
-	padding: 5px 0;
+	padding: 10px;
+	background-color: #fff;
 }
 
 #bpge-form ul.sets li a.show_fields,
@@ -42,32 +47,52 @@ table#bp-gtm-admin-table td.checkbox {
 #bpge-form ul.sets li span.name {
 	float: left;
 	width: 15%;
+	padding: 6px 0 0 10px;
 }
 
 #bpge-form ul.sets li span.desc {
 	float: left;
 	width: 31%;
+	padding-top: 6px;
 }
 
-#bpge-form ul.sets li ul.fields {
+#bpge-form ul.sets li .fields .no-fields {
+	display: none;
+	border-left: 4px solid red;
+	padding: 5px;
+	margin: 10px 0 10px 20px;
+}
+
+#bpge-form ul.sets li .fields table {
 	display: none;
 	float: left;
 	width: 89%;
 	clear: both;
-	margin: 5px 0 5px 20px;
-	list-style-type: circle;
+	margin: 10px 0 10px 20px;
+	border-left: 4px solid #72aee6;
 }
 
-#bpge-form ul.sets li ul.fields li {
-	margin: 0;
-	list-style: circle inside;
+#bpge-form ul.sets li .fields table .field-title {
+	width: 200px;
 }
 
-#bpge-form ul.sets li ul.fields .add_field {
-	float: left;
+#bpge-form ul.sets li .fields table .field-type {
+	width: 150px;
 }
 
-#bpge-form ul.sets li ul.fields.show {
+#bpge-form ul.sets li .fields table th,
+#bpge-form ul.sets li .fields table td {
+	padding: 5px;
+}
+
+#bpge-form ul.sets li .add_field {
+	display: none;
+	width: fit-content;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+#bpge-form ul.sets li .fields.show {
 	display: block;
 }
 
@@ -82,6 +107,12 @@ table#bp-gtm-admin-table td.checkbox {
 #bpge-form ul.sets li span.actions,
 #bpge-form ul.sets li a.create_fields_set {
 	float: right;
+}
+
+#bpge-form ul.sets li .actions .field_delete {
+	padding-left: 5px;
+	top: 5px;
+	position: relative;
 }
 
 #bpge-admin .inside {
@@ -106,7 +137,6 @@ table#bp-gtm-admin-table td.checkbox {
 #bpge-admin #box_add_set_fields h4,
 #bpge-admin #box_edit_set_fields h4,
 #bpge-admin #box_add_field h4 {
-	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	color: #464646;
 	font-weight: bold;
 	line-height: 30px;
