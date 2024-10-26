@@ -71,10 +71,16 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 
 == Changelog ==
 
-= 3.7.0
+= 3.7.0 (XX.XX.2024) =
 * Make sure the plugin is compatible with WordPress 6.7 and BuddyPress 14.
+* Raise minimum WordPress version to 6.0.
+* Raise minimum PHP version to 7.2.
+* Changed: The admin area "Group Pages" top-level menu item (that is used to manage all created pages inside groups) is now moved under "Groups" (same URL is preserved).
+* Changed: Require the BP Classic plugin (by the BuddyPress Core Developers team) to be installed.
 * Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props emaralive.
 * Fixed: Avoid using BuddyPress functions that are deprecated.
+* Fixed: Various security improvements in different parts of the plugin, props Marek Mikita.
+* Fixed: Clean the object cache when group pages or set of fields are updated, props @boonebgorges.
 
 = 3.6.10 (06.12.2020) =
 * WordPress 5.6, BuddyPress 6.4 and PHP 7 compatibility.
