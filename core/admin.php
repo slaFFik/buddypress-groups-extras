@@ -5,19 +5,48 @@
  */
 class BPGE_ADMIN {
 
-	// Page slug, used on URL.
+	/**
+	 * Page slug, used on URL.
+	 *
+	 * @var string
+	 */
 	public $slug = BPGE_ADMIN_SLUG;
-	// Where all options are stored.
+
+	/**
+	 * Where all options are stored.
+	 *
+	 * @var bool
+	 */
 	public $bpge = false;
-	// Where to save in options table.
+
+	/**
+	 * Where to save in options table.
+	 *
+	 * @var string
+	 */
 	public $bpge_options_key = 'bpge';
-	// Default tab that will be opened if nothing specified.
-	// Will be redefined after all tabs are loaded.
-	public $default_tab = null;
-	// The list of tabs in admin area, will be extended by child classes.
+
+	/**
+	 * Default tab that will be opened if nothing specified.
+	 * Will be redefined after all tabs are loaded.
+	 *
+	 * @var string
+	 */
+	public $default_tab = '';
+
+	/**
+	 * The list of tabs in admin area, will be extended by child classes.
+	 *
+	 * @var array
+	 */
 	public $bpge_tabs = [];
-	// Path the folder where all tabs are situated.
-	public $tabs_path = null;
+
+	/**
+	 * Path the folder where all tabs are situated.
+	 *
+	 * @var string
+	 */
+	public $tabs_path = '';
 
 	/**
 	 * Do some important initial routine.
@@ -230,10 +259,10 @@ class BPGE_ADMIN {
 
 		if ( ! empty( $vote_content ) ) { ?>
 			<!--suppress JSUnresolvedVariable -->
-			<script type="text/javascript">// <![CDATA[
+			<script type="text/javascript">
 				jQuery( document ).ready( function() {
 					jQuery( '#bpge_tab_poll' ).pointer( {
-						content: '<?php echo $vote_content; ?>',
+						content: '<?php echo wp_kses_post( $vote_content ); ?>',
 						position: {
 							edge: 'top',
 							align: 'left',
@@ -246,7 +275,7 @@ class BPGE_ADMIN {
 						},
 					} ).pointer( 'open' );
 				} );
-				// ]]></script>
+				</script>
 			<?php
 		}
 	}
@@ -278,7 +307,7 @@ class BPGE_ADMIN {
 		global $post_type;
 
 		if (
-			( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'gpages' ) ||
+			( isset( $_GET['post_type'] ) && $_GET['post_type'] === BPGE_GPAGES ) ||
 			( isset( $post_type ) && $post_type === 'gpages' ) ||
 			$hook === 'settings_page_bpge-admin'
 		) {
@@ -350,7 +379,7 @@ class BPGE_ADMIN {
 		echo '<h2>';
 			esc_html_e( 'BuddyPress Groups Extras', 'buddypress-groups-extras' );
 			do_action( 'bpge_admin_header_title_pro' );
-			echo '&rarr; ';
+			echo ' &rarr; ';
 			esc_html_e( 'Extend Your Groups', 'buddypress-groups-extras' );
 			do_action( 'bpge_admin_header_title' );
 		echo '</h2>';
@@ -396,15 +425,39 @@ class BPGE_ADMIN {
  */
 class BPGE_ADMIN_TAB {
 
-	// All theme options
-	public $bpge = null;
+	/**
+	 * Where all options are stored.
+	 *
+	 * @var array
+	 */
+	public $bpge = [];
 
-	// All these vars are required and should be overwritten.
+	/**
+	 * Position of the tab.
+	 *
+	 * @var int
+	 */
 	public $position = 0;
-	public $title    = null;
-	public $slug     = null;
 
-	// Used by some pro extensions.
+	/**
+	 * Tab title.
+	 *
+	 * @var string
+	 */
+	public $title = '';
+
+	/**
+	 * Tab slug.
+	 *
+	 * @var string
+	 */
+	public $slug = '';
+
+	/**
+	 * Used by some pro extensions.
+	 *
+	 * @var array
+	 */
 	public $extras_to_header = [];
 
 	/**
