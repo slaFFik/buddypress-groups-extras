@@ -6,13 +6,30 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 	 */
 	class BPGE_ADMIN_GENERAL extends BPGE_ADMIN_TAB {
 
-		// Position is used to define where exactly this tab will appear.
+		/**
+		 * Position is used to define where exactly this tab will appear.
+		 *
+		 * @var int
+		 */
 		public $position = 10;
-		// Slug that is used in url to access this tab.
-		public $slug = 'general';
-		// Title is used as a tab name.
-		public $title = null;
 
+		/**
+		 * Slug that is used in url to access this tab.
+		 *
+		 * @var string
+		 */
+		public $slug = 'general';
+
+		/**
+		 * Title is used as a tab name.
+		 *
+		 * @var string
+		 */
+		public $title = '';
+
+		/**
+		 * BPGE_ADMIN_GENERAL constructor.
+		 */
 		public function __construct() {
 
 			$this->title = esc_html__( 'General Options', 'buddypress-groups-extras' );
@@ -30,28 +47,30 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 			add_settings_field(
 				're_pages',
 				esc_html__( 'Rich Editor for Pages', 'buddypress-groups-extras' ),
-				array( $this, 'display_re_pages' ),
+				[ $this, 'display_re_pages' ],
 				$this->slug,
 				$this->slug . '_settings'
 			);
+
 			add_settings_field(
 				're_fields',
 				esc_html__( 'Rich Editor for Fields', 'buddypress-groups-extras' ),
-				array( $this, 'display_re_fields' ),
+				[ $this, 'display_re_fields' ],
 				$this->slug,
 				$this->slug . '_settings'
 			);
+
 			add_settings_field(
 				'access',
 				esc_html__( 'User Access', 'buddypress-groups-extras' ),
-				array( $this, 'display_access' ),
+				[ $this, 'display_access' ],
 				$this->slug,
 				$this->slug . '_settings'
 			);
 			add_settings_field(
 				'uninstall',
-				esc_html__( 'Uninstall Options', 'buddypress-groups-extras' ),
-				array( $this, 'display_uninstall' ),
+				esc_html__( 'Plugin Deactivation', 'buddypress-groups-extras' ),
+				[ $this, 'display_uninstall' ],
 				$this->slug,
 				$this->slug . '_settings'
 			);
@@ -64,7 +83,9 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 */
 		public function display() {
 
-			echo '<p class="description">' . esc_html__( 'Here are some general settings.', 'buddypress-groups-extras' ) . '</p>';
+			echo '<p>' . esc_html__( 'Here are some general settings.', 'buddypress-groups-extras' ) . '</p>';
+
+			wp_nonce_field( 'bpge_manage_general_options_nonce', 'bpge_manage_general_options_nonce' );
 		}
 
 		/**
@@ -73,26 +94,27 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		public function display_access() {
 
 			?>
+
 			<p>
-				<?php esc_html_e( 'Sometimes we want to change the access level to different parts of a site. Options below will help you to do this.', 'buddypress-groups-extras' ); ?>
+				<?php esc_html_e( 'Who can open group admin tab "Extras"?', 'buddypress-groups-extras' ); ?>
 			</p>
 
-			<p><?php esc_html_e( 'Who can open group admin tab Extras?', 'buddypress-groups-extras' ); ?></p>
 			<?php
 			if ( ! isset( $this->bpge['access_extras'] ) || empty( $this->bpge['access_extras'] ) ) {
 				$this->bpge['access_extras'] = 'g_s_admin';
 			}
 			?>
+
 			<ul>
 				<li>
 					<label>
-						<input name="bpge_access_extras" type="radio" value="s_admin" <?php checked( 's_admin', $this->bpge['access_extras'] ); ?> />&nbsp;
+						<input name="bpge_access_extras" type="radio" value="s_admin" <?php checked( 's_admin', $this->bpge['access_extras'] ); ?> />
 						<?php esc_html_e( 'Site admins only', 'buddypress-groups-extras' ); ?>
 					</label>
 				</li>
 				<li>
 					<label>
-						<input name="bpge_access_extras" type="radio" value="g_s_admin" <?php checked( 'g_s_admin', $this->bpge['access_extras'] ); ?> />&nbsp;
+						<input name="bpge_access_extras" type="radio" value="g_s_admin" <?php checked( 'g_s_admin', $this->bpge['access_extras'] ); ?> />
 						<?php esc_html_e( 'Group administrators and site admins', 'buddypress-groups-extras' ); ?>
 					</label>
 				</li>
@@ -106,14 +128,28 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 */
 		public function display_re_pages() {
 
-			echo '<p>';
-			esc_html_e( 'Would you like to enable Rich Editor for easy use of html tags for groups custom pages?', 'buddypress-groups-extras' );
-			echo '</p>';
+			?>
 
-			echo '<ul>';
-			echo '<li><label><input type="radio" name="bpge_re" ' . ( (int) $this->bpge['re'] === 1 ? 'checked="checked"' : '' ) . ' value="1">&nbsp' . esc_html__( 'Enable', 'buddypress-groups-extras' ) . '</label></li>';
-			echo '<li><label><input type="radio" name="bpge_re" ' . ( (int) $this->bpge['re'] !== 1 ? 'checked="checked"' : '' ) . ' value="0">&nbsp' . esc_html__( 'Disable', 'buddypress-groups-extras' ) . '</label></li>';
-			echo '</ul>';
+			<p>
+				<?php esc_html_e( 'Would you like to enable Rich Editor for easy use of HTML tags for groups custom pages?', 'buddypress-groups-extras' ); ?>
+			</p>
+
+			<ul>
+				<li>
+					<label>
+						<input type="radio" name="bpge_re" <?php checked( $this->bpge['re'], 1 ); ?> value="1">
+						<?php esc_html_e( 'Enable', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio" name="bpge_re" <?php checked( $this->bpge['re'], 0 ); ?> value="0">
+						<?php esc_html_e( 'Disable', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+			</ul>
+
+			<?php
 		}
 
 		/**
@@ -121,18 +157,34 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 */
 		public function display_re_fields() {
 
-			echo '<p>';
-			_e( 'Would you like to enable Rich Editor for easy use of html tags for groups custom textarea fields?', 'buddypress-groups-extras' );
-			echo '</p>';
+			?>
 
+			<p>
+				<?php esc_html_e( 'Would you like to enable Rich Editor for easy use of HTML tags for groups custom textarea fields?', 'buddypress-groups-extras' ); ?>
+			</p>
+
+			<?php
 			if ( ! isset( $this->bpge['re_fields'] ) || empty( $this->bpge['re_fields'] ) ) {
 				$this->bpge['re_fields'] = 'no';
 			}
+			?>
 
-			echo '<ul>';
-			echo '<li><label><input type="radio" name="bpge_re_fields" ' . checked( $this->bpge['re_fields'], 'yes', false ) . ' value="yes">&nbsp' . esc_html__( 'Enable', 'buddypress-groups-extras' ) . '</label></li>';
-			echo '<li><label><input type="radio" name="bpge_re_fields" ' . checked( $this->bpge['re_fields'], 'no', false ) . ' value="no">&nbsp' . esc_html__( 'Disable', 'buddypress-groups-extras' ) . '</label></li>';
-			echo '</ul>';
+			<ul>
+				<li>
+					<label>
+						<input type="radio" name="bpge_re_fields" <?php checked( $this->bpge['re_fields'], 'yes' ); ?> value="yes">
+						<?php esc_html_e( 'Enable', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio" name="bpge_re_fields" <?php checked( $this->bpge['re_fields'], 'no' ); ?> value="no">
+						<?php esc_html_e( 'Disable', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+			</ul>
+
+			<?php
 		}
 
 		/**
@@ -140,35 +192,50 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 */
 		public function display_uninstall() {
 
-			echo '<p>';
-			esc_html_e( 'On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?', 'buddypress-groups-extras' );
-			echo '</p>';
+			?>
 
+			<p>
+				<?php esc_html_e( 'On BPGE deactivation you can delete or preserve all its settings and created content (like groups pages and fields). What do you want to do?', 'buddypress-groups-extras' ); ?>
+			</p>
+
+			<?php
 			if ( ! isset( $this->bpge['uninstall'] ) ) {
 				$this->bpge['uninstall'] = 'no';
 			}
+			?>
 
-			echo '<p>';
-			echo '<label><input type="radio" name="bpge_uninstall" ' . ( $this->bpge['uninstall'] === 'no' ? 'checked="checked"' : '' ) . ' value="no">&nbsp' . esc_html__( 'Preserve all data', 'buddypress-groups-extras' ) . '</label><br />';
-			echo '<label><input type="radio" name="bpge_uninstall" ' . ( $this->bpge['uninstall'] === 'yes' ? 'checked="checked"' : '' ) . ' value="yes">&nbsp' . esc_html__( 'Delete everything', 'buddypress-groups-extras' ) . '</label>';
-			echo '</p>';
+			<ul>
+				<li>
+					<label>
+						<input type="radio" name="bpge_uninstall" <?php checked( $this->bpge['uninstall'], 'no' ); ?> value="no">
+						<?php esc_html_e( 'Preserve all data', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input type="radio" name="bpge_uninstall" <?php checked( $this->bpge['uninstall'], 'yes' ); ?> value="yes">
+						<?php esc_html_e( 'Delete everything', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+			</ul>
+
+			<?php
 		}
 
 		/**
 		 * Validate and save.
 		 */
-		public function save() {
+		public function save() { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
 
-			global $wpdb;
-			$bp = buddypress();
+			check_admin_referer( 'bpge_manage_general_options_nonce', 'bpge_manage_general_options_nonce' );
 
 			switch_to_blog( bpge_get_main_site_id() );
 
 			if ( isset( $_POST['bpge_re'] ) ) {
-				$this->bpge['re']            = (int) $_POST['bpge_re'];
-				$this->bpge['re_fields']     = (int) $_POST['bpge_re_fields'];
-				$this->bpge['uninstall']     = sanitize_key( $_POST['bpge_uninstall'] );
-				$this->bpge['access_extras'] = sanitize_key( $_POST['bpge_access_extras'] );
+				$this->bpge['re']            = absint( $_POST['bpge_re'] ?? 0 );
+				$this->bpge['re_fields']     = absint( $_POST['bpge_re_fields'] ?? 0 );
+				$this->bpge['access_extras'] = sanitize_key( $_POST['bpge_access_extras'] ?? 'g_s_admin' );
+				$this->bpge['uninstall']     = sanitize_key( $_POST['bpge_uninstall'] ?? 'no' );
 
 				bp_update_option( 'bpge', $this->bpge );
 			}
@@ -180,13 +247,12 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 				bpge_clear( false );
 			}
 		}
-
 	}
 
 	/**
 	 * Now we need to init this class.
 	 */
 	if ( is_admin() ) {
-		return new BPGE_ADMIN_GENERAL;
+		return new BPGE_ADMIN_GENERAL();
 	}
 }
