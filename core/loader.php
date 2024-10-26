@@ -463,7 +463,7 @@ class BPGE extends BP_Group_Extension {
 	/************************************************************************/
 
 	/**
-	 * Admin area - Main.
+	 * Group Admin - Main Logic.
 	 *
 	 * @param int|null $group_id
 	 */
@@ -490,14 +490,9 @@ class BPGE extends BP_Group_Extension {
 	}
 
 	/**
-	 * Admin area - General Settings.
+	 * Group Admin - General Settings.
 	 */
-	public function edit_screen_general() {
-
-		// Check user access to group extras management pages.
-		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
-			return;
-		}
+	protected function edit_screen_general() {
 
 		$bp = buddypress();
 
@@ -521,13 +516,13 @@ class BPGE extends BP_Group_Extension {
 			]
 		);
 
-		wp_nonce_field( 'groups_edit_group_extras' );
+		wp_nonce_field( 'bpge_group_edit_general' );
 	}
 
 	/**
-	 * Admin area - All Fields.
+	 * Group Admin - All Fields.
 	 */
-	public function edit_screen_fields() {
+	protected function edit_screen_fields() {
 
 		// Check user access to group extras management pages.
 		if ( ! bpge_user_can( 'group_extras_admin' ) ) {
@@ -569,10 +564,12 @@ class BPGE extends BP_Group_Extension {
 				'slug'   => $this->slug,
             ]
         );
+
+		wp_nonce_field( 'bpge_group_edit_fields' );
 	}
 
 	/**
-	 * Admin area - All Pages.
+	 * Group Admin - All Pages.
 	 */
 	public function edit_screen_pages() {
 
@@ -599,10 +596,12 @@ class BPGE extends BP_Group_Extension {
 				'slug'      => $this->slug,
 			]
 		);
+
+		wp_nonce_field( 'bpge_group_edit_pages' );
 	}
 
 	/**
-	 * Add / Edit 1 field form.
+	 * Group Admin - Add / Edit 1 field form.
 	 */
 	public function edit_screen_fields_manage() {
 
@@ -633,6 +632,8 @@ class BPGE extends BP_Group_Extension {
 				'nav_item_name' => $this->nav_item_name,
 			]
 		);
+
+		wp_nonce_field( 'bpge_group_manage_fields' );
 	}
 
 	/**
@@ -670,7 +671,7 @@ class BPGE extends BP_Group_Extension {
 			]
 		);
 
-		wp_nonce_field( 'groups_edit_group_extras' );
+		wp_nonce_field( 'bpge_group_manage_pages' );
 	}
 
 	/**
@@ -678,7 +679,7 @@ class BPGE extends BP_Group_Extension {
 	 *
 	 * @param int|null $group_id
 	 *
-	 * @return bool|void
+	 * @return bool
 	 */
 	public function edit_screen_save( $group_id = null ) {
 
@@ -709,9 +710,7 @@ class BPGE extends BP_Group_Extension {
 			// Save general settings.
 			if ( isset( $_POST['save_general'] ) ) {
 				// Check the nonce first.
-				if ( ! check_admin_referer( 'groups_edit_group_extras' ) ) {
-					return false;
-				}
+				check_ajax_referer( 'bpge_group_edit_general' );
 
 				$meta = $bp->groups->current_group->args['extras'];
 
@@ -764,9 +763,7 @@ class BPGE extends BP_Group_Extension {
 			// Save new field.
 			if ( isset( $_POST['save_fields_add'] ) ) {
 				// Check the nonce first.
-				if ( ! check_admin_referer( 'groups_edit_group_extras' ) ) {
-					return false;
-				}
+				check_ajax_referer( 'bpge_group_manage_fields' );
 
 				$field                 = [];
 				$field['post_title']   = sanitize_text_field( wp_unslash( $_POST['extra-field-title'] ?? '' ) );
@@ -808,9 +805,7 @@ class BPGE extends BP_Group_Extension {
 			// Save new page.
 			if ( isset( $_POST['save_pages_add'] ) ) {
 				// Check the nonce first.
-				if ( ! check_admin_referer( 'groups_edit_group_extras' ) ) {
-					return false;
-				}
+				check_ajax_referer( 'bpge_group_manage_pages' );
 
 				global $current_blog;
 				if ( empty( $current_blog ) || ! isset( $current_blog->blog_id ) ) {
@@ -851,9 +846,7 @@ class BPGE extends BP_Group_Extension {
 			// Edit existing field.
 			if ( isset( $_POST['save_fields_edit'] ) ) {
 				// Check the nonce first.
-				if ( ! check_admin_referer( 'groups_edit_group_extras' ) ) {
-					return false;
-				}
+				check_ajax_referer( 'bpge_group_manage_fields' );
 
 				$new                 = [];
 				$new['ID']           = absint( $_POST['extra-field-id'] ?? 0 );
@@ -885,9 +878,7 @@ class BPGE extends BP_Group_Extension {
 			// Edit existing page.
 			if ( isset( $_POST['save_pages_edit'] ) ) {
 				// Check the nonce first.
-				if ( ! check_admin_referer( 'groups_edit_group_extras' ) ) {
-					return false;
-				}
+				check_ajax_referer( 'bpge_group_manage_pages' );
 
 				$page                 = [];
 				$page['ID']           = absint( $_POST['extra-page-id'] ?? 0 );

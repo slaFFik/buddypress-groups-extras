@@ -140,7 +140,7 @@ function bpge_the_sortable_nav() {
 			}
 			if ( isset( $nav['name'] ) ) {
 				echo '<li id="position_' . esc_attr( $nav['position'] ) . '" class="default">
-                    <strong>' . esc_html( $nav['name'] ) . '</strong>
+                    <strong>' . wp_kses( $nav['name'], [ 'span' => [] ] ) . '</strong>
                 </li>';
 			}
 		}
