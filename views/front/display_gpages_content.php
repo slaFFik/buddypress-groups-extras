@@ -1,3 +1,6 @@
+<?php
+/* @var $page WP_Post */
+?>
 <?php setup_postdata( $page ); ?>
 
 <div class="gpage">

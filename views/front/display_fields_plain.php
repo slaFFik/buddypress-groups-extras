@@ -1,3 +1,6 @@
+<?php
+/* @var $fields WP_Post[] */
+?>
 <?php do_action( 'bpge_template_display_fields_plain_before', $fields ); ?>
 
 <div class="extra-data bpge_fields_data">
@@ -5,7 +8,7 @@
 	foreach ( $fields as $field ) :
 
 		$field->desc    = get_post_meta( $field->ID, 'bpge_field_desc', true );
-		$field->options = json_decode( $field->post_content );
+		$field->options = wp_unslash( json_decode( $field->post_content ) );
 
 		echo '<h4 title="' . ( ! empty( $field->desc ) ? esc_attr( $field->desc ) : '' ) . '">' . esc_html( $field->post_title ) . '</h4>';
 

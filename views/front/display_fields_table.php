@@ -1,10 +1,13 @@
+<?php
+/* @var $fields WP_Post[] */
+?>
 <?php do_action( 'bpge_template_display_fields_table_before', $fields ); ?>
 
 <table class="profile-fields zebra bpge_fields_data">
 	<?php
 	foreach ( $fields as $field ) {
 		$field->desc    = get_post_meta( $field->ID, 'bpge_field_desc', true );
-		$field->options = json_decode( $field->post_content );
+		$field->options = wp_unslash( json_decode( $field->post_content ) );
 
 		echo '<tr>';
 
