@@ -151,18 +151,20 @@ function bpge_clear( $type = 'all' ) {
 
 	switch_to_blog( bpge_get_main_site_id() );
 
-	$post_types = "'" . implode( "','", array( BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET ) ) . "'";
+	$post_types = "'" . implode( "','", [ BPGE_FIELDS, BPGE_GPAGES, BPGE_GFIELDS, BPGE_FIELDS_SET ] ) . "'";
 	$group_meta = bp_core_get_table_prefix() . 'bp_groups_groupmeta';
 
-	if ( 'all' === $type ) {
+	if ( $type === 'all' ) {
 		delete_option( 'bpge' );
 	}
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE %s", 'bpge_%%' ) ); // db call ok; no-cache ok.
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE `option_name` LIKE %s", 'bpge_%%' ) );
 
-	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE `post_type` IN (%s)", $post_types ) ); // db call ok; no-cache ok.
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->posts} WHERE `post_type` IN (%s)", $post_types ) );
 
-	$wpdb->query( $wpdb->prepare( 'DELETE FROM %s WHERE `meta_key` LIKE %s', $group_meta, 'bpge%%' ) ); // db call ok; no-cache ok.
+	$wpdb->query( $wpdb->prepare( 'DELETE FROM %s WHERE `meta_key` LIKE %s', $group_meta, 'bpge%%' ) );
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery
 
 	restore_current_blog();
 }
@@ -185,13 +187,14 @@ function bpge_admin_init() {
 	include BPGE_PATH . '/core/admin.php';
 
 	$admin = new BPGE_ADMIN();
+
 	add_submenu_page(
 		is_multisite() ? 'settings.php' : 'options-general.php',
 		esc_html__( 'BP Groups Extras', 'buddypress-groups-extras' ),
 		esc_html__( 'BP Groups Extras', 'buddypress-groups-extras' ),
 		'manage_options',
 		BPGE_ADMIN_SLUG,
-		array( $admin, 'admin_page' )
+		[ $admin, 'admin_page' ]
 	);
 
 	$admin->load_assets();
@@ -234,9 +237,9 @@ function bpge_admin_settings_link( $links, $file ) {
 	if ( $file === $this_plugin ) {
 		$links = array_merge(
 			$links,
-			array(
-				'settings' => '<a href="' . esc_url( add_query_arg( array( 'page' => BPGE_ADMIN_SLUG ), bpge_admin_find_admin_location() ) ) . '">' . esc_html__( 'Settings', 'buddypress-groups-extras' ) . '</a>',
-			)
+			[
+				'settings' => '<a href="' . esc_url( add_query_arg( [ 'page' => BPGE_ADMIN_SLUG ], bpge_admin_find_admin_location() ) ) . '">' . esc_html__( 'Settings', 'buddypress-groups-extras' ) . '</a>',
+			]
 		);
 	}
 
@@ -280,6 +283,7 @@ function bpge_pre_load() {
 		// Houston, we have a problem.
 		add_action( 'admin_init', 'bpge_deactivate' );
 		add_action( 'admin_notices', 'bpge_deactivate_msg_bp' );
+
 		return;
 	}
 
@@ -335,7 +339,7 @@ function bpge_load() {
 
 	if ( bp_is_group() && ! wp_doing_ajax() ) {
 		if (
-			( is_string( $bpge['groups'] ) && 'all' === $bpge['groups'] ) ||
+			( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' ) ||
 			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
 		) {
 			require BPGE_PATH . '/core/loader.php';
@@ -352,7 +356,7 @@ add_action( 'bp_init', 'bpge_load' );
  *
  * @return false|array
  */
-function bpge_get_nav_order() {
+function bpge_get_nav_order() { // phpcs:ignore Generic.Metrics
 
 	global $bpge;
 	$bp = buddypress();
@@ -367,7 +371,7 @@ function bpge_get_nav_order() {
 		if ( ! empty( $order ) && is_array( $order ) ) {
 			foreach ( $order as $slug => $position ) {
 				if ( bpge_is_bp_26() ) {
-					buddypress()->groups->nav->edit_nav( array( 'position' => $position ), $slug, bp_current_item() );
+					buddypress()->groups->nav->edit_nav( [ 'position' => $position ], $slug, bp_current_item() );
 				} else {
 					if ( isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ] ) ) {
 						$bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ]['position'] = $position;
@@ -405,7 +409,7 @@ function bpge_landing_page( $old_slug ) {
 		(
 			( is_array( $bpge['groups'] ) && in_array( bp_get_current_group_id(), $bpge['groups'], true ) )
 			||
-			( is_string( $bpge['groups'] ) && 'all' === $bpge['groups'] )
+			( is_string( $bpge['groups'] ) && $bpge['groups'] === 'all' )
 		) ) {
 		// get all pages - take the first.
 		$order = groups_get_groupmeta( bp_get_current_group_id(), 'bpge_nav_order' );
@@ -439,17 +443,15 @@ function bpge_adminbar_menu_link() {
 	}
 
 	$wp_admin_bar->add_menu(
-		array(
+		[
 			'parent' => buddypress()->group_admin_menu_id,
 			'id'     => 'extras',
 			'title'  => __( 'Edit Group Extras', 'buddypress-groups-extras' ),
 			'href'   => bp_get_groups_action_link( 'admin/extras' ),
-		)
+		]
 	);
 }
 
 if ( function_exists( 'bp_is_active' ) ) {
-
 	add_action( 'admin_bar_menu', 'bpge_adminbar_menu_link', 100 );
-
 }
