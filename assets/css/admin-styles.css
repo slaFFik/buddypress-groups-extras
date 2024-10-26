@@ -174,10 +174,12 @@ table#bp-gtm-admin-table td.checkbox input {
 	display: block;
 	width: 100% !important;
 	font-weight: bold;
+	margin-bottom: 10px;
 }
 
-#extra-field-vars .links {
-	line-height: 26px;
+#extra-field-vars .content > span {
+	margin-bottom: 5px;
+	display: block;
 }
 
 #bpge-admin #box_add_set_fields #savenewsf,

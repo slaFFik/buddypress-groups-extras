@@ -1,13 +1,19 @@
 <div id="box_add_field">
-	<h4><?php esc_html_e( 'Add field into', 'buddypress-groups-extras' ); ?> &rarr; <span></span></h4>
+	<h4>
+		<?php esc_html_e( 'New field in set:', 'buddypress-groups-extras' ); ?> <span></span>
+	</h4>
 
 	<div>
-		<label><?php esc_html_e( 'Field Title', 'buddypress-groups-extras' ); ?></label>
-		<input type="text" value="" name="extra-field-title">
+		<label for="extra-field-title">
+			<?php esc_html_e( 'Field Title', 'buddypress-groups-extras' ); ?>
+		</label>
+		<input type="text" value="" id="extra-field-title" name="extra-field-title">
 	</div>
 
 	<div>
-		<label><?php esc_html_e( 'Field Type', 'buddypress-groups-extras' ); ?></label>
+		<label for="extra-field-type">
+			<?php esc_html_e( 'Field Type', 'buddypress-groups-extras' ); ?>
+		</label>
 		<select name="extra-field-type" id="extra-field-type">
 			<option value="text"><?php esc_html_e( 'Text Box', 'buddypress-groups-extras' ); ?></option>
 			<option value="textarea"><?php esc_html_e( 'Multi-line Text Box', 'buddypress-groups-extras' ); ?></option>
@@ -19,10 +25,21 @@
 	</div>
 
 	<div>
-		<label><?php esc_html_e( 'Display this field?', 'buddypress-groups-extras' ); ?></label>
-		<input type="radio" name="extra-field-display" style="width:auto" value="yes" checked />&nbsp;<?php esc_html_e( 'Yes', 'buddypress-groups-extras' ); ?>&nbsp;<span
-			class="description"><?php esc_html_e( 'or', 'buddypress-groups-extras' ); ?></span>&nbsp;
-		<input type="radio" name="extra-field-display" style="width:auto" value="no" />&nbsp;<?php esc_html_e( 'No', 'buddypress-groups-extras' ); ?>
+		<label>
+			<?php esc_html_e( 'Display this field?', 'buddypress-groups-extras' ); ?>
+		</label>
+
+		<ul>
+			<li>
+				<input type="radio" name="extra-field-display" style="width:auto" value="yes" checked />
+				<?php esc_html_e( 'Yes', 'buddypress-groups-extras' ); ?>&nbsp;
+			</li>
+
+			<li>
+				<input type="radio" name="extra-field-display" style="width:auto" value="no" />
+				<?php esc_html_e( 'No', 'buddypress-groups-extras' ); ?>
+			</li>
+		</ul>
 	</div>
 
 	<div id="extra-field-vars" style="display:none;">
@@ -39,6 +56,8 @@
 
 	<input type="hidden" name="sf_id_for_field" value="" />
 	<input id="addnewfield" type="submit" class="button-primary" name="addnewfield" value="<?php esc_attr_e( 'Add New Field', 'buddypress-groups-extras' ); ?>" />
+
+	<div class="clear"></div>
 </div>
 
 <a class="button add_set_fields" href="#"><?php esc_html_e( 'Create the Set of Fields', 'buddypress-groups-extras' ); ?></a>

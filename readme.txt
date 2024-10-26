@@ -75,6 +75,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Make sure the plugin is compatible with WordPress 6.7 and BuddyPress 14.
 * Raise minimum WordPress version to 6.0.
 * Raise minimum PHP version to 7.2.
+* Added: Admin users now need to confirm that they want to delete the set of fields in the plugin admin area.
 * Changed: The admin area "Group Pages" top-level menu item (that is used to manage all created pages inside groups) is now moved under "Groups" (same URL is preserved).
 * Changed: Require the BP Classic plugin (by the BuddyPress Core Developers team) to be installed.
 * Changed: Various visual improvements were introduced in plugin admin area, specifically on the Sets and Allowed Groups tabs.
@@ -82,6 +83,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Fixed: Avoid using BuddyPress functions that are deprecated.
 * Fixed: Various security improvements in different parts of the plugin, props Marek Mikita.
 * Fixed: Clean the object cache when group pages or set of fields are updated, props @boonebgorges.
+* Fixed: Make jQuery.migrate() a bit happier by switching from `.click()`/`.change()` to appropriate `.on()` calls.
 
 = 3.6.10 (06.12.2020) =
 * WordPress 5.6, BuddyPress 6.4 and PHP 7 compatibility.
