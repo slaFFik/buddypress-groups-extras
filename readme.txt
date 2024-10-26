@@ -77,6 +77,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Raise minimum PHP version to 7.2.
 * Changed: The admin area "Group Pages" top-level menu item (that is used to manage all created pages inside groups) is now moved under "Groups" (same URL is preserved).
 * Changed: Require the BP Classic plugin (by the BuddyPress Core Developers team) to be installed.
+* Changed: Various visual improvements were introduced in plugin admin area, specifically on the Sets and Allowed Groups tabs.
 * Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props emaralive.
 * Fixed: Avoid using BuddyPress functions that are deprecated.
 * Fixed: Various security improvements in different parts of the plugin, props Marek Mikita.

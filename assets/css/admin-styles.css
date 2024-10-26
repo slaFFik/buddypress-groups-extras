@@ -131,7 +131,7 @@ table#bp-gtm-admin-table td.checkbox input {
 #box_edit_set_fields,
 #box_add_field {
 	display: none;
-	padding: 10px 12px 0;
+	width: 550px;
 }
 
 #bpge-admin #box_add_set_fields h4,
@@ -146,7 +146,6 @@ table#bp-gtm-admin-table td.checkbox input {
 #bpge-admin #box_add_set_fields div,
 #bpge-admin #box_edit_set_fields div,
 #bpge-admin #box_add_field div {
-	overflow: hidden;
 	margin-bottom: 10px;
 }
 
@@ -154,17 +153,14 @@ table#bp-gtm-admin-table td.checkbox input {
 #bpge-admin #box_edit_set_fields label,
 #bpge-admin #box_add_field label {
 	float: left;
-	width: 205px;
+	width: 150px;
 	line-height: 28px;
 }
 
 #bpge-admin #box_add_set_fields input,
 #bpge-admin #box_edit_set_fields input,
 #bpge-admin #box_add_field input {
-	width: 149px;
-	padding: 4px;
-	border: 1px solid #DFDFDF;
-	border-radius: 4px;
+
 }
 
 #bpge-admin #box_add_set_fields textarea,
@@ -172,9 +168,6 @@ table#bp-gtm-admin-table td.checkbox input {
 #bpge-admin #box_add_field textarea {
 	width: 400px !important;
 	height: 100px;
-	padding: 4px;
-	border: 1px solid #DFDFDF;
-	border-radius: 4px;
 }
 
 #extra-field-vars .content label {
@@ -190,9 +183,5 @@ table#bp-gtm-admin-table td.checkbox input {
 #bpge-admin #box_add_set_fields #savenewsf,
 #bpge-admin #box_edit_set_fields #editsf,
 #bpge-admin #box_add_field #addnewfield {
-	width: 150px;
-	border-radius: 11px;
-	padding: 4px 0;
-	margin-left: 455px;
-	height: auto;
+	float: right;
 }
