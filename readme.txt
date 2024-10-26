@@ -79,11 +79,13 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Changed: The admin area "Group Pages" top-level menu item (that is used to manage all created pages inside groups) is now moved under "Groups" (same URL is preserved).
 * Changed: Require the BP Classic plugin (by the BuddyPress Core Developers team) to be installed.
 * Changed: Various visual improvements were introduced in plugin admin area, specifically on the Sets and Allowed Groups tabs.
-* Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props emaralive.
-* Fixed: Avoid using BuddyPress functions that are deprecated.
+* Changed: Group admins now need to confirm that they want to import the set of fields.
+* Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props @emaralive.
+* Fixed: Cleaned up deprecated BuddyPress functions that were still used in various places.
 * Fixed: Various security improvements in different parts of the plugin, props Marek Mikita.
-* Fixed: Clean the object cache when group pages or set of fields are updated, props @boonebgorges.
-* Fixed: Make jQuery.migrate() a bit happier by switching from `.click()`/`.change()` to appropriate `.on()` calls.
+* Fixed: Cleaned the object cache when group pages or set of fields are updated, props @boonebgorges.
+* Fixed: Made jQuery.migrate() a bit happier by switching from `.click()`/`.change()` to appropriate `.on()` calls.
+* Fixed: Improved security of template overrides for the front-end related screens.
 
 = 3.6.10 (06.12.2020) =
 * WordPress 5.6, BuddyPress 6.4 and PHP 7 compatibility.

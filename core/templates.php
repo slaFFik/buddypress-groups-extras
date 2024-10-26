@@ -5,12 +5,8 @@
  *
  * @param string $view   Template file name.
  * @param mixed  $params Variables that should be passed to the view.
- *
- * @return string HTML of a page or view.
  */
 function bpge_view( $view, $params = false ) {
-
-	global $bpge;
 
 	do_action( 'bpge_view_pre', $view, $params );
 
@@ -20,8 +16,15 @@ function bpge_view( $view, $params = false ) {
 		extract( $params );
 	}
 
+	$view = wp_normalize_path( trim( (string) $view ) );
+
+	$match_count = 1;
+	// Replace the ../ usage as many times as it may need to be replaced.
+	while ( $match_count ) {
+		$view = str_replace( '../', '', $view, $match_count );
+	}
+
 	// Currently used in templates heavily.
-	/** @noinspection PhpUnusedLocalVariableInspection */
 	$bp = buddypress();
 
 	$theme_parent_file = get_template_directory() . DS . BPGE . DS . $view . '.php';
@@ -33,11 +36,12 @@ function bpge_view( $view, $params = false ) {
 		// From child theme.
 		include $theme_child_file;
 	} elseif ( ! is_admin() && file_exists( $theme_parent_file ) ) {
-		// From parent theme if no in child.
+		// From parent theme if not in child.
 		include $theme_parent_file;
 	} else {
 		// From plugin folder.
 		$plugin_file = BPGE_PATH . 'views' . DS . $view . '.php';
+
 		if ( file_exists( $plugin_file ) ) {
 			include $plugin_file;
 		}
@@ -74,7 +78,7 @@ function bpge_filter_link_group_data( $field_value ) {
 	$values = explode( ',', $field_value );
 
 	if ( ! empty( $values ) ) {
-		$new_values = array();
+		$new_values = [];
 
 		foreach ( (array) $values as $value ) {
 			$value = trim( $value );
@@ -82,14 +86,15 @@ function bpge_filter_link_group_data( $field_value ) {
 			// If the value is a URL, skip it and just make it clickable.
 			if ( preg_match( '@(https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?)@', $value ) ) {
 				$new_values[] = make_clickable( $value );
-			} else { // Is not clickable.
+			} else {
+				// Is not clickable.
 
 				// More than 5 spaces.
 				if ( count( explode( ' ', $value ) ) > 5 ) {
 					$new_values[] = $value;
 				} else { // Less than 5 spaces.
 
-					$search_url   = add_query_arg( array( 's' => urlencode( $value ) ), bp_get_groups_directory_permalink() );
+					$search_url   = add_query_arg( [ 's' => rawurlencode( $value ) ], bp_get_groups_directory_permalink() );
 					$new_values[] = '<a href="' . esc_url( $search_url ) . '" rel="nofollow">' . $value . '</a>';
 				}
 			}
@@ -109,11 +114,12 @@ function bpge_filter_link_group_data( $field_value ) {
 function bpge_the_gpage_edit_link( $page_id ) {
 
 	$bp = buddypress();
+
 	if ( bpge_user_can( 'group_extras_admin' ) ) {
 		echo '<div class="edit_link">
                 <a target="_blank" title="' . esc_attr__( 'Edit link for group admins only', 'buddypress-groups-extras' ) . '" href="' . esc_url( bp_get_group_permalink( $bp->groups->current_group ) . 'admin/extras/pages-manage/?edit=' . $page_id ) . '">'
-		     . esc_html__( '[Edit]', 'buddypress-groups-extras' ) .
-		     '</a>
+				. esc_html__( '[Edit]', 'buddypress-groups-extras' ) .
+			'</a>
             </div>';
 	}
 }
@@ -134,10 +140,11 @@ function bpge_the_sortable_nav() {
 			}
 			if ( isset( $nav['name'] ) ) {
 				echo '<li id="position_' . esc_attr( $nav['position'] ) . '" class="default">
-                    <strong>' . stripslashes( $nav['name'] ) . '</strong>
+                    <strong>' . esc_html( $nav['name'] ) . '</strong>
                 </li>';
 			}
-		} ?>
+		}
+        ?>
 		<input type="hidden" name="bpge_group_nav_position" value="" />
 	</ul>
 
