@@ -310,6 +310,23 @@ function bpge_pre_load() {
 add_action( 'bp_init', 'bpge_pre_load' );
 
 /**
+ * Display the Group Pages menu item in the BuddyPress Groups admin.
+ */
+function bpge_admin_add_groups_pages_to_groups() {
+
+	add_submenu_page(
+		'bp-groups',
+		__( 'Group Pages', 'buddypress-groups-extras' ),
+		__( 'Group Pages', 'buddypress-groups-extras' ),
+		'bp_moderate',
+		'edit.php?post_type=' . BPGE_GPAGES,
+		false
+	);
+}
+
+add_action( 'bp_admin_menu', 'bpge_admin_add_groups_pages_to_groups', 100 );
+
+/**
  * The group component loader.
  */
 function bpge_load() {
