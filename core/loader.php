@@ -422,6 +422,8 @@ class BPGE extends BP_Group_Extension {
 					array( '%s' ),                  // data format
 					array( '%d' )                   // where format
 				);
+
+				clean_post_cache( (int) $id );
 			}
 
 			restore_current_blog();

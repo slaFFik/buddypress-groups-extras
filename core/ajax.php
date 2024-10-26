@@ -10,9 +10,17 @@ function bpge_fields_set_delete() {
 
 	switch_to_blog( bpge_get_main_site_id() );
 
-	$set_id = (int) $_POST['id'];
-	$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->posts}` WHERE `ID` = %d", $set_id ) );
-	$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->posts}` WHERE `post_parent` = %d", $set_id ) );
+	$set_id = absint( $_POST['id'] ?? 0 );
+
+	if ( $set_id ) {
+		// Delete the set and all the associated fields.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery
+		$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->posts}` WHERE `ID` = %d", $set_id ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM `{$wpdb->posts}` WHERE `post_parent` = %d", $set_id ) );
+		// phpcs:enable WordPress.DB.DirectDatabaseQuery
+
+		clean_post_cache( $set_id );
+	}
 
 	restore_current_blog();
 
@@ -51,7 +59,10 @@ function bpge_ajax() {
 					array( '%d' ),
 					array( '%d' )
 				);
-				$i ++;
+
+				clean_post_cache( (int) $field_id );
+
+				++$i;
 			}
 			$return = 'saved';
 			break;
