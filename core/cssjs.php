@@ -23,10 +23,12 @@ function bpge_get_localized_data() {
 	return apply_filters(
 		'bpge_load_js_localized',
 		[
+			'are_you_sure'       => esc_html__( 'Are you sure?', 'buddypress-groups-extras' ),
 			'enter_options'      => esc_html__( 'Specify this field options:', 'buddypress-groups-extras' ),
 			'option_text'        => esc_html__( 'Option', 'buddypress-groups-extras' ),
 			'remove_it'          => esc_html__( 'Delete', 'buddypress-groups-extras' ),
-			'apply_set'          => esc_html__( 'Do you want to apply this set of fields to all groups on your site?', 'buddypress-groups-extras' ),
+			'apply_set_globally' => esc_html__( 'Do you want to apply this set of fields to all groups on your site?', 'buddypress-groups-extras' ),
+			'apply_set_group'    => esc_html__( 'Do you want to apply this set of fields to the current group?', 'buddypress-groups-extras' ),
 			'applied'            => esc_html__( 'Applied', 'buddypress-groups-extras' ),
 			'close'              => esc_html__( 'Close', 'buddypress-groups-extras' ),
 			'yes'                => esc_html__( 'Yes', 'buddypress-groups-extras' ),

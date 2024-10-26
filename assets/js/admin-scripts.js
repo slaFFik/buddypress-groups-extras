@@ -83,7 +83,7 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		new Messi(
-			bpge.apply_set,
+			bpge.apply_set_globally,
 			{
 				title: set_name,
 				buttons: [

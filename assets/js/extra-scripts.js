@@ -4,73 +4,89 @@ jQuery( document ).ready( function( $ ) {
 	 * SECTION: MANAGE FIELDS / PAGES.
 	 */
 	// Sorting fields.
-	jQuery( '#fields-sortable' ).sortable( {
+	$( '#fields-sortable' ).sortable( {
 		placeholder: 'highlight',
 		update: function( event, ui ) {
-			jQuery.post( ajaxurl, {
+			$.post(
+				ajaxurl,
+				{
 					action: 'bpge',
 					method: 'reorder_fields',
-					field_order: jQuery( this ).sortable( 'serialize' ),
+					field_order: $( this ).sortable( 'serialize' ),
 				},
 				function( response ) {
-				} );
+				}
+			);
 		},
 	} );
-	jQuery( '#fields-sortable' ).disableSelection();
+	$( '#fields-sortable' ).disableSelection();
 
 	// Sorting pages.
-	jQuery( '#pages-sortable' ).sortable( {
+	$( '#pages-sortable' ).sortable( {
 		placeholder: 'highlight',
 		update: function( event, ui ) {
-			jQuery.post( ajaxurl, {
+			$.post(
+				ajaxurl,
+				{
 					action: 'bpge',
 					method: 'reorder_pages',
-					page_order: jQuery( this ).sortable( 'serialize' ),
+					page_order: $( this ).sortable( 'serialize' ),
 				},
-				function( response ) {} );
+				function( response ) {
+				}
+			);
 		},
 	} );
-	jQuery( '#pages-sortable' ).disableSelection();
+	$( '#pages-sortable' ).disableSelection();
 
 	// Sorting nav.
-	jQuery( '#nav-sortable' ).sortable( {
+	$( '#nav-sortable' ).sortable( {
 		placeholder: 'highlight',
 		update: function( event, ui ) {
-			jQuery( 'input[name="bpge_group_nav_position"]' ).val( jQuery( this ).sortable( 'serialize' ) );
+			$( 'input[name="bpge_group_nav_position"]' ).val(
+				$( this ).sortable( 'serialize' )
+			);
 		},
 	} );
-	jQuery( '#nav-sortable' ).disableSelection();
+	$( '#nav-sortable' ).disableSelection();
 
 	// Delete field.
-	jQuery( '#fields-sortable li span a.delete_field' ).click( function( e ) {
+	$( '#fields-sortable li span a.delete_field' ).on( 'click', function( e ) {
 		e.preventDefault();
-		var field = jQuery( this ).parent().parent().attr( 'id' ).split( '_' )[ 1 ];
-		jQuery.post( ajaxurl, {
+		const field = $( this ).parent().parent().attr( 'id' ).split( '_' )[ 1 ];
+
+		$.post(
+			ajaxurl,
+			{
 				action: 'bpge',
 				method: 'delete_field',
 				field: field,
 			},
 			function( response ) {
 				if ( response === 'deleted' ) {
-					jQuery( '#fields-sortable li#position_' + field ).fadeOut( 'fast' );
+					$( '#fields-sortable li#position_' + field ).fadeOut( 'fast' );
 				}
-			} );
+			}
+		);
 	} );
 
 	// Delete page
-	jQuery( '#pages-sortable li span a.delete_page' ).click( function( e ) {
+	$( '#pages-sortable li span a.delete_page' ).on( 'click', function( e ) {
 		e.preventDefault();
-		var page = jQuery( this ).parent().parent().attr( 'id' ).split( '_' )[ 1 ];
-		jQuery.post( ajaxurl, {
+		var page = $( this ).parent().parent().attr( 'id' ).split( '_' )[ 1 ];
+		$.post(
+			ajaxurl,
+			{
 				action: 'bpge',
 				method: 'delete_page',
 				page: page,
 			},
 			function( response ) {
 				if ( response === 'deleted' ) {
-					jQuery( '#pages-sortable li#position_' + page ).fadeOut( 'fast' );
+					$( '#pages-sortable li#position_' + page ).fadeOut( 'fast' );
 				}
-			} );
+			}
+		);
 	} );
 
 	/*
@@ -79,61 +95,75 @@ jQuery( document ).ready( function( $ ) {
 	var options_count = 2;
 
 	function new_option( type, id ) {
-		return '<span class="' + type + '_' + id + '">' + bpge.option_text + ': &rarr; <input type="text" tabindex="' + id + '" name="options[' + id + ']" value="" /> <a href="#" rel="remove_' + type + '_' + id + '" class="remove_it">' + bpge.remove_it + '</a><br /></span>';
+		return '<span class="' + type + '_' + id + '">' + bpge.option_text + ': <input type="text" tabindex="' + id + '" name="options[' + id + ']" value="" /> <a href="#" rel="remove_' + type + '_' + id + '" class="remove_it">' + bpge.remove_it + '</a><br /></span>';
 	}
 
-	jQuery( 'select#extra-field-type' ).change( function() {
-		var type = jQuery( this ).val();
+	$( 'select#extra-field-type' ).on( 'change', function() {
+		var type = $( this ).val();
 		var html = '';
 		if ( type === 'checkbox' || type === 'radio' || type === 'select' ) {
 			html += '<label>' + bpge.enter_options + '</label>';
 			html += new_option( type, 1 );
 			html += new_option( type, 2 );
-			jQuery( '#extra-field-vars .content' ).html( html );
-			jQuery( '#extra-field-vars' ).css( 'display', 'block' );
+
+			$( '#extra-field-vars .content' ).html( html );
+			$( '#extra-field-vars' ).css( 'display', 'block' );
 		}
 		else {
-			jQuery( '#extra-field-vars' ).css( 'display', 'none' );
-			jQuery( '#extra-field-vars .content' ).html( '' );
+			$( '#extra-field-vars' ).css( 'display', 'none' );
+			$( '#extra-field-vars .content' ).html( '' );
 		}
 	} );
 
-	jQuery( document ).on( 'click', '#extra-field-vars a.remove_it', function( e ) {
+	$( document ).on( 'click', '#extra-field-vars a.remove_it', function( e ) {
 		e.preventDefault();
-		var extra = jQuery( this ).attr( 'rel' ).split( '_' );
+
+		var extra = $( this ).attr( 'rel' ).split( '_' );
 		var action = extra[ 0 ];
 		var type = extra[ 1 ];
 		var id = extra[ 2 ];
-		jQuery( '#extra-field-vars span.' + type + '_' + id ).remove();
+
+		$( '#extra-field-vars span.' + type + '_' + id ).remove();
 	} );
 
-	jQuery( document ).on( 'click', '#extra-field-vars a#add_new', function( e ) {
+	$( document ).on( 'click', '#extra-field-vars a#add_new', function( e ) {
 		e.preventDefault();
 		options_count += 1;
-		var type = jQuery( 'select#extra-field-type' ).val();
-		var option = new_option( type, options_count );
-		jQuery( '#extra-field-vars .content' ).append( option );
+		const type = $( 'select#extra-field-type' ).val();
+		const option = new_option( type, options_count );
+
+		$( '#extra-field-vars .content' ).append( option );
 	} );
 
 	/**
 	 * Import Area.
 	 */
-		// Display selected Set description.
-	var desc = $( '#box_import_set_fields select option:selected' ).attr( 'desc' );
-	$( '#box_import_set_fields .import_desc' ).html( desc );
+	// Display selected Set description.
+	$( '#box_import_set_fields .import_desc' ).html(
+		$( '#box_import_set_fields select option:selected' ).attr( 'desc' )
+	);
+
 	// Change description on set change.
-	$( '#box_import_set_fields select' ).change( function() {
-		var desc = $( '#box_import_set_fields select option:selected' ).attr( 'desc' );
-		$( '#box_import_set_fields .import_desc' ).html( desc );
+	$( '#box_import_set_fields select' ).on( 'change', function() {
+		$( '#box_import_set_fields .import_desc' ).html(
+			$( '#box_import_set_fields select option:selected' ).attr( 'desc' )
+		);
 	} );
-	// Make the import.
-	$( '#box_import_set_fields .import_set_fields' ).click( function() {
+	// Do the import.
+	$( '#box_import_set_fields .import_set_fields' ).on( 'click', function(e) {
+		e.preventDefault();
+
+		if ( ! confirm( bpge.apply_set_group ) ) {
+			return false;
+		}
+
 		$( '#box_import_set_fields #approve_import' ).val( true );
-		$( '#group-settings-form' ).submit();
+		$( '#group-settings-form' ).trigger( 'submit' );
+
 		return false;
 	} );
 
-	$( '#group-settings-form .box_field #save' ).click( function() {
+	$( '#group-settings-form .box_field #save' ).on( 'click', function() {
 		var field_name = $( '#group-settings-form input[name="extra-field-title"]' ).val();
 
 		if ( $.trim( field_name ) === '' ) {
@@ -145,13 +175,16 @@ jQuery( document ).ready( function( $ ) {
 		}
 	} );
 
-	$( '#group-settings-form .box_page #save' ).click( function() {
-		var edit = false;
-		var page_name = $( '#group-settings-form input[name="extra-page-title"]' ).val();
+	$( '#group-settings-form .box_page #save' ).on( 'click', function() {
+		let edit = false;
+		const page_name = $( '#group-settings-form input[name="extra-page-title"]' ).val();
+		let page_slug = '';
+
 		if ( $( this ).attr( 'name' ) === 'save_pages_edit' ) {
 			edit = true;
-			var page_slug = $( '#group-settings-form input[name="extra-page-slug"]' ).val();
+			page_slug = $( '#group-settings-form input[name="extra-page-slug"]' ).val();
 		}
+
 		var error = 0;
 
 		if ( $.trim( page_name ) === '' ) {
@@ -174,5 +207,4 @@ jQuery( document ).ready( function( $ ) {
 			return false;
 		}
 	} );
-
 } );
