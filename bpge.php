@@ -2,33 +2,37 @@
 /**
  * Plugin Name: BuddyPress Groups Extras
  * Plugin URI: https://wordpress.org/plugins/buddypress-groups-extras/
- * Description: Adding extra fields and pages, menu sorting and other missing functionality to groups
+ * Description: Adding extra fields and pages, menu sorting and other missing functionality to groups.
  * Author: slaFFik
  * Author URI: https://ovirium.com/
  * Version: 3.6.10
  * Text Domain: buddypress-groups-extras
  * Domain Path: /assets/
- * Requires PHP: 5.3
- * Requires at least: 4.1
- * Requires Plugins: buddypress
+ * Requires PHP: 7.2
+ * Requires at least: 6.0
+ * Requires Plugins: buddypress, bp-classic
  */
 
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-define( 'BPGE_VERSION', '3.6.10' );
-define( 'BPGE', 'bpge' );
-define( 'BPGE_ADMIN_SLUG', 'bpge-admin' );
-define( 'BPGE_URL', plugins_url( 'assets', __FILE__ ) ); // link to all assets, with '/".
-define( 'BPGE_PATH', __DIR__ . '/' ); // with "/".
+const BPGE_VERSION    = '3.6.10';
+const BPGE            = 'bpge';
+const BPGE_ADMIN_SLUG = 'bpge-admin';
+
+// phpcs:disable WPForms.Comments.PHPDocDefine.MissPHPDoc
+define( 'BPGE_URL', plugins_url( 'assets', __FILE__ ) ); // link to all assets, with "/".
+const BPGE_PATH = __DIR__ . '/'; // with "/".
+// phpcs:enable WPForms.Comments.PHPDocDefine.MissPHPDoc
 
 // Post types.
-define( 'BPGE_FIELDS', 'bpge_fields' );
-define( 'BPGE_FIELDS_SET', 'bpge_fields_set' );
-define( 'BPGE_GFIELDS', 'bpge_gfields' );
-define( 'BPGE_GPAGES', 'gpages' );
+const BPGE_FIELDS     = 'bpge_fields';
+const BPGE_FIELDS_SET = 'bpge_fields_set';
+const BPGE_GFIELDS    = 'bpge_gfields';
+const BPGE_GPAGES     = 'gpages';
 
 if ( ! defined( 'DS' ) ) {
+	// phpcs:ignore WPForms.Comments.PHPDocDefine.MissPHPDoc
 	define( 'DS', DIRECTORY_SEPARATOR );
 }
 
@@ -38,7 +42,7 @@ if ( ! defined( 'DS' ) ) {
  */
 function bpge_check_requirements() {
 
-	if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
+	if ( version_compare( PHP_VERSION, '7.2', '<' ) ) {
 		add_action( 'admin_init', 'bpge_deactivate' );
 		add_action( 'admin_notices', 'bpge_deactivate_msg_php' );
 
@@ -81,7 +85,7 @@ function bpge_deactivate_msg_php() {
 function bpge_deactivate_msg_bp() {
 
 	echo '<div class="notice notice-error"><p>';
-	esc_html_e( 'BuddyPress Groups Extras plugin has been deactivated because it requres an activated BuddyPress plugin with Groups component enabled. Please make sure those two requirements are met in order to use BuddyPress Groups Extras.', 'buddypress-groups-extras' );
+	esc_html_e( 'BuddyPress Groups Extras plugin has been deactivated because it requires an activated BuddyPress plugin with Groups component enabled. Please make sure those two requirements are met in order to use BuddyPress Groups Extras.', 'buddypress-groups-extras' );
 	echo '</p></div>';
 
 	// phpcs:disable
