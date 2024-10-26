@@ -5,10 +5,10 @@
  */
 function bpge_register_fields() {
 
-	$args = array(
-		'labels'              => array(
+	$args = [
+		'labels'              => [
 			'name' => __( 'Groups Fields', 'buddypress-groups-extras' ),
-		),
+		],
 		'public'              => false,
 		'show_in_menu'        => false,
 		'exclude_from_search' => true,
@@ -18,8 +18,8 @@ function bpge_register_fields() {
 		'query_var'           => true,
 		'rewrite'             => false,
 		'capability_type'     => 'page',
-		'supports'            => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'comments' ),
-	);
+		'supports'            => [ 'title', 'editor', 'custom-fields', 'page-attributes', 'comments' ],
+	];
 
 	register_post_type( BPGE_GFIELDS, $args );
 }
@@ -29,10 +29,10 @@ function bpge_register_fields() {
  */
 function bpge_register_set() {
 
-	$args = array(
-		'labels'              => array(
+	$args = [
+		'labels'              => [
 			'name' => __( 'Sets of Fields', 'buddypress-groups-extras' ),
-		),
+		],
 		'public'              => false,
 		'show_in_menu'        => false,
 		'exclude_from_search' => true,
@@ -42,8 +42,8 @@ function bpge_register_set() {
 		'query_var'           => true,
 		'rewrite'             => false,
 		'capability_type'     => 'page',
-		'supports'            => array( 'title', 'editor', 'custom-fields', 'page-attributes' ),
-	);
+		'supports'            => [ 'title', 'editor', 'custom-fields', 'page-attributes' ],
+	];
 
 	register_post_type( BPGE_FIELDS_SET, $args );
 }
@@ -53,10 +53,10 @@ function bpge_register_set() {
  */
 function bpge_register_set_fields() {
 
-	$args = array(
-		'labels'              => array(
+	$args = [
+		'labels'              => [
 			'name' => __( 'Groups Fields', 'buddypress-groups-extras' ),
-		),
+		],
 		'public'              => false,
 		'show_in_menu'        => false,
 		'exclude_from_search' => true,
@@ -66,8 +66,8 @@ function bpge_register_set_fields() {
 		'query_var'           => true,
 		'rewrite'             => false,
 		'capability_type'     => 'page',
-		'supports'            => array( 'title', 'editor', 'custom-fields', 'page-attributes' ),
-	);
+		'supports'            => [ 'title', 'editor', 'custom-fields', 'page-attributes' ],
+	];
 
 	register_post_type( BPGE_FIELDS, $args );
 }
@@ -77,16 +77,16 @@ function bpge_register_set_fields() {
  */
 function bpge_register_groups_pages() {
 
-	$args = array(
-		'labels'              => array(
+	$args = [
+		'labels'              => [
 			'name'          => __( 'Groups Pages', 'buddypress-groups-extras' ),
 			'singular_name' => __( 'Groups Page', 'buddypress-groups-extras' ),
-		),
+		],
 		'public'              => false,
 		'exclude_from_search' => true,
 		'publicly_queryable'  => false,
 		'show_ui'             => true,
-		'show_in_menu'        => true,
+		'show_in_menu'        => false,
 		'show_in_nav_menus'   => false,
 		'show_in_admin_bar'   => false,
 		'menu_position'       => 100,
@@ -94,35 +94,32 @@ function bpge_register_groups_pages() {
 		'query_var'           => false,
 		'rewrite'             => false,
 		'capability_type'     => 'page',
-		'supports'            => array( 'title', 'editor', 'custom-fields', 'page-attributes', 'comments' ),
-	);
+		'supports'            => [ 'title', 'editor', 'custom-fields', 'page-attributes', 'comments' ],
+	];
 
 	register_post_type( BPGE_GPAGES, $args );
 }
 
 /**
- * Delete associated gpage on group delete.
+ * Delete associated gpages on group delete.
  *
  * @param object $group_obj
  * @param array  $user_ids
  */
-function bpge_delete_group(
-	$group_obj,
-	/** @noinspection PhpUnusedParameterInspection */
-	$user_ids
-) {
+function bpge_delete_group( $group_obj, $user_ids ) {
 
 	/** @var $wpdb WPDB */
 	global $wpdb;
 	$bp = buddypress();
 
 	$to_delete = false;
-	$pages     = $fields = array();
+	$pages     = $fields = [];
 
 	if ( isset( $bp->groups->current_group->args['extras']['gpage_id'] ) && ! empty( $bp->groups->current_group->args['extras']['gpage_id'] ) ) {
 		$to_delete = $bp->groups->current_group->args['extras']['gpage_id'];
 	} else {
 		$bpge = groups_get_groupmeta( $group_obj->id, 'bpge' );
+
 		if ( $bpge && ! empty( $bpge['gpage_id'] ) ) {
 			$to_delete = $bpge['gpage_id'];
 		}
@@ -130,23 +127,31 @@ function bpge_delete_group(
 
 	if ( ! empty( $to_delete ) ) {
 		// Remove all group pages.
-		$pages = $wpdb->get_col( $wpdb->prepare(
-			"SELECT ID FROM {$wpdb->posts} WHERE `post_parent` = %d",
-			$to_delete
-		) );
+		$pages = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT ID FROM {$wpdb->posts} WHERE `post_parent` = %d",
+                $to_delete
+            )
+        );
 	}
 	// Remove all group fields.
-	$fields = $wpdb->get_col( $wpdb->prepare(
-		"SELECT ID FROM {$wpdb->posts} WHERE `post_type` = '%s' AND  `post_parent` = %d",
-		BPGE_GFIELDS,
-		$group_obj->id
-	) );
-	$data   = array_merge( $pages, $fields );
+	$fields = $wpdb->get_col(
+        $wpdb->prepare(
+            "SELECT ID FROM {$wpdb->posts} WHERE `post_type` = %s AND `post_parent` = %d",
+            BPGE_GFIELDS,
+            $group_obj->id
+        )
+    );
+
+	$data = array_merge( $pages, $fields );
+
 	if ( ! empty( $data ) ) {
-		$wpdb->query( $wpdb->prepare(
-			"DELETE FROM {$wpdb->posts} WHERE `ID` IN (%s)",
-			implode( ',', $data )
-		) );
+		$wpdb->query(
+            $wpdb->prepare(
+                "DELETE FROM {$wpdb->posts} WHERE `ID` IN (%s)",
+                implode( ',', $data )
+            )
+        );
 	}
 
 	if ( ! empty( $to_delete ) ) {
@@ -177,10 +182,11 @@ add_action( 'admin_menu', 'bpge_gpages_hide_add_new' );
  */
 function bpge_gpages_redirect_to_all() {
 
-	$result = stripos( $_SERVER['REQUEST_URI'], 'post-new.php?post_type=' . BPGE_GPAGES );
+	// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+	$request_url = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '';
 
-	if ( $result !== false ) {
-		wp_redirect( home_url( '/wp-admin/edit.php?post_type=' . BPGE_GPAGES ) );
+	if ( stripos( $request_url, 'post-new.php?post_type=' . BPGE_GPAGES ) !== false ) {
+		wp_safe_redirect( home_url( '/wp-admin/edit.php?post_type=' . BPGE_GPAGES ) );
 		exit;
 	}
 }
