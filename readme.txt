@@ -76,6 +76,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Raise minimum WordPress version to 6.0.
 * Raise minimum PHP version to 7.2.
 * Added: Admin users now need to confirm that they want to delete the set of fields in the plugin admin area.
+* Added: Plugin now requires both BuddyPress and BP Classic to be installed, for now. BP Classic requirement will be removed in the future versions.
 * Changed: The admin area "Group Pages" top-level menu item (that is used to manage all created pages inside groups) is now moved under "Groups" (same URL is preserved).
 * Changed: Require the BP Classic plugin (by the BuddyPress Core Developers team) to be installed.
 * Changed: Various visual improvements were introduced in plugin admin area, specifically on the Sets and Allowed Groups tabs.

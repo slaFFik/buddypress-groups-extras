@@ -39,6 +39,7 @@ if ( ! function_exists( 'bpge_user_can' ) ) {
 
 /**
  * Helper for generating some titles.
+ * Not escaped.
  *
  * @param string $name
  *
@@ -50,47 +51,47 @@ function bpge_names( $name = 'name' ) {
 
 	switch ( $name ) {
 		case 'title_general':
-			$text = esc_html__( 'General Settings', 'buddypress-groups-extras' );
+			$text = __( 'General Settings', 'buddypress-groups-extras' );
 			break;
 
 		case 'title_fields':
-			$text = esc_html__( 'Fields Management', 'buddypress-groups-extras' );
+			$text = __( 'Fields Management', 'buddypress-groups-extras' );
 			break;
 
 		case 'title_pages':
-			$text = esc_html__( 'Pages Management', 'buddypress-groups-extras' );
+			$text = __( 'Pages Management', 'buddypress-groups-extras' );
 			break;
 
 		case 'title_fields_add':
-			$text = esc_html__( 'Add New Field', 'buddypress-groups-extras' );
+			$text = __( 'Add New Field', 'buddypress-groups-extras' );
 			break;
 
 		case 'title_fields_edit':
-			$text = esc_html__( 'Edit Field', 'buddypress-groups-extras' );
+			$text = __( 'Edit Field', 'buddypress-groups-extras' );
 			break;
 
 		case 'title_pages_add':
-			$text = esc_html__( 'Add New Page', 'buddypress-groups-extras' );
+			$text = __( 'Add New Page', 'buddypress-groups-extras' );
 			break;
 
 		case 'title_pages_edit':
-			$text = esc_html__( 'Edit Page', 'buddypress-groups-extras' );
+			$text = __( 'Edit Page', 'buddypress-groups-extras' );
 			break;
 
 		case 'name':
-			$text = esc_html__( 'Description', 'buddypress-groups-extras' );
+			$text = __( 'Description', 'buddypress-groups-extras' );
 			break;
 
 		case 'nav':
-			$text = esc_html__( 'Extras', 'buddypress-groups-extras' );
+			$text = __( 'Extras', 'buddypress-groups-extras' );
 			break;
 
 		case 'gpages':
-			$text = esc_html__( 'Pages', 'buddypress-groups-extras' );
+			$text = __( 'Pages', 'buddypress-groups-extras' );
 			break;
 
 		case 'home':
-			$text = esc_html__( 'Home', 'buddypress-groups-extras' );
+			$text = __( 'Home', 'buddypress-groups-extras' );
 			break;
 	}
 

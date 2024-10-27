@@ -1,5 +1,6 @@
 <?php
 /* @var $pages WP_Post[] */
+/* @var $bp BuddyPress */
 /* @var $page_slug string */
 ?>
 <div role="navigation" id="subnav" class="item-list-tabs no-ajax">

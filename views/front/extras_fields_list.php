@@ -5,7 +5,7 @@
 ?>
 <ul id="fields-sortable">
 	<?php
-	foreach ( (array) $fields as $field ) { ?>
+	foreach ( $fields as $field ) { ?>
 		<li id="position_<?php echo (int) $field->ID; ?>" class="default">
 			<strong title="<?php echo esc_attr( wp_strip_all_tags( $field->post_content ) ); ?>">
 				<?php echo esc_html( $field->post_title ); ?>
@@ -24,7 +24,7 @@
 
 				<?php do_action( 'bpge_template_extras_fields_list_actions', $field ); ?>
 
-				<a href="#" class="button delete_field" title="<?php esc_attr_e( 'Delete this field and all its content', 'buddypress-groups-extras' ); ?>">
+				<a href="#" class="button delete_field" title="<?php esc_attr_e( 'Delete this field and its content', 'buddypress-groups-extras' ); ?>">
 					<?php esc_html_e( 'Delete', 'buddypress-groups-extras' ); ?>
 				</a>
             </span>
