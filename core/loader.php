@@ -491,6 +491,7 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Group Admin - General Settings.
+	 * Nonce: bpge_group_edit_general.
 	 */
 	protected function edit_screen_general() {
 
@@ -521,6 +522,7 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Group Admin - All Fields.
+	 * Nonce: bpge_group_edit_fields.
 	 */
 	protected function edit_screen_fields() {
 
@@ -570,6 +572,7 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Group Admin - All Pages.
+	 * Nonce: bpge_group_edit_pages.
 	 */
 	public function edit_screen_pages() {
 
@@ -602,6 +605,7 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Group Admin - Add / Edit 1 field form.
+	 * Nonce: bpge_group_manage_fields.
 	 */
 	public function edit_screen_fields_manage() {
 
@@ -638,6 +642,7 @@ class BPGE extends BP_Group_Extension {
 
 	/**
 	 * Add / Edit pages form.
+	 * Nonce: bpge_group_manage_pages.
 	 */
 	public function edit_screen_pages_manage() {
 
@@ -763,7 +768,7 @@ class BPGE extends BP_Group_Extension {
 			// Save new field.
 			if ( isset( $_POST['save_fields_add'] ) ) {
 				// Check the nonce first.
-				check_ajax_referer( 'bpge_group_manage_fields' );
+				check_admin_referer( 'bpge_group_manage_fields' );
 
 				$field                 = [];
 				$field['post_title']   = sanitize_text_field( wp_unslash( $_POST['extra-field-title'] ?? '' ) );

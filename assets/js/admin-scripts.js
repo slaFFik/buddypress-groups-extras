@@ -14,13 +14,14 @@ jQuery( document ).ready( function( $ ) {
 				url: ajaxurl,
 				type: 'POST',
 				data: {
-					action: 'bpge',
+					action: 'bpge_admin',
+					_wpnonce: $( '#_wpnonce' ).val(),
 					method: 'dismiss_review'
 				}
 			} )
 			  .done( function( data ) {
-				  if ( data === 'ok' ) {
-					  $( link ).parent().parent().parent().fadeOut();
+				  if ( data === 'success' ) {
+					  $( link ).parents('#message').fadeOut();
 				  }
 			  } );
 	} );
@@ -99,8 +100,9 @@ jQuery( document ).ready( function( $ ) {
 						url: ajaxurl,
 						type: 'POST',
 						data: {
-							action: 'bpge',
+							action: 'bpge_admin',
 							method: 'apply_set',
+							_wpnonce: $( '#_wpnonce' ).val(),
 							set_id: set_id
 						},
 						success: function( response ) {

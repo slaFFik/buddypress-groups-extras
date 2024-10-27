@@ -36,13 +36,11 @@ function bpge_fields_set_delete() {
 add_action( 'wp_ajax_fields_set_delete', 'bpge_fields_set_delete' );
 
 /**
- * All front-end ajax requests.
+ * Front-end ajax requests.
  */
 function bpge_ajax() {
 
-	// check_ajax_referer();
-
-	$method = isset( $_REQUEST['method'] ) ? $_REQUEST['method'] : '';
+	$method = sanitize_key( $_POST['method'] ?? '' );
 
 	$return = 'error';
 
@@ -52,13 +50,20 @@ function bpge_ajax() {
 
 	switch ( $method ) {
 		case 'reorder_fields':
+			// Check the nonce first.
+			check_ajax_referer( 'bpge_group_edit_fields' );
+
 			global $wpdb;
-			parse_str( $_REQUEST['field_order'], $field_order );
+			parse_str( sanitize_text_field( wp_unslash( $_POST['field_order'] ?? '' ) ), $field_order );
 
 			// Reorder all fields according to new positions.
 			$i = 1;
 
-			foreach ( $field_order['position'] as $field_id ) {
+			if ( empty( $field_order['position'] ) ) {
+				break;
+			}
+
+			foreach ( (array) $field_order['position'] as $field_id ) {
 				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
 				$wpdb->update(
 					$wpdb->posts,
@@ -76,39 +81,89 @@ function bpge_ajax() {
 			break;
 
 		case 'delete_field':
-			if ( wp_delete_post( (int) $_REQUEST['field'], true ) ) {
+			// Check the nonce first.
+			check_ajax_referer( 'bpge_group_edit_fields' );
+
+			$field_id = absint( $_POST['field'] ?? 0 );
+
+			if ( wp_delete_post( $field_id, true ) ) {
 				$return = 'deleted';
 			}
 			break;
 
 		case 'reorder_pages':
-			parse_str( $_REQUEST['page_order'], $page_order );
+			// Check the nonce first.
+			check_ajax_referer( 'bpge_group_edit_pages' );
+
+			parse_str( sanitize_text_field( wp_unslash( $_POST['page_order'] ?? '' ) ), $page_order );
+
+			if ( empty( $page_order['position'] ) ) {
+				break;
+			}
+
+			global $wpdb;
+
+			// Reorder all fields according to new positions.
+			$i = 1;
 
 			// Update menu_order for each gpage.
-			foreach ( $page_order['position'] as $index => $page_id ) {
-				wp_update_post(
-					[
-						'ID'         => (int) $page_id,
-						'menu_order' => (int) $index,
-					]
+			foreach ( $page_order['position'] as $page_id ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$wpdb->update(
+					$wpdb->posts,
+					[ 'menu_order' => $i ],
+					[ 'ID' => (int) $page_id ],
+					[ '%d' ],
+					[ '%d' ]
 				);
+
+				clean_post_cache( (int) $page_id );
+
+				++$i;
 			}
 			$return = 'saved';
 			break;
 
 		case 'delete_page':
-			if ( wp_delete_post( (int) $_REQUEST['page'], true ) ) {
+			// Check the nonce first.
+			check_ajax_referer( 'bpge_group_edit_pages' );
+
+			$page_id = absint( $_POST['page'] ?? 0 );
+
+			if ( wp_delete_post( $page_id, true ) ) {
 				$return = 'deleted';
-			} else {
-				$return = 'error';
 			}
 			break;
+	}
 
+	restore_current_blog();
+
+	die( sanitize_key( $return ) );
+}
+
+add_action( 'wp_ajax_bpge', 'bpge_ajax' );
+
+/**
+ * Admin-specific AJAX actions.
+ */
+function bpge_ajax_admin() {
+
+	// Check the nonce first.
+	check_admin_referer( 'bpge-options' );
+
+	$method = sanitize_key( $_POST['method'] ?? '' );
+
+	$return = 'error';
+
+	switch_to_blog( bpge_get_main_site_id() );
+
+	do_action( 'bpge_ajax_admin', $method );
+
+	switch ( $method ) {
 		case 'apply_set':
-			$set_id = (int) $_REQUEST['set_id'];
+			$set_id = absint( $_POST['set_id'] ?? 0 );
 
-			if ( $set_id < 1 ) {
-				$return = 'error';
+			if ( empty( $set_id ) ) {
 				break;
 			}
 
@@ -146,17 +201,24 @@ function bpge_ajax() {
 			// Get all groups ids.
 			$groups = groups_get_groups(
 				[
+					'fields'          => 'ids',
 					'show_hidden'     => true,
 					'populate_extras' => false,
 					'per_page'        => 999,
 				]
 			);
 
+			if ( empty( $groups['groups'] ) ) {
+				$return = 'success';
+
+				break;
+			}
+
 			// Insert in the loop all the fields where parent_id = group_id.
-			foreach ( $groups['groups'] as $group ) {
+			foreach ( $groups['groups'] as $group_id ) {
 				foreach ( $to_import as $field ) {
 					$data                = (array) $field;
-					$data['post_parent'] = $group->id;
+					$data['post_parent'] = $group_id;
 					$data['post_type']   = BPGE_GFIELDS;
 					$data['post_status'] = $field->display === 'yes' ? 'publish' : 'draft';
 					$field_id            = wp_insert_post( $data );
@@ -190,7 +252,7 @@ function bpge_ajax() {
 
 			bp_update_option( 'bpge', $bpge );
 
-			$return = 'ok';
+			$return = 'success';
 			break;
 	}
 
@@ -199,4 +261,4 @@ function bpge_ajax() {
 	die( sanitize_key( $return ) );
 }
 
-add_action( 'wp_ajax_bpge', 'bpge_ajax' );
+add_action( 'wp_ajax_bpge_admin', 'bpge_ajax_admin' );

@@ -12,6 +12,7 @@ jQuery( document ).ready( function( $ ) {
 				{
 					action: 'bpge',
 					method: 'reorder_fields',
+					_ajax_nonce: $( '#_wpnonce' ).val(),
 					field_order: $( this ).sortable( 'serialize' ),
 				},
 				function( response ) {
@@ -30,6 +31,7 @@ jQuery( document ).ready( function( $ ) {
 				{
 					action: 'bpge',
 					method: 'reorder_pages',
+					_ajax_nonce: $( '#_wpnonce' ).val(),
 					page_order: $( this ).sortable( 'serialize' ),
 				},
 				function( response ) {
@@ -60,6 +62,7 @@ jQuery( document ).ready( function( $ ) {
 			{
 				action: 'bpge',
 				method: 'delete_field',
+				_ajax_nonce: $( '#_wpnonce' ).val(),
 				field: field,
 			},
 			function( response ) {
@@ -73,12 +76,14 @@ jQuery( document ).ready( function( $ ) {
 	// Delete page
 	$( '#pages-sortable li span a.delete_page' ).on( 'click', function( e ) {
 		e.preventDefault();
-		var page = $( this ).parent().parent().attr( 'id' ).split( '_' )[ 1 ];
+		const page = $( this ).parent().parent().attr( 'id' ).split( '_' )[ 1 ];
+
 		$.post(
 			ajaxurl,
 			{
 				action: 'bpge',
 				method: 'delete_page',
+				_ajax_nonce: $( '#_wpnonce' ).val(),
 				page: page,
 			},
 			function( response ) {
