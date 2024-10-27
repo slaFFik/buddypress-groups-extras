@@ -1,6 +1,6 @@
 === BuddyPress Groups Extras ===
 Contributors: slaFFik
-Tags: buddypress, groups, custom fields, custom pages, extend, pages, sets
+Tags: buddypress, groups, group fields, group pages, field sets
 Requires at least: 6.0
 Requires PHP: 7.2
 Tested up to: 6.6
