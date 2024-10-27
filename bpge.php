@@ -354,7 +354,7 @@ add_action( 'bp_init', 'bpge_load' );
 /**
  * Reorder group nav links.
  *
- * @return false|array
+ * @return array
  */
 function bpge_get_nav_order() { // phpcs:ignore Generic.Metrics
 
@@ -385,7 +385,7 @@ function bpge_get_nav_order() { // phpcs:ignore Generic.Metrics
 		return bpge_get_group_nav();
 	}
 
-	return false;
+	return [];
 }
 
 add_action( 'bp_head', 'bpge_get_nav_order', 100 );

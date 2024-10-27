@@ -731,9 +731,9 @@ class BPGE extends BP_Group_Extension {
 				// Now save nav order.
 				if ( ! empty( $_POST['bpge_group_nav_position'] ) ) {
 					// Preparing vars.
-					parse_str( $_POST['bpge_group_nav_position'], $tab_order );
+					parse_str( sanitize_text_field( wp_unslash( $_POST['bpge_group_nav_position'] ) ), $tab_order );
 
-					$nav_old = bpge_get_nav_order(); // $bp->bp_options_nav[$bp->groups->current_group->slug];
+					$nav_old = bpge_get_nav_order();
 					$order   = [];
 					$pos     = 1;
 
@@ -741,14 +741,15 @@ class BPGE extends BP_Group_Extension {
 						$nav_old = [];
 					}
 
-					// update menu_order for each nav item.
-					foreach ( $tab_order['position'] as $index => $old_position ) {
-						foreach ( $nav_old as $nav ) {
-							if ( (int) $nav['position'] === (int) $old_position ) {
-								$order[ $nav['slug'] ] = $pos;
-							}
-							++$pos;
+					// Update menu_order for each nav item.
+					foreach ( $tab_order['position'] as $new_position ) {
+						if ( ! isset( $nav_old[ $new_position ]['slug'] ) ) {
+							continue;
 						}
+
+						$order[ $nav_old[ $new_position ]['slug'] ] = $pos * 10;
+
+						++$pos;
 					}
 
 					// Save to DB.
