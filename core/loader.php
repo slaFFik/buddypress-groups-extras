@@ -126,6 +126,9 @@ class BPGE extends BP_Group_Extension {
 			$this->nav_item_position = $order['extras'];
 		}
 
+		/*
+		 * Group Pages.
+		 */
 		if ( ! $this->enable_gpages_item ) {
 			return;
 		}
@@ -514,6 +517,7 @@ class BPGE extends BP_Group_Extension {
 			[
 				'nav_item_name'    => $this->nav_item_name,
 				'gpages_item_name' => $this->gpages_item_name,
+				'bpge'             => $this->bpge_glob,
 			]
 		);
 

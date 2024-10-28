@@ -365,6 +365,10 @@ function bpge_get_nav_order() { // phpcs:ignore Generic.Metrics
 		$bpge = bpge_get_options();
 	}
 
+	if ( isset( $bpge['access_nav_reorder'] ) && $bpge['access_nav_reorder'] === 'no' ) {
+		return [];
+	}
+
 	if ( bp_is_group() && bp_is_single_item() ) {
 		$order = groups_get_groupmeta( bp_get_current_group_id(), 'bpge_nav_order' );
 
@@ -402,6 +406,10 @@ function bpge_landing_page( $old_slug ) {
 	global $bpge;
 
 	$bpge = bpge_get_options();
+
+	if ( isset( $bpge['access_nav_reorder'] ) && $bpge['access_nav_reorder'] === 'no' ) {
+		return $old_slug;
+	}
 
 	$new_slug = $old_slug;
 

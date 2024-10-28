@@ -62,11 +62,20 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 
 			add_settings_field(
 				'access',
-				esc_html__( 'User Access', 'buddypress-groups-extras' ),
+				esc_html__( 'Groups "Extras" Access', 'buddypress-groups-extras' ),
 				[ $this, 'display_access' ],
 				$this->slug,
 				$this->slug . '_settings'
 			);
+
+			add_settings_field(
+				'groups_nav_reorder',
+				esc_html__( 'Groups Nav Reorder', 'buddypress-groups-extras' ),
+				[ $this, 'display_groups_nav_reorder' ],
+				$this->slug,
+				$this->slug . '_settings'
+			);
+
 			add_settings_field(
 				'uninstall',
 				esc_html__( 'Plugin Deactivation', 'buddypress-groups-extras' ),
@@ -83,44 +92,9 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 		 */
 		public function display() {
 
-			echo '<p>' . esc_html__( 'Here are some general settings.', 'buddypress-groups-extras' ) . '</p>';
+			echo '<p>' . esc_html__( 'Plugin-wide settings can be modified on this page.', 'buddypress-groups-extras' ) . '</p>';
 
 			wp_nonce_field( 'bpge_manage_general_options_nonce', 'bpge_manage_general_options_nonce' );
-		}
-
-		/**
-		 * Change accessibility of Extras group admin tab.
-		 */
-		public function display_access() {
-
-			?>
-
-			<p>
-				<?php esc_html_e( 'Who can open group admin tab "Extras"?', 'buddypress-groups-extras' ); ?>
-			</p>
-
-			<?php
-			if ( ! isset( $this->bpge['access_extras'] ) || empty( $this->bpge['access_extras'] ) ) {
-				$this->bpge['access_extras'] = 'g_s_admin';
-			}
-			?>
-
-			<ul>
-				<li>
-					<label>
-						<input name="bpge_access_extras" type="radio" value="s_admin" <?php checked( 's_admin', $this->bpge['access_extras'] ); ?> />
-						<?php esc_html_e( 'Site admins only', 'buddypress-groups-extras' ); ?>
-					</label>
-				</li>
-				<li>
-					<label>
-						<input name="bpge_access_extras" type="radio" value="g_s_admin" <?php checked( 'g_s_admin', $this->bpge['access_extras'] ); ?> />
-						<?php esc_html_e( 'Group administrators and site admins', 'buddypress-groups-extras' ); ?>
-					</label>
-				</li>
-			</ul>
-
-			<?php
 		}
 
 		/**
@@ -187,6 +161,77 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 			<?php
 		}
 
+
+		/**
+		 * Change accessibility of Extras group admin tab.
+		 */
+		public function display_access() {
+
+			?>
+
+			<p>
+				<?php esc_html_e( 'Who can view the group admin tab "Extras" and manage group-level fields and pages?', 'buddypress-groups-extras' ); ?>
+			</p>
+
+			<?php
+			if ( ! isset( $this->bpge['access_extras'] ) || empty( $this->bpge['access_extras'] ) ) {
+				$this->bpge['access_extras'] = 'g_s_admin';
+			}
+			?>
+
+			<ul>
+				<li>
+					<label>
+						<input name="bpge_access_extras" type="radio" value="s_admin" <?php checked( 's_admin', $this->bpge['access_extras'] ); ?> />
+						<?php esc_html_e( 'Site admins only', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input name="bpge_access_extras" type="radio" value="g_s_admin" <?php checked( 'g_s_admin', $this->bpge['access_extras'] ); ?> />
+						<?php esc_html_e( 'Group administrators and site admins', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+			</ul>
+
+			<?php
+		}
+
+		/**
+		 * Control whether group admins can reorder group tabs.
+		 */
+		public function display_groups_nav_reorder() {
+
+			?>
+
+			<p>
+				<?php esc_html_e( 'Should group admins be able to reorder group navigation items?', 'buddypress-groups-extras' ); ?>
+			</p>
+
+			<?php
+			if ( empty( $this->bpge['access_nav_reorder'] ) ) {
+				$this->bpge['access_nav_reorder'] = 'yes';
+			}
+			?>
+
+			<ul>
+				<li>
+					<label>
+						<input name="bpge_access_nav_reorder" type="radio" value="yes" <?php checked( 'yes', $this->bpge['access_nav_reorder'] ); ?> />
+						<?php esc_html_e( 'Enable', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+				<li>
+					<label>
+						<input name="bpge_access_nav_reorder" type="radio" value="no" <?php checked( 'no', $this->bpge['access_nav_reorder'] ); ?> />
+						<?php esc_html_e( 'Disable', 'buddypress-groups-extras' ); ?>
+					</label>
+				</li>
+			</ul>
+
+			<?php
+		}
+
 		/**
 		 * Plugin Deactivation options.
 		 */
@@ -232,10 +277,11 @@ if ( ! class_exists( 'BPGE_ADMIN_GENERAL' ) ) {
 			switch_to_blog( bpge_get_main_site_id() );
 
 			if ( isset( $_POST['bpge_re'] ) ) {
-				$this->bpge['re']            = absint( $_POST['bpge_re'] ?? 0 );
-				$this->bpge['re_fields']     = absint( $_POST['bpge_re_fields'] ?? 0 );
-				$this->bpge['access_extras'] = sanitize_key( $_POST['bpge_access_extras'] ?? 'g_s_admin' );
-				$this->bpge['uninstall']     = sanitize_key( $_POST['bpge_uninstall'] ?? 'no' );
+				$this->bpge['re']                 = absint( $_POST['bpge_re'] ?? 0 );
+				$this->bpge['re_fields']          = absint( $_POST['bpge_re_fields'] ?? 0 );
+				$this->bpge['access_extras']      = sanitize_key( $_POST['bpge_access_extras'] ?? 'g_s_admin' );
+				$this->bpge['access_nav_reorder'] = sanitize_key( $_POST['bpge_access_nav_reorder'] ?? 'yes' );
+				$this->bpge['uninstall']          = sanitize_key( $_POST['bpge_uninstall'] ?? 'no' );
 
 				bp_update_option( 'bpge', $this->bpge );
 			}

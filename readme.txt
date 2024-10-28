@@ -75,6 +75,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Make sure the plugin is compatible with WordPress 6.7 and BuddyPress 14.
 * Raise minimum WordPress version to 6.0.
 * Raise minimum PHP version to 7.2.
+* Added: Site admins can disable group navigation reordering globally for all groups using the new "Groups Nav Reorder" option in plugin settings. When disabled, group admins won't be able to mess up with their navigation, it will also be default, regardless of the previous order.
 * Added: Admin users now need to confirm that they want to delete the set of fields in the plugin admin area.
 * Added: Plugin now requires both BuddyPress and BP Classic to be installed, for now. BP Classic requirement will be removed in the future versions.
 * Changed: The admin area "Group Pages" top-level menu item (that is used to manage all created pages inside groups) is now moved under "Groups" (same URL is preserved).

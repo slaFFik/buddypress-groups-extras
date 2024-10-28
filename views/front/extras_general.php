@@ -2,6 +2,7 @@
 /* @var $nav_item_name string */
 /* @var $gpages_item_name string */
 /* @var $bp BuddyPress */
+/* @var $bpge array */
 
 $extras = $bp->groups->current_group->args['extras'];
 ?>
@@ -96,12 +97,16 @@ $extras = $bp->groups->current_group->args['extras'];
 
 <hr/>
 
-<label>
-	<?php esc_html_e( 'You can reorder here all navigation links in this group. The first item will become a landing page for this group. Save changes after reordering.', 'buddypress-groups-extras' ); ?><br>
-	<?php esc_html_e( 'Please do NOT put admin-only pages first - that will cause problems.', 'buddypress-groups-extras' ); ?>
-</label>
+<?php if ( empty( $bpge['access_nav_reorder'] ) || $bpge['access_nav_reorder'] === 'yes' ) : ?>
 
-<?php bpge_the_sortable_nav(); ?>
+	<label>
+		<?php esc_html_e( 'You can reorder here all navigation links in this group. The first item will become a landing page for this group. Save changes after reordering.', 'buddypress-groups-extras' ); ?><br>
+		<?php esc_html_e( 'Please do NOT put admin-only pages first - that will cause problems.', 'buddypress-groups-extras' ); ?>
+	</label>
+
+	<?php bpge_the_sortable_nav(); ?>
+
+<?php endif; ?>
 
 <p>
 	<label for="group-extras-home-name">
