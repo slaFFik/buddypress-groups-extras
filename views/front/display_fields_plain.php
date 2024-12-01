@@ -18,7 +18,17 @@
 			$data = $field->post_content;
 		}
 
-		echo '<p>' . bpge_filter_link_group_data( $data ) . '</p>';
+		echo '<p>';
+		echo wp_kses(
+			bpge_filter_link_group_data( $data ),
+			[
+				'a' => [
+					'href' => [],
+					'rel'  => [],
+				],
+			]
+		);
+		echo '</p>';
 
 		do_action( 'bpge_template_display_fields_plain_item', $field, $data );
 
