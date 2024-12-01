@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: BuddyPress Groups Extras
- * Plugin URI: https://wordpress.org/plugins/buddypress-groups-extras/
+ * Plugin URI: https://ovirium.com/
  * Description: Adding extra fields and pages, menu sorting and other missing functionality to groups.
  * Author: slaFFik
  * Author URI: https://ovirium.com/
@@ -375,7 +375,11 @@ function bpge_get_nav_order() { // phpcs:ignore Generic.Metrics
 		if ( ! empty( $order ) && is_array( $order ) ) {
 			foreach ( $order as $slug => $position ) {
 				if ( bpge_is_bp_26() ) {
-					buddypress()->groups->nav->edit_nav( [ 'position' => $position ], $slug, bp_current_item() );
+					buddypress()->groups->nav->edit_nav(
+						[ 'position' => $position ],
+						$slug,
+						bp_current_item()
+					);
 				} else {
 					if ( isset( $bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ] ) ) {
 						$bp->bp_options_nav[ $bp->groups->current_group->slug ][ $slug ]['position'] = $position;
