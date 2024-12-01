@@ -3,7 +3,7 @@ Contributors: slaFFik
 Tags: buddypress, groups, group fields, group pages, field sets
 Requires at least: 6.0
 Requires PHP: 7.2
-Tested up to: 6.6
+Tested up to: 6.7
 Stable tag: 3.6.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -66,15 +66,16 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 
 == Upgrade Notice ==
 
-= 3.6.10 (06.12.2020) =
-This is mostly a compatibility release: fixed a ton of notices/warnings, checked with the latest WordPress and BuddyPress, cleaned up the plugin a bit. Highly recommended upgrade for everyone.
+= 3.7.0 (01.12.2024) =
+A lot of code changes: performance improvements, security enhancements, a bunch of fixes and even new features. Highly recommended for update.
 
 == Changelog ==
 
-= 3.7.0 (XX.XX.2024) =
+= 3.7.0 (01.12.2024) =
 * Make sure the plugin is compatible with WordPress 6.7 and BuddyPress 14.
-* Raise minimum WordPress version to 6.0.
 * Raise minimum PHP version to 7.2.
+* Raise minimum WordPress version to 6.0.
+* Raise minimum BuddyPress version to 12.0.
 * Added: Site admins can disable group navigation reordering globally for all groups using the new "Groups Nav Reorder" option in plugin settings. When disabled, group admins won't be able to mess up with their navigation, it will also be default, regardless of the previous order.
 * Added: Admin users now need to confirm that they want to delete the set of fields in the plugin admin area.
 * Added: Plugin now requires both BuddyPress and BP Classic to be installed, for now. BP Classic requirement will be removed in the future versions.
@@ -88,6 +89,7 @@ This is mostly a compatibility release: fixed a ton of notices/warnings, checked
 * Fixed: Cleaned the object cache when group pages or set of fields are updated, props @boonebgorges.
 * Fixed: Made jQuery.migrate() a bit happier by switching from `.click()`/`.change()` to appropriate `.on()` calls.
 * Fixed: Improved security of template overrides for the front-end related screens.
+* Fixed: By default the first created page was displayed in group Pages front-end content area, instead of honoring the order defined on the Manage > Extras > All Pages screen.
 
 = 3.6.10 (06.12.2020) =
 * WordPress 5.6, BuddyPress 6.4 and PHP 7 compatibility.

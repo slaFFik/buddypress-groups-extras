@@ -223,6 +223,7 @@ class BPGE extends BP_Group_Extension {
                 	WHERE `post_parent` = %d
                     	AND `post_type` = %s
                     	AND `post_status` = 'publish'
+                	ORDER BY `menu_order` ASC
 	                LIMIT 1",
                     (int) $bp->groups->current_group->args['extras']['gpage_id'],
                     $this->page_slug
@@ -236,7 +237,7 @@ class BPGE extends BP_Group_Extension {
 
 		do_action( 'bpge_gpages_nav_before', $this, $pages );
 
-		// Save list of pages if there are more than of 1 of them.
+		// Display the list of pages if there are more than 1 of them.
 		if ( count( $pages ) > 1 ) {
 			bpge_view(
 				'front/display_gpages_nav',
