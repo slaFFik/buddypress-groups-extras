@@ -6,7 +6,7 @@
 
 	<!-- Title -->
 	<label for="extra-field-title"><?php esc_html_e( 'Field Title', 'buddypress-groups-extras' ); ?></label>
-	<input type="text" value="<?php esc_attr_e( $field->post_title ); ?>" name="extra-field-title" id="extra-field-title">
+	<input type="text" value="<?php echo esc_attr( $field->post_title ); ?>" name="extra-field-title" id="extra-field-title">
 
 	<script>jQuery( '#extra-field-title' ).trigger('focus');</script>
 
