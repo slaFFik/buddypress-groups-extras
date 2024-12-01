@@ -491,20 +491,15 @@ class BPGE_ADMIN_TAB {
 
 		add_action( 'bpge_admin_header_title', [ $this, 'apply_header_extras' ], 10 );
 
-		$tab = 'general';
-
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( isset( $_GET['tab'] ) ) {
-			$tab = sanitize_key( $_GET['tab'] );
-		}
+		$tab = sanitize_key( $_GET['tab'] ?? 'general' );
 
 		// Process save process.
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended,WordPress.Security.NonceVerification.Missing
 		if (
-			! empty( $_POST )
-			&& is_admin()
-			&& isset( $_GET['page'] ) && $_GET['page'] === BPGE_ADMIN_SLUG
-			&& $this->slug === $tab
+			$this->slug === $tab &&
+			! empty( $_POST ) &&
+			is_admin()
 		) {
 			$this->save();
 			// Now redirect to the same page to clear POST.
