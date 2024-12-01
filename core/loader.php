@@ -738,24 +738,26 @@ class BPGE extends BP_Group_Extension {
 					// Preparing vars.
 					parse_str( sanitize_text_field( wp_unslash( $_POST['bpge_group_nav_position'] ) ), $tab_order );
 
-					$nav_old = bpge_get_nav_order();
-					$order   = [];
-					$pos     = 1;
+					array_walk(
+						$tab_order['position'],
+						static function( &$value ) {
+							$value = hex2bin( $value );
+						}
+					);
 
-					if ( ! is_array( $nav_old ) || empty( $nav_old ) ) {
-						$nav_old = [];
+					if ( ! in_array( 'home', $tab_order['position'], true ) ) {
+						array_unshift( $tab_order['position'], 'home' );
 					}
 
 					// Update menu_order for each nav item.
-					foreach ( $tab_order['position'] as $new_position ) {
-						if ( ! isset( $nav_old[ $new_position ]['slug'] ) ) {
-							continue;
-						}
+					$order = array_map(
+						static function( $position ) {
+							++$position;
 
-						$order[ $nav_old[ $new_position ]['slug'] ] = $pos * 10;
-
-						++$pos;
-					}
+							return $position * 10;
+						},
+						array_flip( $tab_order['position'] )
+					);
 
 					// Save to DB.
 					groups_update_groupmeta( bp_get_current_group_id(), 'bpge_nav_order', $order );

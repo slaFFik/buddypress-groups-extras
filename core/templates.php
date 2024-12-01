@@ -138,8 +138,15 @@ function bpge_the_sortable_nav() {
 			if ( empty( $nav['position'] ) ) {
 				$nav['position'] = 99;
 			}
+
+			$disabled = '';
+
+			if ( $nav['slug'] === 'home' ) {
+				$disabled = 'ui-state-disabled';
+			}
+
 			if ( isset( $nav['name'] ) ) {
-				echo '<li id="position_' . esc_attr( $nav['position'] ) . '" class="default">
+				echo '<li id="position_' . esc_attr( bin2hex( $nav['slug'] ) ) . '" class="default ' . esc_attr( $disabled ) . '">
                     <strong>' . wp_kses( $nav['name'], [ 'span' => [] ] ) . '</strong>
                 </li>';
 			}

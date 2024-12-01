@@ -43,6 +43,7 @@ jQuery( document ).ready( function( $ ) {
 
 	// Sorting nav.
 	$( '#nav-sortable' ).sortable( {
+		items: 'li:not(.ui-state-disabled)',
 		placeholder: 'highlight',
 		update: function( event, ui ) {
 			$( 'input[name="bpge_group_nav_position"]' ).val(
