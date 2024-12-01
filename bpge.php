@@ -5,7 +5,7 @@
  * Description: Adding extra fields and pages, menu sorting and other missing functionality to groups.
  * Author: slaFFik
  * Author URI: https://ovirium.com/
- * Version: 3.6.10
+ * Version: 3.7.0
  * Text Domain: buddypress-groups-extras
  * Domain Path: /assets/
  * Requires PHP: 7.2
@@ -16,7 +16,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-const BPGE_VERSION    = '3.6.10';
+const BPGE_VERSION    = '3.7.0';
 const BPGE            = 'bpge';
 const BPGE_ADMIN_SLUG = 'bpge-admin';
 

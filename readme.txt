@@ -8,7 +8,7 @@ Stable tag: 3.6.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Give your groups the ability to have any custom fields admins want. Also, an extra page will appear with the chosen content (with subpages).
+Introduce custom fields and custom pages to your BuddyPress-powered groups.
 
 == Description ==
 
@@ -23,13 +23,13 @@ BuddyPress Groups Extras will give the ability to them to create extra content.
 * Tweak various options, like enabling Rich Editor.
 * Drag-n-drop groups nav menu items as you wish (Fields and Pages can be your new group front page!).
 
-= Groups Custom Fields =
+= Custom Group Fields =
 * Create custom fields using various types (radios, checkboxes, dropdown select, textarea, and text).
 * Edit fields data on Edit Group Details page in Group Admin area.
 * Display/hide page, where all groups fields will be displayed (and rename it too).
 * Reorder fields.
 
-= Groups Custom Pages =
+= Custom Group Pages =
 * Create group pages (for group FAQ or wiki, or events, or descriptions or whatever you want).
 * Edit page data in the Group Admin area using WordPress RichEditor (with embedding content that WordPress supports!).
 * Display/hide page, where all group pages will be displayed (and rename it too).
@@ -61,8 +61,6 @@ To do this you need to create a folder called `bpge` in the root of your theme. 
 3. Extra Fields management
 4. Adding new custom field
 5. Adding new group page
-6. New Tutorials page in admin area
-
 
 == Upgrade Notice ==
 
