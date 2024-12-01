@@ -100,9 +100,11 @@ $extras = $bp->groups->current_group->args['extras'];
 <?php if ( empty( $bpge['access_nav_reorder'] ) || $bpge['access_nav_reorder'] === 'yes' ) : ?>
 
 	<label>
-		<?php esc_html_e( 'You can reorder here all navigation links in this group. The first item will become a landing page for this group. Save changes after reordering.', 'buddypress-groups-extras' ); ?><br>
-		<?php esc_html_e( 'Please do NOT put admin-only pages first - that will cause problems.', 'buddypress-groups-extras' ); ?>
+		<?php esc_html_e( 'Reorder group navigation links', 'buddypress-groups-extras' ); ?>
 	</label>
+	<p class="description">
+		<?php esc_html_e( 'The first item will become a landing page for this group. Save changes after reordering.', 'buddypress-groups-extras' ); ?><br>
+	</p>
 
 	<?php bpge_the_sortable_nav(); ?>
 
