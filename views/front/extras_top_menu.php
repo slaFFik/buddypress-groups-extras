@@ -9,7 +9,7 @@
 		<span class="extra-title"><?php echo esc_html( bpge_names( 'title_general' ) ); ?></span>
 		<span class="extra-subnav">
             <a href="<?php echo esc_url( $group_link ); ?>/" class="button active">
-	            <?php esc_html_e( 'General', 'buddypress-groups-extras' ); ?>
+	            <?php esc_html_e( 'Settings', 'buddypress-groups-extras' ); ?>
             </a>
             <a href="<?php echo esc_url( $group_link ); ?>/fields/" class="button">
 	            <?php esc_html_e( 'All Fields', 'buddypress-groups-extras' ); ?>
@@ -32,7 +32,7 @@
 			<?php echo esc_html( bpge_names( 'title_fields' ) ); ?>
 		</span>
 		<span class="extra-subnav">
-            <a href="<?php echo esc_url( $group_link ); ?>/" class="button"><?php esc_html_e( 'General', 'buddypress-groups-extras' ); ?></a>
+            <a href="<?php echo esc_url( $group_link ); ?>/" class="button"><?php esc_html_e( 'Settings', 'buddypress-groups-extras' ); ?></a>
             <a href="<?php echo esc_url( $group_link ); ?>/fields/" class="button active"><?php esc_html_e( 'All Fields', 'buddypress-groups-extras' ); ?></a>
             <a href="<?php echo esc_url( $group_link ); ?>/pages/" class="button"><?php esc_html_e( 'All Pages', 'buddypress-groups-extras' ); ?></a>
             <a href="<?php echo esc_url( $group_link ); ?>/fields-manage/" class="button"><?php esc_html_e( 'Add Field', 'buddypress-groups-extras' ); ?></a>
@@ -51,7 +51,7 @@
 		<?php endif; ?>
 		<span class="extra-subnav">
             <a href="<?php echo esc_url( $group_link ); ?>/" class="button">
-	            <?php esc_html_e( 'General', 'buddypress-groups-extras' ); ?>
+	            <?php esc_html_e( 'Settings', 'buddypress-groups-extras' ); ?>
             </a>
             <a href="<?php echo esc_url( $group_link ); ?>/fields/" class="button">
 	            <?php esc_html_e( 'All Fields', 'buddypress-groups-extras' ); ?>
@@ -73,7 +73,7 @@
 		<span class="extra-title"><?php echo esc_html( bpge_names( 'title_pages' ) ); ?></span>
 		<span class="extra-subnav">
             <a href="<?php echo esc_url( $group_link ); ?>/" class="button">
-	            <?php esc_html_e( 'General', 'buddypress-groups-extras' ); ?>
+	            <?php esc_html_e( 'Settings', 'buddypress-groups-extras' ); ?>
             </a>
             <a href="<?php echo esc_url( $group_link ); ?>/fields/" class="button">
 	            <?php esc_html_e( 'All Fields', 'buddypress-groups-extras' ); ?>
@@ -101,7 +101,7 @@
 		<?php endif; ?>
 		<span class="extra-subnav">
             <a href="<?php echo esc_url( $group_link ); ?>/" class="button">
-	            <?php esc_html_e( 'General', 'buddypress-groups-extras' ); ?>
+	            <?php esc_html_e( 'Settings', 'buddypress-groups-extras' ); ?>
             </a>
             <a href="<?php echo esc_url( $group_link ); ?>/fields/" class="button">
 	            <?php esc_html_e( 'All Fields', 'buddypress-groups-extras' ); ?>

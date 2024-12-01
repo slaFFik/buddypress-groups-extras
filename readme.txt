@@ -83,6 +83,7 @@ A lot of code changes: performance improvements, security enhancements, a bunch 
 * Changed: Require the BP Classic plugin (by the BuddyPress Core Developers team) to be installed.
 * Changed: Various visual improvements were introduced in plugin admin area, specifically on the Sets and Allowed Groups tabs.
 * Changed: Group admins now need to confirm that they want to import the set of fields.
+* Changed: Rename the "General" group extras menu item to "Settings".
 * Fixed: A fatal error is thrown when the BuddyPress plugin is deactivated, props @emaralive.
 * Fixed: Cleaned up deprecated BuddyPress functions that were still used in various places.
 * Fixed: Various security improvements in different parts of the plugin, props Marek Mikita.
